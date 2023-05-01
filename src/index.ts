@@ -1,1 +1,1 @@
-export const foo = "bar";
+export { default as summation } from "./summation.js";
