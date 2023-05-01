@@ -21,8 +21,8 @@
 		"url": "https://github.com/sponsors/Lakuna"
 	},
 	"files": [
-		"./dist/*",
-		"./src/*"
+		"dist/*",
+		"src/*"
 	],
 	"main": "./dist/index.js",
 	"browser": "./dist/index.js",
