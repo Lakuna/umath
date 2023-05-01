@@ -1,3 +1,4 @@
+export { default as fibonacci } from "./algorithms/fibonacci.js";
 export { default as greatestCommonDivisor } from "./algorithms/greatestCommonDivisor.js";
 export { default as summation } from "./algorithms/summation.js";
 export type { IntegerRepresentation } from "./types/IntegerRepresentation.js";
