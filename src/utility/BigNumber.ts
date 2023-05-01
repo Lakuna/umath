@@ -18,6 +18,7 @@ export default class BigNumber {
 	public constructor(dividend: IntegerRepresentation = 0, divisor: IntegerRepresentation = 1) {
 		this.dividend = BigInt(dividend);
 		this.divisor = BigInt(divisor);
+		if (!this.divisor) { throw new Error("Cannot divide by zero."); }
 		this.simplify();
 	}
 
