@@ -1,4 +1,4 @@
-[![npm bundle size](https://img.shields.io/bundlephobia/minzip/@lakuna/ugl?style=for-the-badge)](https://bundlephobia.com/package/@lakuna/ugl)
+[![npm bundle size](https://img.shields.io/bundlephobia/minzip/@lakuna/umath?style=for-the-badge)](https://bundlephobia.com/package/@lakuna/umath)
 
 # μMath
 
