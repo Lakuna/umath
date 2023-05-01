@@ -1,0 +1,51 @@
+{
+	"name": "@lakuna/umath",
+	"version": "0.0.1",
+	"description": "A lightweight math library.",
+	"keywords": [
+		"math"
+	],
+	"homepage": "https://umath.lakuna.pw",
+	"bugs": {
+		"url": "https://github.com/Lakuna/umath/issues",
+		"email": "tjmartin2003@gmail.com"
+	},
+	"license": "MIT",
+	"author": {
+		"name": "Travis Martin",
+		"email": "tjmartin2003@gmail.com",
+		"url": "https://www.lakuna.pw/"
+	},
+	"funding": {
+		"type": "individual",
+		"url": "https://github.com/sponsors/Lakuna"
+	},
+	"files": [
+		"./dist/*",
+		"./src/*"
+	],
+	"main": "./dist/index.js",
+	"browser": "./dist/index.js",
+	"exports": {
+		".": "./dist/index.js"
+	},
+	"types": "./dist/index.d.ts",
+	"repository": {
+		"type": "git",
+		"url": "github:Lakuna/umath"
+	},
+	"scripts": {
+		"build": "tsc",
+		"lint": "eslint src",
+		"doc": "typedoc src"
+	},
+	"type": "module",
+	"sideEffects": false,
+	"devDependencies": {
+		"@typescript-eslint/eslint-plugin": "^5.59.1",
+		"@typescript-eslint/parser": "^5.59.1",
+		"eslint": "^8.39.0",
+		"typedoc": "^0.24.6",
+		"typescript": "^5.0.4"
+	}
+}
