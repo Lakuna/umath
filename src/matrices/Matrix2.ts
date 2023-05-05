@@ -3,6 +3,27 @@ import type { SquareMatrix } from "./Matrix.js";
 /** A two-by-two matrix. */
 export default class Matrix2 extends Float32Array implements SquareMatrix {
 	/**
+	 * Creates a matrix from a given angle.
+	 * @param r The angle in radians.
+	 * @returns A matrix that rotates by the given angle.
+	 */
+	public static fromRotation(r: number): Matrix2 {
+		const s: number = Math.sin(r);
+		const c: number = Math.cos(r);
+		return new Matrix2(c, s, -s, c);
+	}
+
+	/**
+	 * Creates a matrix that scales by the given amount.
+	 * @param x The amount to scale by on the X-axis.
+	 * @param y The amount to scale by on the Y-axis.
+	 * @returns A matrix that scales by the given amount.
+	 */
+	public static fromScaling(x: number, y: number): Matrix2 {
+		return new Matrix2(x, 0, 0, y);
+	}
+
+	/**
 	 * Creates a two-by-two matrix.
 	 * @param m11 The value in the first row and first column.
 	 * @param m21 The value in the second row and first column.
@@ -71,8 +92,12 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	 * @returns The adjugate of this matrix.
 	 */
 	public adjoint(): this {
-		[this[0], this[3]] = [this[3] as number, this[0] as number];
-		[this[1], this[2]] = [-(this[2] as number), -(this[1] as number)];
+		this.set([
+			this[3] as number,
+			-(this[2] as number),
+			-(this[1] as number),
+			this[0] as number
+		]);
 		return this;
 	}
 
@@ -120,12 +145,10 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	 * @returns The product of the matrix and the scalar value.
 	 */
 	public multiplyScalar(scalar: number): this {
-		this.set([
-			(this[0] as number) * scalar,
-			(this[1] as number) * scalar,
-			(this[2] as number) * scalar,
-			(this[3] as number) * scalar
-		]);
+		this[0] *= scalar;
+		this[1] *= scalar;
+		this[2] *= scalar;
+		this[3] *= scalar;
 		return this;
 	}
 
@@ -135,12 +158,10 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	 * @returns The difference between the matrices.
 	 */
 	public subtract(matrix: Matrix2): this {
-		this.set([
-			(this[0] as number) - (matrix[0] as number),
-			(this[1] as number) - (matrix[1] as number),
-			(this[2] as number) - (matrix[2] as number),
-			(this[3] as number) - (matrix[3] as number)
-		]);
+		this[0] -= matrix[0] as number;
+		this[1] -= matrix[1] as number;
+		this[2] -= matrix[2] as number;
+		this[3] -= matrix[3] as number;
 		return this;
 	}
 
@@ -173,10 +194,7 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	 * @returns This matrix.
 	 */
 	public identity(): this {
-		this[0] = 1;
-		this[1] = 0;
-		this[2] = 0;
-		this[3] = 1;
+		this.set([1, 0, 0, 1]);
 		return this;
 	}
 
@@ -186,8 +204,66 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	 */
 	public invert(): this {
 		const d: number = 1 / this.determinant;
-		[this[0], this[3]] = [(this[3] as number) * d, (this[0] as number) * d];
-		[this[1], this[2]] = [-(this[2] as number) * d, -(this[1] as number) * d];
+		this.set([
+			(this[3] as number) * d,
+			-(this[2] as number) * d,
+			-(this[1] as number) * d,
+			(this[0] as number) * d
+		]);
+		return this;
+	}
+
+	/**
+	 * Rotates this matrix.
+	 * @param r The angle to rotate by in radians.
+	 * @returns This matrix.
+	 */
+	public rotate(r: number): this {
+		const s: number = Math.sin(r);
+		const c: number = Math.cos(r);
+		this.set([
+			(this[0] as number) * c + (this[2] as number) * s,
+			(this[1] as number) * c + (this[3] as number) * s,
+			(this[0] as number) * -s + (this[2] as number) * c,
+			(this[1] as number) * -s + (this[3] as number) * c
+		]);
+		return this;
+	}
+
+	/**
+	 * Scales this matrix.
+	 * @param x The amount to scale by on the X-axis.
+	 * @param y The amount to scale by on the Y-axis.
+	 * @returns This matrix.
+	 */
+	public scale(x: number, y: number): this {
+		this[0] *= x;
+		this[1] *= x;
+		this[2] *= y;
+		this[3] *= y;
+		return this;
+	}
+
+	/**
+	 * Makes this matrix rotate things by the given angle.
+	 * @param r The angle in radians.
+	 * @returns This matrix.
+	 */
+	public fromRotation(r: number): this {
+		const s: number = Math.sin(r);
+		const c: number = Math.cos(r);
+		this.set([c, s, -s, c]);
+		return this;
+	}
+
+	/**
+	 * Makes this matrix scale things by the given amount.
+	 * @param x The amount to scale by on the X-axis.
+	 * @param y The amount to scale by on the Y-axis.
+	 * @returns This matrix.
+	 */
+	public fromScaling(x: number, y: number): this {
+		this.set([x, 0, 0, y]);
 		return this;
 	}
 }
