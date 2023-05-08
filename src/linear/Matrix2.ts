@@ -127,7 +127,7 @@ function invert<T extends Matrix2Like>(out: T, a: Matrix2Like): T {
 	if (!det) {
 		throw new Error("Cannot invert the matrix.");
 	}
-	det = 1.0 / det;
+	det = 1 / det;
 
 	out[0] = a3 * det;
 	out[1] = -a1 * det;
@@ -311,10 +311,10 @@ function subtract<T extends Matrix2Like>(out: T, a: Matrix2Like, b: Matrix2Like)
 }
 
 /**
- * Determines whether two two-by-two matrices are exactly equal.
+ * Determines whether two two-by-two matrices are exactly equivalent.
  * @param a The first matrix.
  * @param b The second matrix.
- * @returns Whether the matrices are exactly equal.
+ * @returns Whether the matrices are exactly equivalent.
  * @see [Source](https://glmatrix.net/)
  */
 function exactEquals(a: Matrix2Like, b: Matrix2Like): boolean {
@@ -322,10 +322,10 @@ function exactEquals(a: Matrix2Like, b: Matrix2Like): boolean {
 }
 
 /**
- * Determines whether two two-by-two matrices are roughly equal.
+ * Determines whether two two-by-two matrices are roughly equivalent.
  * @param a The first matrix.
  * @param b The second matrix.
- * @returns Whether the matrices are roughly equal.
+ * @returns Whether the matrices are roughly equivalent.
  * @see [Source](https://glmatrix.net/)
  */
 function equals(a: Matrix2Like, b: Matrix2Like): boolean {
@@ -338,14 +338,14 @@ function equals(a: Matrix2Like, b: Matrix2Like): boolean {
 	const b2: number = b[2];
 	const b3: number = b[3];
 
-	return Math.abs(a0 - b0) <= matrixEpsilon * Math.max(1.0, Math.abs(a0), Math.abs(b0))
-		&& Math.abs(a1 - b1) <= matrixEpsilon * Math.max(1.0, Math.abs(a1), Math.abs(b1))
-		&& Math.abs(a2 - b2) <= matrixEpsilon * Math.max(1.0, Math.abs(a2), Math.abs(b2))
-		&& Math.abs(a3 - b3) <= matrixEpsilon * Math.max(1.0, Math.abs(a3), Math.abs(b3));
+	return Math.abs(a0 - b0) <= matrixEpsilon * Math.max(1, Math.abs(a0), Math.abs(b0))
+		&& Math.abs(a1 - b1) <= matrixEpsilon * Math.max(1, Math.abs(a1), Math.abs(b1))
+		&& Math.abs(a2 - b2) <= matrixEpsilon * Math.max(1, Math.abs(a2), Math.abs(b2))
+		&& Math.abs(a3 - b3) <= matrixEpsilon * Math.max(1, Math.abs(a3), Math.abs(b3));
 }
 
 /**
- * Multiplies a two-by-two matrix with a scalar.
+ * Multiplies a two-by-two matrix by a scalar.
  * @param out The matrix to fill with the product.
  * @param a The multiplier.
  * @param b The multiplicand.
@@ -392,20 +392,20 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 
 	/**
 	 * Creates a matrix that rotates by the given amount.
-	 * @param r The amount to rotate by in radians.
+	 * @param radians The amount to rotate by in radians.
 	 * @returns The matrix.
 	 */
-	public static fromRotation(r: number): Matrix2 {
-		return fromRotation(new Matrix2(), r);
+	public static fromRotation(radians: number): Matrix2 {
+		return fromRotation(new Matrix2(), radians);
 	}
 
 	/**
 	 * Creates a matrix that scales by the given amount.
-	 * @param v The vector to scale by.
+	 * @param vector The vector to scale by.
 	 * @returns The matrix.
 	 */
-	public static fromScaling(v: Vector2Like): Matrix2 {
-		return fromScaling(new Matrix2(), v);
+	public static fromScaling(vector: Vector2Like): Matrix2 {
+		return fromScaling(new Matrix2(), vector);
 	}
 
 	/** Creates a two-by-two identity matrix. */
@@ -426,36 +426,36 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	/**
 	 * Gets the value at the given position in this matrix.
 	 * @param row The row of the value.
-	 * @param col The column of the value.
+	 * @param column The column of the value.
 	 * @returns The value at the specified position.
 	 */
-	public get(row: number, col: number): number | undefined {
-		return this[col * this.height + row];
+	public get(row: number, column: number): number | undefined {
+		return this[column * this.height + row];
 	}
 
 	/**
 	 * Sets the value at the given position in this matrix.
 	 * @param row The row of the value.
-	 * @param col The column of the value.
-	 * @param val The value.
+	 * @param column The column of the value.
+	 * @param value The value.
 	 */
-	public put(row: number, col: number, val: number): void {
-		this[col * this.height + row] = val;
+	public put(row: number, column: number, value: number): void {
+		this[column * this.height + row] = value;
 	}
 
 	/**
-	 * Determines whether this matrix is roughly equal to another.
+	 * Determines whether this matrix is roughly equivalent to another.
 	 * @param matrix The other matrix.
-	 * @returns Whether the matrices are roughly equal.
+	 * @returns Whether the matrices are roughly equivalent.
 	 */
 	public equals(matrix: Matrix2Like): boolean {
 		return equals(this, matrix);
 	}
 
 	/**
-	 * Determines whether this matrix is exactly equal to another.
+	 * Determines whether this matrix is exactly equivalent to another.
 	 * @param matrix The other matrix.
-	 * @returns Whether the matrices are exactly equal.
+	 * @returns Whether the matrices are exactly equivalent.
 	 */
 	public exactEquals(matrix: Matrix2Like): boolean {
 		return exactEquals(this, matrix);
@@ -590,37 +590,37 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 
 	/**
 	 * Rotates this matrix.
-	 * @param r The amount to rotate by in radians.
+	 * @param radians The amount to rotate by in radians.
 	 * @returns This matrix.
 	 */
-	public rotate(r: number): this {
-		return rotate(this, this, r);
+	public rotate(radians: number): this {
+		return rotate(this, this, radians);
 	}
 
 	/**
 	 * Scales this matrix.
-	 * @param v The vector to scale by.
+	 * @param vector The vector to scale by.
 	 * @returns This matrix.
 	 */
-	public scale(v: Vector2Like): this {
-		return scale(this, this, v);
+	public scale(vector: Vector2Like): this {
+		return scale(this, this, vector);
 	}
 
 	/**
 	 * Sets this matrix to rotate by the given amount.
-	 * @param r The amount to rotate by in radians.
+	 * @param radians The amount to rotate by in radians.
 	 * @returns This matrix.
 	 */
-	public fromRotation(r: number): this {
-		return fromRotation(this, r);
+	public fromRotation(radians: number): this {
+		return fromRotation(this, radians);
 	}
 
 	/**
 	 * Sets this matrix to scale by the given amount.
-	 * @param v The vector to scale by.
+	 * @param vector The vector to scale by.
 	 * @returns This matrix.
 	 */
-	public fromScaling(v: Vector2Like): this {
-		return fromScaling(this, v);
+	public fromScaling(vector: Vector2Like): this {
+		return fromScaling(this, vector);
 	}
 }

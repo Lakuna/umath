@@ -165,10 +165,10 @@ export default interface Vector extends Iterable<number> {
 	/**
 	 * Performs a linear interpolation between this and another vector.
 	 * @param vector The other vector.
-	 * @param t The interpolation amount (in `[0,1]`).
+	 * @param amount The interpolation amount (in `[0,1]`).
 	 * @returns The interpolated vector.
 	 */
-	lerp(vector: VectorLike, t: number): Vector;
+	lerp(vector: VectorLike, amount: number): Vector;
 
 	/**
 	 * Sets this vector to a random value with the given magnitude.

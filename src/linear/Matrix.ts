@@ -1,7 +1,7 @@
 /** A rectangular array of numbers, arranged in rows and columns. */
 export type MatrixLike = Matrix | Iterable<number>;
 
-/** The largest difference between two values in matrices for them to be considered equal. */
+/** The largest difference between two values in matrices for them to be considered equivalent. */
 export const matrixEpsilon = 0.000001;
 
 /** A rectangular array of numbers, arranged in rows and columns. */
@@ -15,30 +15,30 @@ export default interface Matrix extends Iterable<number> {
 	/**
 	 * Gets the value at the given position in this matrix.
 	 * @param row The row of the value.
-	 * @param col The column of the value.
+	 * @param column The column of the value.
 	 * @returns The value at the specified position.
 	 */
-	get(row: number, col: number): number | undefined;
+	get(row: number, column: number): number | undefined;
 
 	/**
 	 * Sets the value at the given position in this matrix.
 	 * @param row The row of the value.
-	 * @param col The column of the value.
-	 * @param val The value.
+	 * @param column The column of the value.
+	 * @param value The value.
 	 */
-	put(row: number, col: number, val: number): void;
+	put(row: number, column: number, value: number): void;
 
 	/**
-	 * Determines whether this matrix is roughly equal to another.
+	 * Determines whether this matrix is roughly equivalent to another.
 	 * @param matrix The other matrix.
-	 * @returns Whether the matrices are roughly equal.
+	 * @returns Whether the matrices are roughly equivalent.
 	 */
 	equals(matrix: MatrixLike): boolean;
 
 	/**
-	 * Determines whether this matrix is exactly equal to another.
+	 * Determines whether this matrix is exactly equivalent to another.
 	 * @param matrix The other matrix.
-	 * @returns Whether the matrices are exactly equal.
+	 * @returns Whether the matrices are exactly equivalent.
 	 */
 	exactEquals(matrix: MatrixLike): boolean;
 
@@ -119,10 +119,10 @@ export interface SquareMatrix extends Matrix {
 	/**
 	 * Creates a matrix by removing the specified row and column from this matrix.
 	 * @param row The row to remove.
-	 * @param col The column to remove.
+	 * @param column The column to remove.
 	 * @returns A submatrix.
 	 */
-	submatrix(row: number, col: number): SquareMatrix;
+	submatrix(row: number, column: number): SquareMatrix;
 
 	/** The determinant of this matrix. */
 	get determinant(): number;
