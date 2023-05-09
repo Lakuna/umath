@@ -4,7 +4,10 @@ export type MatrixLike = Matrix | Iterable<number>;
 /** The largest difference between two values in matrices for them to be considered equivalent. */
 export const matrixEpsilon = 0.000001;
 
-/** A rectangular array of numbers, arranged in rows and columns. */
+/**
+ * A rectangular array of numbers, arranged in rows and columns.
+ * @see [Wikipedia](https://en.wikipedia.org/wiki/Matrix_(mathematics))
+ */
 export default interface Matrix extends Iterable<number> {
 	/** The number of columns in this matrix. */
 	width: number;

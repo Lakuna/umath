@@ -52,7 +52,7 @@ function identity<T extends Matrix2Like>(out: T): T {
 }
 
 /**
- * Creates a matrix from the given values.
+ * Creates a two-by-two matrix from the given values.
  * @param m00 The value in the first column and first row.
  * @param m01 The value in the first column and second row.
  * @param m10 The value in the second column and first row.
@@ -88,7 +88,7 @@ function set<T extends Matrix2Like>(out: T, m00: number, m01: number, m10: numbe
 }
 
 /**
- * Transposes a matrix.
+ * Transposes a two-by-two matrix.
  * @param out The matrix to fill with the transpose.
  * @param a The matrix to transpose.
  * @returns The transposed matrix.
@@ -137,7 +137,7 @@ function invert<T extends Matrix2Like>(out: T, a: Matrix2Like): T {
 }
 
 /**
- * Calculates the adjugate of a matrix.
+ * Calculates the adjugate of a two-by-two matrix.
  * @param out The matrix to fill with the adjugate.
  * @param a The matrix to calculate the adjugate of.
  * @returns The adjugate.
@@ -153,7 +153,7 @@ function adjoint<T extends Matrix2Like>(out: T, a: Matrix2Like): T {
 }
 
 /**
- * Calculates the determinant of a matrix.
+ * Calculates the determinant of a two-by-two matrix.
  * @param a The matrix.
  * @returns The determinant.
  * @see [Source](https://glmatrix.net/)
@@ -188,7 +188,7 @@ function multiply<T extends Matrix2Like>(out: T, a: Matrix2Like, b: Matrix2Like)
 }
 
 /**
- * Rotates a matrix.
+ * Rotates a two-by-two matrix around the Z-axis.
  * @param out The matrix to fill with the rotated matrix.
  * @param a The matrix to rotate.
  * @param rad The angle to rotate by in radians.
@@ -212,7 +212,7 @@ function rotate<T extends Matrix2Like>(out: T, a: Matrix2Like, rad: number): T {
 }
 
 /**
- * Scales a matrix.
+ * Scales a two-by-two matrix.
  * @param out The matrix to fill with the scaled matrix.
  * @param a The matrix to scale.
  * @param v The vector to scale by.
@@ -236,7 +236,7 @@ function scale<T extends Matrix2Like>(out: T, a: Matrix2Like, v: Vector2Like) {
 }
 
 /**
- * Creates a matrix from a rotation.
+ * Creates a two-by-two matrix from a rotation around the Z-axis.
  * @param out The matrix to fill with the rotation matrix.
  * @param rad The amount to rotate by in radians.
  * @returns The rotation matrix.
@@ -254,7 +254,7 @@ function fromRotation<T extends Matrix2Like>(out: T, rad: number): T {
 }
 
 /**
- * Creates a matrix from a scaling amount.
+ * Creates a two-by-two matrix from a scaling amount.
  * @param out The matrix to fill with the scaling matrix.
  * @param v The vector to scale by.
  * @returns The scaling matrix.
@@ -269,7 +269,7 @@ function fromScaling<T extends Matrix2Like>(out: T, v: Vector2Like): T {
 }
 
 /**
- * Calculates the Frobenius normal of a matrix.
+ * Calculates the Frobenius normal of a two-by-two matrix.
  * @param a The matrix.
  * @returns The Frobenius normal.
  * @see [Source](https://glmatrix.net/)
@@ -391,7 +391,7 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	}
 
 	/**
-	 * Creates a matrix that rotates by the given amount.
+	 * Creates a matrix that rotates by the given amount around the Z-axis.
 	 * @param radians The amount to rotate by in radians.
 	 * @returns The matrix.
 	 */
@@ -589,7 +589,7 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	}
 
 	/**
-	 * Rotates this matrix.
+	 * Rotates this matrix around the Z-axis.
 	 * @param radians The amount to rotate by in radians.
 	 * @returns This matrix.
 	 */
@@ -607,7 +607,7 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	}
 
 	/**
-	 * Sets this matrix to rotate by the given amount.
+	 * Sets this matrix to rotate by the given amount around the Z-axis.
 	 * @param radians The amount to rotate by in radians.
 	 * @returns This matrix.
 	 */

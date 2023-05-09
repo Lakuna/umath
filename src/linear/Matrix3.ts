@@ -52,7 +52,7 @@ function clone(a: Matrix3Like): Matrix3 {
 }
 
 /**
- * Copies the values in one matrix to another.
+ * Copies the values in one three-by-three matrix to another.
  * @param out The matrix to fill.
  * @param a The matrix to copy.
  * @returns The filled matrix.
@@ -346,7 +346,7 @@ function translate<T extends Matrix3Like>(out: T, a: Matrix3Like, v: Vector2Like
 }
 
 /**
- * Rotates a three-by-three matrix.
+ * Rotates a three-by-three matrix around the Z-axis.
  * @param out The matrix to fill with the rotated matrix.
  * @param a The matrix to rotate.
  * @param rad The angle to rotate by.
@@ -424,7 +424,7 @@ function fromTranslation<T extends Matrix3Like>(out: T, v: Vector2Like): T {
 }
 
 /**
- * Sets a three-by-three matrix to rotate by an amount.
+ * Sets a three-by-three matrix to rotate by an amount around the Z-axis.
  * @param out The matrix to fill.
  * @param rad The amount to rotate by.
  * @returns The rotation matrix.
@@ -772,7 +772,7 @@ export default class Matrix3 extends Float32Array implements SquareMatrix {
 	}
 
 	/**
-	 * Creates a three-by-three matrix that rotates by an amount.
+	 * Creates a three-by-three matrix that rotates by an amount around the Z-axis.
 	 * @param radians The amount to rotate by in radians.
 	 * @returns The matrix.
 	 */
@@ -819,7 +819,7 @@ export default class Matrix3 extends Float32Array implements SquareMatrix {
 
 	/** Creates a three-by-three identity matrix. */
 	public constructor() {
-		super(4);
+		super(9);
 		this[0] = 1;
 		this[4] = 1;
 		this[8] = 1;
@@ -1037,7 +1037,7 @@ export default class Matrix3 extends Float32Array implements SquareMatrix {
 	}
 
 	/**
-	 * Rotates this matrix.
+	 * Rotates this matrix around the Z-axis.
 	 * @param radians The amount to rotate by in radians.
 	 * @returns This matrix.
 	 */
@@ -1064,7 +1064,7 @@ export default class Matrix3 extends Float32Array implements SquareMatrix {
 	}
 
 	/**
-	 * Sets this matrix to rotate by an amount.
+	 * Sets this matrix to rotate by an amount around the Z-axis.
 	 * @param radians The amount to rotate by in radians.
 	 * @returns This matrix.
 	 */

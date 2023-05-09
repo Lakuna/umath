@@ -6,7 +6,10 @@ export type VectorLike = Vector | Iterable<number>;
 /** The largest difference between two values in vectors for them to be considered equal. */
 export const vectorEpsilon = 0.000001;
 
-/** A quantity with magnitude and direction. */
+/**
+ * A quantity with magnitude and direction.
+ * @see [Wikipedia](https://en.wikipedia.org/wiki/Euclidean_vector)
+ */
 export default interface Vector extends Iterable<number> {
 	/**
 	 * Determines whether this vector is roughly equal to another.
