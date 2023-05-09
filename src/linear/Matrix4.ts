@@ -1,8 +1,9 @@
 import type FieldOfView from "../types/FieldOfView.js";
 import type { DualQuaternionLike } from "./DualQuaternion.js";
 import { matrixEpsilon, type SquareMatrix } from "./Matrix.js"
-import type { QuaternionLike } from "./Quaternion.js";
-import type { Vector3Like } from "./Vector3.js";
+import Matrix3 from "./Matrix3.js";
+import Quaternion, { type QuaternionLike } from "./Quaternion.js";
+import Vector3, { type Vector3Like } from "./Vector3.js";
 
 /** Numbers arranged into four columns and four rows. */
 export type Matrix4Like = Matrix4 | [
@@ -44,6 +45,7 @@ function clone(a: Matrix4Like): Matrix4 {
  * @param out The matrix to copy into.
  * @param a The matrix to copy.
  * @returns The copy.
+ * @see [Source](https://glmatrix.net/)
  */
 function copy<T extends Matrix4Like>(out: T, a: Matrix4Like): T {
 	out[0] = a[0];
@@ -84,6 +86,7 @@ function copy<T extends Matrix4Like>(out: T, a: Matrix4Like): T {
  * @param m32 The value in the fourth column and third row.
  * @param m33 The value in the fourth column and fourth row.
  * @returns The matrix.
+ * @see [Source](https://glmatrix.net/)
  */
 function fromValues(m00: number, m01: number, m02: number, m03: number, m10: number, m11: number, m12: number, m13: number, m20: number, m21: number, m22: number, m23: number, m30: number, m31: number, m32: number, m33: number): Matrix4 {
 	const out: Matrix4 = new Matrix4();
@@ -126,6 +129,7 @@ function fromValues(m00: number, m01: number, m02: number, m03: number, m10: num
  * @param m32 The value in the fourth column and third row.
  * @param m33 The value in the fourth column and fourth row.
  * @returns The matrix.
+ * @see [Source](https://glmatrix.net/)
  */
 function set<T extends Matrix4Like>(out: T, m00: number, m01: number, m02: number, m03: number, m10: number, m11: number, m12: number, m13: number, m20: number, m21: number, m22: number, m23: number, m30: number, m31: number, m32: number, m33: number): T {
 	out[0] = m00;
@@ -151,6 +155,7 @@ function set<T extends Matrix4Like>(out: T, m00: number, m01: number, m02: numbe
  * Sets a four-by-four matrix to the identity.
  * @param out The matrix.
  * @returns The matrix.
+ * @see [Source](https://glmatrix.net/)
  */
 function identity<T extends Matrix4Like>(out: T): T {
 	out[0] = 1;
@@ -177,6 +182,7 @@ function identity<T extends Matrix4Like>(out: T): T {
  * @param out The matrix to fill with the transpose.
  * @param a The matrix to transpose.
  * @returns The transpose.
+ * @see [Source](https://glmatrix.net/)
  */
 function transpose<T extends Matrix4Like>(out: T, a: Matrix4Like): T {
 	if (out === a) {
@@ -225,6 +231,7 @@ function transpose<T extends Matrix4Like>(out: T, a: Matrix4Like): T {
  * @param out The matrix to fill with the inverted matrix.
  * @param a The matrix to invert.
  * @returns The inverted matrix.
+ * @see [Source](https://glmatrix.net/)
  */
 function invert<T extends Matrix4Like>(out: T, a: Matrix4Like): T {
 	const a00: number = a[0];
@@ -286,6 +293,7 @@ function invert<T extends Matrix4Like>(out: T, a: Matrix4Like): T {
  * @param out The matrix to fill with the adjugate.
  * @param a The matrix to calculate the adjugate of.
  * @returns The adjugate.
+ * @see [Source](https://glmatrix.net/)
  */
 function adjoint<T extends Matrix4Like>(out: T, a: Matrix4Like): T {
 	const a00: number = a[0];
@@ -360,6 +368,7 @@ function adjoint<T extends Matrix4Like>(out: T, a: Matrix4Like): T {
  * Calculates the determinant of a four-by-four matrix.
  * @param a The matrix.
  * @returns The determinant.
+ * @see [Source](https://glmatrix.net/)
  */
 function determinant(a: Matrix4Like): number {
 	const a00: number = a[0];
@@ -401,6 +410,7 @@ function determinant(a: Matrix4Like): number {
  * @param a The multiplier.
  * @param b The multiplicand.
  * @returns The product.
+ * @see [Source](https://glmatrix.net/)
  */
 function multiply<T extends Matrix4Like>(out: T, a: Matrix4Like, b: Matrix4Like): T {
 	const a00: number = a[0];
@@ -468,6 +478,7 @@ function multiply<T extends Matrix4Like>(out: T, a: Matrix4Like, b: Matrix4Like)
  * @param a The matrix to translate.
  * @param v The amount to translate by.
  * @returns The translated matrix.
+ * @see [Source](https://glmatrix.net/)
  */
 function translate<T extends Matrix4Like>(out: T, a: Matrix4Like, v: Vector3Like): T {
 	const x: number = v[0];
@@ -519,6 +530,7 @@ function translate<T extends Matrix4Like>(out: T, a: Matrix4Like, v: Vector3Like
  * @param a The matrix to scale.
  * @param v The amount to scale by.
  * @returns The scaled matrix.
+ * @see [Source](https://glmatrix.net/)
  */
 function scale<T extends Matrix4Like>(out: T, a: Matrix4Like, v: Vector3Like): T {
 	const x: number = v[0];
@@ -551,6 +563,7 @@ function scale<T extends Matrix4Like>(out: T, a: Matrix4Like, v: Vector3Like): T
  * @param rad The amount to rotate by in radians.
  * @param axis The axis to rotate around.
  * @returns The rotated matrix.
+ * @see [Source](https://glmatrix.net/)
  */
 function rotate<T extends Matrix4Like>(out: T, a: Matrix4Like, rad: number, axis: Vector3Like): T {
 	let x: number = axis[0];
@@ -622,6 +635,7 @@ function rotate<T extends Matrix4Like>(out: T, a: Matrix4Like, rad: number, axis
  * @param a The matrix to rotate.
  * @param rad The amount to rotate by in radians.
  * @returns The rotated matrix.
+ * @see [Source](https://glmatrix.net/)
  */
 function rotateX<T extends Matrix4Like>(out: T, a: Matrix4Like, rad: number): T {
 	const s: number = Math.sin(rad);
@@ -664,6 +678,7 @@ function rotateX<T extends Matrix4Like>(out: T, a: Matrix4Like, rad: number): T 
  * @param a The matrix to rotate.
  * @param rad The amount to rotate by in radians.
  * @returns The rotated matrix.
+ * @see [Source](https://glmatrix.net/)
  */
 function rotateY<T extends Matrix4Like>(out: T, a: Matrix4Like, rad: number): T {
 	const s: number = Math.sin(rad);
@@ -706,6 +721,7 @@ function rotateY<T extends Matrix4Like>(out: T, a: Matrix4Like, rad: number): T 
  * @param a The matrix to rotate.
  * @param rad The amount to rotate by in radians.
  * @returns The rotated matrix.
+ * @see [Source](https://glmatrix.net/)
  */
 function rotateZ<T extends Matrix4Like>(out: T, a: Matrix4Like, rad: number): T {
 	const s: number = Math.sin(rad);
@@ -747,6 +763,7 @@ function rotateZ<T extends Matrix4Like>(out: T, a: Matrix4Like, rad: number): T 
  * @param out The matrix to fill with the translation matrix.
  * @param v The amount to translate by.
  * @returns The translation matrix.
+ * @see [Source](https://glmatrix.net/)
  */
 function fromTranslation<T extends Matrix4Like>(out: T, v: Vector3Like): T {
 	out[0] = 1;
@@ -773,6 +790,7 @@ function fromTranslation<T extends Matrix4Like>(out: T, v: Vector3Like): T {
  * @param out The matrix to fill with the scaling matrix.
  * @param v The amount to scale by.
  * @returns The scaling matrix.
+ * @see [Source](https://glmatrix.net/)
  */
 function fromScaling<T extends Matrix4Like>(out: T, v: Vector3Like): T {
 	out[0] = v[0];
@@ -800,6 +818,7 @@ function fromScaling<T extends Matrix4Like>(out: T, v: Vector3Like): T {
  * @param rad The amount to rotate by in radians.
  * @param axis The axis to rotate around.
  * @returns The rotation matrix.
+ * @see [Source](https://glmatrix.net/)
  */
 function fromRotation<T extends Matrix4Like>(out: T, rad: number, axis: Vector3Like): T {
 	let x: number = axis[0];
@@ -844,6 +863,7 @@ function fromRotation<T extends Matrix4Like>(out: T, rad: number, axis: Vector3L
  * @param out The matrix to fill with the rotation matrix.
  * @param rad The amount to rotate by in radians.
  * @returns The rotation matrix.
+ * @see [Source](https://glmatrix.net/)
  */
 function fromXRotation<T extends Matrix4Like>(out: T, rad: number): T {
 	const s: number = Math.sin(rad);
@@ -873,6 +893,7 @@ function fromXRotation<T extends Matrix4Like>(out: T, rad: number): T {
  * @param out The matrix to fill with the rotation matrix.
  * @param rad The amount to rotate by in radians.
  * @returns The rotation matrix.
+ * @see [Source](https://glmatrix.net/)
  */
 function fromYRotation<T extends Matrix4Like>(out: T, rad: number): T {
 	const s: number = Math.sin(rad);
@@ -902,6 +923,7 @@ function fromYRotation<T extends Matrix4Like>(out: T, rad: number): T {
  * @param out The matrix to fill with the rotation matrix.
  * @param rad The amount to rotate by in radians.
  * @returns The rotation matrix.
+ * @see [Source](https://glmatrix.net/)
  */
 function fromZRotation<T extends Matrix4Like>(out: T, rad: number): T {
 	const s: number = Math.sin(rad);
@@ -932,6 +954,7 @@ function fromZRotation<T extends Matrix4Like>(out: T, rad: number): T {
  * @param q The quaternion to rotate by.
  * @param v The amount to translate by.
  * @returns The transformation matrix.
+ * @see [Source](https://glmatrix.net/)
  */
 function fromRotationTranslation<T extends Matrix4Like>(out: T, q: QuaternionLike, v: Vector3Like): T {
 	const x: number = q[0];
@@ -976,6 +999,7 @@ function fromRotationTranslation<T extends Matrix4Like>(out: T, q: QuaternionLik
  * @param out The matrix to fill with the transformation matrix.
  * @param a The dual quaternion.
  * @returns The transformation matrix.
+ * @see [Source](https://glmatrix.net/)
  */
 function fromQuat2<T extends Matrix4Like>(out: T, a: DualQuaternionLike): T {
 	const bx: number = -a[0];
@@ -1011,6 +1035,7 @@ function fromQuat2<T extends Matrix4Like>(out: T, a: DualQuaternionLike): T {
  * @param out The vector to fill with the translation.
  * @param mat The matrix.
  * @returns The translation vector.
+ * @see [Source](https://glmatrix.net/)
  */
 function getTranslation<T extends Vector3Like>(out: T, mat: Matrix4Like): T {
 	out[0] = mat[12];
@@ -1024,6 +1049,7 @@ function getTranslation<T extends Vector3Like>(out: T, mat: Matrix4Like): T {
  * @param out The vector to fill with the scaling amount.
  * @param mat The matrix.
  * @returns The scaling vector.
+ * @see [Source](https://glmatrix.net/)
  */
 function getScaling<T extends Vector3Like>(out: T, mat: Matrix4Like): T {
 	const m11: number = mat[0];
@@ -1047,6 +1073,7 @@ function getScaling<T extends Vector3Like>(out: T, mat: Matrix4Like): T {
  * @param out The quaternion to fill with the rotation.
  * @param mat The matrix.
  * @returns The quaternion.
+ * @see [Source](https://glmatrix.net/)
  */
 function getRotation<T extends QuaternionLike>(out: T, mat: Matrix4Like): T {
 	const scaling: Vector3Like = new Float32Array(3) as Vector3Like;
@@ -1104,6 +1131,7 @@ function getRotation<T extends QuaternionLike>(out: T, mat: Matrix4Like): T {
  * @param v The vector to translate by.
  * @param s The vector to scale by.
  * @returns The transformation matrix.
+ * @see [Source](https://glmatrix.net/)
  */
 function fromRotationTranslationScale<T extends Matrix4Like>(out: T, q: QuaternionLike, v: Vector3Like, s: Vector3Like): T {
 	const x: number = q[0];
@@ -1155,6 +1183,7 @@ function fromRotationTranslationScale<T extends Matrix4Like>(out: T, q: Quaterni
  * @param s The vector to scale by.
  * @param o The origin.
  * @returns The transformation matrix.
+ * @see [Source](https://glmatrix.net/)
  */
 function fromRotationTranslationScaleOrigin<T extends Matrix4Like>(out: T, q: QuaternionLike, v: Vector3Like, s: Vector3Like, o: Vector3Like): T {
 	const x: number = q[0];
@@ -1216,6 +1245,7 @@ function fromRotationTranslationScaleOrigin<T extends Matrix4Like>(out: T, q: Qu
  * @param out The matrix to fill with the rotation matrix.
  * @param q The quaternion.
  * @returns The rotation matrix.
+ * @see [Source](https://glmatrix.net/)
  */
 function fromQuat<T extends Matrix4Like>(out: T, q: QuaternionLike): T {
 	const x: number = q[0];
@@ -1265,8 +1295,9 @@ function fromQuat<T extends Matrix4Like>(out: T, q: QuaternionLike): T {
  * @param near The near bound of the frustum.
  * @param far The far bound of the frustum.
  * @returns The frustum matrix.
+ * @see [Source](https://glmatrix.net/)
  */
-function frustum<T extends Matrix4Like>(out: T, left: number, right: number, bottom: number, top: number, near: number, far: number) {
+function frustum<T extends Matrix4Like>(out: T, left: number, right: number, bottom: number, top: number, near: number, far: number): T {
 	const rl: number = 1 / (right - left);
 	const tb: number = 1 / (top - bottom);
 	const nf: number = 1 / (near - far);
@@ -1292,12 +1323,13 @@ function frustum<T extends Matrix4Like>(out: T, left: number, right: number, bot
 
 /**
  * Generates a four-by-four perspective matrix with the given bounds.
- * @param out The matrix to fill with the perspective matrix.
+ * @param out The matrix to fill with the projection matrix.
  * @param fovy The vertical field of view of the projection in radians.
  * @param aspect The aspect ratio of the projection.
  * @param near The near bound of the frustum.
  * @param far The far bound of the frustum (infinite if not set).
- * @returns 
+ * @returns The projection matrix.
+ * @see [Source](https://glmatrix.net/)
  */
 function perspective<T extends Matrix4Like>(out: T, fovy: number, aspect: number, near: number, far?: number): T {
 	const f: number = 1 / Math.tan(fovy / 2);
@@ -1336,6 +1368,7 @@ function perspective<T extends Matrix4Like>(out: T, fovy: number, aspect: number
  * @param near The near bound of the frustum.
  * @param far The far bound of the frustum.
  * @returns The projection matrix.
+ * @see [Source](https://glmatrix.net/)
  */
 function perspectiveFromFieldOfView<T extends Matrix4Like>(out: T, fov: FieldOfView, near: number, far: number): T {
 	const upTan: number = Math.tan((fov.upDegrees * Math.PI) / 180);
@@ -1375,6 +1408,7 @@ function perspectiveFromFieldOfView<T extends Matrix4Like>(out: T, fov: FieldOfV
  * @param near The near bound of the frustum.
  * @param far The far bound of the frustum.
  * @returns The projection matrix.
+ * @see [Source](https://glmatrix.net/)
  */
 function ortho<T extends Matrix4Like>(out: T, left: number, right: number, bottom: number, top: number, near: number, far: number): T {
 	const lr: number = 1 / (left - right);
@@ -1407,6 +1441,7 @@ function ortho<T extends Matrix4Like>(out: T, left: number, right: number, botto
  * @param center The position that the viewer is looking at.
  * @param up A vector representing the up direction.
  * @returns The frustum matrix.
+ * @see [Source](https://glmatrix.net/)
  */
 function lookAt<T extends Matrix4Like>(out: T, eye: Vector3Like, center: Vector3Like, up: Vector3Like): T {
 	const eyex: number = eye[0];
@@ -1493,6 +1528,7 @@ function lookAt<T extends Matrix4Like>(out: T, eye: Vector3Like, center: Vector3
  * @param center The position that the viewer is looking at.
  * @param up A vector representing the up direction.
  * @returns The matrix.
+ * @see [Source](https://glmatrix.net/)
  */
 function targetTo<T extends Matrix4Like>(out: T, eye: Vector3Like, target: Vector3Like, up: Vector3Like): T {
 	const eyex: number = eye[0];
@@ -1548,6 +1584,7 @@ function targetTo<T extends Matrix4Like>(out: T, eye: Vector3Like, target: Vecto
  * Calculates the Frobenius normal of a four-by-four matrix.
  * @param a The matrix.
  * @returns The Frobenius normal.
+ * @see [Source](https://glmatrix.net/)
  */
 function frob(a: Matrix4Like): number {
 	return Math.hypot(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9], a[10], a[11], a[12], a[13], a[14], a[15]);
@@ -1559,6 +1596,7 @@ function frob(a: Matrix4Like): number {
  * @param a The augend.
  * @param b The addend.
  * @returns The sum.
+ * @see [Source](https://glmatrix.net/)
  */
 function add<T extends Matrix4Like>(out: T, a: Matrix4Like, b: Matrix4Like): T {
 	out[0] = a[0] + b[0];
@@ -1586,6 +1624,7 @@ function add<T extends Matrix4Like>(out: T, a: Matrix4Like, b: Matrix4Like): T {
  * @param a The minuend.
  * @param b The subtrahend.
  * @returns The difference.
+ * @see [Source](https://glmatrix.net/)
  */
 function subtract<T extends Matrix4Like>(out: T, a: Matrix4Like, b: Matrix4Like): T {
 	out[0] = a[0] - b[0];
@@ -1613,6 +1652,7 @@ function subtract<T extends Matrix4Like>(out: T, a: Matrix4Like, b: Matrix4Like)
  * @param a The multiplier.
  * @param b The multiplicand.
  * @returns The product.
+ * @see [Source](https://glmatrix.net/)
  */
 function multiplyScalar<T extends Matrix4Like>(out: T, a: Matrix4Like, b: number): T {
 	out[0] = a[0] * b;
@@ -1751,6 +1791,209 @@ function equals(a: Matrix4Like, b: Matrix4Like): boolean {
 
 /** A four-by-four matrix. */
 export default class Matrix4 extends Float32Array implements SquareMatrix {
+	/**
+	 * Creates a four-by-four matrix with the given values.
+	 * @param m00 The value in the first column and first row.
+	 * @param m01 The value in the first column and second row.
+	 * @param m02 The value in the first column and third row.
+	 * @param m03 The value in the first column and fourth row.
+	 * @param m10 The value in the second column and first row.
+	 * @param m11 The value in the second column and second row.
+	 * @param m12 The value in the second column and third row.
+	 * @param m13 The value in the second column and fourth row.
+	 * @param m20 The value in the third column and first row.
+	 * @param m21 The value in the third column and second row.
+	 * @param m22 The value in the third column and third row.
+	 * @param m23 The value in the third column and fourth row.
+	 * @param m30 The value in the fourth column and first row.
+	 * @param m31 The value in the fourth column and second row.
+	 * @param m32 The value in the fourth column and third row.
+	 * @param m33 The value in the fourth column and fourth row.
+	 * @returns The matrix.
+	 */
+	public static fromValues(m00: number, m01: number, m02: number, m03: number, m10: number, m11: number, m12: number, m13: number, m20: number, m21: number, m22: number, m23: number, m30: number, m31: number, m32: number, m33: number): Matrix4 {
+		return fromValues(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33);
+	}
+
+	/**
+	 * Creates a matrix that translates by the given amount.
+	 * @param vector The amount to translate by.
+	 * @returns The matrix.
+	 */
+	public static fromTranslation(vector: Vector3Like): Matrix4 {
+		return fromTranslation(new Matrix4(), vector);
+	}
+
+	/**
+	 * Creates a matrix that scales by the given amount.
+	 * @param vector The amount to scale by.
+	 * @returns The matrix.
+	 */
+	public static fromScaling(vector: Vector3Like): Matrix4 {
+		return fromScaling(new Matrix4(), vector);
+	}
+
+	/**
+	 * Creates a matrix that rotates by the given amount.
+	 * @param radians The angle to rotate by in radians.
+	 * @param axis The axis to rotate around.
+	 * @returns The matrix.
+	 */
+	public static fromRotation(radians: number, axis: Vector3Like): Matrix4 {
+		return fromRotation(new Matrix4(), radians, axis);
+	}
+
+	/**
+	 * Creates a matrix that rotates by the given amount around the X-axis.
+	 * @param radians The angle to rotate by in radians.
+	 * @returns The matrix.
+	 */
+	public static fromXRotation(radians: number): Matrix4 {
+		return fromXRotation(new Matrix4(), radians);
+	}
+
+	/**
+	 * Creates a matrix that rotates by the given amount around the Y-axis.
+	 * @param radians The angle to rotate by in radians.
+	 * @returns The matrix.
+	 */
+	public static fromYRotation(radians: number): Matrix4 {
+		return fromYRotation(new Matrix4(), radians);
+	}
+
+	/**
+	 * Creates a matrix that rotates by the given amount around the Z-axis.
+	 * @param radians The angle to rotate by in radians.
+	 * @returns The matrix.
+	 */
+	public static fromZRotation(radians: number): Matrix4 {
+		return fromZRotation(new Matrix4(), radians);
+	}
+
+	/**
+	 * Creates a matrix that rotates by the given quaternion and translates by the given amount.
+	 * @param quaternion The quaternion to rotate by.
+	 * @param vector The amount to translate by.
+	 * @returns The matrix.
+	 */
+	public static fromRotationTranslation(quaternion: QuaternionLike, vector: Vector3Like): Matrix4 {
+		return fromRotationTranslation(new Matrix4(), quaternion, vector);
+	}
+
+	/**
+	 * Creates a matrix that transforms by a dual quaternion.
+	 * @param dualQuaternion The dual quaternion.
+	 * @returns The matrix.
+	 */
+	public static fromQuat2(dualQuaternion: DualQuaternionLike): Matrix4 {
+		return fromQuat2(new Matrix4(), dualQuaternion);
+	}
+
+	/**
+	 * Creates a matrix that applies the given transformations.
+	 * @param rotation The quaternion to rotate by.
+	 * @param translation The vector to translate by.
+	 * @param scaling The vector to scale by.
+	 * @returns This matrix.
+	 */
+	public static fromRotationTranslationScale(rotation: QuaternionLike, translation: Vector3Like, scaling: Vector3Like): Matrix4 {
+		return fromRotationTranslationScale(new Matrix4(), rotation, translation, scaling);
+	}
+
+	/**
+	 * Creates a matrix that applies the given transformations around the given origin.
+	 * @param rotation The quaternion to rotate by.
+	 * @param translation The vector to translate by.
+	 * @param scaling The vector to scale by.
+	 * @param origin The origin.
+	 * @returns This matrix.
+	 */
+	public static fromRotationTranslationScaleOrigin(rotation: QuaternionLike, translation: Vector3Like, scaling: Vector3Like, origin: Vector3Like): Matrix4 {
+		return fromRotationTranslationScaleOrigin(new Matrix4(), rotation, translation, scaling, origin);
+	}
+
+	/**
+	 * Creates a matrix that rotates by the given quaternion.
+	 * @param quaternion The quaternion to rotate by.
+	 * @returns The matrix.
+	 */
+	public static fromQuat(quaternion: QuaternionLike): Matrix4 {
+		return fromQuat(new Matrix4(), quaternion);
+	}
+
+	/**
+	 * Creates a matrix that represents a frustum.
+	 * @param left The left bound of the frustum.
+	 * @param right The right bound of the frustum.
+	 * @param bottom The bottom bound of the frustum.
+	 * @param top The top bound of the frustum.
+	 * @param near The near bound of the frustum.
+	 * @param far The far bound of the frustum.
+	 * @returns The matrix.
+	 */
+	public static frustum(left: number, right: number, bottom: number, top: number, near: number, far: number): Matrix4 {
+		return frustum(new Matrix4(), left, right, bottom, top, near, far);
+	}
+
+	/**
+	 * Creates a perspective matrix with the given bounds.
+	 * @param fovy The vertical field of view of the projection in radians.
+	 * @param aspect The aspect ratio of the projection.
+	 * @param near The near bound of the frustum.
+	 * @param far The far bound of the frustum (infinite if not set).
+	 * @returns The matrix.
+	 */
+	public static perspective(fovy: number, aspect: number, near: number, far?: number): Matrix4 {
+		return perspective(new Matrix4(), fovy, aspect, near, far);
+	}
+
+	/**
+	 * Creates a perspective projection matrix from a field of view.
+	 * @param fov The field of view.
+	 * @param near The near bound of the frustum.
+	 * @param far The far bound of the frustum.
+	 * @returns The matrix.
+	 */
+	public static perspectiveFromFieldOfView(fov: FieldOfView, near: number, far: number): Matrix4 {
+		return perspectiveFromFieldOfView(new Matrix4(), fov, near, far);
+	}
+
+	/**
+	 * Creates an orthogonal projection matrix with the given bounds.
+	 * @param left The left bound of the frustum.
+	 * @param right The right bound of the frustum.
+	 * @param bottom The bottom bound of the frustum.
+	 * @param top The top bound of the frustum.
+	 * @param near The near bound of the frustum.
+	 * @param far The far bound of the frustum.
+	 * @returns The matrix.
+	 */
+	public static ortho(left: number, right: number, bottom: number, top: number, near: number, far: number): Matrix4 {
+		return ortho(new Matrix4(), left, right, bottom, top, near, far);
+	}
+
+	/**
+	 * Creates a look-at matrix.
+	 * @param eye The position of the viewer.
+	 * @param center The position that the viewer is looking at.
+	 * @param up A vector representing the up direction.
+	 * @returns The matrix.
+	 */
+	public static lookAt(eye: Vector3Like, center: Vector3Like, up: Vector3Like): Matrix4 {
+		return lookAt(new Matrix4(), eye, center, up);
+	}
+
+	/**
+	 * Creates a matrix that makes something look at something else.
+	 * @param eye The position of the viewer.
+	 * @param center The position that the viewer is looking at.
+	 * @param up A vector representing the up direction.
+	 * @returns The matrix.
+	 */
+	public static targetTo(eye: Vector3Like, target: Vector3Like, up: Vector3Like): Matrix4 {
+		return targetTo(new Matrix4(), eye, target, up);
+	}
+
 	/** Creates a four-by-four identity matrix. */
 	public constructor() {
 		super(16);
@@ -1763,10 +2006,25 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	}
 
 	/** The number of columns in this matrix. */
-	width: number;
+	public readonly width: number;
 
 	/** The number of rows in this matrix. */
-	height: number;
+	public readonly height: number;
+
+	/** The translation component of this transformation matrix. */
+	public get translation(): Vector3 {
+		return getTranslation(new Vector3(), this);
+	}
+
+	/** The scaling component of this transformation matrix. */
+	public get scaling(): Vector3 {
+		return getScaling(new Vector3(), this);
+	}
+
+	/** The rotation component of this transformation matrix. */
+	public get rotation(): Quaternion {
+		return getRotation(new Quaternion(), this);
+	}
 
 	/**
 	 * Gets the value at the given position in this matrix.
@@ -1774,7 +2032,9 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param column The column of the value.
 	 * @returns The value at the specified position.
 	 */
-	get(row: number, column: number): number | undefined;
+	public get(row: number, column: number): number | undefined {
+		return this[column * this.height + row];
+	}
 
 	/**
 	 * Sets the value at the given position in this matrix.
@@ -1782,64 +2042,84 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param column The column of the value.
 	 * @param value The value.
 	 */
-	put(row: number, column: number, value: number): void;
+	public put(row: number, column: number, value: number): void {
+		this[column * this.height + row] = value;
+	}
 
 	/**
 	 * Determines whether this matrix is roughly equivalent to another.
 	 * @param matrix The other matrix.
 	 * @returns Whether the matrices are roughly equivalent.
 	 */
-	equals(matrix: MatrixLike): boolean;
+	public equals(matrix: Matrix4Like): boolean {
+		return equals(this, matrix);
+	}
 
 	/**
 	 * Determines whether this matrix is exactly equivalent to another.
 	 * @param matrix The other matrix.
 	 * @returns Whether the matrices are exactly equivalent.
 	 */
-	exactEquals(matrix: MatrixLike): boolean;
+	public exactEquals(matrix: Matrix4Like): boolean {
+		return exactEquals(this, matrix);
+	}
 
 	/**
 	 * Adds two matrices of the same size.
 	 * @param matrix The other matrix.
 	 * @returns The sum of the matrices.
 	 */
-	add(matrix: MatrixLike): Matrix;
+	public add(matrix: Matrix4Like): this {
+		return add(this, this, matrix);
+	}
 
 	/**
 	 * Calculates the adjugate of this matrix.
 	 * @returns The adjugate of this matrix.
 	 */
-	adjoint(): Matrix;
+	public adjoint(): this {
+		return adjoint(this, this);
+	}
 
 	/**
 	 * Creates a copy of this matrix.
 	 * @returns A copy of this matrix.
 	 */
-	clone(): Matrix;
+	public clone(): Matrix4 {
+		return clone(this);
+	}
 
 	/**
 	 * Copies the values of another matrix into this one.
 	 * @param matrix The matrix to copy.
 	 * @returns This matrix.
 	 */
-	copy(matrix: MatrixLike): this;
+	public copy(matrix: Matrix4Like): this {
+		return copy(this, matrix);
+	}
 
 	/** The Frobenius normal of this matrix. */
-	get frob(): number;
+	public get frob(): number {
+		return frob(this);
+	}
 
 	/**
 	 * Multiplies this matrix by another.
 	 * @param matrix The other matrix.
 	 * @returns The product of the matrices.
 	 */
-	multiply(matrix: MatrixLike): Matrix;
+	public multiply(matrix: Matrix4Like): this {
+		return multiply(this, this, matrix);
+	}
 
 	/**
 	 * Multiplies this matrix by a scalar value.
 	 * @param scalar The scalar value.
 	 * @returns The product of the matrix and the scalar value.
 	 */
-	multiplyScalar(scalar: number): Matrix;
+	public multiplyScalar(scalar: number): this {
+		return multiplyScalar(this, this, scalar);
+	}
 
 	/**
 	 * Adds this matrix to another after multiplying the other by a scalar.
@@ -1847,27 +2127,50 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param scalar The scalar.
 	 * @returns The sum.
 	 */
-	multiplyScalarAndAdd(matrix: MatrixLike, scalar: number): Matrix;
+	public multiplyScalarAndAdd(matrix: Matrix4Like, scalar: number): this {
+		return multiplyScalarAndAdd(this, this, matrix, scalar);
+	}
 
 	/**
 	 * Subtracts another matrix from this one.
 	 * @param matrix The other matrix.
 	 * @returns The difference between the matrices.
 	 */
-	subtract(matrix: MatrixLike): Matrix;
+	public subtract(matrix: Matrix4Like): this {
+		return subtract(this, this, matrix);
+	}
 
 	/**
 	 * Transposes this matrix.
 	 * @returns The transpose of this matrix.
 	 */
-	transpose(): Matrix;
+	public transpose(): this {
+		return transpose(this, this);
+	}
 
 	/**
 	 * Sets the values in this matrix.
-	 * @param values The new values.
+	 * @param m00 The value in the first column and first row.
+	 * @param m01 The value in the first column and second row.
+	 * @param m02 The value in the first column and third row.
+	 * @param m03 The value in the first column and fourth row.
+	 * @param m10 The value in the second column and first row.
+	 * @param m11 The value in the second column and second row.
+	 * @param m12 The value in the second column and third row.
+	 * @param m13 The value in the second column and fourth row.
+	 * @param m20 The value in the third column and first row.
+	 * @param m21 The value in the third column and second row.
+	 * @param m22 The value in the third column and third row.
+	 * @param m23 The value in the third column and fourth row.
+	 * @param m30 The value in the fourth column and first row.
+	 * @param m31 The value in the fourth column and second row.
+	 * @param m32 The value in the fourth column and third row.
+	 * @param m33 The value in the fourth column and fourth row.
 	 * @returns This matrix.
 	 */
-	fromValues(...values: Array<number>): this;
+	public fromValues(m00: number, m01: number, m02: number, m03: number, m10: number, m11: number, m12: number, m13: number, m20: number, m21: number, m22: number, m23: number, m30: number, m31: number, m32: number, m33: number): this {
+		return set(this, m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33);
+	}
 
 	/**
 	 * Creates a matrix by removing the specified row and column from this matrix.
@@ -1875,20 +2178,277 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param column The column to remove.
 	 * @returns A submatrix.
 	 */
-	submatrix(row: number, column: number): SquareMatrix;
+	public submatrix(row: number, column: number): Matrix3 {
+		const out: Matrix3 = new Matrix3();
+		let k = 0;
+		for (let i = 0; i < 3; i++) {
+			if (i == column) {
+				continue;
+			}
+
+			for (let j = 0; j < 3; j++) {
+				if (j == row) {
+					continue;
+				}
+
+				out[k++] = this.get(j, i) as number;
+			}
+		}
+		return out;
+	}
 
 	/** The determinant of this matrix. */
-	get determinant(): number;
+	public get determinant(): number {
+		return determinant(this);
+	}
 
 	/**
 	 * Resets this matrix to identity.
 	 * @returns This matrix.
 	 */
-	identity(): this;
+	public identity(): this {
+		return identity(this);
+	}
 
 	/**
 	 * Inverts this matrix.
 	 * @returns This matrix.
 	 */
-	invert(): SquareMatrix;
+	public invert(): this {
+		return invert(this, this);
+	}
+
+	/**
+	 * Translates this matrix.
+	 * @param vector The amount to translate by.
+	 * @returns This vector.
+	 */
+	public translate(vector: Vector3Like): this {
+		return translate(this, this, vector);
+	}
+
+	/**
+	 * Scales this matrix.
+	 * @param vector The amount to scale by.
+	 * @returns This matrix.
+	 */
+	public scale(vector: Vector3Like): this {
+		return scale(this, this, vector);
+	}
+
+	/**
+	 * Rotates this matrix.
+	 * @param radians The angle to rotate by in radians.
+	 * @param axis The axis to rotate around.
+	 * @returns This matrix.
+	 */
+	public rotate(radians: number, axis: Vector3Like): this {
+		return rotate(this, this, radians, axis);
+	}
+
+	/**
+	 * Rotates this matrix around the X-axis.
+	 * @param radians The angle to rotate by in radians.
+	 * @returns This matrix.
+	 */
+	public rotateX(radians: number): this {
+		return rotateX(this, this, radians);
+	}
+
+	/**
+	 * Rotates this matrix around the Y-axis.
+	 * @param radians The angle to rotate by in radians.
+	 * @returns This matrix.
+	 */
+	public rotateY(radians: number): this {
+		return rotateY(this, this, radians);
+	}
+
+	/**
+	 * Rotates this matrix around the Z-axis.
+	 * @param radians The angle to rotate by in radians.
+	 * @returns This matrix.
+	 */
+	public rotateZ(radians: number): this {
+		return rotateZ(this, this, radians);
+	}
+
+	/**
+	 * Sets this matrix to translate by the given amount.
+	 * @param vector The amount to translate by.
+	 * @returns This matrix.
+	 */
+	public fromTranslation(vector: Vector3Like): this {
+		return fromTranslation(this, vector);
+	}
+
+	/**
+	 * Sets this matrix to scale by the given amount.
+	 * @param vector The amount to scale by.
+	 * @returns This matrix.
+	 */
+	public fromScaling(vector: Vector3Like): this {
+		return fromScaling(this, vector);
+	}
+
+	/**
+	 * Sets this matrix to rotate by the given amount.
+	 * @param radians The angle to rotate by in radians.
+	 * @param axis The axis to rotate around.
+	 * @returns This matrix.
+	 */
+	public fromRotation(radians: number, axis: Vector3Like): this {
+		return fromRotation(this, radians, axis);
+	}
+
+	/**
+	 * Sets this matrix to rotate by the given amount around the X-axis.
+	 * @param radians The angle to rotate by in radians.
+	 * @returns This matrix.
+	 */
+	public fromXRotation(radians: number): this {
+		return fromXRotation(this, radians);
+	}
+
+	/**
+	 * Sets this matrix to rotate by the given amount around the Y-axis.
+	 * @param radians The angle to rotate by in radians.
+	 * @returns This matrix.
+	 */
+	public fromYRotation(radians: number): this {
+		return fromYRotation(this, radians);
+	}
+
+	/**
+	 * Sets this matrix to rotate by the given amount around the Z-axis.
+	 * @param radians The angle to rotate by in radians.
+	 * @returns This matrix.
+	 */
+	public fromZRotation(radians: number): this {
+		return fromZRotation(this, radians);
+	}
+
+	/**
+	 * Sets this matrix to rotate by the given quaternion and translate by the given amount.
+	 * @param quaternion The quaternion to rotate by.
+	 * @param vector The amount to translate by.
+	 * @returns This matrix.
+	 */
+	public fromRotationTranslation(quaternion: QuaternionLike, vector: Vector3Like): this {
+		return fromRotationTranslation(this, quaternion, vector);
+	}
+
+	/**
+	 * Sets this matrix to transform by a dual quaternion.
+	 * @param dualQuaternion The dual quaternion.
+	 * @returns This matrix.
+	 */
+	public fromQuat2(dualQuaternion: DualQuaternionLike): this {
+		return fromQuat2(this, dualQuaternion);
+	}
+
+	/**
+	 * Sets this matrix to apply the given transformations.
+	 * @param rotation The quaternion to rotate by.
+	 * @param translation The vector to translate by.
+	 * @param scaling The vector to scale by.
+	 * @returns This matrix.
+	 */
+	public fromRotationTranslationScale(rotation: QuaternionLike, translation: Vector3Like, scaling: Vector3Like): this {
+		return fromRotationTranslationScale(this, rotation, translation, scaling);
+	}
+
+	/**
+	 * Sets this matrix to apply the given transformations around the given origin.
+	 * @param rotation The quaternion to rotate by.
+	 * @param translation The vector to translate by.
+	 * @param scaling The vector to scale by.
+	 * @param origin The origin.
+	 * @returns This matrix.
+	 */
+	public fromRotationTranslationScaleOrigin(rotation: QuaternionLike, translation: Vector3Like, scaling: Vector3Like, origin: Vector3Like): this {
+		return fromRotationTranslationScaleOrigin(this, rotation, translation, scaling, origin);
+	}
+
+	/**
+	 * Sets this matrix to rotate by the given quaternion.
+	 * @param quaternion The quaternion to rotate by.
+	 * @returns This matrix.
+	 */
+	public fromQuat(quaternion: QuaternionLike): this {
+		return fromQuat(this, quaternion);
+	}
+
+	/**
+	 * Makes this matrix represent a frustum.
+	 * @param left The left bound of the frustum.
+	 * @param right The right bound of the frustum.
+	 * @param bottom The bottom bound of the frustum.
+	 * @param top The top bound of the frustum.
+	 * @param near The near bound of the frustum.
+	 * @param far The far bound of the frustum.
+	 * @returns This matrix.
+	 */
+	public frustum(left: number, right: number, bottom: number, top: number, near: number, far: number): this {
+		return frustum(this, left, right, bottom, top, near, far);
+	}
+
+	/**
+	 * Sets this matrix to a perspective matrix with the given bounds.
+	 * @param fovy The vertical field of view of the projection in radians.
+	 * @param aspect The aspect ratio of the projection.
+	 * @param near The near bound of the frustum.
+	 * @param far The far bound of the frustum (infinite if not set).
+	 * @returns This matrix.
+	 */
+	public perspective(fovy: number, aspect: number, near: number, far?: number): this {
+		return perspective(this, fovy, aspect, near, far);
+	}
+
+	/**
+	 * Sets this matrix to a perspective projection matrix from a field of view.
+	 * @param fov The field of view.
+	 * @param near The near bound of the frustum.
+	 * @param far The far bound of the frustum.
+	 * @returns This matrix.
+	 */
+	public perspectiveFromFieldOfView(fov: FieldOfView, near: number, far: number): this {
+		return perspectiveFromFieldOfView(this, fov, near, far);
+	}
+
+	/**
+	 * Sets this matrix to an orthogonal projection matrix with the given bounds.
+	 * @param left The left bound of the frustum.
+	 * @param right The right bound of the frustum.
+	 * @param bottom The bottom bound of the frustum.
+	 * @param top The top bound of the frustum.
+	 * @param near The near bound of the frustum.
+	 * @param far The far bound of the frustum.
+	 * @returns This matrix.
+	 */
+	public ortho(left: number, right: number, bottom: number, top: number, near: number, far: number): this {
+		return ortho(this, left, right, bottom, top, near, far);
+	}
+
+	/**
+	 * Sets ths matrix to a look-at matrix.
+	 * @param eye The position of the viewer.
+	 * @param center The position that the viewer is looking at.
+	 * @param up A vector representing the up direction.
+	 * @returns This matrix.
+	 */
+	public lookAt(eye: Vector3Like, center: Vector3Like, up: Vector3Like): this {
+		return lookAt(this, eye, center, up);
+	}
+
+	/**
+	 * Sets this matrix to a matrix that makes something look at something else.
+	 * @param eye The position of the viewer.
+	 * @param center The position that the viewer is looking at.
+	 * @param up A vector representing the up direction.
+	 * @returns This matrix.
+	 */
+	public targetTo(eye: Vector3Like, target: Vector3Like, up: Vector3Like): this {
+		return targetTo(this, eye, target, up);
+	}
 }
