@@ -1,6 +1,6 @@
 import { matrixEpsilon } from "./Matrix.js";
 import type { Matrix3Like } from "./Matrix3.js";
-import type { default as Vector3, Vector3Like } from "./Vector3.js";
+import type { Vector3Like } from "./Vector3.js";
 
 /** A complex number that is commonly used to describe rotations. */
 export type QuaternionLike = Quaternion | [number, number, number, number];
@@ -739,10 +739,10 @@ function rotationTo<T extends QuaternionLike>(out: T, a: Vector3Like, b: Vector3
 }
 
 /** A temporary quaternion used in `sqlerp`. */
-const temp1: QuaternionLike = new Float32Array(3);
+const temp1: QuaternionLike = new Float32Array(3) as QuaternionLike;
 
 /** A temporary quaternion used in `sqlerp`. */
-const temp2: QuaternionLike = new Float32Array(3);
+const temp2: QuaternionLike = new Float32Array(3) as QuaternionLike;
 
 /**
  * Performs a spherical linear interpolation with two control points.
@@ -785,14 +785,273 @@ function setAxes<T extends QuaternionLike>(out: T, view: Vector3Like, right: Vec
 	return normalize(out, fromMat3(out, matr));
 }
 
+/** An axis and an angle to rotate around it. */
+export interface AxisAngle {
+	/** The axis. */
+	axis: Vector3Like;
+
+	/** The angle to rotate around the axis in radians. */
+	radians: number;
+}
+
 /**
  * A complex number that is commonly used to describe rotations.
  * @see [Wikipedia](https://en.wikipedia.org/wiki/Quaternion)
  */
 export default class Quaternion extends Float32Array {
+	/**
+	 * Calculates a quaternion from a three-by-three matrix. The quaternion will not be normalized.
+	 * @param matrix The matrix.
+	 * @returns The quaternion.
+	 */
+	public static fromMat3(matrix: Matrix3Like): Quaternion {
+		return fromMat3(new Quaternion(), matrix);
+	}
+
+	/**
+	 * Calculates a quaternion from the given XYZ Tait-Bryan angles.
+	 * @param x The angle of the X rotation in radians.
+	 * @param y The angle of the Y rotation in radians.
+	 * @param z The angle of the Z rotation in radians.
+	 * @returns The quaternion.
+	 */
+	public static fromEuler(x: number, y: number, z: number): Quaternion {
+		return fromEuler(new Quaternion(), x, y, z);
+	}
+
+	/**
+	 * Creates a quaternion from the given values.
+	 * @param x The X value.
+	 * @param y The Y value.
+	 * @param z The Z value.
+	 * @param w The W value.
+	 * @returns The quaternion.
+	 */
+	public static fromValues(x: number, y: number, z: number, w: number): Quaternion {
+		return fromValues(x, y, z, w);
+	}
+
 	/** Creates an identity quaternion. */
 	public constructor() {
 		super(4);
 		this[3] = 1;
+	}
+
+	/**
+	 * Sets this quaternion to the identity.
+	 * @returns This quaternion.
+	 */
+	public identity(): this {
+		return identity(this);
+	}
+
+	/** The rotation axis and angle of this quaternion. */
+	public get axisAngle(): AxisAngle {
+		const axis: Vector3Like = new Float32Array(3);
+		const radians: number = getAxisAngle(axis, this);
+		return { axis, radians };
+	}
+
+	/** The rotation axis and angle of this quaternion. */
+	public set axisAngle(value: AxisAngle) {
+		setAxisAngle(this, value.axis, value.radians);
+	}
+
+	/**
+	 * Calculates the dot product of this and another quaternion.
+	 * @param quaternion The other quaternion.
+	 * @returns The dot product.
+	 */
+	public dot(quaternion: QuaternionLike): number {
+		return dot(this, quaternion);
+	}
+
+	/**
+	 * Gets the angular distance between this and another unit quaternion.
+	 * @param quaternion The other quaternion.
+	 * @returns The angular distance in radians.
+	 */
+	public getAngle(quaternion: QuaternionLike): number {
+		return getAngle(this, quaternion);
+	}
+
+	/**
+	 * Multiplies this quaternion by another.
+	 * @param quaternion The other quaternion.
+	 * @returns The product.
+	 */
+	public multiply(quaternion: QuaternionLike): this {
+		return multiply(this, this, quaternion);
+	}
+
+	/**
+	 * Rotates this quaternion around the X-axis.
+	 * @param radians The angle to rotate by in radians.
+	 * @returns This quaternion.
+	 */
+	public rotateX(radians: number): this {
+		return rotateX(this, this, radians);
+	}
+
+	/**
+	 * Rotates this quaternion around the Y-axis.
+	 * @param radians The angle to rotate by in radians.
+	 * @returns This quaternion.
+	 */
+	public rotateY(radians: number): this {
+		return rotateY(this, this, radians);
+	}
+
+	/**
+	 * Rotates this quaternion around the Z-axis.
+	 * @param radians The angle to rotate by in radians.
+	 * @returns This quaternion.
+	 */
+	public rotateZ(radians: number): this {
+		return rotateZ(this, this, radians);
+	}
+
+	/**
+	 * Recalculates the W component of this quaternion from the X, Y, and Z components, ignoring the existing W component.
+	 * @returns This quaternion.
+	 */
+	public calculateW(): this {
+		return calculateW(this, this);
+	}
+
+	/**
+	 * Calculates the exponential of this unit quaternion.
+	 * @returns This quaternion.
+	 */
+	public exp(): this {
+		return exp(this, this);
+	}
+
+	/**
+	 * Calculates the natural logarithm of this unit quaternion.
+	 * @returns This quaternion.
+	 */
+	public ln(): this {
+		return ln(this, this);
+	}
+
+	/**
+	 * Scales this quaternion by a scalar.
+	 * @param scalar The scalar.
+	 * @returns This quaternion.
+	 */
+	public scale(scalar: number): this {
+		return scale(this, this, scalar);
+	}
+
+	/**
+	 * Calculates a scalar power of this unit quaternion.
+	 * @param scalar The scalar.
+	 * @returns This quaternion.
+	 */
+	public pow(scalar: number): this {
+		return pow(this, this, scalar);
+	}
+
+	/**
+	 * Performs a spherical linear interpolation between this and another quaternions.
+	 * @param quaternion The other quaternion.
+	 * @param amount The interpolation amount in the range `[0,1]`.
+	 * @returns The interpolated value.
+	 */
+	public slerp(quaternion: QuaternionLike, amount: number): this {
+		return slerp(this, this, quaternion, amount);
+	}
+
+	/**
+	 * Randomizes this quaternion.
+	 * @returns This quaternion.
+	 */
+	public random(): this {
+		return random(this);
+	}
+
+	/**
+	 * Inverts this quaternion.
+	 * @returns This quaternion.
+	 */
+	public invert(): this {
+		return invert(this, this);
+	}
+
+	/**
+	 * Calculates the conjugate of this quaternion. If this quaternion is normalized, this is the same as its inverse (and faster to compute).
+	 * @returns This quaternion.
+	 */
+	public conjugate(): this {
+		return conjugate(this, this);
+	}
+
+	/**
+	 * Calculates this quaternion from a three-by-three matrix. This quaternion will not be normalized.
+	 * @param matrix The matrix.
+	 * @returns This quaternion.
+	 */
+	public fromMat3(matrix: Matrix3Like): this {
+		return fromMat3(this, matrix);
+	}
+
+	/**
+	 * Calculates this quaternion from the given XYZ Tait-Bryan angles.
+	 * @param x The angle of the X rotation in radians.
+	 * @param y The angle of the Y rotation in radians.
+	 * @param z The angle of the Z rotation in radians.
+	 * @returns This quaternion.
+	 */
+	public fromEuler(x: number, y: number, z: number): this {
+		return fromEuler(this, x, y, z);
+	}
+
+	/**
+	 * Creates a clone of this quaternion.
+	 * @returns The clone.
+	 */
+	public clone(): Quaternion {
+		return clone(this);
+	}
+
+	/**
+	 * Sets this quaternion to the given values.
+	 * @param x The X value.
+	 * @param y The Y value.
+	 * @param z The Z value.
+	 * @param w The W value.
+	 * @returns This quaternion.
+	 */
+	public fromValues(x: number, y: number, z: number, w: number): this {
+		return set(this, x, y, z, w);
+	}
+
+	/**
+	 * Copies the values from another quaternion into this one.
+	 * @param quaternion The quaternion.
+	 * @returns This quaternion.
+	 */
+	public copy(quaternion: QuaternionLike): this {
+		return copy(this, quaternion);
+	}
+
+	/**
+	 * Adds another quaternion to this one.
+	 * @param quaternion The other quaternion.
+	 * @returns The sum.
+	 */
+	public add(quaternion: QuaternionLike): this {
+		return add(this, this, quaternion);
+	}
+
+	/**
+	 * Performs a linear interpolation between this and another quaternion.
+	 * @param quaternion The other quaternion.
+	 * @param amount The interpolation amount in the range `[0,1]`.
+	 * @returns The interpolated value.
+	 */
+	public lerp(quaternion: QuaternionLike, amount: number): this {
+		return lerp(this, this, quaternion, amount);
 	}
 }
