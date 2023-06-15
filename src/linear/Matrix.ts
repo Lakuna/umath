@@ -1,14 +1,11 @@
 /** A rectangular array of numbers, arranged in rows and columns. */
-export type MatrixLike = Matrix | Iterable<number>;
-
-/** The largest difference between two values in matrices for them to be considered equivalent. */
-export const matrixEpsilon = 0.000001;
+export type MatrixLike = Matrix | ArrayLike<number>;
 
 /**
  * A rectangular array of numbers, arranged in rows and columns.
  * @see [Wikipedia](https://en.wikipedia.org/wiki/Matrix_(mathematics))
  */
-export default interface Matrix extends Iterable<number> {
+export default interface Matrix extends ArrayLike<number> {
 	/** The number of columns in this matrix. */
 	width: number;
 
@@ -17,40 +14,33 @@ export default interface Matrix extends Iterable<number> {
 
 	/**
 	 * Gets the value at the given position in this matrix.
-	 * @param row The row of the value.
-	 * @param column The column of the value.
+	 * @param r The row of the value.
+	 * @param c The column of the value.
 	 * @returns The value at the specified position.
 	 */
-	get(row: number, column: number): number | undefined;
+	get(r: number, c: number): number | undefined;
 
 	/**
 	 * Sets the value at the given position in this matrix.
-	 * @param row The row of the value.
-	 * @param column The column of the value.
-	 * @param value The value.
+	 * @param r The row of the value.
+	 * @param c The column of the value.
+	 * @param v The value.
 	 */
-	put(row: number, column: number, value: number): void;
+	put(r: number, c: number, v: number): void;
 
 	/**
-	 * Determines whether this matrix is roughly equivalent to another.
-	 * @param matrix The other matrix.
-	 * @returns Whether the matrices are roughly equivalent.
+	 * Determines whether this matrix is equivalent to another.
+	 * @param m The other matrix.
+	 * @returns Whether the matrices are equivalent.
 	 */
-	equals(matrix: MatrixLike): boolean;
-
-	/**
-	 * Determines whether this matrix is exactly equivalent to another.
-	 * @param matrix The other matrix.
-	 * @returns Whether the matrices are exactly equivalent.
-	 */
-	exactEquals(matrix: MatrixLike): boolean;
+	equals(m: MatrixLike): boolean;
 
 	/**
 	 * Adds two matrices of the same size.
-	 * @param matrix The other matrix.
+	 * @param m The other matrix.
 	 * @returns The sum of the matrices.
 	 */
-	add(matrix: MatrixLike): Matrix;
+	add(m: MatrixLike): Matrix;
 
 	/**
 	 * Calculates the adjugate of this matrix.
@@ -66,79 +56,46 @@ export default interface Matrix extends Iterable<number> {
 
 	/**
 	 * Copies the values of another matrix into this one.
-	 * @param matrix The matrix to copy.
+	 * @param m The matrix to copy.
 	 * @returns This matrix.
 	 */
-	copy(matrix: MatrixLike): this;
+	copy(m: MatrixLike): this;
 
 	/** The Frobenius normal of this matrix. */
 	get frob(): number;
 
 	/**
 	 * Multiplies this matrix by another.
-	 * @param matrix The other matrix.
+	 * @param m The other matrix.
 	 * @returns The product of the matrices.
 	 */
-	multiply(matrix: MatrixLike): Matrix;
+	multiply(m: MatrixLike): Matrix;
 
 	/**
 	 * Multiplies this matrix by a scalar value.
-	 * @param scalar The scalar value.
+	 * @param s The scalar value.
 	 * @returns The product of the matrix and the scalar value.
 	 */
-	multiplyScalar(scalar: number): Matrix;
+	multiplyScalar(s: number): Matrix;
 
 	/**
 	 * Adds this matrix to another after multiplying the other by a scalar.
-	 * @param matrix The other matrix.
-	 * @param scalar The scalar.
+	 * @param m The other matrix.
+	 * @param s The scalar.
 	 * @returns The sum.
 	 */
-	multiplyScalarAndAdd(matrix: MatrixLike, scalar: number): Matrix;
+	multiplyScalarAndAdd(m: MatrixLike, s: number): Matrix;
 
 	/**
 	 * Subtracts another matrix from this one.
-	 * @param matrix The other matrix.
+	 * @param m The other matrix.
 	 * @returns The difference between the matrices.
 	 */
-	subtract(matrix: MatrixLike): Matrix;
+	subtract(m: MatrixLike): Matrix;
 
 	/**
 	 * Transposes this matrix.
 	 * @returns The transpose of this matrix.
 	 */
 	transpose(): Matrix;
-
-	/**
-	 * Sets the values in this matrix.
-	 * @param values The new values.
-	 * @returns This matrix.
-	 */
-	fromValues(...values: Array<number>): this;
-}
-
-/** A matrix with the same number of rows and columns. */
-export interface SquareMatrix extends Matrix {
-	/**
-	 * Creates a matrix by removing the specified row and column from this matrix.
-	 * @param row The row to remove.
-	 * @param column The column to remove.
-	 * @returns A submatrix.
-	 */
-	submatrix(row: number, column: number): SquareMatrix;
-
-	/** The determinant of this matrix. */
-	get determinant(): number;
-
-	/**
-	 * Resets this matrix to identity.
-	 * @returns This matrix.
-	 */
-	identity(): this;
-
-	/**
-	 * Inverts this matrix.
-	 * @returns This matrix.
-	 */
-	invert(): SquareMatrix;
 }

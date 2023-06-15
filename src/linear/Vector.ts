@@ -3,27 +3,17 @@ import type { MatrixLike } from "./Matrix.js";
 /** A quantity with magnitude and direction. */
 export type VectorLike = Vector | Iterable<number>;
 
-/** The largest difference between two values in vectors for them to be considered equal. */
-export const vectorEpsilon = 0.000001;
-
 /**
  * A quantity with magnitude and direction.
  * @see [Wikipedia](https://en.wikipedia.org/wiki/Euclidean_vector)
  */
 export default interface Vector extends Iterable<number> {
 	/**
-	 * Determines whether this vector is roughly equal to another.
+	 * Determines whether this vector is equivalent to another.
 	 * @param vector The other vector.
-	 * @returns Whether the vectors are roughly equal.
+	 * @returns Whether the vectors are equivalent.
 	 */
 	equals(vector: VectorLike): boolean;
-
-	/**
-	 * Determines whether this vector is exactly equal to another.
-	 * @param vector The other vector.
-	 * @returns Whether the vectors are exactly equal.
-	 */
-	exactEquals(vector: VectorLike): boolean;
 
 	/**
 	 * Adds two vectors of the same size.

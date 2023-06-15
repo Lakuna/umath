@@ -1,5 +1,4 @@
-import { matrixEpsilon, type SquareMatrix } from "./Matrix.js";
-import type { Vector2Like } from "./Vector2.js";
+import type SquareMatrix from "./SquareMatrix.js";
 
 /** Numbers arranged into two columns and two rows. */
 export type Matrix2Like = Matrix2 | [
@@ -7,475 +6,107 @@ export type Matrix2Like = Matrix2 | [
 	number, number
 ];
 
-/**
- * Creates a two-by-two matrix that is a copy of another.
- * @param a The matrix to copy.
- * @returns The new matrix.
- * @see [Source](https://glmatrix.net/)
- */
-function clone(a: Matrix2Like): Matrix2 {
-	const out: Matrix2 = new Matrix2();
-	out[0] = a[0];
-	out[1] = a[1];
-	out[2] = a[2];
-	out[3] = a[3];
-	return out;
-}
-
-/**
- * Copies the values from one two-by-two matrix into another.
- * @param out The matrix to copy into.
- * @param a The matrix to copy.
- * @returns The matrix that was copied into.
- * @see [Source](https://glmatrix.net/)
- */
-function copy<T extends Matrix2Like>(out: T, a: Matrix2Like): T {
-	out[0] = a[0];
-	out[1] = a[1];
-	out[2] = a[2];
-	out[3] = a[3];
-	return out;
-}
-
-/**
- * Sets a two-by-two matrix to the identity.
- * @param out The matrix.
- * @returns The matrix.
- * @see [Source](https://glmatrix.net/)
- */
-function identity<T extends Matrix2Like>(out: T): T {
-	out[0] = 1;
-	out[1] = 0;
-	out[2] = 0;
-	out[3] = 1;
-	return out;
-}
-
-/**
- * Creates a two-by-two matrix from the given values.
- * @param m00 The value in the first column and first row.
- * @param m01 The value in the first column and second row.
- * @param m10 The value in the second column and first row.
- * @param m11 The value in the second column and second row.
- * @returns The new matrix.
- * @see [Source](https://glmatrix.net/)
- */
-function fromValues(m00: number, m01: number, m10: number, m11: number): Matrix2 {
-	const out: Matrix2 = new Matrix2();
-	out[0] = m00;
-	out[1] = m01;
-	out[2] = m10;
-	out[3] = m11;
-	return out;
-}
-
-/**
- * Sets the values in a two-by-two matrix.
- * @param out The matrix.
- * @param m00 The value in the first column and first row.
- * @param m01 The value in the first column and second row.
- * @param m10 The value in the second column and first row.
- * @param m11 The value in the second column and second row.
- * @returns The matrix.
- * @see [Source](https://glmatrix.net/)
- */
-function set<T extends Matrix2Like>(out: T, m00: number, m01: number, m10: number, m11: number): T {
-	out[0] = m00;
-	out[1] = m01;
-	out[2] = m10;
-	out[3] = m11;
-	return out;
-}
-
-/**
- * Transposes a two-by-two matrix.
- * @param out The matrix to fill with the transpose.
- * @param a The matrix to transpose.
- * @returns The transposed matrix.
- * @see [Source](https://glmatrix.net/)
- */
-function transpose<T extends Matrix2Like>(out: T, a: Matrix2Like): T {
-	if (out === a) {
-		const a1: number = a[1];
-		out[1] = a[2];
-		out[2] = a1;
-		return out;
-	}
-
-	out[0] = a[0];
-	out[1] = a[2];
-	out[2] = a[1];
-	out[3] = a[3];
-	return out;
-}
-
-/**
- * Inverts a two-by-two matrix.
- * @param out The matrix to fill with the inverted matrix.
- * @param a The matrix to invert.
- * @returns The inverted matrix.
- * @see [Source](https://glmatrix.net/)
- */
-function invert<T extends Matrix2Like>(out: T, a: Matrix2Like): T {
-	const a0: number = a[0];
-	const a1: number = a[1];
-	const a2: number = a[2];
-	const a3: number = a[3];
-
-	// Calculate the determinant
-	let det: number = a0 * a3 - a2 * a1;
-	if (!det) {
-		throw new Error("Cannot invert the matrix.");
-	}
-	det = 1 / det;
-
-	out[0] = a3 * det;
-	out[1] = -a1 * det;
-	out[2] = -a2 * det;
-	out[3] = a0 * det;
-	return out;
-}
-
-/**
- * Calculates the adjugate of a two-by-two matrix.
- * @param out The matrix to fill with the adjugate.
- * @param a The matrix to calculate the adjugate of.
- * @returns The adjugate.
- * @see [Source](https://glmatrix.net/)
- */
-function adjoint<T extends Matrix2Like>(out: T, a: Matrix2Like): T {
-	const a0: number = a[0];
-	out[0] = a[3];
-	out[1] = -a[1];
-	out[2] = -a[2];
-	out[3] = a0;
-	return out;
-}
-
-/**
- * Calculates the determinant of a two-by-two matrix.
- * @param a The matrix.
- * @returns The determinant.
- * @see [Source](https://glmatrix.net/)
- */
-function determinant(a: Matrix2Like): number {
-	return a[0] * a[3] - a[2] * a[1];
-}
-
-/**
- * Multiplies two two-by-two matrices.
- * @param out The matrix to fill with the product.
- * @param a The multiplier.
- * @param b The multiplicand.
- * @returns The product.
- * @see [Source](https://glmatrix.net/)
- */
-function multiply<T extends Matrix2Like>(out: T, a: Matrix2Like, b: Matrix2Like): T {
-	const a0: number = a[0];
-	const a1: number = a[1];
-	const a2: number = a[2];
-	const a3: number = a[3];
-	const b0: number = b[0];
-	const b1: number = b[1];
-	const b2: number = b[2];
-	const b3: number = b[3];
-
-	out[0] = a0 * b0 + a2 * b1;
-	out[1] = a1 * b0 + a3 * b1;
-	out[2] = a0 * b2 + a2 * b3;
-	out[3] = a1 * b2 + a3 * b3;
-	return out;
-}
-
-/**
- * Rotates a two-by-two matrix around the Z-axis.
- * @param out The matrix to fill with the rotated matrix.
- * @param a The matrix to rotate.
- * @param rad The angle to rotate by in radians.
- * @returns The rotated matrix.
- * @see [Source](https://glmatrix.net/)
- */
-function rotate<T extends Matrix2Like>(out: T, a: Matrix2Like, rad: number): T {
-	const a0: number = a[0];
-	const a1: number = a[1];
-	const a2: number = a[2];
-	const a3: number = a[3];
-
-	const s: number = Math.sin(rad);
-	const c: number = Math.cos(rad);
-
-	out[0] = a0 * c + a2 * s;
-	out[1] = a1 * c + a3 * s;
-	out[2] = a0 * -s + a2 * c;
-	out[3] = a1 * -s + a3 * c;
-	return out;
-}
-
-/**
- * Scales a two-by-two matrix.
- * @param out The matrix to fill with the scaled matrix.
- * @param a The matrix to scale.
- * @param v The vector to scale by.
- * @returns The scaled matrix.
- * @see [Source](https://glmatrix.net/)
- */
-function scale<T extends Matrix2Like>(out: T, a: Matrix2Like, v: Vector2Like) {
-	const a0: number = a[0];
-	const a1: number = a[1];
-	const a2: number = a[2];
-	const a3: number = a[3];
-
-	const v0: number = v[0];
-	const v1: number = v[1];
-
-	out[0] = a0 * v0;
-	out[1] = a1 * v0;
-	out[2] = a2 * v1;
-	out[3] = a3 * v1;
-	return out;
-}
-
-/**
- * Creates a two-by-two matrix from a rotation around the Z-axis.
- * @param out The matrix to fill with the rotation matrix.
- * @param rad The amount to rotate by in radians.
- * @returns The rotation matrix.
- * @see [Source](https://glmatrix.net/)
- */
-function fromRotation<T extends Matrix2Like>(out: T, rad: number): T {
-	const s: number = Math.sin(rad);
-	const c: number = Math.cos(rad);
-
-	out[0] = c;
-	out[1] = s;
-	out[2] = -s;
-	out[3] = c;
-	return out;
-}
-
-/**
- * Creates a two-by-two matrix from a scaling amount.
- * @param out The matrix to fill with the scaling matrix.
- * @param v The vector to scale by.
- * @returns The scaling matrix.
- * @see [Source](https://glmatrix.net/)
- */
-function fromScaling<T extends Matrix2Like>(out: T, v: Vector2Like): T {
-	out[0] = v[0];
-	out[1] = 0;
-	out[2] = 0;
-	out[3] = v[1];
-	return out;
-}
-
-/**
- * Calculates the Frobenius normal of a two-by-two matrix.
- * @param a The matrix.
- * @returns The Frobenius normal.
- * @see [Source](https://glmatrix.net/)
- */
-function frob(a: Matrix2Like): number {
-	return Math.hypot(a[0], a[1], a[2], a[3]);
-}
-
-/**
- * Adds two two-by-two matrices.
- * @param out The matrix to fill with the sum.
- * @param a The augend.
- * @param b The addend.
- * @returns The sum.
- * @see [Source](https://glmatrix.net/)
- */
-function add<T extends Matrix2Like>(out: T, a: Matrix2Like, b: Matrix2Like): T {
-	out[0] = a[0] + b[0];
-	out[1] = a[1] + b[1];
-	out[2] = a[2] + b[2];
-	out[3] = a[3] + b[3];
-	return out;
-}
-
-/**
- * Subtracts one two-by-two matrix from another.
- * @param out The matrix to fill with the difference.
- * @param a The minuend.
- * @param b The subtrahend.
- * @returns The difference.
- * @see [Source](https://glmatrix.net/)
- */
-function subtract<T extends Matrix2Like>(out: T, a: Matrix2Like, b: Matrix2Like): T {
-	out[0] = a[0] - b[0];
-	out[1] = a[1] - b[1];
-	out[2] = a[2] - b[2];
-	out[3] = a[3] - b[3];
-	return out;
-}
-
-/**
- * Determines whether two two-by-two matrices are exactly equivalent.
- * @param a The first matrix.
- * @param b The second matrix.
- * @returns Whether the matrices are exactly equivalent.
- * @see [Source](https://glmatrix.net/)
- */
-function exactEquals(a: Matrix2Like, b: Matrix2Like): boolean {
-	return a[0] === b[0] && a[1] === b[1] && a[2] === b[2] && a[3] === b[3];
-}
-
-/**
- * Determines whether two two-by-two matrices are roughly equivalent.
- * @param a The first matrix.
- * @param b The second matrix.
- * @returns Whether the matrices are roughly equivalent.
- * @see [Source](https://glmatrix.net/)
- */
-function equals(a: Matrix2Like, b: Matrix2Like): boolean {
-	const a0: number = a[0];
-	const a1: number = a[1];
-	const a2: number = a[2];
-	const a3: number = a[3];
-	const b0: number = b[0];
-	const b1: number = b[1];
-	const b2: number = b[2];
-	const b3: number = b[3];
-
-	return Math.abs(a0 - b0) <= matrixEpsilon * Math.max(1, Math.abs(a0), Math.abs(b0))
-		&& Math.abs(a1 - b1) <= matrixEpsilon * Math.max(1, Math.abs(a1), Math.abs(b1))
-		&& Math.abs(a2 - b2) <= matrixEpsilon * Math.max(1, Math.abs(a2), Math.abs(b2))
-		&& Math.abs(a3 - b3) <= matrixEpsilon * Math.max(1, Math.abs(a3), Math.abs(b3));
-}
-
-/**
- * Multiplies a two-by-two matrix by a scalar.
- * @param out The matrix to fill with the product.
- * @param a The multiplier.
- * @param b The multiplicand.
- * @returns The product.
- * @see [Source](https://glmatrix.net/)
- */
-function multiplyScalar<T extends Matrix2Like>(out: T, a: Matrix2Like, b: number): T {
-	out[0] = a[0] * b;
-	out[1] = a[1] * b;
-	out[2] = a[2] * b;
-	out[3] = a[3] * b;
-	return out;
-}
-
-/**
- * Adds two two-by-two matrices after multiplying the addend by a scalar.
- * @param out The matrix to fill with the sum.
- * @param a The augend.
- * @param b The addend.
- * @param scale The scalar.
- * @returns The sum.
- * @see [Source](https://glmatrix.net/)
- */
-function multiplyScalarAndAdd<T extends Matrix2Like>(out: T, a: Matrix2Like, b: Matrix2Like, scale: number): T {
-	out[0] = a[0] + b[0] * scale;
-	out[1] = a[1] + b[1] * scale;
-	out[2] = a[2] + b[2] * scale;
-	out[3] = a[3] + b[3] * scale;
-	return out;
-}
-
 /** A two-by-two matrix. */
 export default class Matrix2 extends Float32Array implements SquareMatrix {
 	/**
 	 * Creates a two-by-two matrix.
-	 * @param m00 The value in the first column and first row.
-	 * @param m01 The value in the first column and second row.
-	 * @param m10 The value in the second column and first row.
-	 * @param m11 The value in the second column and second row.
+	 * @param c0r0 The value in the first column and first row.
+	 * @param c0r1 The value in the first column and second row.
+	 * @param c1r0 The value in the second column and first row.
+	 * @param c1r1 The value in the second column and second row.
 	 */
-	public static fromValues(m00: number, m01: number, m10: number, m11: number): Matrix2 {
-		return fromValues(m00, m01, m10, m11);
-	}
+	public constructor(c0r0 = 1, c0r1 = 0, c1r0 = 0, c1r1 = 1) {
+		super([
+			c0r0, c0r1,
+			c1r0, c1r1
+		]);
 
-	/**
-	 * Creates a matrix that rotates by the given amount around the Z-axis.
-	 * @param radians The amount to rotate by in radians.
-	 * @returns The matrix.
-	 */
-	public static fromRotation(radians: number): Matrix2 {
-		return fromRotation(new Matrix2(), radians);
-	}
-
-	/**
-	 * Creates a matrix that scales by the given amount.
-	 * @param vector The vector to scale by.
-	 * @returns The matrix.
-	 */
-	public static fromScaling(vector: Vector2Like): Matrix2 {
-		return fromScaling(new Matrix2(), vector);
-	}
-
-	/** Creates a two-by-two identity matrix. */
-	public constructor() {
-		super(4);
-		this[0] = 1;
-		this[3] = 1;
 		this.width = 2;
 		this.height = 2;
 	}
 
 	/** The number of columns in this matrix. */
-	public readonly width: number;
+	public readonly width: 2;
 
 	/** The number of rows in this matrix. */
-	public readonly height: number;
+	public readonly height: 2;
 
 	/**
 	 * Gets the value at the given position in this matrix.
-	 * @param row The row of the value.
-	 * @param column The column of the value.
+	 * @param r The row of the value.
+	 * @param c The column of the value.
 	 * @returns The value at the specified position.
 	 */
-	public get(row: number, column: number): number | undefined {
-		return this[column * this.height + row];
+	public get(r: number, c: number): number | undefined {
+		return this[c * this.height + r];
 	}
 
 	/**
 	 * Sets the value at the given position in this matrix.
-	 * @param row The row of the value.
-	 * @param column The column of the value.
-	 * @param value The value.
+	 * @param r The row of the value.
+	 * @param c The column of the value.
+	 * @param v The value.
 	 */
-	public put(row: number, column: number, value: number): void {
-		this[column * this.height + row] = value;
+	public put(r: number, c: number, v: number): void {
+		this[c * this.height + r] = v;
 	}
 
 	/**
-	 * Determines whether this matrix is roughly equivalent to another.
-	 * @param matrix The other matrix.
-	 * @returns Whether the matrices are roughly equivalent.
+	 * Determines whether this matrix is equivalent to another.
+	 * @param m The other matrix.
+	 * @returns Whether the matrices are equivalent.
 	 */
-	public equals(matrix: Matrix2Like): boolean {
-		return equals(this, matrix);
-	}
+	public equals(m: Matrix2Like): boolean {
+		for (let i = 0; i < this.length; i++) {
+			if (this[i] != m[i]) {
+				return false;
+			}
+		}
 
-	/**
-	 * Determines whether this matrix is exactly equivalent to another.
-	 * @param matrix The other matrix.
-	 * @returns Whether the matrices are exactly equivalent.
-	 */
-	public exactEquals(matrix: Matrix2Like): boolean {
-		return exactEquals(this, matrix);
+		return true;
 	}
 
 	/**
 	 * Adds two matrices of the same size.
-	 * @param matrix The other matrix.
+	 * @param m The other matrix.
 	 * @returns The sum of the matrices.
 	 */
-	public add(matrix: Matrix2Like): this {
-		return add(this, this, matrix);
+	public add(m: Matrix2Like): Matrix2;
+
+	/**
+	 * Adds two matrices of the same size.
+	 * @param m The other matrix.
+	 * @param out The matrix to store the result in.
+	 * @returns The sum of the matrices.
+	 */
+	public add<T extends Matrix2Like>(m: Matrix2Like, out: T): T;
+
+	public add<T extends Matrix2Like>(m: Matrix2Like, out: T = new Matrix2() as T): T {
+		for (let i = 0; i < m.length; i++) {
+			out[i] = (this[i] as number) + (m[i] as number);
+		}
+
+		return out;
 	}
 
 	/**
 	 * Calculates the adjugate of this matrix.
 	 * @returns The adjugate of this matrix.
 	 */
-	public adjoint(): this {
-		return adjoint(this, this);
+	public adjoint(): Matrix2;
+
+	/**
+	 * Calculates the adjugate of this matrix.
+	 * @param out The matrix to store the result in.
+	 * @returns The adjugate of this matrix.
+	 */
+	public adjoint<T extends Matrix2Like>(out: T): T;
+
+	public adjoint<T extends Matrix2Like>(out: T = new Matrix2() as T): T {
+		[out[0], out[3]] = [out[3], out[0]];
+		out[1] = -out[1];
+		out[2] = -out[2];
+		return out;
 	}
 
 	/**
@@ -483,81 +114,153 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	 * @returns A copy of this matrix.
 	 */
 	public clone(): Matrix2 {
-		return clone(this);
+		return new Matrix2(...this);
 	}
 
 	/**
 	 * Copies the values of another matrix into this one.
-	 * @param matrix The matrix to copy.
+	 * @param m The matrix to copy.
 	 * @returns This matrix.
 	 */
-	public copy(matrix: Matrix2Like): this {
-		return copy(this, matrix);
+	public copy(m: Matrix2Like): this {
+		for (let i = 0; i < this.length; i++) {
+			this[i] = m[i] as number;
+		}
+
+		return this;
 	}
 
 	/** The Frobenius normal of this matrix. */
 	public get frob(): number {
-		return frob(this);
+		return Math.hypot(...this);
 	}
 
 	/**
 	 * Multiplies this matrix by another.
-	 * @param matrix The other matrix.
+	 * @param m The other matrix.
 	 * @returns The product of the matrices.
 	 */
-	public multiply(matrix: Matrix2Like): this {
-		return multiply(this, this, matrix);
+	public multiply(m: Matrix2Like): Matrix2;
+
+	/**
+	 * Multiplies this matrix by another.
+	 * @param m The other matrix.
+	 * @param out The matrix to store the result in.
+	 * @returns The product of the matrices.
+	 */
+	public multiply<T extends Matrix2Like>(m: Matrix2Like, out: T): T;
+
+	public multiply<T extends Matrix2Like>(m: Matrix2Like, out: T = new Matrix2() as T): T {
+		out[0] = (this[0] as number) * m[0] + (this[2] as number) * m[1];
+		out[1] = (this[1] as number) * m[0] + (this[3] as number) * m[1];
+		out[2] = (this[0] as number) * m[2] + (this[2] as number) * m[3];
+		out[3] = (this[1] as number) * m[2] + (this[3] as number) * m[3];
+		return out;
 	}
 
 	/**
 	 * Multiplies this matrix by a scalar value.
-	 * @param scalar The scalar value.
+	 * @param s The scalar value.
 	 * @returns The product of the matrix and the scalar value.
 	 */
-	public multiplyScalar(scalar: number): this {
-		return multiplyScalar(this, this, scalar);
+	public multiplyScalar(s: number): Matrix2;
+
+	/**
+	 * Multiplies this matrix by a scalar value.
+	 * @param s The scalar value.
+	 * @param out The matrix to store the result in.
+	 * @returns The product of the matrix and the scalar value.
+	 */
+	public multiplyScalar<T extends Matrix2Like>(s: number, out: T): T;
+
+	public multiplyScalar<T extends Matrix2Like>(s: number, out: T = new Matrix2() as T): T {
+		for (let i = 0; i < this.length; i++) {
+			out[i] = (this[i] as number) * s;
+		}
+
+		return out;
 	}
 
 	/**
 	 * Adds this matrix to another after multiplying the other by a scalar.
-	 * @param matrix The other matrix.
-	 * @param scalar The scalar.
+	 * @param m The other matrix.
+	 * @param s The scalar.
 	 * @returns The sum.
 	 */
-	public multiplyScalarAndAdd(matrix: Matrix2Like, scalar: number): this {
-		return multiplyScalarAndAdd(this, this, matrix, scalar);
+	public multiplyScalarAndAdd(m: Matrix2Like, s: number): Matrix2;
+
+	/**
+	 * Adds this matrix to another after multiplying the other by a scalar.
+	 * @param m The other matrix.
+	 * @param s The scalar.
+	 * @param out The matrix to store the result in.
+	 * @returns The sum.
+	 */
+	public multiplyScalarAndAdd<T extends Matrix2Like>(m: Matrix2Like, s: number, out: T): T;
+
+	public multiplyScalarAndAdd<T extends Matrix2Like>(m: Matrix2Like, s: number, out: T = new Matrix2() as T): T {
+		for (let i = 0; i < this.length; i++) {
+			out[i] = (this[i] as number) + (m[i] as number) * s;
+		}
+
+		return out;
 	}
 
 	/**
 	 * Subtracts another matrix from this one.
-	 * @param matrix The other matrix.
+	 * @param m The other matrix.
 	 * @returns The difference between the matrices.
 	 */
-	public subtract(matrix: Matrix2Like): this {
-		return subtract(this, this, matrix);
+	public subtract(m: Matrix2Like): Matrix2;
+
+	/**
+	 * Subtracts another matrix from this one.
+	 * @param m The other matrix.
+	 * @param out The matrix to store the result in.
+	 * @returns The difference between the matrices.
+	 */
+	public subtract<T extends Matrix2Like>(m: Matrix2Like, out: T): T;
+
+	public subtract<T extends Matrix2Like>(m: Matrix2Like, out: T = new Matrix2() as T): T {
+		for (let i = 0; i < m.length; i++) {
+			out[i] = (this[i] as number) - (m[i] as number);
+		}
+
+		return out;
 	}
 
 	/**
 	 * Transposes this matrix.
 	 * @returns The transpose of this matrix.
 	 */
-	public transpose(): this {
-		return transpose(this, this);
+	public transpose(): Matrix2;
+
+	/**
+	 * Transposes this matrix.
+	 * @param out The matrix to store the result in.
+	 * @returns The transpose of this matrix.
+	 */
+	public transpose<T extends Matrix2Like>(out: T): T;
+
+	public transpose<T extends Matrix2Like>(out: T = new Matrix2() as T): T {
+		out[0] = this[0] as number;
+		out[1] = this[2] as number;
+		out[2] = this[1] as number;
+		out[3] = this[3] as number;
+		return out;
 	}
 
 	/**
-	 * Creates a matrix by removing the specified row and column from this matrix.
-	 * @param row The row to remove.
-	 * @param col The column to remove.
-	 * @returns A submatrix.
+	 * This matrix is too small to get a submatrix.
+	 * @returns Never.
 	 */
 	public submatrix(): never {
-		throw new Error("Cannot get a submatrix of a two-by-two matrix.");
+		throw new Error("Matrix too small.");
 	}
 
 	/** The determinant of this matrix. */
 	public get determinant(): number {
-		return determinant(this);
+		return (this[0] as number) * (this[3] as number) - (this[2] as number) * (this[1] as number);
 	}
 
 	/**
@@ -565,62 +268,40 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	 * @returns This matrix.
 	 */
 	public identity(): this {
-		return identity(this);
+		this[0] = 1;
+		this[2] = 0;
+		this[3] = 0;
+		this[4] = 1;
+		return this;
 	}
 
 	/**
 	 * Inverts this matrix.
-	 * @returns This matrix.
+	 * @returns The inverted matrix.
 	 */
-	public invert(): this {
-		return invert(this, this);
-	}
+	public invert(): Matrix2;
 
 	/**
-	 * Sets the values in this matrix.
-	 * @param m00 The value in the first column and first row.
-	 * @param m01 The value in the first column and second row.
-	 * @param m10 The value in the second column and first row.
-	 * @param m11 The value in the second column and second row.
-	 * @returns This matrix.
+	 * Inverts this matrix.
+	 * @param out The matrix to store the result in.
+	 * @returns The inverted matrix.
 	 */
-	public fromValues(m00: number, m01: number, m10: number, m11: number): this {
-		return set(this, m00, m01, m10, m11);
+	public invert<T extends Matrix2Like>(out: T): T;
+
+	public invert<T extends Matrix2Like>(out: T = new Matrix2() as T): T {
+		const d: number = this.determinant;
+		out[0] = (this[3] as number) * d;
+		out[1] = -(this[1] as number) * d;
+		out[2] = -(this[2] as number) * d;
+		out[3] = (this[0] as number) * d;
+		return out;
 	}
 
-	/**
-	 * Rotates this matrix around the Z-axis.
-	 * @param radians The amount to rotate by in radians.
-	 * @returns This matrix.
-	 */
-	public rotate(radians: number): this {
-		return rotate(this, this, radians);
-	}
+	// TODO: rotate: https://glmatrix.net/docs/mat2.js.html
 
-	/**
-	 * Scales this matrix.
-	 * @param vector The vector to scale by.
-	 * @returns This matrix.
-	 */
-	public scale(vector: Vector2Like): this {
-		return scale(this, this, vector);
-	}
+	// TODO: scale: https://glmatrix.net/docs/mat2.js.html
 
-	/**
-	 * Sets this matrix to rotate by the given amount around the Z-axis.
-	 * @param radians The amount to rotate by in radians.
-	 * @returns This matrix.
-	 */
-	public fromRotation(radians: number): this {
-		return fromRotation(this, radians);
-	}
+	// TODO: fromRotation: https://glmatrix.net/docs/mat2.js.html
 
-	/**
-	 * Sets this matrix to scale by the given amount.
-	 * @param vector The vector to scale by.
-	 * @returns This matrix.
-	 */
-	public fromScaling(vector: Vector2Like): this {
-		return fromScaling(this, vector);
-	}
+	// TODO: fromScaling: https://glmatrix.net/docs/mat2.js.html
 }
