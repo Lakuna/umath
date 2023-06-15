@@ -1054,4 +1054,34 @@ export default class Quaternion extends Float32Array {
 	public lerp(quaternion: QuaternionLike, amount: number): this {
 		return lerp(this, this, quaternion, amount);
 	}
+
+	/** The length of this quaternion. */
+	get magnitude(): number {
+		return length(this);
+	}
+
+	/** * The squared length of this quaternion. */
+	get squaredLength(): number {
+		return squaredLength(this);
+	}
+
+	/**
+	 * Normalizes this quaternion.
+	 * @returns The normalized quaternion.
+	 */
+	normalize(): this {
+		return normalize(this, this);
+	}
+
+	/*
+	// TODO: Use the following format for methods.
+
+	foo(a: QuaternionLike, b: QuaternionLike): QuaternionLike;
+
+	foo<T extends QuaternionLike>(a: QuaternionLike, b: QuaternionLike, out: T): T;
+
+	foo<T extends QuaternionLike>(a: QuaternionLike, b: QuaternionLike, out: T = new Quaternion() as T): T {
+		return out;
+	}
+	*/
 }
