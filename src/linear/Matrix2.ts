@@ -1,4 +1,5 @@
 import type SquareMatrix from "./SquareMatrix.js";
+import type { Vector2Like } from "./Vector2.js";
 
 /** Numbers arranged into two columns and two rows. */
 export type Matrix2Like = Matrix2 | [
@@ -290,6 +291,7 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 
 	public invert<T extends Matrix2Like>(out: T = new Matrix2() as T): T {
 		const d: number = this.determinant;
+		
 		out[0] = (this[3] as number) * d;
 		out[1] = -(this[1] as number) * d;
 		out[2] = -(this[2] as number) * d;
@@ -297,9 +299,43 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 		return out;
 	}
 
-	// TODO: rotate: https://glmatrix.net/docs/mat2.js.html
+	/**
+	 * Rotates this matrix by the given angle.
+	 * @param r The angle in radians.
+	 * @returns The rotated matrix.
+	 */
+	public rotate(r: number): Matrix2;
 
-	// TODO: scale: https://glmatrix.net/docs/mat2.js.html
+	/**
+	 * Rotates this matrix by the given angle.
+	 * @param r The angle in radians.
+	 * @param out The matrix to store the result in.
+	 * @returns The rotated matrix.
+	 */
+	public rotate<T extends Matrix2Like>(r: number, out: T): T;
+
+	public rotate<T extends Matrix2Like>(r: number, out: T = new Matrix2() as T): T {
+		const s: number = Math.sin(r);
+		const c: number = Math.cos(r);
+
+		out[0] = (this[0] as number) * c + (this[2] as number) * s;
+		out[0] = (this[1] as number) * c + (this[3] as number) * s;
+		out[0] = (this[0] as number) * -s + (this[2] as number) * c;
+		out[0] = (this[1] as number) * -s + (this[3] as number) * c;
+		return out;
+	}
+
+	public scale(v: Vector2Like): Matrix2;
+
+	public scale<T extends Matrix2Like>(v: Vector2Like, out: T): T;
+
+	public scale<T extends Matrix2Like>(v: Vector2Like, out: T = new Matrix2() as T): T {
+		out[0] = (this[0] as number) * v[0];
+		out[1] = (this[1] as number) * v[0];
+		out[2] = (this[2] as number) * v[1];
+		out[3] = (this[3] as number) * v[1];
+		return out;
+	}
 
 	// TODO: fromRotation: https://glmatrix.net/docs/mat2.js.html
 
