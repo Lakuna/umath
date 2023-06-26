@@ -10,6 +10,55 @@ export type Matrix2Like = Matrix2 | [
 /** A two-by-two matrix. */
 export default class Matrix2 extends Float32Array implements SquareMatrix {
 	/**
+	 * Creates a transformation matrix that represents a rotation by the given angle around the Z-axis.
+	 * @param r The angle in radians.
+	 * @returns The transformation matrix.
+	 */
+	public static fromRotation(r: number): Matrix2;
+
+	/**
+	 * Creates a transformation matrix that represents a rotation by the given angle around the Z-axis.
+	 * @param r The angle in radians.
+	 * @param out The matrix to store the result in.
+	 * @returns The transformation matrix.
+	 */
+	public static fromRotation<T extends Matrix2Like>(r: number, out: T): T;
+
+	public static fromRotation<T extends Matrix2Like>(r: number, out: T = new Matrix2() as T): T {
+		const s: number = Math.sin(r);
+		const c: number = Math.cos(r);
+
+		out[0] = c;
+		out[1] = s;
+		out[2] = -s;
+		out[3] = c;
+		return out;
+	}
+
+	/**
+	 * Creates a transformation matrix that represents a scaling by the given vector.
+	 * @param v The scaling vector.
+	 * @returns The transformation matrix.
+	 */
+	public static fromScaling(v: Vector2Like): Matrix2;
+
+	/**
+	 * Creates a transformation matrix that represents a scaling by the given vector.
+	 * @param v The scaling vector.
+	 * @param out The matrix to store the result in.
+	 * @returns The transformation matrix.
+	 */
+	public static fromScaling<T extends Matrix2Like>(v: Vector2Like, out: T): T;
+
+	public static fromScaling<T extends Matrix2Like>(v: Vector2Like, out: T = new Matrix2() as T): T {
+		out[0] = v[0];
+		out[1] = 0;
+		out[2] = 0;
+		out[3] = v[1];
+		return out;
+	}
+	
+	/**
 	 * Creates a two-by-two matrix.
 	 * @param c0r0 The value in the first column and first row.
 	 * @param c0r1 The value in the first column and second row.
@@ -325,8 +374,19 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 		return out;
 	}
 
+	/**
+	 * Scales this matrix by the given vector.
+	 * @param v The scaling vector.
+	 * @returns The scaled matrix.
+	 */
 	public scale(v: Vector2Like): Matrix2;
 
+	/**
+	 * Scales this matrix by the given vector.
+	 * @param v The scaling vector.
+	 * @param out The matrix to store the result in.
+	 * @returns The scaled matrix.
+	 */
 	public scale<T extends Matrix2Like>(v: Vector2Like, out: T): T;
 
 	public scale<T extends Matrix2Like>(v: Vector2Like, out: T = new Matrix2() as T): T {
@@ -336,8 +396,4 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 		out[3] = (this[3] as number) * v[1];
 		return out;
 	}
-
-	// TODO: fromRotation: https://glmatrix.net/docs/mat2.js.html
-
-	// TODO: fromScaling: https://glmatrix.net/docs/mat2.js.html
 }
