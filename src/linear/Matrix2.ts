@@ -1,3 +1,4 @@
+import SingularMatrixError from "../utility/SingularMatrixError.js";
 import type SquareMatrix from "./SquareMatrix.js";
 import type { Vector2Like } from "./Vector2.js";
 
@@ -57,19 +58,42 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 		out[3] = v[1];
 		return out;
 	}
-	
+
 	/**
-	 * Creates a two-by-two matrix.
+	 * Creates a two-by-two matrix with the given values.
 	 * @param c0r0 The value in the first column and first row.
 	 * @param c0r1 The value in the first column and second row.
 	 * @param c1r0 The value in the second column and first row.
 	 * @param c1r1 The value in the second column and second row.
+	 * @returns The transformation matrix.
 	 */
-	public constructor(c0r0 = 1, c0r1 = 0, c1r0 = 0, c1r1 = 1) {
-		super([
-			c0r0, c0r1,
-			c1r0, c1r1
-		]);
+	public static fromValues(c0r0: number, c0r1: number, c1r0: number, c1r1: number): Matrix2;
+
+	/**
+	 * Creates a two-by-two matrix with the given values.
+	 * @param c0r0 The value in the first column and first row.
+	 * @param c0r1 The value in the first column and second row.
+	 * @param c1r0 The value in the second column and first row.
+	 * @param c1r1 The value in the second column and second row.
+	 * @param out The matrix to store the result in.
+	 * @returns The transformation matrix.
+	 */
+	public static fromValues<T extends Matrix2Like>(c0r0: number, c0r1: number, c1r0: number, c1r1: number, out: T): T;
+
+	public static fromValues<T extends Matrix2Like>(c0r0: number, c0r1: number, c1r0: number, c1r1: number, out: T = new Matrix2() as T): T {
+		out[0] = c0r0;
+		out[1] = c0r1;
+		out[2] = c1r0;
+		out[3] = c1r1;
+		return out;
+	}
+
+	/** Creates a two-by-two identity matrix. */
+	public constructor() {
+		super(4);
+
+		this[0] =  1;
+		this[3] = 1;
 
 		this.width = 2;
 		this.height = 2;
@@ -150,9 +174,11 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	public adjoint<T extends Matrix2Like>(out: T): T;
 
 	public adjoint<T extends Matrix2Like>(out: T = new Matrix2() as T): T {
-		[out[0], out[3]] = [out[3], out[0]];
-		out[1] = -out[1];
-		out[2] = -out[2];
+		const a0: number = this[0] as number;
+		out[0] = this[3] as number;
+		out[1] = -(this[1] as number);
+		out[2] = -(this[2] as number);
+		out[3] = a0;
 		return out;
 	}
 
@@ -161,10 +187,12 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	 * @returns A copy of this matrix.
 	 */
 	public clone(): Matrix2 {
-		return new Matrix2(
-			this[0], this[1],
-			this[2], this[3]
-		);
+		const out: Matrix2 = new Matrix2();
+		out[0] = this[0] as number;
+		out[1] = this[1] as number;
+		out[2] = this[2] as number;
+		out[3] = this[3] as number;
+		return out;
 	}
 
 	/**
@@ -204,13 +232,20 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	public multiply<T extends Matrix2Like>(m: Matrix2Like, out: T): T;
 
 	public multiply<T extends Matrix2Like>(m: Matrix2Like, out: T = new Matrix2() as T): T {
-		[out[0], out[1], out[2], out[3]] = [
-			(this[0] as number) * m[0] + (this[2] as number) * m[1],
-			(this[1] as number) * m[0] + (this[3] as number) * m[1],
+		const a0: number = this[0] as number;
+		const a1: number = this[1] as number;
+		const a2: number = this[2] as number;
+		const a3: number = this[3] as number;
 
-			(this[0] as number) * m[2] + (this[2] as number) * m[3],
-			(this[1] as number) * m[2] + (this[3] as number) * m[3]
-		];
+		const b0: number = m[0];
+		const b1: number = m[1];
+		const b2: number = m[2];
+		const b3: number = m[3];
+
+		out[0] = a0 * b0 + a2 * b1;
+		out[1] = a1 * b0 + a3 * b1;
+		out[2] = a0 * b2 + a2 * b3;
+		out[3] = a1 * b2 + a3 * b3;
 		return out;
 	}
 
@@ -299,18 +334,17 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	public transpose<T extends Matrix2Like>(out: T): T;
 
 	public transpose<T extends Matrix2Like>(out: T = new Matrix2() as T): T {
-		out[0] = this[0] as number;
-		[out[1], out[2]] = [this[2] as number, this[1] as number];
-		out[3] = this[3] as number;
+		if (out == this as unknown as T) {
+			const a1 = this[1] as number;
+			out[1] = this[2] as number;
+			out[2] = a1;
+		} else {
+			out[0] = this[0] as number;
+			out[1] = this[2] as number;
+			out[2] = this[1] as number;
+			out[3] = this[3] as number;
+		}
 		return out;
-	}
-
-	/**
-	 * This matrix is too small to get a submatrix.
-	 * @returns Never.
-	 */
-	public submatrix(): never {
-		throw new Error("Matrix too small.");
 	}
 
 	/** The determinant of this matrix. */
@@ -344,11 +378,21 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	public invert<T extends Matrix2Like>(out: T): T;
 
 	public invert<T extends Matrix2Like>(out: T = new Matrix2() as T): T {
-		const d: number = this.determinant;
+		const a0: number = this[0] as number;
+		const a1: number = this[1] as number;
+		const a2: number = this[2] as number;
+		const a3: number = this[3] as number;
 		
-		[out[0], out[3]] = [(this[3] as number) * d, (this[0] as number) * d];
-		out[1] = -(this[1] as number) * d;
-		out[2] = -(this[2] as number) * d;
+		let det: number = a0 * a3 - a2 * a1;
+		if (!det) {
+			throw new SingularMatrixError();
+		}
+		det = 1 / det;
+
+		out[0] = a3 * det;
+		out[1] = -a1 * det;
+		out[2] = -a2 * det;
+		out[3] = a0 * det;
 		return out;
 	}
 
@@ -368,16 +412,18 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	public rotate<T extends Matrix2Like>(r: number, out: T): T;
 
 	public rotate<T extends Matrix2Like>(r: number, out: T = new Matrix2() as T): T {
+		const a0: number = this[0] as number;
+		const a1: number = this[1] as number;
+		const a2: number = this[2] as number;
+		const a3: number = this[3] as number;
+
 		const s: number = Math.sin(r);
 		const c: number = Math.cos(r);
 
-		[out[0], out[1], out[2], out[3]] = [
-			(this[0] as number) * c + (this[2] as number) * s,
-			(this[1] as number) * c + (this[3] as number) * s,
-			
-			(this[0] as number) * -s + (this[2] as number) * c,
-			(this[1] as number) * -s + (this[3] as number) * c
-		];
+		out[0] = a0 * c + a2 * s;
+		out[1] = a1 * c + a3 * s;
+		out[2] = a0 * -s + a2 * c;
+		out[3] = a1 * -s + a3 * c;
 		return out;
 	}
 
@@ -397,10 +443,13 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	public scale<T extends Matrix2Like>(v: Vector2Like, out: T): T;
 
 	public scale<T extends Matrix2Like>(v: Vector2Like, out: T = new Matrix2() as T): T {
-		out[0] = (this[0] as number) * v[0];
-		out[1] = (this[1] as number) * v[0];
-		out[2] = (this[2] as number) * v[1];
-		out[3] = (this[3] as number) * v[1];
+		const v0: number = v[0];
+		const v1: number = v[1];
+
+		out[0] = (this[0] as number) * v0;
+		out[1] = (this[1] as number) * v0;
+		out[2] = (this[2] as number) * v1;
+		out[3] = (this[3] as number) * v1;
 		return out;
 	}
 }
