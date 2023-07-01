@@ -1,10 +1,10 @@
-import type FieldOfView from "../types/FieldOfView.js";
-import SingularMatrixError from "../utility/SingularMatrixError.js";
-import epsilon from "../utility/epsilon.js";
-import type { DualQuaternionLike } from "./DualQuaternion.js";
-import type { QuaternionLike } from "./Quaternion.js";
-import type SquareMatrix from "./SquareMatrix.js";
-import type { Vector3Like } from "./Vector3.js";
+import type FieldOfView from "@lakuna/umath/types/FieldOfView.js";
+import SingularMatrixError from "@lakuna/umath/utility/SingularMatrixError.js";
+import epsilon from "@lakuna/umath/utility/epsilon.js";
+import type { DualQuaternionLike } from "@lakuna/umath/linear/DualQuaternion.js";
+import type { QuaternionLike } from "@lakuna/umath/linear/Quaternion.js";
+import type SquareMatrix from "@lakuna/umath/linear/SquareMatrix.js";
+import type { Vector3Like } from "@lakuna/umath/linear/Vector3.js";
 
 /** Numbers arranged into four columns and four rows. */
 export type Matrix4Like = Matrix4 | [

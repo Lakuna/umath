@@ -1,7 +1,7 @@
-import SingularMatrixError from "../utility/SingularMatrixError.js";
-import epsilon from "../utility/epsilon.js";
-import type SquareMatrix from "./SquareMatrix.js";
-import type { Vector2Like } from "./Vector2.js";
+import SingularMatrixError from "@lakuna/umath/utility/SingularMatrixError.js";
+import epsilon from "@lakuna/umath/utility/epsilon.js";
+import type SquareMatrix from "@lakuna/umath/linear/SquareMatrix.js";
+import type { Vector2Like } from "@lakuna/umath/linear/Vector2.js";
 
 /** Numbers arranged into two columns and two rows. */
 export type Matrix2Like = Matrix2 | [

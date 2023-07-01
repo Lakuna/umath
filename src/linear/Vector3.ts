@@ -1,4 +1,4 @@
-import type Vector from "./Vector.js";
+import type Vector from "@lakuna/umath/linear/Vector.js";
 
 /** A quantity with magnitude and direction in three dimensions. */
 export type Vector3Like = Vector3 | [number, number, number];

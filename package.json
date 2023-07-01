@@ -27,7 +27,7 @@
 	"main": "./dist/index.js",
 	"browser": "./dist/index.js",
 	"exports": {
-		".": "./dist/index.js"
+		"./*": "./dist/*"
 	},
 	"types": "./dist/index.d.ts",
 	"repository": {

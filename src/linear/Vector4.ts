@@ -1,4 +1,4 @@
-import type Vector from "./Vector.js";
+import type Vector from "@lakuna/umath/linear/Vector.js";
 
 /** A quantity with magnitude and direction in four dimensions. */
 export type Vector4Like = Vector4 | [number, number, number, number];

@@ -1,4 +1,4 @@
-import type Matrix from "./Matrix.js";
+import type Matrix from "@lakuna/umath/linear/Matrix.js";
 
 /** A matrix with the same number of rows and columns. */
 export default interface SquareMatrix extends Matrix {
