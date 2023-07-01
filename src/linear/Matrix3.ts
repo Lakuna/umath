@@ -1,4 +1,5 @@
 import SingularMatrixError from "../utility/SingularMatrixError.js";
+import epsilon from "../utility/epsilon.js";
 import type { Matrix4Like } from "./Matrix4.js";
 import type { QuaternionLike } from "./Quaternion.js";
 import type SquareMatrix from "./SquareMatrix.js";
@@ -351,11 +352,48 @@ export default class Matrix3 extends Float32Array implements SquareMatrix {
 	}
 
 	/**
-	 * Determines whether this matrix is equivalent to another.
+	 * Determines whether this matrix is roughly equivalent to another.
 	 * @param m The other matrix.
 	 * @returns Whether the matrices are equivalent.
 	 */
 	public equals(m: Matrix3Like): boolean {
+		const a0: number = this[0] as number;
+		const a1: number = this[1] as number;
+		const a2: number = this[2] as number;
+		const a3: number = this[3] as number;
+		const a4: number = this[4] as number;
+		const a5: number = this[5] as number;
+		const a6: number = this[6] as number;
+		const a7: number = this[7] as number;
+		const a8: number = this[8] as number;
+
+		const b0: number = m[0];
+		const b1: number = m[1];
+		const b2: number = m[2];
+		const b3: number = m[3];
+		const b4: number = m[4];
+		const b5: number = m[5];
+		const b6: number = m[6];
+		const b7: number = m[7];
+		const b8: number = m[8];
+
+		return (Math.abs(a0 - b0) <= epsilon * Math.max(1, Math.abs(a0), Math.abs(b0))
+			&& Math.abs(a1 - b1) <= epsilon * Math.max(1, Math.abs(a1), Math.abs(b1))
+			&& Math.abs(a2 - b2) <= epsilon * Math.max(1, Math.abs(a2), Math.abs(b2))
+			&& Math.abs(a3 - b3) <= epsilon * Math.max(1, Math.abs(a3), Math.abs(b3))
+			&& Math.abs(a4 - b4) <= epsilon * Math.max(1, Math.abs(a4), Math.abs(b4))
+			&& Math.abs(a5 - b5) <= epsilon * Math.max(1, Math.abs(a5), Math.abs(b5))
+			&& Math.abs(a6 - b6) <= epsilon * Math.max(1, Math.abs(a6), Math.abs(b6))
+			&& Math.abs(a7 - b7) <= epsilon * Math.max(1, Math.abs(a7), Math.abs(b7))
+			&& Math.abs(a8 - b8) <= epsilon * Math.max(1, Math.abs(a8), Math.abs(b8)));
+	}
+
+	/**
+	 * Determines whether this matrix is exactly equivalent to another.
+	 * @param m The other matrix.
+	 * @returns Whether the matrices are equivalent.
+	 */
+	public exactEquals(m: Matrix3Like): boolean {
 		return this[0] == m[0]
 			&& this[1] == m[1]
 			&& this[2] == m[2]
@@ -729,14 +767,14 @@ export default class Matrix3 extends Float32Array implements SquareMatrix {
 	}
 
 	/**
-	 * Rotates this matrix by the given angle.
+	 * Rotates this matrix by the given angle around the Z-axis.
 	 * @param r The angle in radians.
 	 * @returns The rotated matrix.
 	 */
 	public rotate(r: number): Matrix3;
 
 	/**
-	 * Rotates this matrix by the given angle.
+	 * Rotates this matrix by the given angle around the Z-axis.
 	 * @param r The angle in radians.
 	 * @param out The matrix to store the result in.
 	 * @returns The rotated matrix.

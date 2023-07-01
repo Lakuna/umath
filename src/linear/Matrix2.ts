@@ -1,4 +1,5 @@
 import SingularMatrixError from "../utility/SingularMatrixError.js";
+import epsilon from "../utility/epsilon.js";
 import type SquareMatrix from "./SquareMatrix.js";
 import type { Vector2Like } from "./Vector2.js";
 
@@ -126,11 +127,33 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	}
 
 	/**
-	 * Determines whether this matrix is equivalent to another.
+	 * Determines whether this matrix is roughly equivalent to another.
 	 * @param m The other matrix.
 	 * @returns Whether the matrices are equivalent.
 	 */
 	public equals(m: Matrix2Like): boolean {
+		const a0: number = this[0] as number;
+		const a1: number = this[1] as number;
+		const a2: number = this[2] as number;
+		const a3: number = this[3] as number;
+
+		const b0: number = m[0];
+		const b1: number = m[1];
+		const b2: number = m[2];
+		const b3: number = m[3];
+
+		return (Math.abs(a0 - b0) <= epsilon * Math.max(1, Math.abs(a0), Math.abs(b0))
+			&& Math.abs(a1 - b1) <= epsilon * Math.max(1, Math.abs(a1), Math.abs(b1))
+			&& Math.abs(a2 - b2) <= epsilon * Math.max(1, Math.abs(a2), Math.abs(b2))
+			&& Math.abs(a3 - b3) <= epsilon * Math.max(1, Math.abs(a3), Math.abs(b3)));
+	}
+
+	/**
+	 * Determines whether this matrix is exactly equivalent to another.
+	 * @param m The other matrix.
+	 * @returns Whether the matrices are equivalent.
+	 */
+	public exactEquals(m: Matrix2Like): boolean {
 		return this[0] == m[0]
 			&& this[1] == m[1]
 			&& this[2] == m[2]

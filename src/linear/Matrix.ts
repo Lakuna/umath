@@ -29,11 +29,18 @@ export default interface Matrix extends ArrayLike<number> {
 	put(r: number, c: number, v: number): void;
 
 	/**
-	 * Determines whether this matrix is equivalent to another.
+	 * Determines whether this matrix is roughly equivalent to another.
 	 * @param m The other matrix.
 	 * @returns Whether the matrices are equivalent.
 	 */
 	equals(m: MatrixLike): boolean;
+
+	/**
+	 * Determines whether this matrix is exactly equivalent to another.
+	 * @param m The other matrix.
+	 * @returns Whether the matrices are equivalent.
+	 */
+	exactEquals(m: MatrixLike): boolean;
 
 	/**
 	 * Adds two matrices of the same size.
