@@ -14,8 +14,7 @@ export {
 } from "./linear/DualQuaternion.js";
 export type {
 	MatrixLike,
-	default as Matrix,
-	SquareMatrix
+	default as Matrix
 } from "./linear/Matrix.js";
 export {
 	type Matrix2Like,
@@ -31,9 +30,9 @@ export {
 } from "./linear/Matrix4.js";
 export {
 	type QuaternionLike,
-	type AxisAngle,
 	default as Quaternion
 } from "./linear/Quaternion.js";
+export type { default as SquareMatrix } from "./linear/SquareMatrix.js";
 export type {
 	VectorLike,
 	default as Vector
@@ -53,3 +52,5 @@ export {
 export type { default as FieldOfView } from "./types/FieldOfView.js";
 export type { IntegerRepresentation } from "./types/IntegerRepresentation.js";
 export { default as BigNumber } from "./utility/BigNumber.js";
+export { default as epsilon } from "./utility/epsilon.js";
+export { default as SingularMatrixError } from "./utility/SingularMatrixError.js";
