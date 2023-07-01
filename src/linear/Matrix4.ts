@@ -1,4 +1,4 @@
-import type { FieldOfView } from "../index.js";
+import type FieldOfView from "../types/FieldOfView.js";
 import SingularMatrixError from "../utility/SingularMatrixError.js";
 import epsilon from "../utility/epsilon.js";
 import type { DualQuaternionLike } from "./DualQuaternion.js";

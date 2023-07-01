@@ -1,5 +1,3 @@
-import type { MatrixLike } from "./Matrix.js";
-
 /** A quantity with magnitude and direction. */
 export type VectorLike = Vector | Iterable<number>;
 
@@ -9,11 +7,18 @@ export type VectorLike = Vector | Iterable<number>;
  */
 export default interface Vector extends Iterable<number> {
 	/**
-	 * Determines whether this vector is equivalent to another.
+	 * Determines whether this vector is roughly equivalent to another.
 	 * @param vector The other vector.
 	 * @returns Whether the vectors are equivalent.
 	 */
 	equals(vector: VectorLike): boolean;
+
+	/**
+	 * Determines whether this vector is exactly equivalent to another.
+	 * @param vector The other vector.
+	 * @returns Whether the vectors are equivalent.
+	 */
+	exactEquals(vector: VectorLike): boolean;
 
 	/**
 	 * Adds two vectors of the same size.
@@ -55,13 +60,6 @@ export default interface Vector extends Iterable<number> {
 	 * @returns The difference between the vectors.
 	 */
 	subtract(vector: VectorLike): Vector;
-
-	/**
-	 * Sets the values in this vector.
-	 * @param values The new values.
-	 * @returns This vector.
-	 */
-	fromValues(...values: Array<number>): this;
 
 	/**
 	 * Rounds up the components of this vector.
@@ -169,13 +167,6 @@ export default interface Vector extends Iterable<number> {
 	 * @returns This vector.
 	 */
 	random(magnitude: number): this;
-
-	/**
-	 * Transforms this vector by a matrix.
-	 * @param matrix The matrix.
-	 * @returns The transformed vector.
-	 */
-	transform(matrix: MatrixLike): Vector;
 
 	/**
 	 * Sets this to the zero vector.
