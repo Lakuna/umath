@@ -13,22 +13,22 @@ export type Matrix2Like = Matrix2 | [
 export default class Matrix2 extends Float32Array implements SquareMatrix {
 	/**
 	 * Creates a transformation matrix that represents a rotation by the given angle around the Z-axis.
-	 * @param r The angle in radians.
+	 * @param radians The angle in radians.
 	 * @returns The transformation matrix.
 	 */
-	public static fromRotation(r: number): Matrix2;
+	public static fromRotation(radians: number): Matrix2;
 
 	/**
 	 * Creates a transformation matrix that represents a rotation by the given angle around the Z-axis.
-	 * @param r The angle in radians.
+	 * @param radians The angle in radians.
 	 * @param out The matrix to store the result in.
 	 * @returns The transformation matrix.
 	 */
-	public static fromRotation<T extends Matrix2Like>(r: number, out: T): T;
+	public static fromRotation<T extends Matrix2Like>(radians: number, out: T): T;
 
-	public static fromRotation<T extends Matrix2Like>(r: number, out: T = new Matrix2() as T): T {
-		const s: number = Math.sin(r);
-		const c: number = Math.cos(r);
+	public static fromRotation<T extends Matrix2Like>(radians: number, out: T = new Matrix2() as T): T {
+		const s: number = Math.sin(radians);
+		const c: number = Math.cos(radians);
 
 		out[0] = c;
 		out[1] = s;
@@ -39,24 +39,24 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 
 	/**
 	 * Creates a transformation matrix that represents a scaling by the given vector.
-	 * @param v The scaling vector.
+	 * @param vector The scaling vector.
 	 * @returns The transformation matrix.
 	 */
-	public static fromScaling(v: Vector2Like): Matrix2;
+	public static fromScaling(vector: Vector2Like): Matrix2;
 
 	/**
 	 * Creates a transformation matrix that represents a scaling by the given vector.
-	 * @param v The scaling vector.
+	 * @param vector The scaling vector.
 	 * @param out The matrix to store the result in.
 	 * @returns The transformation matrix.
 	 */
-	public static fromScaling<T extends Matrix2Like>(v: Vector2Like, out: T): T;
+	public static fromScaling<T extends Matrix2Like>(vector: Vector2Like, out: T): T;
 
-	public static fromScaling<T extends Matrix2Like>(v: Vector2Like, out: T = new Matrix2() as T): T {
-		out[0] = v[0];
+	public static fromScaling<T extends Matrix2Like>(vector: Vector2Like, out: T = new Matrix2() as T): T {
+		out[0] = vector[0];
 		out[1] = 0;
 		out[2] = 0;
-		out[3] = v[1];
+		out[3] = vector[1];
 		return out;
 	}
 
@@ -108,39 +108,39 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 
 	/**
 	 * Gets the value at the given position in this matrix.
-	 * @param r The row of the value.
-	 * @param c The column of the value.
+	 * @param row The row of the value.
+	 * @param col The column of the value.
 	 * @returns The value at the specified position.
 	 */
-	public get(r: number, c: number): number | undefined {
-		return this[c * this.height + r];
+	public get(row: number, col: number): number | undefined {
+		return this[col * this.height + row];
 	}
 
 	/**
 	 * Sets the value at the given position in this matrix.
-	 * @param r The row of the value.
-	 * @param c The column of the value.
-	 * @param v The value.
+	 * @param row The row of the value.
+	 * @param col The column of the value.
+	 * @param val The value.
 	 */
-	public put(r: number, c: number, v: number): void {
-		this[c * this.height + r] = v;
+	public put(row: number, col: number, val: number): void {
+		this[col * this.height + row] = val;
 	}
 
 	/**
 	 * Determines whether this matrix is roughly equivalent to another.
-	 * @param m The other matrix.
+	 * @param matrix The other matrix.
 	 * @returns Whether the matrices are equivalent.
 	 */
-	public equals(m: Matrix2Like): boolean {
+	public equals(matrix: Matrix2Like): boolean {
 		const a0: number = this[0] as number;
 		const a1: number = this[1] as number;
 		const a2: number = this[2] as number;
 		const a3: number = this[3] as number;
 
-		const b0: number = m[0];
-		const b1: number = m[1];
-		const b2: number = m[2];
-		const b3: number = m[3];
+		const b0: number = matrix[0];
+		const b1: number = matrix[1];
+		const b2: number = matrix[2];
+		const b3: number = matrix[3];
 
 		return (Math.abs(a0 - b0) <= epsilon * Math.max(1, Math.abs(a0), Math.abs(b0))
 			&& Math.abs(a1 - b1) <= epsilon * Math.max(1, Math.abs(a1), Math.abs(b1))
@@ -150,36 +150,36 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 
 	/**
 	 * Determines whether this matrix is exactly equivalent to another.
-	 * @param m The other matrix.
+	 * @param matrix The other matrix.
 	 * @returns Whether the matrices are equivalent.
 	 */
-	public exactEquals(m: Matrix2Like): boolean {
-		return this[0] == m[0]
-			&& this[1] == m[1]
-			&& this[2] == m[2]
-			&& this[3] == m[3];
+	public exactEquals(matrix: Matrix2Like): boolean {
+		return this[0] == matrix[0]
+			&& this[1] == matrix[1]
+			&& this[2] == matrix[2]
+			&& this[3] == matrix[3];
 	}
 
 	/**
 	 * Adds two matrices of the same size.
-	 * @param m The other matrix.
+	 * @param matrix The other matrix.
 	 * @returns The sum of the matrices.
 	 */
-	public add(m: Matrix2Like): Matrix2;
+	public add(matrix: Matrix2Like): Matrix2;
 
 	/**
 	 * Adds two matrices of the same size.
-	 * @param m The other matrix.
+	 * @param matrix The other matrix.
 	 * @param out The matrix to store the result in.
 	 * @returns The sum of the matrices.
 	 */
-	public add<T extends Matrix2Like>(m: Matrix2Like, out: T): T;
+	public add<T extends Matrix2Like>(matrix: Matrix2Like, out: T): T;
 
-	public add<T extends Matrix2Like>(m: Matrix2Like, out: T = new Matrix2() as T): T {
-		out[0] = (this[0] as number) + m[0];
-		out[1] = (this[1] as number) + m[1];
-		out[2] = (this[2] as number) + m[2];
-		out[3] = (this[3] as number) + m[3];
+	public add<T extends Matrix2Like>(matrix: Matrix2Like, out: T = new Matrix2() as T): T {
+		out[0] = (this[0] as number) + matrix[0];
+		out[1] = (this[1] as number) + matrix[1];
+		out[2] = (this[2] as number) + matrix[2];
+		out[3] = (this[3] as number) + matrix[3];
 		return out;
 	}
 
@@ -220,14 +220,14 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 
 	/**
 	 * Copies the values of another matrix into this one.
-	 * @param m The matrix to copy.
+	 * @param matrix The matrix to copy.
 	 * @returns This matrix.
 	 */
-	public copy(m: Matrix2Like): this {
-		this[0] = m[0];
-		this[1] = m[1];
-		this[2] = m[2];
-		this[3] = m[3];
+	public copy(matrix: Matrix2Like): this {
+		this[0] = matrix[0];
+		this[1] = matrix[1];
+		this[2] = matrix[2];
+		this[3] = matrix[3];
 		return this;
 	}
 
@@ -241,29 +241,29 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 
 	/**
 	 * Multiplies this matrix by another.
-	 * @param m The other matrix.
+	 * @param matrix The other matrix.
 	 * @returns The product of the matrices.
 	 */
-	public multiply(m: Matrix2Like): Matrix2;
+	public multiply(matrix: Matrix2Like): Matrix2;
 
 	/**
 	 * Multiplies this matrix by another.
-	 * @param m The other matrix.
+	 * @param matrix The other matrix.
 	 * @param out The matrix to store the result in.
 	 * @returns The product of the matrices.
 	 */
-	public multiply<T extends Matrix2Like>(m: Matrix2Like, out: T): T;
+	public multiply<T extends Matrix2Like>(matrix: Matrix2Like, out: T): T;
 
-	public multiply<T extends Matrix2Like>(m: Matrix2Like, out: T = new Matrix2() as T): T {
+	public multiply<T extends Matrix2Like>(matrix: Matrix2Like, out: T = new Matrix2() as T): T {
 		const a0: number = this[0] as number;
 		const a1: number = this[1] as number;
 		const a2: number = this[2] as number;
 		const a3: number = this[3] as number;
 
-		const b0: number = m[0];
-		const b1: number = m[1];
-		const b2: number = m[2];
-		const b3: number = m[3];
+		const b0: number = matrix[0];
+		const b1: number = matrix[1];
+		const b2: number = matrix[2];
+		const b3: number = matrix[3];
 
 		out[0] = a0 * b0 + a2 * b1;
 		out[1] = a1 * b0 + a3 * b1;
@@ -274,72 +274,72 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 
 	/**
 	 * Multiplies this matrix by a scalar value.
-	 * @param s The scalar value.
+	 * @param scalar The scalar value.
 	 * @returns The product of the matrix and the scalar value.
 	 */
-	public multiplyScalar(s: number): Matrix2;
+	public multiplyScalar(scalar: number): Matrix2;
 
 	/**
 	 * Multiplies this matrix by a scalar value.
-	 * @param s The scalar value.
+	 * @param scalar The scalar value.
 	 * @param out The matrix to store the result in.
 	 * @returns The product of the matrix and the scalar value.
 	 */
-	public multiplyScalar<T extends Matrix2Like>(s: number, out: T): T;
+	public multiplyScalar<T extends Matrix2Like>(scalar: number, out: T): T;
 
-	public multiplyScalar<T extends Matrix2Like>(s: number, out: T = new Matrix2() as T): T {
-		out[0] = (this[0] as number) * s;
-		out[1] = (this[1] as number) * s;
-		out[2] = (this[2] as number) * s;
-		out[3] = (this[3] as number) * s;
+	public multiplyScalar<T extends Matrix2Like>(scalar: number, out: T = new Matrix2() as T): T {
+		out[0] = (this[0] as number) * scalar;
+		out[1] = (this[1] as number) * scalar;
+		out[2] = (this[2] as number) * scalar;
+		out[3] = (this[3] as number) * scalar;
 		return out;
 	}
 
 	/**
 	 * Adds this matrix to another after multiplying the other by a scalar.
-	 * @param m The other matrix.
-	 * @param s The scalar.
+	 * @param matrix The other matrix.
+	 * @param scalar The scalar.
 	 * @returns The sum.
 	 */
-	public multiplyScalarAndAdd(m: Matrix2Like, s: number): Matrix2;
+	public multiplyScalarAndAdd(matrix: Matrix2Like, scalar: number): Matrix2;
 
 	/**
 	 * Adds this matrix to another after multiplying the other by a scalar.
 	 * @param m The other matrix.
-	 * @param s The scalar.
+	 * @param scalar The scalar.
 	 * @param out The matrix to store the result in.
 	 * @returns The sum.
 	 */
-	public multiplyScalarAndAdd<T extends Matrix2Like>(m: Matrix2Like, s: number, out: T): T;
+	public multiplyScalarAndAdd<T extends Matrix2Like>(matrix: Matrix2Like, scalar: number, out: T): T;
 
-	public multiplyScalarAndAdd<T extends Matrix2Like>(m: Matrix2Like, s: number, out: T = new Matrix2() as T): T {
-		out[0] = (this[0] as number) + m[0] * s;
-		out[1] = (this[1] as number) + m[1] * s;
-		out[2] = (this[2] as number) + m[2] * s;
-		out[3] = (this[3] as number) + m[3] * s;
+	public multiplyScalarAndAdd<T extends Matrix2Like>(matrix: Matrix2Like, scalar: number, out: T = new Matrix2() as T): T {
+		out[0] = (this[0] as number) + matrix[0] * scalar;
+		out[1] = (this[1] as number) + matrix[1] * scalar;
+		out[2] = (this[2] as number) + matrix[2] * scalar;
+		out[3] = (this[3] as number) + matrix[3] * scalar;
 		return out;
 	}
 
 	/**
 	 * Subtracts another matrix from this one.
-	 * @param m The other matrix.
+	 * @param matrix The other matrix.
 	 * @returns The difference between the matrices.
 	 */
-	public subtract(m: Matrix2Like): Matrix2;
+	public subtract(matrix: Matrix2Like): Matrix2;
 
 	/**
 	 * Subtracts another matrix from this one.
-	 * @param m The other matrix.
+	 * @param matrix The other matrix.
 	 * @param out The matrix to store the result in.
 	 * @returns The difference between the matrices.
 	 */
-	public subtract<T extends Matrix2Like>(m: Matrix2Like, out: T): T;
+	public subtract<T extends Matrix2Like>(matrix: Matrix2Like, out: T): T;
 
-	public subtract<T extends Matrix2Like>(m: Matrix2Like, out: T = new Matrix2() as T): T {
-		out[0] = (this[0] as number) - m[0];
-		out[1] = (this[1] as number) - m[1];
-		out[2] = (this[2] as number) - m[2];
-		out[3] = (this[3] as number) - m[3];
+	public subtract<T extends Matrix2Like>(matrix: Matrix2Like, out: T = new Matrix2() as T): T {
+		out[0] = (this[0] as number) - matrix[0];
+		out[1] = (this[1] as number) - matrix[1];
+		out[2] = (this[2] as number) - matrix[2];
+		out[3] = (this[3] as number) - matrix[3];
 		return out;
 	}
 
@@ -406,42 +406,42 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 		const a2: number = this[2] as number;
 		const a3: number = this[3] as number;
 		
-		let det: number = a0 * a3 - a2 * a1;
-		if (!det) {
+		let determinant: number = a0 * a3 - a2 * a1;
+		if (!determinant) {
 			throw new SingularMatrixError();
 		}
-		det = 1 / det;
+		determinant = 1 / determinant;
 
-		out[0] = a3 * det;
-		out[1] = -a1 * det;
-		out[2] = -a2 * det;
-		out[3] = a0 * det;
+		out[0] = a3 * determinant;
+		out[1] = -a1 * determinant;
+		out[2] = -a2 * determinant;
+		out[3] = a0 * determinant;
 		return out;
 	}
 
 	/**
 	 * Rotates this matrix by the given angle.
-	 * @param r The angle in radians.
+	 * @param radians The angle in radians.
 	 * @returns The rotated matrix.
 	 */
-	public rotate(r: number): Matrix2;
+	public rotate(radians: number): Matrix2;
 
 	/**
 	 * Rotates this matrix by the given angle.
-	 * @param r The angle in radians.
+	 * @param radians The angle in radians.
 	 * @param out The matrix to store the result in.
 	 * @returns The rotated matrix.
 	 */
-	public rotate<T extends Matrix2Like>(r: number, out: T): T;
+	public rotate<T extends Matrix2Like>(radians: number, out: T): T;
 
-	public rotate<T extends Matrix2Like>(r: number, out: T = new Matrix2() as T): T {
+	public rotate<T extends Matrix2Like>(radians: number, out: T = new Matrix2() as T): T {
 		const a0: number = this[0] as number;
 		const a1: number = this[1] as number;
 		const a2: number = this[2] as number;
 		const a3: number = this[3] as number;
 
-		const s: number = Math.sin(r);
-		const c: number = Math.cos(r);
+		const s: number = Math.sin(radians);
+		const c: number = Math.cos(radians);
 
 		out[0] = a0 * c + a2 * s;
 		out[1] = a1 * c + a3 * s;
@@ -459,15 +459,15 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 
 	/**
 	 * Scales this matrix by the given vector.
-	 * @param v The scaling vector.
+	 * @param vector The scaling vector.
 	 * @param out The matrix to store the result in.
 	 * @returns The scaled matrix.
 	 */
-	public scale<T extends Matrix2Like>(v: Vector2Like, out: T): T;
+	public scale<T extends Matrix2Like>(vector: Vector2Like, out: T): T;
 
-	public scale<T extends Matrix2Like>(v: Vector2Like, out: T = new Matrix2() as T): T {
-		const v0: number = v[0];
-		const v1: number = v[1];
+	public scale<T extends Matrix2Like>(vector: Vector2Like, out: T = new Matrix2() as T): T {
+		const v0: number = vector[0];
+		const v1: number = vector[1];
 
 		out[0] = (this[0] as number) * v0;
 		out[1] = (this[1] as number) * v0;

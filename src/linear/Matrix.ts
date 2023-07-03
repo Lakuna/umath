@@ -14,40 +14,40 @@ export default interface Matrix extends ArrayLike<number> {
 
 	/**
 	 * Gets the value at the given position in this matrix.
-	 * @param r The row of the value.
-	 * @param c The column of the value.
+	 * @param row The row of the value.
+	 * @param col The column of the value.
 	 * @returns The value at the specified position.
 	 */
-	get(r: number, c: number): number | undefined;
+	get(row: number, col: number): number | undefined;
 
 	/**
 	 * Sets the value at the given position in this matrix.
-	 * @param r The row of the value.
-	 * @param c The column of the value.
-	 * @param v The value.
+	 * @param row The row of the value.
+	 * @param col The column of the value.
+	 * @param val The value.
 	 */
-	put(r: number, c: number, v: number): void;
+	put(row: number, col: number, val: number): void;
 
 	/**
 	 * Determines whether this matrix is roughly equivalent to another.
-	 * @param m The other matrix.
+	 * @param matrix The other matrix.
 	 * @returns Whether the matrices are equivalent.
 	 */
-	equals(m: MatrixLike): boolean;
+	equals(matrix: MatrixLike): boolean;
 
 	/**
 	 * Determines whether this matrix is exactly equivalent to another.
-	 * @param m The other matrix.
+	 * @param matrix The other matrix.
 	 * @returns Whether the matrices are equivalent.
 	 */
-	exactEquals(m: MatrixLike): boolean;
+	exactEquals(matrix: MatrixLike): boolean;
 
 	/**
 	 * Adds two matrices of the same size.
-	 * @param m The other matrix.
+	 * @param matrix The other matrix.
 	 * @returns The sum of the matrices.
 	 */
-	add(m: MatrixLike): Matrix;
+	add(matrix: MatrixLike): Matrix;
 
 	/**
 	 * Calculates the adjugate of this matrix.
@@ -63,42 +63,42 @@ export default interface Matrix extends ArrayLike<number> {
 
 	/**
 	 * Copies the values of another matrix into this one.
-	 * @param m The matrix to copy.
+	 * @param matrix The matrix to copy.
 	 * @returns This matrix.
 	 */
-	copy(m: MatrixLike): this;
+	copy(matrix: MatrixLike): this;
 
 	/** The Frobenius normal of this matrix. */
 	get frob(): number;
 
 	/**
 	 * Multiplies this matrix by another.
-	 * @param m The other matrix.
+	 * @param matrix The other matrix.
 	 * @returns The product of the matrices.
 	 */
-	multiply(m: MatrixLike): Matrix;
+	multiply(matrix: MatrixLike): Matrix;
 
 	/**
 	 * Multiplies this matrix by a scalar value.
-	 * @param s The scalar value.
+	 * @param scalar The scalar value.
 	 * @returns The product of the matrix and the scalar value.
 	 */
-	multiplyScalar(s: number): Matrix;
+	multiplyScalar(scalar: number): Matrix;
 
 	/**
 	 * Adds this matrix to another after multiplying the other by a scalar.
-	 * @param m The other matrix.
-	 * @param s The scalar.
+	 * @param matrix The other matrix.
+	 * @param scalar The scalar.
 	 * @returns The sum.
 	 */
-	multiplyScalarAndAdd(m: MatrixLike, s: number): Matrix;
+	multiplyScalarAndAdd(matrix: MatrixLike, scalar: number): Matrix;
 
 	/**
 	 * Subtracts another matrix from this one.
-	 * @param m The other matrix.
+	 * @param matrix The other matrix.
 	 * @returns The difference between the matrices.
 	 */
-	subtract(m: MatrixLike): Matrix;
+	subtract(matrix: MatrixLike): Matrix;
 
 	/**
 	 * Transposes this matrix.
