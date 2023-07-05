@@ -50,8 +50,8 @@ export default class Vector2 extends Float32Array implements Vector {
         const b0: number = vector[0];
         const b1: number = vector[1];
 
-        return (Math.abs(a0 - b0) <= epsilon * Math.max(1.0, Math.abs(a0), Math.abs(b0))
-            && Math.abs(a1 - b1) <= epsilon * Math.max(1.0, Math.abs(a1), Math.abs(b1)));
+        return Math.abs(a0 - b0) <= epsilon * Math.max(1, Math.abs(a0), Math.abs(b0))
+            && Math.abs(a1 - b1) <= epsilon * Math.max(1, Math.abs(a1), Math.abs(b1));
     }
 
 	/**
