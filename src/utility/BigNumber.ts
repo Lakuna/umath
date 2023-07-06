@@ -1,5 +1,5 @@
-import greatestCommonDivisor from "@lakuna/umath/algorithms/greatestCommonDivisor.js";
-import type { IntegerRepresentation } from "@lakuna/umath/types/IntegerRepresentation.js";
+import greatestCommonDivisor from "@lakuna/umath/greatestCommonDivisor";
+import type { IntegerRepresentation } from "@lakuna/umath/IntegerRepresentation";
 
 /** A number with no maximum precise size. */
 export default class BigNumber {

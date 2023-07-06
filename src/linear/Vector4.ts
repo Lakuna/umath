@@ -1,7 +1,7 @@
-import type Vector from "@lakuna/umath/linear/Vector.js";
-import epsilon from "@lakuna/umath/utility/epsilon.js";
-import type { Matrix4Like } from "@lakuna/umath/linear/Matrix4.js";
-import type { QuaternionLike } from "@lakuna/umath/linear/Quaternion.js";
+import type Vector from "@lakuna/umath/Vector";
+import epsilon from "@lakuna/umath/epsilon";
+import type { Matrix4Like } from "@lakuna/umath/Matrix4";
+import type { QuaternionLike } from "@lakuna/umath/Quaternion";
 
 /** A quantity with magnitude and direction in four dimensions. */
 export type Vector4Like = Vector4 | [number, number, number, number];

@@ -1,10 +1,10 @@
-import type FieldOfView from "@lakuna/umath/types/FieldOfView.js";
-import SingularMatrixError from "@lakuna/umath/utility/SingularMatrixError.js";
-import epsilon from "@lakuna/umath/utility/epsilon.js";
-import type { DualQuaternionLike } from "@lakuna/umath/linear/DualQuaternion.js";
-import type { QuaternionLike } from "@lakuna/umath/linear/Quaternion.js";
-import type SquareMatrix from "@lakuna/umath/linear/SquareMatrix.js";
-import type { Vector3Like } from "@lakuna/umath/linear/Vector3.js";
+import type FieldOfView from "@lakuna/umath/FieldOfView";
+import SingularMatrixError from "@lakuna/umath/SingularMatrixError";
+import epsilon from "@lakuna/umath/epsilon";
+import type { DualQuaternionLike } from "@lakuna/umath/DualQuaternion";
+import type { QuaternionLike } from "@lakuna/umath/Quaternion";
+import type SquareMatrix from "@lakuna/umath/SquareMatrix";
+import type { Vector3Like } from "@lakuna/umath/Vector3";
 
 /** Numbers arranged into four columns and four rows. */
 export type Matrix4Like = Matrix4 | [
@@ -463,7 +463,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	public static fromDualQuaternion<T extends Matrix4Like>(quaternion: DualQuaternionLike, out: T): T;
 
 	public static fromDualQuaternion<T extends Matrix4Like>(quaternion: DualQuaternionLike, out: T = new Matrix4() as T): T {
-		const translation: Float32Array = new Float32Array(3);
+		const translation: Vector3Like = new Float32Array(3) as Vector3Like;
 
 		const bx: number = -quaternion[0];
 		const by: number = -quaternion[1];

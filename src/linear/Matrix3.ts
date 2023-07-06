@@ -1,9 +1,9 @@
-import SingularMatrixError from "@lakuna/umath/utility/SingularMatrixError.js";
-import epsilon from "@lakuna/umath/utility/epsilon.js";
-import type { Matrix4Like } from "@lakuna/umath/linear/Matrix4.js";
-import type { QuaternionLike } from "@lakuna/umath/linear/Quaternion.js";
-import type SquareMatrix from "@lakuna/umath/linear/SquareMatrix.js";
-import type { Vector2Like } from "@lakuna/umath/linear/Vector2.js";
+import SingularMatrixError from "@lakuna/umath/SingularMatrixError";
+import epsilon from "@lakuna/umath/epsilon";
+import type { Matrix4Like } from "@lakuna/umath/Matrix4";
+import type { QuaternionLike } from "@lakuna/umath/Quaternion";
+import type SquareMatrix from "@lakuna/umath/SquareMatrix";
+import type { Vector2Like } from "@lakuna/umath/Vector2";
 
 /** Numbers arranged into three columns and three rows. */
 export type Matrix3Like = Matrix3 | [

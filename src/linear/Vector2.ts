@@ -1,9 +1,9 @@
-import epsilon from "@lakuna/umath/utility/epsilon.js";
-import type { Matrix2Like } from "@lakuna/umath/linear/Matrix2.js";
-import type { Matrix3Like } from "@lakuna/umath/linear/Matrix3.js";
-import type { Matrix4Like } from "@lakuna/umath/linear/Matrix4.js";
-import type Vector from "@lakuna/umath/linear/Vector.js";
-import Vector3, { type Vector3Like } from "@lakuna/umath/linear/Vector3.js";
+import epsilon from "@lakuna/umath/epsilon";
+import type { Matrix2Like } from "@lakuna/umath/Matrix2";
+import type { Matrix3Like } from "@lakuna/umath/Matrix3";
+import type { Matrix4Like } from "@lakuna/umath/Matrix4";
+import type Vector from "@lakuna/umath/Vector";
+import Vector3, { type Vector3Like } from "@lakuna/umath/Vector3";
 
 /** A quantity with magnitude and direction in two dimensions. */
 export type Vector2Like = Vector2 | [number, number];
