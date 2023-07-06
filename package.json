@@ -49,6 +49,7 @@
 		"./Vector2": "./dist/linear/Vector2.js",
 		"./Vector3": "./dist/linear/Vector3.js",
 		"./Vector4": "./dist/linear/Vector4.js",
+		"./AxisAngle": "./dist/types/AxisAngle.js",
 		"./FieldOfView": "./dist/types/FieldOfView.js",
 		"./IntegerRepresentation": "./dist/types/IntegerRepresentation.js",
 		"./BigNumber": "./dist/utility/BigNumber.js",

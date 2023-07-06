@@ -19,6 +19,7 @@ export type { VectorLike, default as Vector } from "@lakuna/umath/Vector";
 export { type Vector2Like, default as Vector2 } from "@lakuna/umath/Vector2";
 export { type Vector3Like, default as Vector3 } from "@lakuna/umath/Vector3";
 export { type Vector4Like, default as Vector4 } from "@lakuna/umath/Vector4";
+export type { default as AxisAngle } from "@lakuna/umath/AxisAngle";
 export type { default as FieldOfView } from "@lakuna/umath/FieldOfView";
 export type { IntegerRepresentation } from "@lakuna/umath/IntegerRepresentation";
 export { default as BigNumber } from "@lakuna/umath/BigNumber";
