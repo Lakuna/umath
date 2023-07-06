@@ -1,5 +1,8 @@
 import type Vector from "@lakuna/umath/linear/Vector.js";
-import { epsilon, type Matrix3Like, type Matrix4Like } from "../index.js";
+import epsilon from "@lakuna/umath/utility/epsilon.js";
+import type { Matrix3Like } from "@lakuna/umath/linear/Matrix3.js";
+import type { Matrix4Like } from "@lakuna/umath/linear/Matrix4.js";
+import type { QuaternionLike } from "@lakuna/umath/linear/Quaternion.js";
 
 /** A quantity with magnitude and direction in three dimensions. */
 export type Vector3Like = Vector3 | [number, number, number];
@@ -32,7 +35,7 @@ export default class Vector3 extends Float32Array implements Vector {
         return out;
     }
 
-    /** Creates a two-dimensional zero vector. */
+    /** Creates a three-dimensional zero vector. */
     public constructor() {
         super(3);
     }
@@ -712,9 +715,123 @@ export default class Vector3 extends Float32Array implements Vector {
         return this;
     }
 
-    // TODO: `hermite`
+    /**
+     * Performs a Hermite interpolation with two control points between this vector and another.
+     * @param a The first control point.
+     * @param b The second control point.
+     * @param end The other vector.
+     * @param t The interpolation amount in the range `[0,1]`.
+     * @returns The interpolated vector.
+     */
+    public hermite(a: Vector3Like, b: Vector3Like, end: Vector3Like, t: number): Vector3;
 
-    // TODO: `bezier`
+    /**
+     * Performs a Hermite interpolation with two control points between this vector and another.
+     * @param a The first control point.
+     * @param b The second control point.
+     * @param end The other vector.
+     * @param t The interpolation amount in the range `[0,1]`.
+     * @param out The vector to store the result in.
+     * @returns The interpolated vector.
+     */
+    public hermite<T extends Vector3Like>(a: Vector3Like, b: Vector3Like, end: Vector3Like, t: number, out: T): T;
 
-    // TODO: `transformQuaternion`
+    public hermite<T extends Vector3Like>(a: Vector3Like, b: Vector3Like, end: Vector3Like, t: number, out: T = new Vector3() as T): T {
+        const factorTimes2: number = t * t;
+
+        const factor1: number = factorTimes2 * (2 * t - 3) + 1;
+        const factor2: number = factorTimes2 * (t - 2) + t;
+        const factor3: number = factorTimes2 * (t - 1);
+        const factor4: number = factorTimes2 * (3 - 2 * t);
+
+        out[0] = (this[0] as number) * factor1 + a[0] * factor2 + b[0] * factor3 + end[0] * factor4;
+        out[1] = (this[1] as number) * factor1 + a[1] * factor2 + b[1] * factor3 + end[1] * factor4;
+        out[2] = (this[2] as number) * factor1 + a[2] * factor2 + b[2] * factor3 + end[2] * factor4;
+        return out;
+    }
+
+    /**
+     * Performs a Bézier interpolation with two control points between this vector and another.
+     * @param a The first control point.
+     * @param b The second control point.
+     * @param end The other vector.
+     * @param t The interpolation amount in the range `[0,1]`.
+     * @returns The interpolated vector.
+     */
+    public bezier(a: Vector3Like, b: Vector3Like, end: Vector3Like, t: number): Vector3;
+
+    /**
+     * Performs a Bézier interpolation with two control points between this vector and another.
+     * @param a The first control point.
+     * @param b The second control point.
+     * @param end The other vector.
+     * @param t The interpolation amount in the range `[0,1]`.
+     * @param out The vector to store the result in.
+     * @returns The interpolated vector.
+     */
+    public bezier<T extends Vector3Like>(a: Vector3Like, b: Vector3Like, end: Vector3Like, t: number, out: T): T;
+
+    public bezier<T extends Vector3Like>(a: Vector3Like, b: Vector3Like, end: Vector3Like, t: number, out: T = new Vector3() as T): T {
+        const inverseFactor: number = 1 - t;
+        const inverseFactorTimesTwo: number = inverseFactor * inverseFactor;
+        const factorTimes2: number = t * t;
+
+        const factor1: number = inverseFactorTimesTwo * inverseFactor;
+        const factor2: number = 3 * t * inverseFactorTimesTwo;
+        const factor3: number = 3 * factorTimes2 * inverseFactor;
+        const factor4: number = factorTimes2 * t;
+
+        out[0] = (this[0] as number) * factor1 + a[0] * factor2 + b[0] * factor3 + end[0] * factor4;
+        out[1] = (this[1] as number) * factor1 + a[1] * factor2 + b[1] * factor3 + end[1] * factor4;
+        out[2] = (this[2] as number) * factor1 + a[2] * factor2 + b[2] * factor3 + end[2] * factor4;
+        return out;
+    }
+
+    /**
+	 * Transforms this vector by a quaternion.
+	 * @param quaternion The quaternion.
+	 * @returns The transformed vector.
+	 */
+	public transformQuaternion(quaternion: QuaternionLike): Vector3;
+
+    /**
+	 * Transforms this vector by a quaternion.
+	 * @param quaternion The quaternion.
+     * @param out The vector to store the result in.
+	 * @returns The transformed vector.
+	 */
+	public transformQuaternion<T extends Vector3Like>(quaternion: QuaternionLike, out: T): T;
+
+    public transformQuaternion<T extends Vector3Like>(quaternion: QuaternionLike, out: T = new Vector3() as T): T {
+        const qx: number = quaternion[0];
+        const qy: number = quaternion[1];
+        const qz: number = quaternion[2];
+        const qw: number = quaternion[3];
+
+        const x: number = this[0] as number;
+        const y: number = this[1] as number;
+        const z: number = this[2] as number;
+
+        let uvx: number = qy * z - qz * y;
+        let uvy: number = qz * x - qx * z;
+        let uvz: number = qx * y - qy * x;
+        
+        let uuvx: number = qy * uvz - qz * uvy;
+        let uuvy: number = qz * uvx - qx * uvz;
+        let uuvz: number = qx * uvy - qy * uvx;
+        
+        const w2: number = qw * 2;
+        uvx *= w2;
+        uvy *= w2;
+        uvz *= w2;
+        
+        uuvx *= 2;
+        uuvy *= 2;
+        uuvz *= 2;
+        
+        out[0] = x + uvx + uuvx;
+        out[1] = y + uvy + uuvy;
+        out[2] = z + uvz + uuvz;
+        return out;
+    }
 }

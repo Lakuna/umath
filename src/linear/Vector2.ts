@@ -109,7 +109,7 @@ export default class Vector2 extends Float32Array implements Vector {
 
     /**
 	 * Multiplies this vector by another.
-	 * @param vvector The other vector.
+	 * @param vector The other vector.
 	 * @returns The product of the vectors.
 	 */
 	public multiply(vector: Vector2Like): Vector2;
