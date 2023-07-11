@@ -3,6 +3,7 @@ import epsilon from "@lakuna/umath/epsilon";
 import type { Matrix3Like } from "@lakuna/umath/Matrix3";
 import type { Matrix4Like } from "@lakuna/umath/Matrix4";
 import type { QuaternionLike } from "@lakuna/umath/Quaternion";
+import Quaternion from "@lakuna/umath/Quaternion";
 
 /** A quantity with magnitude and direction in three dimensions. */
 export type Vector3Like = Vector3 | [number, number, number];
@@ -834,4 +835,58 @@ export default class Vector3 extends Float32Array implements Vector {
         out[2] = z + uvz + uuvz;
         return out;
     }
+
+    /**
+     * Creates a quaternion that represents the shortest rotation from this vector to another.
+     * @param vector The other vector.
+     * @returns The rotation.
+     */
+    public rotationTo(vector: Vector3Like): Quaternion;
+
+    /**
+     * Creates a quaternion that represents the shortest rotation from this vector to another.
+     * @param vector The other vector.
+     * @param out The quaternion to store the result in.
+     * @returns The quaternion.
+     */
+    public rotationTo<T extends QuaternionLike>(vector: Vector3Like, out: T): T;
+
+    public rotationTo<T extends QuaternionLike>(vector: Vector3Like, out: T = new Quaternion() as T): T {
+        const dot: number = this.dot(vector);
+
+        if (dot < epsilon - 1) {
+            xAxis.cross(this, intermediary);
+            if (intermediary.magnitude < epsilon) { yAxis.cross(this, intermediary); }
+            intermediary.normalize(intermediary);
+            out[0] = intermediary[0] as number;
+            out[1] = intermediary[1] as number;
+            out[2] = intermediary[2] as number;
+            out[3] = 0;
+            return out;
+        }
+        
+        if (dot > 1 - epsilon) {
+            out[0] = 0;
+            out[1] = 0;
+            out[2] = 0;
+            out[3] = 1;
+            return out;
+        }
+        
+        this.cross(vector, intermediary);
+        out[0] = intermediary[0] as number;
+        out[1] = intermediary[1] as number;
+        out[2] = intermediary[2] as number;
+        out[3] = 1 + dot;
+        return out; // TODO: Normalize output here. Others are already normalized.
+    }
 }
+
+/** The unit three-dimensional vector that represents the X-axis. */
+const xAxis: Vector3 = Vector3.fromValues(1, 0, 0);
+
+/** The unit three-dimensional vector that represents the Y-axis. */
+const yAxis: Vector3 = Vector3.fromValues(0, 1, 0);
+
+/** A three-dimensional vector that is used to store intermediary values for some functions. */
+const intermediary: Vector3 = new Vector3();

@@ -14,6 +14,31 @@ export type Matrix4Like = Matrix4 | [
 	number, number, number, number
 ];
 
+/**
+ * Sets the given matrix to identity.
+ * @param matrix The matrix.
+ * @returns The matrix.
+ */
+function identityInner<T extends Matrix4Like>(matrix: T): T {
+	matrix[0] = 1;
+	matrix[1] = 0;
+	matrix[2] = 0;
+	matrix[3] = 0;
+	matrix[4] = 0;
+	matrix[5] = 1;
+	matrix[6] = 0;
+	matrix[7] = 0;
+	matrix[8] = 0;
+	matrix[9] = 0;
+	matrix[10] = 1;
+	matrix[11] = 0;
+	matrix[12] = 0;
+	matrix[13] = 0;
+	matrix[14] = 0;
+	matrix[15] = 1;
+	return matrix;
+}
+
 /** A four-by-four matrix. */
 export default class Matrix4 extends Float32Array implements SquareMatrix {
 	/**
@@ -721,23 +746,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 		if (Math.abs(eyex - centerx) < epsilon
 			&& Math.abs(eyey - centery) < epsilon
 			&& Math.abs(eyez - centerz) < epsilon) {
-			out[0] = 1;
-			out[1] = 0;
-			out[2] = 0;
-			out[3] = 0;
-			out[4] = 0;
-			out[5] = 1;
-			out[6] = 0;
-			out[7] = 0;
-			out[8] = 0;
-			out[9] = 0;
-			out[10] = 1;
-			out[11] = 0;
-			out[12] = 0;
-			out[13] = 0;
-			out[14] = 0;
-			out[15] = 1;
-			return out;
+			return identityInner(out);
 		}
 
 		let z0: number = eyex - centerx;
@@ -1515,23 +1524,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @returns This matrix.
 	 */
 	public identity(): this {
-		this[0] = 1;
-		this[1] = 0;
-		this[2] = 0;
-		this[3] = 0;
-		this[4] = 0;
-		this[5] = 1;
-		this[6] = 0;
-		this[7] = 0;
-		this[8] = 0;
-		this[9] = 0;
-		this[10] = 1;
-		this[11] = 0;
-		this[12] = 0;
-		this[13] = 0;
-		this[14] = 0;
-		this[15] = 1;
-		return this;
+		return identityInner(this);
 	}
 
 	/**
