@@ -11,23 +11,7 @@ export default interface Matrix extends ArrayLike<number> {
 
 	/** The number of rows in this matrix. */
 	height: number;
-
-	/**
-	 * Gets the value at the given position in this matrix.
-	 * @param row The row of the value.
-	 * @param col The column of the value.
-	 * @returns The value at the specified position.
-	 */
-	get(row: number, col: number): number | undefined;
-
-	/**
-	 * Sets the value at the given position in this matrix.
-	 * @param row The row of the value.
-	 * @param col The column of the value.
-	 * @param val The value.
-	 */
-	put(row: number, col: number, val: number): void;
-
+	
 	/**
 	 * Determines whether this matrix is roughly equivalent to another.
 	 * @param matrix The other matrix.
