@@ -5,6 +5,9 @@ import type { Matrix4Like } from "@lakuna/umath/Matrix4";
 import type Vector from "@lakuna/umath/Vector";
 import Vector3, { type Vector3Like } from "@lakuna/umath/Vector3";
 
+// TODO: Separate methods into individual functions.
+// TODO: Link documentation to relevant articles.
+
 /** A quantity with magnitude and direction in two dimensions. */
 export type Vector2Like = Vector2 | [number, number];
 

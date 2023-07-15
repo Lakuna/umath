@@ -2,6 +2,31 @@
 export type DualQuaternionLike = DualQuaternion | [number, number, number, number, number, number, number, number];
 
 /**
+ * Creates a dual quaternion with the given values.
+ * @param x1 The first real component.
+ * @param y1 The second real component.
+ * @param z1 The third real component.
+ * @param w1 The fourth real component.
+ * @param x2 The first dual component.
+ * @param y2 The second dual component.
+ * @param z2 The third dual component.
+ * @param w2 The fourth dual component.
+ * @param out The dual quaternion to store the result in.
+ * @returns A new dual quaternion.
+ */
+export function fromValues<T extends DualQuaternionLike>(x1: number, y1: number, z1: number, w1: number, x2: number, y2: number, z2: number, w2: number, out: T): T {
+    out[0] = x1;
+    out[1] = y1;
+    out[2] = z1;
+    out[3] = w1;
+    out[4] = x2;
+    out[5] = y2;
+    out[6] = z2;
+    out[7] = w2;
+    return out;
+}
+
+/**
  * A complex number that is commonly used to describe transformations.
  * @see [Wikipedia](https://en.wikipedia.org/wiki/Dual_quaternion)
  */
@@ -21,7 +46,7 @@ export default class DualQuaternion extends Float32Array {
     public static fromValues(x1: number, y1: number, z1: number, w1: number, x2: number, y2: number, z2: number, w2: number): DualQuaternion;
 
     /**
-     * Creates a quaternion with the given values.
+     * Creates a dual quaternion with the given values.
      * @param x1 The first real component.
      * @param y1 The second real component.
      * @param z1 The third real component.
@@ -30,21 +55,13 @@ export default class DualQuaternion extends Float32Array {
      * @param y2 The second dual component.
      * @param z2 The third dual component.
      * @param w2 The fourth dual component.
-     * @param out The quaternion to store the result in.
-     * @returns A new quaternion.
+     * @param out The dual quaternion to store the result in.
+     * @returns A new dual quaternion.
      */
     public static fromValues<T extends DualQuaternionLike>(x1: number, y1: number, z1: number, w1: number, x2: number, y2: number, z2: number, w2: number, out: T): T;
 
     public static fromValues<T extends DualQuaternionLike>(x1: number, y1: number, z1: number, w1: number, x2: number, y2: number, z2: number, w2: number, out: T = new DualQuaternion() as T): T {
-        out[0] = x1;
-        out[1] = y1;
-        out[2] = z1;
-        out[3] = w1;
-        out[4] = x2;
-        out[5] = y2;
-        out[6] = z2;
-        out[7] = w2;
-        return out;
+        return fromValues(x1, y1, z1, w1, x2, y2, z2, w2, out);
     }
 
     /** Creates an identity dual quaternion. */

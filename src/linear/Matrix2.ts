@@ -14,6 +14,7 @@ export type Matrix2Like = Matrix2 | [
  * @param radians The angle in radians.
  * @param out The matrix to store the result in.
  * @returns The transformation matrix.
+ * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
  */
 export function fromRotation<T extends Matrix2Like>(radians: number, out: T): T {
 	const s: number = Math.sin(radians);
@@ -31,6 +32,7 @@ export function fromRotation<T extends Matrix2Like>(radians: number, out: T): T 
  * @param vector The scaling vector.
  * @param out The matrix to store the result in.
  * @returns The transformation matrix.
+ * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
  */
 export function fromScaling<T extends Matrix2Like>(vector: Vector2Like, out: T): T {
 	out[0] = vector[0];
@@ -47,7 +49,7 @@ export function fromScaling<T extends Matrix2Like>(vector: Vector2Like, out: T):
  * @param c1r0 The value in the second column and first row.
  * @param c1r1 The value in the second column and second row.
  * @param out The matrix to store the result in.
- * @returns The transformation matrix.
+ * @returns The matrix.
  */
 export function fromValues<T extends Matrix2Like>(c0r0: number, c0r1: number, c1r0: number, c1r1: number, out: T): T {
 	out[0] = c0r0;
@@ -99,6 +101,7 @@ export function exactEquals(a: Matrix2Like, b: Matrix2Like): boolean {
  * @param b The addend.
  * @param out The matrix to store the result in.
  * @returns The sum.
+ * @see [Matrix addition](https://en.wikipedia.org/wiki/Matrix_addition)
  */
 export function add<T extends Matrix2Like>(a: Matrix2Like, b: Matrix2Like, out: T): T {
 	out[0] = a[0] + b[0];
@@ -113,6 +116,7 @@ export function add<T extends Matrix2Like>(a: Matrix2Like, b: Matrix2Like, out: 
  * @param matrix The matrix.
  * @param out The matrix to store the result in.
  * @returns The adjugate of the matrix.
+ * @see [Adjugate matrix](https://en.wikipedia.org/wiki/Adjugate_matrix)
  */
 export function adjoint<T extends Matrix2Like>(matrix: Matrix2Like, out: T): T {
 	const a0: number = matrix[0];
@@ -138,9 +142,10 @@ export function copy<T extends Matrix2Like>(matrix: Matrix2Like, out: T): T {
 }
 
 /**
- * Calculates the Frobenius normal of a matrix.
+ * Calculates the Frobenius norm of a matrix.
  * @param matrix The matrix.
- * @returns The Frobenius normal.
+ * @returns The Frobenius norm.
+ * @see [Matrix norm](https://en.wikipedia.org/wiki/Matrix_norm)
  */
 export function frob(matrix: Matrix2Like): number {
 	return Math.hypot(
@@ -155,6 +160,7 @@ export function frob(matrix: Matrix2Like): number {
  * @param b The multiplier.
  * @param out The matrix to store the result in.
  * @returns The product.
+ * @see [Matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication)
  */
 export function multiply<T extends Matrix2Like>(a: Matrix2Like, b: Matrix2Like, out: T): T {
 	const a0: number = a[0];
@@ -180,6 +186,7 @@ export function multiply<T extends Matrix2Like>(a: Matrix2Like, b: Matrix2Like, 
  * @param scalar The multiplier.
  * @param out The matrix to store the result in.
  * @returns The product.
+ * @see [Matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication)
  */
 export function multiplyScalar<T extends Matrix2Like>(matrix: Matrix2Like, scalar: number, out: T): T {
 	out[0] = matrix[0] * scalar;
@@ -196,6 +203,8 @@ export function multiplyScalar<T extends Matrix2Like>(matrix: Matrix2Like, scala
  * @param scalar The multiplier.
  * @param out The matrix to store the result in.
  * @returns The sum.
+ * @see [Matrix addition](https://en.wikipedia.org/wiki/Matrix_addition)
+ * @see [Matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication)
  */
 export function multiplyScalarAndAdd<T extends Matrix2Like>(a: Matrix2Like, b: Matrix2Like, scalar: number, out: T): T {
 	out[0] = a[0] + b[0] * scalar;
@@ -211,6 +220,7 @@ export function multiplyScalarAndAdd<T extends Matrix2Like>(a: Matrix2Like, b: M
  * @param b The subtrahend.
  * @param out The matrix to store the result in.
  * @returns The difference.
+ * @see [Matrix addition](https://en.wikipedia.org/wiki/Matrix_addition)
  */
 export function subtract<T extends Matrix2Like>(a: Matrix2Like, b: Matrix2Like, out: T): T {
 	out[0] = a[0] - b[0];
@@ -225,6 +235,7 @@ export function subtract<T extends Matrix2Like>(a: Matrix2Like, b: Matrix2Like, 
  * @param matrix The matrix.
  * @param out The matrix to store the result in.
  * @returns The transpose of the matrix.
+ * @see [Transpose](https://en.wikipedia.org/wiki/Transpose)
  */
 export function transpose<T extends Matrix2Like>(matrix: Matrix2Like, out: T): T {
 	if (out == matrix) {
@@ -244,6 +255,7 @@ export function transpose<T extends Matrix2Like>(matrix: Matrix2Like, out: T): T
  * Calculates the determinant of a matrix.
  * @param matrix The matrix.
  * @returns The determinant.
+ * @see [Determinant](https://en.wikipedia.org/wiki/Determinant)
  */
 export function determinant(matrix: Matrix2Like): number {
 	return (matrix[0] as number) * (matrix[3] as number)
@@ -254,6 +266,7 @@ export function determinant(matrix: Matrix2Like): number {
  * Resets a matrix to identity.
  * @param out The matrix to store the result in.
  * @returns The matrix.
+ * @see [Identity matrix](https://en.wikipedia.org/wiki/Identity_matrix)
  */
 export function identity<T extends Matrix2Like>(out: T): T {
 	out[0] = 1;
@@ -268,6 +281,7 @@ export function identity<T extends Matrix2Like>(out: T): T {
  * @param matrix The matrix.
  * @param out The matrix to store the result in.
  * @returns The inverted matrix.
+ * @see [Invertible matrix](https://en.wikipedia.org/wiki/Invertible_matrix)
  */
 export function invert<T extends Matrix2Like>(matrix: Matrix2Like, out: T): T {
 	const a0: number = matrix[0];
@@ -294,6 +308,7 @@ export function invert<T extends Matrix2Like>(matrix: Matrix2Like, out: T): T {
  * @param radians The angle in radians.
  * @param out The matrix to store the result in.
  * @returns The rotated matrix.
+ * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
  */
 export function rotate<T extends Matrix2Like>(matrix: Matrix2Like, radians: number, out: T): T {
 	const a0: number = matrix[0];
@@ -317,6 +332,7 @@ export function rotate<T extends Matrix2Like>(matrix: Matrix2Like, radians: numb
  * @param vector The scaling vector.
  * @param out The matrix to store the result in.
  * @returns The scaled matrix.
+ * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
  */
 export function scale<T extends Matrix2Like>(matrix: Matrix2Like, vector: Vector2Like, out: T): T {
 	const v0: number = vector[0];
@@ -335,6 +351,7 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	 * Creates a transformation matrix that represents a rotation by the given angle around the Z-axis.
 	 * @param radians The angle in radians.
 	 * @returns The transformation matrix.
+	 * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
 	 */
 	public static fromRotation(radians: number): Matrix2;
 
@@ -343,6 +360,7 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	 * @param radians The angle in radians.
 	 * @param out The matrix to store the result in.
 	 * @returns The transformation matrix.
+	 * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
 	 */
 	public static fromRotation<T extends Matrix2Like>(radians: number, out: T): T;
 
@@ -354,6 +372,7 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	 * Creates a transformation matrix that represents a scaling by the given vector.
 	 * @param vector The scaling vector.
 	 * @returns The transformation matrix.
+	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
 	 */
 	public static fromScaling(vector: Vector2Like): Matrix2;
 
@@ -362,6 +381,7 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	 * @param vector The scaling vector.
 	 * @param out The matrix to store the result in.
 	 * @returns The transformation matrix.
+	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
 	 */
 	public static fromScaling<T extends Matrix2Like>(vector: Vector2Like, out: T): T;
 
@@ -375,7 +395,7 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	 * @param c0r1 The value in the first column and second row.
 	 * @param c1r0 The value in the second column and first row.
 	 * @param c1r1 The value in the second column and second row.
-	 * @returns The transformation matrix.
+	 * @returns The matrix.
 	 */
 	public static fromValues(c0r0: number, c0r1: number, c1r0: number, c1r1: number): Matrix2;
 
@@ -386,7 +406,7 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	 * @param c1r0 The value in the second column and first row.
 	 * @param c1r1 The value in the second column and second row.
 	 * @param out The matrix to store the result in.
-	 * @returns The transformation matrix.
+	 * @returns The matrix.
 	 */
 	public static fromValues<T extends Matrix2Like>(c0r0: number, c0r1: number, c1r0: number, c1r1: number, out: T): T;
 
@@ -433,6 +453,7 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	 * Adds another matrix to this one.
 	 * @param matrix The other matrix.
 	 * @returns The sum of the matrices.
+	 * @see [Matrix addition](https://en.wikipedia.org/wiki/Matrix_addition)
 	 */
 	public add(matrix: Matrix2Like): Matrix2;
 
@@ -441,6 +462,7 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	 * @param matrix The other matrix.
 	 * @param out The matrix to store the result in.
 	 * @returns The sum of the matrices.
+	 * @see [Matrix addition](https://en.wikipedia.org/wiki/Matrix_addition)
 	 */
 	public add<T extends Matrix2Like>(matrix: Matrix2Like, out: T): T;
 
@@ -451,6 +473,7 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	/**
 	 * Calculates the adjugate of this matrix.
 	 * @returns The adjugate of this matrix.
+	 * @see [Adjugate matrix](https://en.wikipedia.org/wiki/Adjugate_matrix)
 	 */
 	public adjoint(): Matrix2;
 
@@ -458,6 +481,7 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	 * Calculates the adjugate of this matrix.
 	 * @param out The matrix to store the result in.
 	 * @returns The adjugate of this matrix.
+	 * @see [Adjugate matrix](https://en.wikipedia.org/wiki/Adjugate_matrix)
 	 */
 	public adjoint<T extends Matrix2Like>(out: T): T;
 
@@ -487,7 +511,10 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 		return copy(matrix, this);
 	}
 
-	/** The Frobenius normal of this matrix. */
+	/**
+	 * The Frobenius norm of this matrix.
+	 * @see [Matrix norm](https://en.wikipedia.org/wiki/Matrix_norm)
+	 */
 	public get frob(): number {
 		return frob(this);
 	}
@@ -496,6 +523,7 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	 * Multiplies this matrix by another.
 	 * @param matrix The other matrix.
 	 * @returns The product of the matrices.
+	 * @see [Matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication)
 	 */
 	public multiply(matrix: Matrix2Like): Matrix2;
 
@@ -504,6 +532,7 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	 * @param matrix The other matrix.
 	 * @param out The matrix to store the result in.
 	 * @returns The product of the matrices.
+	 * @see [Matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication)
 	 */
 	public multiply<T extends Matrix2Like>(matrix: Matrix2Like, out: T): T;
 
@@ -515,6 +544,7 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	 * Multiplies this matrix by a scalar value.
 	 * @param scalar The scalar value.
 	 * @returns The product of the matrix and the scalar value.
+	 * @see [Matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication)
 	 */
 	public multiplyScalar(scalar: number): Matrix2;
 
@@ -523,6 +553,7 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	 * @param scalar The scalar value.
 	 * @param out The matrix to store the result in.
 	 * @returns The product of the matrix and the scalar value.
+	 * @see [Matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication)
 	 */
 	public multiplyScalar<T extends Matrix2Like>(scalar: number, out: T): T;
 
@@ -535,6 +566,8 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	 * @param matrix The other matrix.
 	 * @param scalar The scalar.
 	 * @returns The sum.
+	 * @see [Matrix addition](https://en.wikipedia.org/wiki/Matrix_addition)
+	 * @see [Matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication)
 	 */
 	public multiplyScalarAndAdd(matrix: Matrix2Like, scalar: number): Matrix2;
 
@@ -544,6 +577,8 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	 * @param scalar The scalar.
 	 * @param out The matrix to store the result in.
 	 * @returns The sum.
+	 * @see [Matrix addition](https://en.wikipedia.org/wiki/Matrix_addition)
+	 * @see [Matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication)
 	 */
 	public multiplyScalarAndAdd<T extends Matrix2Like>(matrix: Matrix2Like, scalar: number, out: T): T;
 
@@ -555,6 +590,7 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	 * Subtracts another matrix from this one.
 	 * @param matrix The other matrix.
 	 * @returns The difference between the matrices.
+	 * @see [Matrix addition](https://en.wikipedia.org/wiki/Matrix_addition)
 	 */
 	public subtract(matrix: Matrix2Like): Matrix2;
 
@@ -563,6 +599,7 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	 * @param matrix The other matrix.
 	 * @param out The matrix to store the result in.
 	 * @returns The difference between the matrices.
+	 * @see [Matrix addition](https://en.wikipedia.org/wiki/Matrix_addition)
 	 */
 	public subtract<T extends Matrix2Like>(matrix: Matrix2Like, out: T): T;
 
@@ -573,6 +610,7 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	/**
 	 * Transposes this matrix.
 	 * @returns The transpose of this matrix.
+	 * @see [Transpose](https://en.wikipedia.org/wiki/Transpose)
 	 */
 	public transpose(): Matrix2;
 
@@ -580,6 +618,7 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	 * Transposes this matrix.
 	 * @param out The matrix to store the result in.
 	 * @returns The transpose of this matrix.
+	 * @see [Transpose](https://en.wikipedia.org/wiki/Transpose)
 	 */
 	public transpose<T extends Matrix2Like>(out: T): T;
 
@@ -587,7 +626,10 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 		return transpose(this, out);
 	}
 
-	/** The determinant of this matrix. */
+	/**
+	 * The determinant of this matrix.
+	 * @see [Determinant](https://en.wikipedia.org/wiki/Determinant)
+	 */
 	public get determinant(): number {
 		return determinant(this);
 	}
@@ -595,6 +637,7 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	/**
 	 * Resets this matrix to identity.
 	 * @returns This matrix.
+	 * @see [Identity matrix](https://en.wikipedia.org/wiki/Identity_matrix)
 	 */
 	public identity(): this {
 		return identity(this);
@@ -603,6 +646,7 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	/**
 	 * Inverts this matrix.
 	 * @returns The inverted matrix.
+	 * @see [Invertible matrix](https://en.wikipedia.org/wiki/Invertible_matrix)
 	 */
 	public invert(): Matrix2;
 
@@ -610,6 +654,7 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	 * Inverts this matrix.
 	 * @param out The matrix to store the result in.
 	 * @returns The inverted matrix.
+	 * @see [Invertible matrix](https://en.wikipedia.org/wiki/Invertible_matrix)
 	 */
 	public invert<T extends Matrix2Like>(out: T): T;
 
@@ -621,6 +666,7 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	 * Rotates this matrix by the given angle.
 	 * @param radians The angle in radians.
 	 * @returns The rotated matrix.
+	 * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
 	 */
 	public rotate(radians: number): Matrix2;
 
@@ -629,6 +675,7 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	 * @param radians The angle in radians.
 	 * @param out The matrix to store the result in.
 	 * @returns The rotated matrix.
+	 * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
 	 */
 	public rotate<T extends Matrix2Like>(radians: number, out: T): T;
 
@@ -640,6 +687,7 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	 * Scales this matrix by the given vector.
 	 * @param v The scaling vector.
 	 * @returns The scaled matrix.
+	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
 	 */
 	public scale(v: Vector2Like): Matrix2;
 
@@ -648,6 +696,7 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	 * @param vector The scaling vector.
 	 * @param out The matrix to store the result in.
 	 * @returns The scaled matrix.
+	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
 	 */
 	public scale<T extends Matrix2Like>(vector: Vector2Like, out: T): T;
 

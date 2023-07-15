@@ -1,4 +1,7 @@
-/** An error resulting from trying to invert a singular matrix. */
+/**
+ * An error resulting from trying to invert a singular matrix.
+ * @see [Invertible matrix](https://en.wikipedia.org/wiki/Invertible_matrix)
+ */
 export default class SingularMatrixError extends Error {
     /**
      * Creates an error resulting from trying to invert a singular matrix.

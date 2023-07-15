@@ -1,6 +1,8 @@
 /** A quantity with magnitude and direction. */
 export type VectorLike = Vector | Iterable<number>;
 
+// TODO: Link documentation to relevant articles.
+
 /**
  * A quantity with magnitude and direction.
  * @see [Wikipedia](https://en.wikipedia.org/wiki/Euclidean_vector)

@@ -20,6 +20,7 @@ export type Matrix4Like = Matrix4 | [
  * @param vector The translation vector.
  * @param out The matrix to store the result in.
  * @returns The transformation matrix.
+ * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
  */
 export function fromTranslation<T extends Matrix4Like>(vector: Vector3Like, out: T): T {
 	out[0] = 1;
@@ -46,6 +47,7 @@ export function fromTranslation<T extends Matrix4Like>(vector: Vector3Like, out:
  * @param vector The scaling vector.
  * @param out The matrix to store the result in.
  * @returns The transformation matrix.
+ * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
  */
 export function fromScaling<T extends Matrix4Like>(vector: Vector3Like, out: T): T {
 	out[0] = vector[0];
@@ -70,7 +72,8 @@ export function fromScaling<T extends Matrix4Like>(vector: Vector3Like, out: T):
 /**
  * Resets a matrix to identity.
  * @param out The matrix to store the result in.
- * @returns This matrix.
+ * @returns The matrix.
+ * @see [Identity matrix](https://en.wikipedia.org/wiki/Identity_matrix)
  */
 export function identity<T extends Matrix4Like>(out: T): T {
 	out[0] = 1;
@@ -98,6 +101,7 @@ export function identity<T extends Matrix4Like>(out: T): T {
  * @param axis The axis to rotate around.
  * @param out The matrix to store the result in.
  * @returns The transformation matrix.
+ * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
  */
 export function fromRotation<T extends Matrix4Like>(radians: number, axis: Vector3Like, out: T): T {
 	let x: number = axis[0];
@@ -142,6 +146,7 @@ export function fromRotation<T extends Matrix4Like>(radians: number, axis: Vecto
  * @param radians The angle in radians.
  * @param out The matrix to store the result in.
  * @returns The transformation matrix.
+ * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
  */
 export function fromXRotation<T extends Matrix4Like>(radians: number, out: T): T {
 	const s: number = Math.sin(radians);
@@ -171,6 +176,7 @@ export function fromXRotation<T extends Matrix4Like>(radians: number, out: T): T
  * @param radians The angle in radians.
  * @param out The matrix to store the result in.
  * @returns The transformation matrix.
+ * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
  */
 export function fromYRotation<T extends Matrix4Like>(radians: number, out: T): T {
 	const s: number = Math.sin(radians);
@@ -200,6 +206,7 @@ export function fromYRotation<T extends Matrix4Like>(radians: number, out: T): T
  * @param radians The angle in radians.
  * @param out The matrix to store the result in.
  * @returns The transformation matrix.
+ * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
  */
 export function fromZRotation<T extends Matrix4Like>(radians: number, out: T): T {
 	const s: number = Math.sin(radians);
@@ -230,6 +237,9 @@ export function fromZRotation<T extends Matrix4Like>(radians: number, out: T): T
  * @param translation The translation vector.
  * @param out The matrix to store the result in.
  * @returns The transformation matrix.
+ * @see [Quaternion](https://en.wikipedia.org/wiki/Quaternion)
+ * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
+ * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
  */
 export function fromRotationTranslation<T extends Matrix4Like>(rotation: QuaternionLike, translation: Vector3Like, out: T): T {
 	const x: number = rotation[0];
@@ -276,6 +286,9 @@ export function fromRotationTranslation<T extends Matrix4Like>(rotation: Quatern
  * @param scaling The scaling vector.
  * @param out The matrix to store the result in.
  * @returns The transformation matrix.
+ * @see [Quaternion](https://en.wikipedia.org/wiki/Quaternion)
+ * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
+ * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
  */
 export function fromRotationTranslationScale<T extends Matrix4Like>(rotation: QuaternionLike, translation: Vector3Like, scaling: Vector3Like, out: T): T {
 	const x: number = rotation[0];
@@ -327,6 +340,9 @@ export function fromRotationTranslationScale<T extends Matrix4Like>(rotation: Qu
  * @param origin The origin vector.
  * @param out The matrix to store the result in.
  * @returns The transformation matrix.
+ * @see [Quaternion](https://en.wikipedia.org/wiki/Quaternion)
+ * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
+ * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
  */
 export function fromRotationTranslationScaleOrigin<T extends Matrix4Like>(rotation: QuaternionLike, translation: Vector3Like, scaling: Vector3Like, origin: Vector3Like, out: T): T {
 	const x: number = rotation[0];
@@ -388,6 +404,9 @@ export function fromRotationTranslationScaleOrigin<T extends Matrix4Like>(rotati
  * @param quaternion The dual quaternion.
  * @param out The matrix to store the result in.
  * @returns The transformation matrix.
+ * @see [Dual quaternion](https://en.wikipedia.org/wiki/Dual_quaternion)
+ * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
+ * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
  */
 export function fromDualQuaternion<T extends Matrix4Like>(quaternion: DualQuaternionLike, out: T): T {
 	const translation: Vector3Like = new Float32Array(3) as Vector3Like;
@@ -425,6 +444,8 @@ export function fromDualQuaternion<T extends Matrix4Like>(quaternion: DualQuater
  * @param far The far bound of the frustum.
  * @param out The matrix to store the result in.
  * @returns The frustum matrix.
+ * @see [Camera matrix](https://en.wikipedia.org/wiki/Camera_matrix)
+ * @see [3D projection](https://en.wikipedia.org/wiki/3D_projection)
  */
 export function frustum<T extends Matrix4Like>(left: number, right: number, bottom: number, top: number, near: number, far: number, out: T): T {
 	const rl: number = 1 / (right - left);
@@ -458,6 +479,8 @@ export function frustum<T extends Matrix4Like>(left: number, right: number, bott
  * @param far The far bound of the frustum.
  * @param out The matrix to store the result in.
  * @returns The perspective projection matrix.
+ * @see [Camera matrix](https://en.wikipedia.org/wiki/Camera_matrix)
+ * @see [3D projection](https://en.wikipedia.org/wiki/3D_projection)
  */
 export function perspective<T extends Matrix4Like>(fov: number, aspect: number, near: number, far: number, out: T): T {
 	const f: number = 1 / Math.tan(fov / 2);
@@ -497,6 +520,8 @@ export function perspective<T extends Matrix4Like>(fov: number, aspect: number, 
  * @param out The matrix to store the result in.
  * @returns The perspective projection matrix.
  * @see [WebXR API](https://developer.mozilla.org/en-US/docs/Web/API/WebXR_Device_API)
+ * @see [Camera matrix](https://en.wikipedia.org/wiki/Camera_matrix)
+ * @see [3D projection](https://en.wikipedia.org/wiki/3D_projection)
  */
 export function perspectiveFromFieldOfView<T extends Matrix4Like>(fov: FieldOfView, near: number, far: number, out: T): T {
 	const upTan: number = Math.tan((fov.upDegrees * Math.PI) / 180);
@@ -535,6 +560,8 @@ export function perspectiveFromFieldOfView<T extends Matrix4Like>(fov: FieldOfVi
  * @param far The far bound of the frustum.
  * @param out The matrix to store the result in.
  * @returns The frustum matrix.
+ * @see [Camera matrix](https://en.wikipedia.org/wiki/Camera_matrix)
+ * @see [3D projection](https://en.wikipedia.org/wiki/3D_projection)
  */
 export function ortho<T extends Matrix4Like>(left: number, right: number, bottom: number, top: number, near: number, far: number, out: T): T {
 	const lr: number = 1 / (left - right);
@@ -567,6 +594,7 @@ export function ortho<T extends Matrix4Like>(left: number, right: number, bottom
  * @param up The local up direction.
  * @param out The matrix to store the result in.
  * @returns The look-at matrix.
+ * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
  */
 export function lookAt<T extends Matrix4Like>(eye: Vector3Like, center: Vector3Like, up: Vector3Like, out: T): T {
 	const eyex: number = eye[0];
@@ -651,6 +679,7 @@ export function lookAt<T extends Matrix4Like>(eye: Vector3Like, center: Vector3L
  * @param up The local up direction.
  * @param out The matrix to store the result in.
  * @returns The transformation matrix.
+ * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
  */
 export function targetTo<T extends Matrix4>(eye: Vector3Like, target: Vector3Like, up: Vector3Like, out: T): T {
 	const eyex: number = eye[0];
@@ -708,6 +737,7 @@ export function targetTo<T extends Matrix4>(eye: Vector3Like, target: Vector3Lik
  * @param b The addend.
  * @param out The matrix to store the result in.
  * @returns The sum.
+ * @see [Matrix addition](https://en.wikipedia.org/wiki/Matrix_addition)
  */
 export function add<T extends Matrix4Like>(a: Matrix4Like, b: Matrix4Like, out: T): T {
 	out[0] = a[0] + b[0];
@@ -748,7 +778,7 @@ export function add<T extends Matrix4Like>(a: Matrix4Like, b: Matrix4Like, out: 
  * @param c3r2 The value in the fourth column and third row.
  * @param c3r3 The value in the fourth column and fourth row.
  * @param out The matrix to store the result in.
- * @returns The transformation matrix.
+ * @returns The matrix.
  */
 export function fromValues<T extends Matrix4Like>(c0r0: number, c0r1: number, c0r2: number, c0r3: number, c1r0: number, c1r1: number, c1r2: number, c1r3: number, c2r0: number, c2r1: number, c2r2: number, c2r3: number, c3r0: number, c3r1: number, c3r2: number, c3r3: number, out: T): T {
 	out[0] = c0r0;
@@ -859,6 +889,7 @@ export function exactEquals(a: Matrix4Like, b: Matrix4Like): boolean {
  * @param matrix The matrix.
  * @param out The matrix to store the result in.
  * @returns The adjugate of the matrix.
+ * @see [Adjugate matrix](https://en.wikipedia.org/wiki/Adjugate_matrix)
  */
 export function adjoint<T extends Matrix4Like>(matrix: Matrix4Like, out: T): T {
 	const a00: number = matrix[0];
@@ -972,9 +1003,10 @@ export function copy<T extends Matrix4Like>(matrix: Matrix4Like, out: T): T {
 }
 
 /**
- * Calculates the Frobenius normal of a matrix.
+ * Calculates the Frobenius norm of a matrix.
  * @param matrix The matrix.
- * @returns The Frobenius normal.
+ * @returns The Frobenius norm.
+ * @see [Matrix norm](https://en.wikipedia.org/wiki/Matrix_norm)
  */
 export function frob(matrix: Matrix4Like): number {
 	return Math.hypot(
@@ -991,6 +1023,7 @@ export function frob(matrix: Matrix4Like): number {
  * @param b The multiplier.
  * @param out The matrix to store the result in.
  * @returns The product.
+ * @see [Matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication)
  */
 export function multiply<T extends Matrix4Like>(a: Matrix4Like, b: Matrix4Like, out: T): T {
 	const a00: number = a[0];
@@ -1051,6 +1084,7 @@ export function multiply<T extends Matrix4Like>(a: Matrix4Like, b: Matrix4Like, 
  * @param scalar The multiplier.
  * @param out The matrix to store the result in.
  * @returns The product.
+ * @see [Matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication)
  */
 export function multiplyScalar<T extends Matrix4Like>(matrix: Matrix4Like, scalar: number, out: T): T {
 	out[0] = matrix[0] * scalar;
@@ -1079,6 +1113,8 @@ export function multiplyScalar<T extends Matrix4Like>(matrix: Matrix4Like, scala
  * @param scalar The multiplier.
  * @param out The matrix to store the result in.
  * @returns The sum.
+ * @see [Matrix addition](https://en.wikipedia.org/wiki/Matrix_addition)
+ * @see [Matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication)
  */
 export function multiplyScalarAndAdd<T extends Matrix4Like>(a: Matrix4Like, b: Matrix4Like, scalar: number, out: T): T {
 	out[0] = a[0] + b[0] * scalar;
@@ -1106,6 +1142,7 @@ export function multiplyScalarAndAdd<T extends Matrix4Like>(a: Matrix4Like, b: M
  * @param b The subtrahend.
  * @param out The matrix to store the result in.
  * @returns The difference.
+ * @see [Matrix addition](https://en.wikipedia.org/wiki/Matrix_addition)
  */
 export function subtract<T extends Matrix4Like>(a: Matrix4Like, b: Matrix4Like, out: T): T {
 	out[0] = a[0] - b[0];
@@ -1132,6 +1169,7 @@ export function subtract<T extends Matrix4Like>(a: Matrix4Like, b: Matrix4Like, 
  * @param matrix The matrix.
  * @param out The matrix to store the result in.
  * @returns The transpose.
+ * @see [Transpose](https://en.wikipedia.org/wiki/Transpose)
  */
 export function transpose<T extends Matrix4Like>(matrix: Matrix4Like, out: T): T {
 	if (out == matrix as unknown as T) {
@@ -1179,6 +1217,7 @@ export function transpose<T extends Matrix4Like>(matrix: Matrix4Like, out: T): T
  * Calculates the determinant of a matrix.
  * @param matrix The matrix.
  * @returns The determinant.
+ * @see [Determinant](https://en.wikipedia.org/wiki/Determinant)
  */
 export function determinant(matrix: Matrix4Like): number {
 	const a00: number = matrix[0];
@@ -1219,6 +1258,7 @@ export function determinant(matrix: Matrix4Like): number {
  * @param matrix The matrix.
  * @param out The matrix to store the result in.
  * @returns The inverted matrix.
+ * @see [Invertible matrix](https://en.wikipedia.org/wiki/Invertible_matrix)
  */
 export function invert<T extends Matrix4Like>(matrix: Matrix4Like, out: T): T {
 	const a00: number = matrix[0];
@@ -1282,6 +1322,7 @@ export function invert<T extends Matrix4Like>(matrix: Matrix4Like, out: T): T {
  * @param vector The scaling vector.
  * @param out The matrix to store the result in.
  * @returns The scaled matrix.
+ * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
  */
 export function scale<T extends Matrix4Like>(matrix: Matrix4Like, vector: Vector3Like, out: T): T {
 	const x: number = vector[0];
@@ -1313,6 +1354,7 @@ export function scale<T extends Matrix4Like>(matrix: Matrix4Like, vector: Vector
  * @param vector The translation vector.
  * @param out The matrix to store the result in.
  * @returns The translated matrix.
+ * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
  */
 export function translate<T extends Matrix4Like>(matrix: Matrix4Like, vector: Vector3Like, out: T): T {
 	const x: number = vector[0];
@@ -1366,6 +1408,7 @@ export function translate<T extends Matrix4Like>(matrix: Matrix4Like, vector: Ve
  * @param axis The axis.
  * @param out The matrix to store the result in.
  * @returns The rotated matrix.
+ * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
  */
 export function rotate<T extends Matrix4Like>(matrix: Matrix4Like, radians: number, axis: Vector3Like, out: T): T {
 	let x: number = axis[0];
@@ -1436,6 +1479,7 @@ export function rotate<T extends Matrix4Like>(matrix: Matrix4Like, radians: numb
  * @param radians The angle in radians.
  * @param out The matrix to store the result in.
  * @returns The rotated matrix.
+ * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
  */
 export function rotateX<T extends Matrix4Like>(matrix: Matrix4Like, radians: number, out: T): T {
 	const s: number = Math.sin(radians);
@@ -1478,6 +1522,7 @@ export function rotateX<T extends Matrix4Like>(matrix: Matrix4Like, radians: num
  * @param radians The angle in radians.
  * @param out The matrix to store the result in.
  * @returns The rotated matrix.
+ * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
  */
 export function rotateY<T extends Matrix4Like>(matrix: Matrix4Like, radians: number, out: T): T {
 	const s: number = Math.sin(radians);
@@ -1520,6 +1565,7 @@ export function rotateY<T extends Matrix4Like>(matrix: Matrix4Like, radians: num
  * @param radians The angle in radians.
  * @param out The matrix to store the result in.
  * @returns The rotated matrix.
+ * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
  */
 export function rotateZ<T extends Matrix4Like>(matrix: Matrix4Like, radians: number, out: T): T {
 	const s: number = Math.sin(radians);
@@ -1560,6 +1606,7 @@ export function rotateZ<T extends Matrix4Like>(matrix: Matrix4Like, radians: num
  * Gets the translation vector component of a transformation matrix.
  * @param matrix The matrix.
  * @returns The translation vector.
+ * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
  */
 export function getTranslation(matrix: Matrix4Like): Vector3Like {
 	return new Float32Array([matrix[12], matrix[13], matrix[14]]) as Vector3Like;
@@ -1569,6 +1616,7 @@ export function getTranslation(matrix: Matrix4Like): Vector3Like {
  * Gets the scaling factor of a transformation matrix.
  * @param matrix The matrix.
  * @returns The scaling vector.
+ * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
  */
 export function getScaling(matrix: Matrix4Like): Vector3Like {
 	const m11: number = matrix[0];
@@ -1588,6 +1636,7 @@ export function getScaling(matrix: Matrix4Like): Vector3Like {
  * Gets the rotational component of a transformation matrix.
  * @param matrix The matrix.
  * @returns The rotation.
+ * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
  */
 export function getRotation(matrix: Matrix4Like): QuaternionLike {
 	const scaling: Vector3Like = getScaling(matrix);
@@ -1633,6 +1682,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * Creates a transformation matrix that represents a translation by the given vector.
 	 * @param vector The translation vector.
 	 * @returns The transformation matrix.
+	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
 	 */
 	public static fromTranslation(vector: Vector3Like): Matrix4;
 
@@ -1641,6 +1691,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param vector The translation vector.
 	 * @param out The matrix to store the result in.
 	 * @returns The transformation matrix.
+	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
 	 */
 	public static fromTranslation<T extends Matrix4Like>(vector: Vector3Like, out: T): T;
 
@@ -1652,6 +1703,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * Creates a transformation matrix that represents a scaling by the given vector.
 	 * @param vector The scaling vector.
 	 * @returns The transformation matrix.
+	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
 	 */
 	public static fromScaling(vector: Vector3Like): Matrix4;
 
@@ -1660,6 +1712,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param vector The scaling vector.
 	 * @param out The matrix to store the result in.
 	 * @returns The transformation matrix.
+	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
 	 */
 	public static fromScaling<T extends Matrix4Like>(vector: Vector3Like, out: T): T;
 
@@ -1672,6 +1725,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param radians The angle in radians.
 	 * @param axis The axis to rotate around.
 	 * @returns The transformation matrix.
+	 * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
 	 */
 	public static fromRotation(radians: number, axis: Vector3Like): Matrix4;
 
@@ -1681,6 +1735,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param axis The axis to rotate around.
 	 * @param out The matrix to store the result in.
 	 * @returns The transformation matrix.
+	 * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
 	 */
 	public static fromRotation<T extends Matrix4Like>(radians: number, axis: Vector3Like, out: T): T;
 
@@ -1692,6 +1747,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * Creates a transformation matrix that represents a rotation by the given angle around the X-axis.
 	 * @param radians The angle in radians.
 	 * @returns The transformation matrix.
+	 * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
 	 */
 	public static fromXRotation(radians: number): Matrix4;
 
@@ -1700,6 +1756,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param radians The angle in radians.
 	 * @param out The matrix to store the result in.
 	 * @returns The transformation matrix.
+	 * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
 	 */
 	public static fromXRotation<T extends Matrix4Like>(radians: number, out: T): T;
 
@@ -1711,6 +1768,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * Creates a transformation matrix that represents a rotation by the given angle around the Y-axis.
 	 * @param radians The angle in radians.
 	 * @returns The transformation matrix.
+	 * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
 	 */
 	public static fromYRotation(radians: number): Matrix4;
 
@@ -1719,6 +1777,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param radians The angle in radians.
 	 * @param out The matrix to store the result in.
 	 * @returns The transformation matrix.
+	 * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
 	 */
 	public static fromYRotation<T extends Matrix4Like>(radians: number, out: T): T;
 
@@ -1730,6 +1789,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * Creates a transformation matrix that represents a rotation by the given angle around the Z-axis.
 	 * @param radians The angle in radians.
 	 * @returns The transformation matrix.
+	 * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
 	 */
 	public static fromZRotation(radians: number): Matrix4;
 
@@ -1738,6 +1798,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param radians The angle in radians.
 	 * @param out The matrix to store the result in.
 	 * @returns The transformation matrix.
+	 * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
 	 */
 	public static fromZRotation<T extends Matrix4Like>(radians: number, out: T): T;
 
@@ -1750,6 +1811,8 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param rotation The rotation quaternion.
 	 * @param translation The translation vector.
 	 * @returns The transformation matrix.
+	 * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
+	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
 	 */
 	public static fromRotationTranslation(rotation: QuaternionLike, translation: Vector3Like): Matrix4;
 
@@ -1759,6 +1822,8 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param translation The translation vector.
 	 * @param out The matrix to store the result in.
 	 * @returns The transformation matrix.
+	 * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
+	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
 	 */
 	public static fromRotationTranslation<T extends Matrix4Like>(rotation: QuaternionLike, translation: Vector3Like, out: T): T;
 
@@ -1772,6 +1837,8 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param translation The translation vector.
 	 * @param scaling The scaling vector.
 	 * @returns The transformation matrix.
+	 * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
+	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
 	 */
 	public static fromRotationTranslationScale(rotation: QuaternionLike, translation: Vector3Like, scaling: Vector3Like): Matrix4;
 
@@ -1782,6 +1849,8 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param scaling The scaling vector.
 	 * @param out The matrix to store the result in.
 	 * @returns The transformation matrix.
+	 * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
+	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
 	 */
 	public static fromRotationTranslationScale<T extends Matrix4Like>(rotation: QuaternionLike, translation: Vector3Like, scaling: Vector3Like, out: T): T;
 
@@ -1796,6 +1865,8 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param scaling The scaling vector.
 	 * @param origin The origin vector.
 	 * @returns The transformation matrix.
+	 * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
+	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
 	 */
 	public static fromRotationTranslationScaleOrigin(rotation: QuaternionLike, translation: Vector3Like, scaling: Vector3Like, origin: Vector3Like): Matrix4;
 
@@ -1807,6 +1878,8 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param origin The origin vector.
 	 * @param out The matrix to store the result in.
 	 * @returns The transformation matrix.
+	 * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
+	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
 	 */
 	public static fromRotationTranslationScaleOrigin<T extends Matrix4Like>(rotation: QuaternionLike, translation: Vector3Like, scaling: Vector3Like, origin: Vector3Like, out: T): T;
 
@@ -1818,6 +1891,9 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * Creates a transformation matrix from a dual quaternion.
 	 * @param quaternion The dual quaternion.
 	 * @returns The transformation matrix.
+	 * @see [Dual quaternion](https://en.wikipedia.org/wiki/Dual_quaternion)
+	 * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
+	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
 	 */
 	public static fromDualQuaternion(quaternion: DualQuaternionLike): Matrix4;
 
@@ -1826,6 +1902,9 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param quaternion The dual quaternion.
 	 * @param out The matrix to store the result in.
 	 * @returns The transformation matrix.
+	 * @see [Dual quaternion](https://en.wikipedia.org/wiki/Dual_quaternion)
+	 * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
+	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
 	 */
 	public static fromDualQuaternion<T extends Matrix4Like>(quaternion: DualQuaternionLike, out: T): T;
 
@@ -1842,6 +1921,8 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param near The near bound of the frustum.
 	 * @param far The far bound of the frustum.
 	 * @returns The frustum matrix.
+	 * @see [Camera matrix](https://en.wikipedia.org/wiki/Camera_matrix)
+	 * @see [3D projection](https://en.wikipedia.org/wiki/3D_projection)
 	 */
 	public static frustum(left: number, right: number, bottom: number, top: number, near: number, far: number): Matrix4;
 
@@ -1855,6 +1936,8 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param far The far bound of the frustum.
 	 * @param out The matrix to store the result in.
 	 * @returns The frustum matrix.
+	 * @see [Camera matrix](https://en.wikipedia.org/wiki/Camera_matrix)
+	 * @see [3D projection](https://en.wikipedia.org/wiki/3D_projection)
 	 */
 	public static frustum<T extends Matrix4Like>(left: number, right: number, bottom: number, top: number, near: number, far: number, out: T): T;
 
@@ -1869,6 +1952,8 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param near The near bound of the frustum.
 	 * @param far The far bound of the frustum.
 	 * @returns The perspective projection matrix.
+	 * @see [Camera matrix](https://en.wikipedia.org/wiki/Camera_matrix)
+	 * @see [3D projection](https://en.wikipedia.org/wiki/3D_projection)
 	 */
 	public static perspective(fov: number, aspect: number, near: number, far: number): Matrix4;
 
@@ -1880,6 +1965,8 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param far The far bound of the frustum.
 	 * @param out The matrix to store the result in.
 	 * @returns The perspective projection matrix.
+	 * @see [Camera matrix](https://en.wikipedia.org/wiki/Camera_matrix)
+	 * @see [3D projection](https://en.wikipedia.org/wiki/3D_projection)
 	 */
 	public static perspective<T extends Matrix4Like>(fov: number, aspect: number, near: number, far: number, out: T): T;
 
@@ -1893,6 +1980,8 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param near The near bound of the frustum.
 	 * @param far The far bound of the frustum.
 	 * @returns The perspective projection matrix.
+	 * @see [Camera matrix](https://en.wikipedia.org/wiki/Camera_matrix)
+	 * @see [3D projection](https://en.wikipedia.org/wiki/3D_projection)
 	 * @see [WebXR API](https://developer.mozilla.org/en-US/docs/Web/API/WebXR_Device_API)
 	 */
 	public static perspectiveFromFieldOfView(fov: FieldOfView, near: number, far: number): Matrix4;
@@ -1904,6 +1993,8 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param far The far bound of the frustum.
 	 * @param out The matrix to store the result in.
 	 * @returns The perspective projection matrix.
+	 * @see [Camera matrix](https://en.wikipedia.org/wiki/Camera_matrix)
+	 * @see [3D projection](https://en.wikipedia.org/wiki/3D_projection)
 	 * @see [WebXR API](https://developer.mozilla.org/en-US/docs/Web/API/WebXR_Device_API)
 	 */
 	public static perspectiveFromFieldOfView<T extends Matrix4Like>(fov: FieldOfView, near: number, far: number, out: T): T;
@@ -1921,6 +2012,8 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param near The near bound of the frustum.
 	 * @param far The far bound of the frustum.
 	 * @returns The frustum matrix.
+	 * @see [Camera matrix](https://en.wikipedia.org/wiki/Camera_matrix)
+	 * @see [3D projection](https://en.wikipedia.org/wiki/3D_projection)
 	 */
 	public static ortho(left: number, right: number, bottom: number, top: number, near: number, far: number): Matrix4;
 
@@ -1934,6 +2027,8 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param far The far bound of the frustum.
 	 * @param out The matrix to store the result in.
 	 * @returns The frustum matrix.
+	 * @see [Camera matrix](https://en.wikipedia.org/wiki/Camera_matrix)
+	 * @see [3D projection](https://en.wikipedia.org/wiki/3D_projection)
 	 */
 	public static ortho<T extends Matrix4Like>(left: number, right: number, bottom: number, top: number, near: number, far: number, out: T): T;
 
@@ -1947,6 +2042,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param center The point that the viewer is looking at.
 	 * @param up The local up direction.
 	 * @returns The look-at matrix.
+	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
 	 */
 	public static lookAt(eye: Vector3Like, center: Vector3Like, up?: Vector3Like): Matrix4;
 
@@ -1957,6 +2053,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param up The local up direction.
 	 * @param out The matrix to store the result in.
 	 * @returns The look-at matrix.
+	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
 	 */
 	public static lookAt<T extends Matrix4Like>(eye: Vector3Like, center: Vector3Like, up?: Vector3Like, out?: T): T;
 
@@ -1970,6 +2067,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param center The point that the viewer is looking at.
 	 * @param up The local up direction.
 	 * @returns The transformation matrix.
+	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
 	 */
 	public static targetTo(eye: Vector3Like, target: Vector3Like, up?: Vector3Like): Matrix4;
 
@@ -1980,6 +2078,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param up The local up direction.
 	 * @param out The matrix to store the result in.
 	 * @returns The transformation matrix.
+	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
 	 */
 	public static targetTo<T extends Matrix4>(eye: Vector3Like, target: Vector3Like, up?: Vector3Like, out?: T): T;
 
@@ -2005,7 +2104,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param c3r1 The value in the fourth column and second row.
 	 * @param c3r2 The value in the fourth column and third row.
 	 * @param c3r3 The value in the fourth column and fourth row.
-	 * @returns The transformation matrix.
+	 * @returns The matrix.
 	 */
 	public static fromValues(c0r0: number, c0r1: number, c0r2: number, c0r3: number, c1r0: number, c1r1: number, c1r2: number, c1r3: number, c2r0: number, c2r1: number, c2r2: number, c2r3: number, c3r0: number, c3r1: number, c3r2: number, c3r3: number): Matrix4;
 
@@ -2028,7 +2127,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param c3r2 The value in the fourth column and third row.
 	 * @param c3r3 The value in the fourth column and fourth row.
 	 * @param out The matrix to store the result in.
-	 * @returns The transformation matrix.
+	 * @returns The matrix.
 	 */
 	public static fromValues<T extends Matrix4Like>(c0r0: number, c0r1: number, c0r2: number, c0r3: number, c1r0: number, c1r1: number, c1r2: number, c1r3: number, c2r0: number, c2r1: number, c2r2: number, c2r3: number, c3r0: number, c3r1: number, c3r2: number, c3r3: number, out: T): T;
 
@@ -2077,6 +2176,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * Adds two matrices of the same size.
 	 * @param matrix The other matrix.
 	 * @returns The sum of the matrices.
+	 * @see [Matrix addition](https://en.wikipedia.org/wiki/Matrix_addition)
 	 */
 	public add(matrix: Matrix4Like): Matrix4;
 
@@ -2085,6 +2185,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param matrix The other matrix.
 	 * @param out The matrix to store the result in.
 	 * @returns The sum of the matrices.
+	 * @see [Matrix addition](https://en.wikipedia.org/wiki/Matrix_addition)
 	 */
 	public add<T extends Matrix4Like>(matrix: Matrix4Like, out: T): T;
 
@@ -2095,6 +2196,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	/**
 	 * Calculates the adjugate of this matrix.
 	 * @returns The adjugate of this matrix.
+	 * @see [Adjugate matrix](https://en.wikipedia.org/wiki/Adjugate_matrix)
 	 */
 	public adjoint(): Matrix4;
 
@@ -2102,6 +2204,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * Calculates the adjugate of this matrix.
 	 * @param out The matrix to store the result in.
 	 * @returns The adjugate of this matrix.
+	 * @see [Adjugate matrix](https://en.wikipedia.org/wiki/Adjugate_matrix)
 	 */
 	public adjoint<T extends Matrix4Like>(out: T): T;
 
@@ -2143,7 +2246,10 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 		return copy(matrix, this);
 	}
 
-	/** The Frobenius normal of this matrix. */
+	/**
+	 * The Frobenius norm of this matrix.
+	 * @see [Matrix norm](https://en.wikipedia.org/wiki/Matrix_norm)
+	 */
 	public get frob(): number {
 		return frob(this);
 	}
@@ -2152,6 +2258,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * Multiplies this matrix by another.
 	 * @param matrix The other matrix.
 	 * @returns The product of the matrices.
+	 * @see [Matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication)
 	 */
 	public multiply(matrix: Matrix4Like): Matrix4;
 
@@ -2160,6 +2267,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param matrix The other matrix.
 	 * @param out The matrix to store the result in.
 	 * @returns The product of the matrices.
+	 * @see [Matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication)
 	 */
 	public multiply<T extends Matrix4Like>(matrix: Matrix4Like, out: T): T;
 
@@ -2171,6 +2279,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * Multiplies this matrix by a scalar value.
 	 * @param scalar The scalar value.
 	 * @returns The product of the matrix and the scalar value.
+	 * @see [Matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication)
 	 */
 	public multiplyScalar(scalar: number): Matrix4;
 
@@ -2179,6 +2288,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param scalar The scalar value.
 	 * @param out The matrix to store the result in.
 	 * @returns The product of the matrix and the scalar value.
+	 * @see [Matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication)
 	 */
 	public multiplyScalar<T extends Matrix4Like>(scalar: number, out: T): T;
 
@@ -2191,6 +2301,8 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param matrix The other matrix.
 	 * @param scalar The scalar.
 	 * @returns The sum.
+	 * @see [Matrix addition](https://en.wikipedia.org/wiki/Matrix_addition)
+	 * @see [Matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication)
 	 */
 	public multiplyScalarAndAdd(matrix: Matrix4Like, scalar: number): Matrix4;
 
@@ -2200,6 +2312,8 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param scalar The scalar.
 	 * @param out The matrix to store the result in.
 	 * @returns The sum.
+	 * @see [Matrix addition](https://en.wikipedia.org/wiki/Matrix_addition)
+	 * @see [Matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication)
 	 */
 	public multiplyScalarAndAdd<T extends Matrix4Like>(matrix: Matrix4Like, scalar: number, out: T): T;
 
@@ -2211,6 +2325,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * Subtracts another matrix from this one.
 	 * @param matrix The other matrix.
 	 * @returns The difference between the matrices.
+	 * @see [Matrix addition](https://en.wikipedia.org/wiki/Matrix_addition)
 	 */
 	public subtract(matrix: Matrix4Like): Matrix4;
 
@@ -2219,6 +2334,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param matrix The other matrix.
 	 * @param out The matrix to store the result in.
 	 * @returns The difference between the matrices.
+	 * @see [Matrix addition](https://en.wikipedia.org/wiki/Matrix_addition)
 	 */
 	public subtract<T extends Matrix4Like>(matrix: Matrix4Like, out: T): T;
 
@@ -2229,6 +2345,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	/**
 	 * Transposes this matrix.
 	 * @returns The transpose of this matrix.
+	 * @see [Transpose](https://en.wikipedia.org/wiki/Transpose)
 	 */
 	public transpose(): Matrix4;
 
@@ -2236,6 +2353,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * Transposes this matrix.
 	 * @param out The matrix to store the result in.
 	 * @returns The transpose of this matrix.
+	 * @see [Transpose](https://en.wikipedia.org/wiki/Transpose)
 	 */
 	public transpose<T extends Matrix4Like>(out: T): T;
 
@@ -2243,7 +2361,10 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 		return transpose(this, out);
 	}
 
-	/** The determinant of this matrix. */
+	/**
+	 * The determinant of this matrix.
+	 * @see [Determinant](https://en.wikipedia.org/wiki/Determinant)
+	 */
 	public get determinant(): number {
 		return determinant(this);
 	}
@@ -2251,6 +2372,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	/**
 	 * Resets this matrix to identity.
 	 * @returns This matrix.
+	 * @see [Identity matrix](https://en.wikipedia.org/wiki/Identity_matrix)
 	 */
 	public identity(): this {
 		return identity(this);
@@ -2259,6 +2381,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	/**
 	 * Inverts this matrix.
 	 * @returns The inverted matrix.
+	 * @see [Invertible matrix](https://en.wikipedia.org/wiki/Invertible_matrix)
 	 */
 	public invert(): Matrix4;
 
@@ -2266,6 +2389,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * Inverts this matrix.
 	 * @param out The matrix to store the result in.
 	 * @returns The inverted matrix.
+	 * @see [Invertible matrix](https://en.wikipedia.org/wiki/Invertible_matrix)
 	 */
 	public invert<T extends Matrix4Like>(out: T): T;
 
@@ -2277,6 +2401,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * Scales this matrix by the given vector.
 	 * @param vector The scaling vector.
 	 * @returns The scaled matrix.
+	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
 	 */
 	public scale(vector: Vector3Like): Matrix4;
 
@@ -2285,6 +2410,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param vector The scaling vector.
 	 * @param out The matrix to store the result in.
 	 * @returns The scaled matrix.
+	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
 	 */
 	public scale<T extends Matrix4Like>(vector: Vector3Like, out: T): T;
 
@@ -2296,6 +2422,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * Translates this matrix by the given vector.
 	 * @param vector The translation vector.
 	 * @returns The translated matrix.
+	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
 	 */
 	public translate(vector: Vector3Like): Matrix4;
 
@@ -2304,6 +2431,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param vector The translation vector.
 	 * @param out The matrix to store the result in.
 	 * @returns The translated matrix.
+	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
 	 */
 	public translate<T extends Matrix4Like>(vector: Vector3Like, out: T): T;
 
@@ -2316,6 +2444,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param radians The angle in radians.
 	 * @param axis The axis.
 	 * @returns The rotated matrix.
+	 * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
 	 */
 	public rotate(radians: number, axis: Vector3Like): Matrix4;
 
@@ -2325,6 +2454,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param axis The axis.
 	 * @param out The matrix to store the result in.
 	 * @returns The rotated matrix.
+	 * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
 	 */
 	public rotate<T extends Matrix4Like>(radians: number, axis: Vector3Like, out: T): T;
 
@@ -2336,6 +2466,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * Rotates this matrix by the given angle around the X-axis.
 	 * @param radians The angle in radians.
 	 * @returns The rotated matrix.
+	 * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
 	 */
 	public rotateX(radians: number): Matrix4;
 
@@ -2344,6 +2475,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param radians The angle in radians.
 	 * @param out The matrix to store the result in.
 	 * @returns The rotated matrix.
+	 * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
 	 */
 	public rotateX<T extends Matrix4Like>(radians: number, out: T): T;
 
@@ -2355,6 +2487,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * Rotates this matrix by the given angle around the Y-axis.
 	 * @param radians The angle in radians.
 	 * @returns The rotated matrix.
+	 * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
 	 */
 	public rotateY(radians: number): Matrix4;
 
@@ -2363,6 +2496,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param radians The angle in radians.
 	 * @param out The matrix to store the result in.
 	 * @returns The rotated matrix.
+	 * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
 	 */
 	public rotateY<T extends Matrix4Like>(radians: number, out: T): T;
 
@@ -2374,6 +2508,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * Rotates this matrix by the given angle around the Z-axis.
 	 * @param radians The angle in radians.
 	 * @returns The rotated matrix.
+	 * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
 	 */
 	public rotateZ(radians: number): Matrix4;
 
@@ -2382,6 +2517,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @param radians The angle in radians.
 	 * @param out The matrix to store the result in.
 	 * @returns The rotated matrix.
+	 * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
 	 */
 	public rotateZ<T extends Matrix4Like>(radians: number, out: T): T;
 
@@ -2389,17 +2525,26 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 		return rotateZ(this, radians, out);
 	}
 
-	/** The translation vector component of this transformation matrix. */
+	/**
+	 * The translation vector component of this transformation matrix.
+	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
+	 */
 	public get translation(): Vector3Like {
 		return getTranslation(this);
 	}
 
-	/** The scaling factor of this transformation matrix. */
+	/**
+	 * The scaling factor of this transformation matrix.
+	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
+	 */
 	public get scaling(): Vector3Like {
 		return getScaling(this);
 	}
 
-	/** The rotational component of this transformation matrix. */
+	/**
+	 * The rotational component of this transformation matrix.
+	 * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
+	 */
 	public get rotation(): QuaternionLike {
 		return getRotation(this);
 	}

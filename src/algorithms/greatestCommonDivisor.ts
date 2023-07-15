@@ -3,7 +3,7 @@
  * @param a The first integer.
  * @param b The second integer.
  * @returns The greatest common divisor of the integers.
- * @see [Wikipedia](https://en.wikipedia.org/wiki/Greatest_common_divisor)
+ * @see [Greatest common divisor](https://en.wikipedia.org/wiki/Greatest_common_divisor)
  */
 export default function greatestCommonDivisor(a: bigint, b: bigint): bigint;
 
@@ -12,7 +12,7 @@ export default function greatestCommonDivisor(a: bigint, b: bigint): bigint;
  * @param a The first integer.
  * @param b The second integer.
  * @returns The greatest common divisor of the integers.
- * @see [Wikipedia](https://en.wikipedia.org/wiki/Greatest_common_divisor)
+ * @see [Greatest common divisor](https://en.wikipedia.org/wiki/Greatest_common_divisor)
  */
 export default function greatestCommonDivisor(a: number, b: number): number;
 

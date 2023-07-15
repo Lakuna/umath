@@ -1,7 +1,8 @@
 /**
  * Factors the given number into a list of prime numbers.
  * @param n The number to factor.
- * @returns A list of prime number factors of the given number,
+ * @returns A list of prime number factors of the given number.
+ * @see [Integer factorization](https://en.wikipedia.org/wiki/Integer_factorization)
  */
 export default function primeFactorization(n: number): Array<number> {
 	const out: Array<number> = [];

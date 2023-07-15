@@ -3,6 +3,9 @@ import epsilon from "@lakuna/umath/epsilon";
 import type { Matrix4Like } from "@lakuna/umath/Matrix4";
 import type { QuaternionLike } from "@lakuna/umath/Quaternion";
 
+// TODO: Separate methods into individual functions.
+// TODO: Link documentation to relevant articles.
+
 /** A quantity with magnitude and direction in four dimensions. */
 export type Vector4Like = Vector4 | [number, number, number, number];
 

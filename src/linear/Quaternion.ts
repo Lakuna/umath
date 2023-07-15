@@ -3,6 +3,9 @@ import epsilon from "@lakuna/umath/epsilon";
 import Matrix3, { type Matrix3Like } from "@lakuna/umath/Matrix3";
 import type { Vector3Like } from "@lakuna/umath/Vector3";
 
+// TODO: Separate methods into individual functions.
+// TODO: Link documentation to relevant articles.
+
 /** A complex number that is commonly used to describe rotations. */
 export type QuaternionLike = Quaternion | [number, number, number, number];
 

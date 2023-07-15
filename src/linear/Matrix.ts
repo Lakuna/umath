@@ -11,7 +11,7 @@ export default interface Matrix extends ArrayLike<number> {
 
 	/** The number of rows in this matrix. */
 	height: number;
-	
+
 	/**
 	 * Determines whether this matrix is roughly equivalent to another.
 	 * @param matrix The other matrix.
@@ -30,12 +30,14 @@ export default interface Matrix extends ArrayLike<number> {
 	 * Adds two matrices of the same size.
 	 * @param matrix The other matrix.
 	 * @returns The sum of the matrices.
+	 * @see [Matrix addition](https://en.wikipedia.org/wiki/Matrix_addition)
 	 */
 	add(matrix: MatrixLike): Matrix;
 
 	/**
 	 * Calculates the adjugate of this matrix.
 	 * @returns The adjugate of this matrix.
+	 * @see [Adjugate matrix](https://en.wikipedia.org/wiki/Adjugate_matrix)
 	 */
 	adjoint(): Matrix;
 
@@ -52,13 +54,17 @@ export default interface Matrix extends ArrayLike<number> {
 	 */
 	copy(matrix: MatrixLike): this;
 
-	/** The Frobenius normal of this matrix. */
+	/**
+	 * The Frobenius norm of this matrix.
+	 * @see [Matrix norm](https://en.wikipedia.org/wiki/Matrix_norm)
+	 */
 	get frob(): number;
 
 	/**
 	 * Multiplies this matrix by another.
 	 * @param matrix The other matrix.
 	 * @returns The product of the matrices.
+	 * @see [Matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication)
 	 */
 	multiply(matrix: MatrixLike): Matrix;
 
@@ -66,6 +72,7 @@ export default interface Matrix extends ArrayLike<number> {
 	 * Multiplies this matrix by a scalar value.
 	 * @param scalar The scalar value.
 	 * @returns The product of the matrix and the scalar value.
+	 * @see [Matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication)
 	 */
 	multiplyScalar(scalar: number): Matrix;
 
@@ -74,6 +81,8 @@ export default interface Matrix extends ArrayLike<number> {
 	 * @param matrix The other matrix.
 	 * @param scalar The scalar.
 	 * @returns The sum.
+	 * @see [Matrix addition](https://en.wikipedia.org/wiki/Matrix_addition)
+	 * @see [Matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication)
 	 */
 	multiplyScalarAndAdd(matrix: MatrixLike, scalar: number): Matrix;
 
@@ -81,12 +90,14 @@ export default interface Matrix extends ArrayLike<number> {
 	 * Subtracts another matrix from this one.
 	 * @param matrix The other matrix.
 	 * @returns The difference between the matrices.
+	 * @see [Matrix addition](https://en.wikipedia.org/wiki/Matrix_addition)
 	 */
 	subtract(matrix: MatrixLike): Matrix;
 
 	/**
 	 * Transposes this matrix.
 	 * @returns The transpose of this matrix.
+	 * @see [Transpose](https://en.wikipedia.org/wiki/Transpose)
 	 */
 	transpose(): Matrix;
 }
