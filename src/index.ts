@@ -24,4 +24,5 @@ export type { default as FieldOfView } from "@lakuna/umath/FieldOfView";
 export type { IntegerRepresentation } from "@lakuna/umath/IntegerRepresentation";
 export { default as BigNumber } from "@lakuna/umath/BigNumber";
 export { default as epsilon } from "@lakuna/umath/epsilon";
+export { default as MagnitudeError } from "@lakuna/umath/MagnitudeError";
 export { default as SingularMatrixError } from "@lakuna/umath/SingularMatrixError";

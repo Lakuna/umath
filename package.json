@@ -54,6 +54,7 @@
 		"./IntegerRepresentation": "./dist/types/IntegerRepresentation.js",
 		"./BigNumber": "./dist/utility/BigNumber.js",
 		"./epsilon": "./dist/utility/epsilon.js",
+		"./MagnitudeError": "./dist/utility/MagnitudeError.js",
 		"./SingularMatrixError": "./dist/utility/SingularMatrixError.js"
 	},
 	"types": "./dist/index.d.ts",
