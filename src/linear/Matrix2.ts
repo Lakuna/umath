@@ -176,10 +176,10 @@ export function multiply<T extends Matrix2Like>(a: Matrix2Like, b: Matrix2Like, 
 
 /**
  * Multiplies a matrix by a scalar value.
- * @param matrix The matrix.
- * @param scalar The scalar value.
+ * @param matrix The multiplicand.
+ * @param scalar The multiplier.
  * @param out The matrix to store the result in.
- * @returns The product of the matrix and the scalar value.
+ * @returns The product.
  */
 export function multiplyScalar<T extends Matrix2Like>(matrix: Matrix2Like, scalar: number, out: T): T {
 	out[0] = matrix[0] * scalar;
@@ -269,7 +269,7 @@ export function identity<T extends Matrix2Like>(out: T): T {
  * @param out The matrix to store the result in.
  * @returns The inverted matrix.
  */
-export function invert<T extends Matrix2Like>(matrix: Matrix2Like, out: T = new Matrix2() as T): T {
+export function invert<T extends Matrix2Like>(matrix: Matrix2Like, out: T): T {
 	const a0: number = matrix[0];
 	const a1: number = matrix[1];
 	const a2: number = matrix[2];
@@ -295,7 +295,7 @@ export function invert<T extends Matrix2Like>(matrix: Matrix2Like, out: T = new 
  * @param out The matrix to store the result in.
  * @returns The rotated matrix.
  */
-export function rotate<T extends Matrix2Like>(matrix: Matrix2Like, radians: number, out: T = new Matrix2() as T): T {
+export function rotate<T extends Matrix2Like>(matrix: Matrix2Like, radians: number, out: T): T {
 	const a0: number = matrix[0];
 	const a1: number = matrix[1];
 	const a2: number = matrix[2];
@@ -318,7 +318,7 @@ export function rotate<T extends Matrix2Like>(matrix: Matrix2Like, radians: numb
  * @param out The matrix to store the result in.
  * @returns The scaled matrix.
  */
-export function scale<T extends Matrix2Like>(matrix: Matrix2Like, vector: Vector2Like, out: T = new Matrix2() as T): T {
+export function scale<T extends Matrix2Like>(matrix: Matrix2Like, vector: Vector2Like, out: T): T {
 	const v0: number = vector[0];
 	const v1: number = vector[1];
 
