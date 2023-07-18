@@ -1,11 +1,12 @@
-import SingularMatrixError from "@lakuna/umath/SingularMatrixError";
-import epsilon from "@lakuna/umath/epsilon";
+import { SingularMatrixError, epsilon, type SquareMatrix } from "@lakuna/umath";
 import type { Matrix4Like } from "@lakuna/umath/Matrix4";
 import type { QuaternionLike } from "@lakuna/umath/Quaternion";
-import type SquareMatrix from "@lakuna/umath/SquareMatrix";
 import type { Vector2Like } from "@lakuna/umath/Vector2";
 
-/** Numbers arranged into three columns and three rows. */
+/**
+ * Numbers arranged into three columns and three rows.
+ * @see [Matrix](https://en.wikipedia.org/wiki/Matrix_(mathematics))
+ */
 export type Matrix3Like = Matrix3 | [
 	number, number, number,
 	number, number, number,
@@ -689,7 +690,10 @@ export function translate<T extends Matrix3Like>(matrix: Matrix3Like, vector: Ve
 	return out;
 }
 
-/** A three-by-three matrix. */
+/**
+ * A three-by-three matrix.
+ * @see [Matrix](https://en.wikipedia.org/wiki/Matrix_(mathematics))
+ */
 export default class Matrix3 extends Float32Array implements SquareMatrix {
 	/**
 	 * Creates a transformation matrix that represents a rotation by the given angle around the Z-axis.
@@ -877,7 +881,10 @@ export default class Matrix3 extends Float32Array implements SquareMatrix {
 		return fromValues(c0r0, c0r1, c0r2, c1r0, c1r1, c1r2, c2r0, c2r1, c2r2, out);
 	}
 	
-	/** Creates a three-by-three identity matrix. */
+	/**
+	 * Creates a three-by-three identity matrix.
+	 * @see [Identity matrix](https://en.wikipedia.org/wiki/Identity_matrix)
+	 */
 	public constructor() {
 		super(9);
 

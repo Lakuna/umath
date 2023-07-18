@@ -1,5 +1,4 @@
-import type AxisAngle from "@lakuna/umath/AxisAngle";
-import epsilon from "@lakuna/umath/epsilon";
+import { epsilon, type AxisAngle } from "@lakuna/umath";
 import Matrix3, { type Matrix3Like } from "@lakuna/umath/Matrix3";
 import type { Vector3Like } from "@lakuna/umath/Vector3";
 

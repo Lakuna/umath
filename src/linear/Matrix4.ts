@@ -1,13 +1,12 @@
-import type FieldOfView from "@lakuna/umath/FieldOfView";
-import MagnitudeError from "@lakuna/umath/MagnitudeError";
-import SingularMatrixError from "@lakuna/umath/SingularMatrixError";
-import epsilon from "@lakuna/umath/epsilon";
+import { type FieldOfView, MagnitudeError, SingularMatrixError, epsilon, type SquareMatrix } from "@lakuna/umath";
 import type { DualQuaternionLike } from "@lakuna/umath/DualQuaternion";
 import type { QuaternionLike } from "@lakuna/umath/Quaternion";
-import type SquareMatrix from "@lakuna/umath/SquareMatrix";
 import type { Vector3Like } from "@lakuna/umath/Vector3";
 
-/** Numbers arranged into four columns and four rows. */
+/**
+ * Numbers arranged into four columns and four rows.
+ * @see [Matrix](https://en.wikipedia.org/wiki/Matrix_(mathematics))
+ */
 export type Matrix4Like = Matrix4 | [
 	number, number, number, number,
 	number, number, number, number,
@@ -1676,7 +1675,10 @@ export function getRotation(matrix: Matrix4Like): QuaternionLike {
 	return new Float32Array([(sm31 + sm13) / s, (sm23 + sm32) / s, 0.25 * s, (sm12 - sm21) / s]) as QuaternionLike;
 }
 
-/** A four-by-four matrix. */
+/**
+ * A four-by-four matrix.
+ * @see [Matrix](https://en.wikipedia.org/wiki/Matrix_(mathematics))
+ */
 export default class Matrix4 extends Float32Array implements SquareMatrix {
 	/**
 	 * Creates a transformation matrix that represents a translation by the given vector.
@@ -2135,7 +2137,10 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 		return fromValues(c0r0, c0r1, c0r2, c0r3, c1r0, c1r1, c1r2, c1r3, c2r0, c2r1, c2r2, c2r3, c3r0, c3r1, c3r2, c3r3, out);
 	}
 	
-	/** Creates a four-by-four identity matrix. */
+	/**
+	 * Creates a four-by-four identity matrix.
+	 * @see [Identity matrix](https://en.wikipedia.org/wiki/Identity_matrix)
+	 */
 	public constructor() {
 		super(16);
 

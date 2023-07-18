@@ -1,5 +1,4 @@
-import type Vector from "@lakuna/umath/Vector";
-import epsilon from "@lakuna/umath/epsilon";
+import { type Vector, epsilon } from "@lakuna/umath";
 import type { Matrix3Like } from "@lakuna/umath/Matrix3";
 import type { Matrix4Like } from "@lakuna/umath/Matrix4";
 import type { QuaternionLike } from "@lakuna/umath/Quaternion";
@@ -11,7 +10,10 @@ import Quaternion from "@lakuna/umath/Quaternion";
 /** A quantity with magnitude and direction in three dimensions. */
 export type Vector3Like = Vector3 | [number, number, number];
 
-/** A quantity with magnitude and direction in three dimensions. */
+/**
+ * A quantity with magnitude and direction in three dimensions.
+ * @see [Euclidean vector](https://en.wikipedia.org/wiki/Euclidean_vector)
+ */
 export default class Vector3 extends Float32Array implements Vector {
     /**
      * Creates a vector with the given values.
@@ -39,7 +41,10 @@ export default class Vector3 extends Float32Array implements Vector {
         return out;
     }
 
-    /** Creates a three-dimensional zero vector. */
+    /**
+     * Creates a three-dimensional zero vector.
+     * @see [Euclidean vector](https://en.wikipedia.org/wiki/Euclidean_vector)
+     */
     public constructor() {
         super(3);
     }

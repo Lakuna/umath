@@ -1,9 +1,12 @@
-/** A rectangular array of numbers, arranged in rows and columns. */
+/**
+ * A rectangular array of numbers, arranged in rows and columns.
+ * @see [Matrix](https://en.wikipedia.org/wiki/Matrix_(mathematics))
+ */
 export type MatrixLike = Matrix | ArrayLike<number>;
 
 /**
  * A rectangular array of numbers, arranged in rows and columns.
- * @see [Wikipedia](https://en.wikipedia.org/wiki/Matrix_(mathematics))
+ * @see [Matrix](https://en.wikipedia.org/wiki/Matrix_(mathematics))
  */
 export default interface Matrix extends ArrayLike<number> {
 	/** The number of columns in this matrix. */

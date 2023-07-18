@@ -1,5 +1,4 @@
-import type Vector from "@lakuna/umath/Vector";
-import epsilon from "@lakuna/umath/epsilon";
+import { type Vector, epsilon } from "@lakuna/umath";
 import type { Matrix4Like } from "@lakuna/umath/Matrix4";
 import type { QuaternionLike } from "@lakuna/umath/Quaternion";
 
@@ -9,7 +8,10 @@ import type { QuaternionLike } from "@lakuna/umath/Quaternion";
 /** A quantity with magnitude and direction in four dimensions. */
 export type Vector4Like = Vector4 | [number, number, number, number];
 
-/** A quantity with magnitude and direction in four dimensions. */
+/**
+ * A quantity with magnitude and direction in four dimensions.
+ * @see [Euclidean vector](https://en.wikipedia.org/wiki/Euclidean_vector)
+ */
 export default class Vector4 extends Float32Array implements Vector {
     /**
      * Creates a vector with the given values.
@@ -40,7 +42,10 @@ export default class Vector4 extends Float32Array implements Vector {
         return out;
     }
 
-    /** Creates a four-dimensional zero vector. */
+    /**
+     * Creates a four-dimensional zero vector.
+     * @see [Euclidean vector](https://en.wikipedia.org/wiki/Euclidean_vector)
+     */
     public constructor() {
         super(4);
     }

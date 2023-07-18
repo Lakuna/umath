@@ -28,34 +28,14 @@
 	"browser": "./dist/index.js",
 	"exports": {
 		".": "./dist/index.js",
-		"./combinations": "./dist/algorithms/combinations.js",
-		"./degreesToRadians": "./dist/algorithms/degreesToRadians.js",
-		"./factorial": "./dist/algorithms/factorial.js",
-		"./fibonacci": "./dist/algorithms/fibonacci.js",
-		"./greatestCommonDivisor": "./dist/algorithms/greatestCommonDivisor.js",
-		"./isPrime": "./dist/algorithms/isPrime.js",
-		"./permutations": "./dist/algorithms/permutations.js",
-		"./primeFactorization": "./dist/algorithms/primeFactorization.js",
-		"./radiansToDegrees": "./dist/algorithms/radiansToDegrees.js",
-		"./summation": "./dist/algorithms/summation.js",
 		"./DualQuaternion": "./dist/linear/DualQuaternion.js",
-		"./Matrix": "./dist/linear/Matrix.js",
 		"./Matrix2": "./dist/linear/Matrix2.js",
 		"./Matrix3": "./dist/linear/Matrix3.js",
 		"./Matrix4": "./dist/linear/Matrix4.js",
 		"./Quaternion": "./dist/linear/Quaternion.js",
-		"./SquareMatrix": "./dist/linear/SquareMatrix.js",
-		"./Vector": "./dist/linear/Vector.js",
 		"./Vector2": "./dist/linear/Vector2.js",
 		"./Vector3": "./dist/linear/Vector3.js",
-		"./Vector4": "./dist/linear/Vector4.js",
-		"./AxisAngle": "./dist/types/AxisAngle.js",
-		"./FieldOfView": "./dist/types/FieldOfView.js",
-		"./IntegerRepresentation": "./dist/types/IntegerRepresentation.js",
-		"./BigNumber": "./dist/utility/BigNumber.js",
-		"./epsilon": "./dist/utility/epsilon.js",
-		"./MagnitudeError": "./dist/utility/MagnitudeError.js",
-		"./SingularMatrixError": "./dist/utility/SingularMatrixError.js"
+		"./Vector4": "./dist/linear/Vector4.js"
 	},
 	"types": "./dist/index.d.ts",
 	"repository": {
@@ -70,10 +50,10 @@
 	"type": "module",
 	"sideEffects": false,
 	"devDependencies": {
-		"@typescript-eslint/eslint-plugin": "^5.59.11",
-		"@typescript-eslint/parser": "^5.59.11",
-		"eslint": "^8.42.0",
+		"@typescript-eslint/eslint-plugin": "^6.1.0",
+		"@typescript-eslint/parser": "^6.1.0",
+		"eslint": "^8.45.0",
 		"typedoc": "^0.24.8",
-		"typescript": "^5.1.3"
+		"typescript": "^5.1.6"
 	}
 }

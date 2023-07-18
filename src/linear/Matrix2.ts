@@ -1,9 +1,10 @@
-import SingularMatrixError from "@lakuna/umath/SingularMatrixError";
-import epsilon from "@lakuna/umath/epsilon";
-import type SquareMatrix from "@lakuna/umath/SquareMatrix";
+import { SingularMatrixError, epsilon, type SquareMatrix } from "@lakuna/umath";
 import type { Vector2Like } from "@lakuna/umath/Vector2";
 
-/** Numbers arranged into two columns and two rows. */
+/**
+ * Numbers arranged into two columns and two rows.
+ * @see [Matrix](https://en.wikipedia.org/wiki/Matrix_(mathematics))
+ */
 export type Matrix2Like = Matrix2 | [
 	number, number,
 	number, number
@@ -345,7 +346,10 @@ export function scale<T extends Matrix2Like>(matrix: Matrix2Like, vector: Vector
 	return out;
 }
 
-/** A two-by-two matrix. */
+/**
+ * A two-by-two matrix.
+ * @see [Matrix](https://en.wikipedia.org/wiki/Matrix_(mathematics))
+ */
 export default class Matrix2 extends Float32Array implements SquareMatrix {
 	/**
 	 * Creates a transformation matrix that represents a rotation by the given angle around the Z-axis.
@@ -414,7 +418,10 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 		return fromValues(c0r0, c0r1, c1r0, c1r1, out);
 	}
 
-	/** Creates a two-by-two identity matrix. */
+	/**
+	 * Creates a two-by-two identity matrix.
+	 * @see [Identity matrix](https://en.wikipedia.org/wiki/Identity_matrix)
+	 */
 	public constructor() {
 		super(4);
 

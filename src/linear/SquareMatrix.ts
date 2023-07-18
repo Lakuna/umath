@@ -1,6 +1,9 @@
-import type Matrix from "@lakuna/umath/Matrix";
+import type { Matrix } from "@lakuna/umath";
 
-/** A matrix with the same number of rows and columns. */
+/**
+ * A matrix with the same number of rows and columns.
+ * @see [Square matrix](https://en.wikipedia.org/wiki/Square_matrix)
+ */
 export default interface SquareMatrix extends Matrix {
 	/**
 	 * The determinant of this matrix.

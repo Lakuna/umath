@@ -1,4 +1,4 @@
-import factorial from "@lakuna/umath/factorial";
+import { factorial } from "@lakuna/umath";
 
 /**
  * Calculates the number of permutations.
