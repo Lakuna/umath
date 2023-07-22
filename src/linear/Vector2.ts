@@ -531,10 +531,7 @@ export default class Vector2 extends Float32Array implements Vector {
 	 * @returns A copy of this vector.
 	 */
 	public clone(): Vector2 {
-		const out: Vector2 = new Vector2();
-		out[0] = this[0] as number;
-		out[1] = this[1] as number;
-		return out;
+		return copy(this, new Vector2());
 	}
 
     /**

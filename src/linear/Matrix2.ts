@@ -501,12 +501,7 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	 * @returns A copy of this matrix.
 	 */
 	public clone(): Matrix2 {
-		const out: Matrix2 = new Matrix2();
-		out[0] = this[0] as number;
-		out[1] = this[1] as number;
-		out[2] = this[2] as number;
-		out[3] = this[3] as number;
-		return out;
+		return copy(this, new Matrix2());
 	}
 
 	/**

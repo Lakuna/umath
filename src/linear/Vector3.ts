@@ -4,11 +4,683 @@ import type { Matrix4Like } from "@lakuna/umath/Matrix4";
 import type { QuaternionLike } from "@lakuna/umath/Quaternion";
 import Quaternion from "@lakuna/umath/Quaternion";
 
-// TODO: Separate methods into individual functions.
-// TODO: Link documentation to relevant articles.
-
 /** A quantity with magnitude and direction in three dimensions. */
 export type Vector3Like = Vector3 | [number, number, number];
+
+/**
+ * Creates a vector with the given values.
+ * @param x The first component.
+ * @param y The second component.
+ * @param z The third component.
+ * @param out The vector to store the result in.
+ * @returns A new vector.
+ */
+export function fromValues<T extends Vector3Like>(x: number, y: number, z: number, out: T): T {
+    out[0] = x;
+    out[1] = y;
+    out[2] = z;
+    return out;
+}
+
+/**
+ * Determines whether two vectors are roughly equivalent.
+ * @param a The first vector.
+ * @param b The second vector.
+ * @returns Whether the vectors are equivalent.
+ */
+export function equals(a: Vector3Like, b: Vector3Like): boolean {
+    const a0: number = a[0];
+    const a1: number = a[1];
+    const a2: number = a[2];
+
+    const b0: number = b[0];
+    const b1: number = b[1];
+    const b2: number = b[2];
+
+    return Math.abs(a0 - b0) <= epsilon * Math.max(1, Math.abs(a0), Math.abs(b0))
+        && Math.abs(a1 - b1) <= epsilon * Math.max(1, Math.abs(a1), Math.abs(b1))
+        && Math.abs(a2 - b2) <= epsilon * Math.max(1, Math.abs(a2), Math.abs(b2));
+}
+
+/**
+ * Determines whether two vectors are exactly equivalent.
+ * @param a The first vector.
+ * @param b The second vector.
+ * @returns Whether the vectors are equivalent.
+ */
+export function exactEquals(a: Vector3Like, b: Vector3Like): boolean {
+    return a[0] == b[0]
+        && a[1] == b[1]
+        && a[2] == b[2];
+}
+
+/**
+ * Adds two vectors.
+ * @param a The augend.
+ * @param b The addend.
+ * @param out The vector to store the result in.
+ * @returns The sum.
+ */
+export function add<T extends Vector3Like>(a: Vector3Like, b: Vector3Like, out: T): T {
+    out[0] = a[0] + b[0];
+    out[1] = a[1] + b[1];
+    out[2] = a[2] + b[2];
+    return out;
+}
+
+/**
+ * Copies the values from one vector to another.
+ * @param vector The vector to copy.
+ * @param out The vector to store the result in.
+ * @returns The copy.
+ */
+export function copy<T extends Vector3Like>(vector: Vector3Like, out: T): T {
+    out[0] = vector[0];
+    out[1] = vector[1];
+    out[2] = vector[2];
+    return out;
+}
+
+/**
+ * Multiplies two vectors.
+ * @param a The multiplier.
+ * @param b The multiplicand.
+ * @param out The vector to store the result in.
+ * @returns The product.
+ */
+export function multiply<T extends Vector3Like>(a: Vector3Like, b: Vector3Like, out: T): T {
+    out[0] = a[0] * b[0];
+    out[1] = a[1] * b[1];
+    out[2] = a[2] * b[2];
+    return out;
+}
+
+/**
+ * Divides two vectors.
+ * @param a The dividend.
+ * @param b The divisor.
+ * @param out The vector to store the result in.
+ * @returns The quotient.
+ */
+export function divide<T extends Vector3Like>(a: Vector3Like, b: Vector3Like, out: T): T {
+    out[0] = a[0] / b[0];
+    out[1] = a[1] / b[1];
+    out[2] = a[2] / b[2];
+    return out;
+}
+
+/**
+ * Subtracts two vectors.
+ * @param a The minuend.
+ * @param b The subtrahend.
+ * @param out The vector to store the result in.
+ * @returns The difference.
+ */
+export function subtract<T extends Vector3Like>(a: Vector3Like, b: Vector3Like, out: T): T {
+    out[0] = a[0] - b[0];
+    out[1] = a[1] - b[1];
+    out[2] = a[2] - b[2];
+    return out;
+}
+
+/**
+ * Rounds up the components of a vector.
+ * @param vector The vector.
+ * @param out The vector to store the result in.
+ * @returns The rounded vector.
+ */
+export function ceil<T extends Vector3Like>(vector: Vector3Like, out: T): T {
+    out[0] = Math.ceil(vector[0]);
+    out[1] = Math.ceil(vector[1]);
+    out[2] = Math.ceil(vector[2]);
+    return out;
+}
+
+/**
+ * Rounds down the components of a vector.
+ * @param vector The vector.
+ * @param out The vector to store the result in.
+ * @returns The rounded vector.
+ */
+export function floor<T extends Vector3Like>(vector: Vector3Like, out: T): T {
+    out[0] = Math.floor(vector[0]);
+    out[1] = Math.floor(vector[1]);
+    out[2] = Math.floor(vector[2]);
+    return out;
+}
+
+/**
+ * Rounds the components of a vector.
+ * @param vector The vector.
+ * @param out The vector to store the result in.
+ * @returns The rounded vector.
+ */
+export function round<T extends Vector3Like>(vector: Vector3Like, out: T): T {
+    out[0] = Math.round(vector[0]);
+    out[1] = Math.round(vector[1]);
+    out[2] = Math.round(vector[2]);
+    return out;
+}
+
+/**
+ * Returns the minimum of two vectors.
+ * @param a The first vector.
+ * @param b The second vector.
+ * @param out The vector to store the result in.
+ * @returns The minimum.
+ */
+export function min<T extends Vector3Like>(a: Vector3Like, b: Vector3Like, out: T): T {
+    out[0] = Math.min(a[0], b[0]);
+    out[1] = Math.min(a[1], b[1]);
+    out[2] = Math.min(a[2], b[2]);
+    return out;
+}
+
+/**
+ * Returns the maximum of two vectors.
+ * @param a The first vector.
+ * @param b The second vector.
+ * @param out The vector to store the result in.
+ * @returns The maximum.
+ */
+export function max<T extends Vector3Like>(a: Vector3Like, b: Vector3Like, out: T): T {
+    out[0] = Math.max(a[0], b[0]);
+    out[1] = Math.max(a[1], b[1]);
+    out[2] = Math.max(a[2], b[2]);
+    return out;
+}
+
+/**
+ * Scales a vector by a scalar.
+ * @param vector The multiplier.
+ * @param scalar The multiplicand.
+ * @param out The vector to store the result in.
+ * @returns The product.
+ */
+export function scale<T extends Vector3Like>(vector: Vector3Like, scalar: number, out: T): T {
+    out[0] = vector[0] * scalar;
+    out[1] = vector[1] * scalar;
+    out[2] = vector[2] * scalar;
+    return out;
+}
+
+/**
+ * Adds two vectors after scaling the second by a scalar.
+ * @param a The augend.
+ * @param b The addend.
+ * @param scalar The multiplicand.
+ * @param out The vector to store the result in.
+ * @returns The sum.
+ */
+export function scaleAndAdd<T extends Vector3Like>(a: Vector3Like, b: Vector3Like, scalar: number, out: T): T {
+    out[0] = a[0] + b[0] * scalar;
+    out[1] = a[1] + b[1] * scalar;
+    out[2] = a[2] + b[2] * scalar;
+    return out;
+}
+
+/**
+ * Calculates the Euclidean distance between two vectors.
+ * @param a The first vector.
+ * @param b The second vector.
+ * @returns The distance.
+ * @see [Euclidean distance](https://en.wikipedia.org/wiki/Euclidean_distance)
+ */
+export function distance(a: Vector3Like, b: Vector3Like): number {
+    const x: number = b[0] - a[0];
+    const y: number = b[1] - a[1];
+    const z: number = b[2] - a[2];
+    return Math.hypot(x, y, z);
+}
+
+/**
+ * Calculates the squared Euclidean distance between this vector and another.
+ * @param a The first vector.
+ * @param b The second vector.
+ * @returns The squared distance.
+ * @see [Euclidean distance](https://en.wikipedia.org/wiki/Euclidean_distance)
+ */
+export function squaredDistance(a: Vector3Like, b: Vector3Like): number {
+    const x: number = b[0] - a[0];
+    const y: number = b[1] - a[1];
+    const z: number = b[2] - a[2];
+    return x * x + y * y + z * z;
+}
+
+/**
+ * Calculates the magnitude (length) of a vector.
+ * @param vector The vector.
+ * @returns The magnitude.
+ */
+export function getMagnitude(vector: Vector3Like): number {
+    const x: number = vector[0];
+    const y: number = vector[1];
+    const z: number = vector[2];
+    return Math.hypot(x, y, z);
+}
+
+/**
+ * Calculates the squared magnitude (length) of a vector.
+ * @param vector The vector.
+ * @returns The squared magnitude.
+ */
+export function getSquaredMagnitude(vector: Vector3Like): number {
+    const x: number = vector[0];
+    const y: number = vector[1];
+    const z: number = vector[2];
+    return x * x + y * y + z * z;
+}
+
+/**
+ * Negates a vector.
+ * @param vector The vector.
+ * @param out The vector to store the result in.
+ * @returns The negated vector.
+ */
+export function negate<T extends Vector3Like>(vector: Vector3Like, out: T): T {
+    out[0] = -vector[0];
+    out[1] = -vector[1];
+    out[2] = -vector[2];
+    return out;
+}
+
+/**
+ * Calculates the multiplicative inverse of the components of a vector.
+ * @param vector The vector.
+ * @param out The vector to store the result in.
+ * @returns The inverted vector.
+ */
+export function inverse<T extends Vector3Like>(vector: Vector3Like, out: T): T {
+    out[0] = 1 / vector[0];
+    out[1] = 1 / vector[1];
+    out[2] = 1 / vector[2];
+    return out;
+}
+
+/**
+ * Normalizes a vector.
+ * @param vector The vector.
+ * @param out The vector to store the result in.
+ * @returns The normalized vector.
+ * @see [Unit vector](https://en.wikipedia.org/wiki/Unit_vector)
+ */
+export function normalize<T extends Vector3Like>(vector: Vector3Like, out: T): T {
+    const x: number = vector[0];
+    const y: number = vector[1];
+    const z: number = vector[2];
+    
+    let len: number = x * x + y * y + z * z;
+    if (len > 0) {
+        len = 1 / Math.sqrt(len);
+    }
+
+    out[0] = x * len;
+    out[1] = y * len;
+    out[2] = z * len;
+    return out;
+}
+
+/**
+ * Calculates the dot product of two vectors.
+ * @param a The multiplier.
+ * @param b The multiplicand.
+ * @returns The dot product.
+ * @see [Dot product](https://en.wikipedia.org/wiki/Dot_product)
+ */
+export function dot(a: Vector3Like, b: Vector3Like): number {
+    return a[0]  * b[0] + a[1] * b[1] + a[2] * b[2];
+}
+
+/**
+ * Calculates the cross product of two vectors.
+ * @param a The multiplier.
+ * @param b The mutliplicand.
+ * @param out The vector to store the result in.
+ * @returns The cross product.
+ * @see [Cross product](https://en.wikipedia.org/wiki/Cross_product)
+ */
+export function cross<T extends Vector3Like>(a: Vector3Like, b: Vector3Like, out: T): T {
+    const ax: number = a[0];
+    const ay: number = a[1];
+    const az: number = a[2];
+
+    const bx: number = b[0];
+    const by: number = b[1];
+    const bz: number = b[2];
+
+    out[0] = ay * bz - az * by;
+    out[1] = az * bx - ax * bz;
+    out[2] = ax * by - ay * bx;
+    return out;
+}
+
+/**
+ * Performs a linear interpolation between two vectors.
+ * @param a The first vector.
+ * @param b The second vector.
+ * @param t The interpolation amount (in `[0,1]`).
+ * @param out The vector to store the result in.
+ * @returns The interpolated vector.
+ * @see [Linear interpolation](https://en.wikipedia.org/wiki/Linear_interpolation)
+ */
+export function lerp<T extends Vector3Like>(a: Vector3Like, b: Vector3Like, t: number, out: T): T {
+    const ax: number = a[0];
+    const ay: number = a[1];
+    const az: number = a[2];
+
+    out[0] = ax + t * (b[0] - ax);
+    out[1] = ay + t * (b[1] - ay);
+    out[2] = az + t * (b[2] - az);
+    return out;
+}
+
+/**
+ * Sets a vector to a random value with the given magnitude.
+ * @param magnitude The magnitude.
+ * @param out The vector to store the result in.
+ * @returns This vector.
+ */
+export function random<T extends Vector3Like>(magnitude = 1, out: T): T {
+    const r: number = Math.random() * 2 * Math.PI;
+    const z: number = Math.random() * 2 - 1;
+    const zScale: number = Math.sqrt(1 - z * z) * magnitude;
+
+    out[0] = Math.cos(r) * zScale;
+    out[1] = Math.sin(r) * zScale;
+    out[2] = z * magnitude;
+    return out;
+}
+
+/**
+ * Transforms a vector by a three-by-three matrix.
+ * @param vector The vector.
+ * @param matrix The matrix.
+ * @param out The vector to store the result in.
+ * @returns The transformed vector.
+ * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
+ */
+export function transformMatrix3<T extends Vector3Like>(vector: Vector3Like, matrix: Matrix3Like, out: T): T {
+    const x: number = vector[0];
+    const y: number = vector[1];
+    const z: number = vector[2];
+
+    out[0] = x * matrix[0] + y * matrix[3] + z * matrix[6];
+    out[1] = x * matrix[1] + y * matrix[4] + z * matrix[7];
+    out[2] = x * matrix[2] + y * matrix[5] + z * matrix[8];
+    return out;
+}
+
+/**
+ * Transforms a vector by a four-by-four matrix.
+ * @param vector The vector.
+ * @param matrix The matrix.
+ * @param out The vector to store the result in.
+ * @returns The transformed vector.
+ * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
+ */
+export function transformMatrix4<T extends Vector3Like>(vector: Vector3Like, matrix: Matrix4Like, out: T): T {
+    const x: number = vector[0];
+    const y: number = vector[1];
+    const z: number = vector[2];
+
+    const w: number = matrix[3] * x + matrix[7] * y + matrix[11] * z + matrix[15] || 1;
+
+    out[0] = (matrix[0] * x + matrix[4] * y + matrix[8] * z + matrix[12]) / w;
+    out[1] = (matrix[1] * x + matrix[5] * y + matrix[9] * z + matrix[13]) / w;
+    out[2] = (matrix[2] * x + matrix[6] * y + matrix[10] * z + matrix[14]) / w;
+    return out;
+}
+
+/**
+ * Rotates a vector around the X-axis.
+ * @param vector The vector.
+ * @param origin The origin of the rotation.
+ * @param radians The angle of rotation in radians.
+ * @param out The vector to store the result in.
+ * @returns The rotated vector.
+ */
+export function rotateX<T extends Vector3Like>(vector: Vector3Like, origin: Vector3Like, radians: number, out: T): T {
+    const p: Vector3Like = [
+        vector[0] - origin[0],
+        vector[1] - origin[1],
+        vector[2] - origin[2]];
+
+    const r: Vector3Like = [
+        p[0],
+        p[1] * Math.cos(radians) - p[2] * Math.sin(radians),
+        p[1] * Math.sin(radians) + p[2] * Math.cos(radians)];
+
+    out[0] = r[0] + origin[0];
+    out[1] = r[1] + origin[1];
+    out[2] = r[2] + origin[2];
+    return out;
+}
+
+/**
+ * Rotates a vector around the Y-axis.
+ * @param vector The vector.
+ * @param origin The origin of the rotation.
+ * @param radians The angle of rotation in radians.
+ * @param out The vector to store the result in.
+ * @returns The rotated vector.
+ */
+export function rotateY<T extends Vector3Like>(vector: Vector3Like, origin: Vector3Like, radians: number, out: T): T {
+    const p: Vector3Like = [
+        vector[0] - origin[0],
+        vector[1] - origin[1],
+        vector[2] - origin[2]];
+
+    const r: Vector3Like = [
+        p[2] * Math.sin(radians) + p[0] * Math.cos(radians),
+        p[1],
+        p[2] * Math.cos(radians) - p[0] * Math.sin(radians)];
+
+    out[0] = r[0] + origin[0];
+    out[1] = r[1] + origin[1];
+    out[2] = r[2] + origin[2];
+    return out;
+}
+
+/**
+ * Rotates a vector around the Z-axis.
+ * @param vector The vector.
+ * @param origin The origin of the rotation.
+ * @param radians The angle of rotation in radians.
+ * @param out The vector to store the result in.
+ * @returns The rotated vector.
+ */
+export function rotateZ<T extends Vector3Like>(vector: Vector3Like, origin: Vector3Like, radians: number, out: T): T {
+    const p: Vector3Like = [
+        vector[0] - origin[0],
+        vector[1] - origin[1],
+        vector[2] - origin[2]];
+
+    const r: Vector3Like = [
+        p[0] * Math.cos(radians) - p[1] * Math.sin(radians),
+        p[0] * Math.sin(radians) + p[1] * Math.cos(radians),
+        p[2]];
+
+    out[0] = r[0] + origin[0];
+    out[1] = r[1] + origin[1];
+    out[2] = r[2] + origin[2];
+    return out;
+}
+
+/**
+ * Gets the angle between two vectors in radians.
+ * @param a The first vector.
+ * @param b The second vector.
+ * @returns The angular distance from the first vector to the second.
+ */
+export function angle(a: Vector3Like, b: Vector3Like): number {
+    const ax: number = a[0];
+    const ay: number = a[1];
+    const az: number = a[2];
+
+    const bx: number = b[0];
+    const by: number = b[1];
+    const bz: number = b[2];
+
+    const mag1: number = Math.sqrt(ax * ax + ay * ay + az * az);
+    const mag2: number = Math.sqrt(bx * bx + by * by + bz * bz);
+
+    const mag: number = mag1 * mag2;
+
+    const cosine: number = mag && dot(a, b) / mag;
+
+    return Math.acos(Math.min(Math.max(cosine, -1), 1));
+}
+
+/**
+ * Sets a vector to the zero vector.
+ * @param out The vector to store the result in.
+ * @returns This vector.
+ */
+export function zero<T extends Vector3Like>(out: T): T {
+    out[0] = 0;
+    out[1] = 0;
+    out[2] = 0;
+    return out;
+}
+
+/**
+ * Performs a Hermite interpolation with two control points between two vectors.
+ * @param a The first vector.
+ * @param b The first control point.
+ * @param c The second control point.
+ * @param d The second vector.
+ * @param t The interpolation amount in the range `[0,1]`.
+ * @param out The vector to store the result in.
+ * @returns The interpolated vector.
+ * @see [Hermite interpolation](https://en.wikipedia.org/wiki/Hermite_interpolation)
+ */
+export function hermite<T extends Vector3Like>(a: Vector3Like, b: Vector3Like, c: Vector3Like, d: Vector3Like, t: number, out: T): T {
+    const factorTimes2: number = t * t;
+
+    const factor1: number = factorTimes2 * (2 * t - 3) + 1;
+    const factor2: number = factorTimes2 * (t - 2) + t;
+    const factor3: number = factorTimes2 * (t - 1);
+    const factor4: number = factorTimes2 * (3 - 2 * t);
+
+    out[0] = a[0] * factor1 + b[0] * factor2 + c[0] * factor3 + d[0] * factor4;
+    out[1] = a[1] * factor1 + b[1] * factor2 + c[1] * factor3 + d[1] * factor4;
+    out[2] = a[2] * factor1 + b[2] * factor2 + c[2] * factor3 + d[2] * factor4;
+    return out;
+}
+
+/**
+ * Performs a Bézier interpolation with two control points between two vectors.
+ * @param a The first vector.
+ * @param b The first control point.
+ * @param c The second control point.
+ * @param d The second vector.
+ * @param t The interpolation amount in the range `[0,1]`.
+ * @param out The vector to store the result in.
+ * @returns The interpolated vector.
+ * @see [Bézier curve](https://en.wikipedia.org/wiki/B%C3%A9zier_curve)
+ */
+export function bezier<T extends Vector3Like>(a: Vector3Like, b: Vector3Like, c: Vector3Like, d: Vector3Like, t: number, out: T): T {
+    const inverseFactor: number = 1 - t;
+    const inverseFactorTimesTwo: number = inverseFactor * inverseFactor;
+    const factorTimes2: number = t * t;
+
+    const factor1: number = inverseFactorTimesTwo * inverseFactor;
+    const factor2: number = 3 * t * inverseFactorTimesTwo;
+    const factor3: number = 3 * factorTimes2 * inverseFactor;
+    const factor4: number = factorTimes2 * t;
+
+    out[0] = a[0] * factor1 + b[0] * factor2 + c[0] * factor3 + d[0] * factor4;
+    out[1] = a[1] * factor1 + b[1] * factor2 + c[1] * factor3 + d[1] * factor4;
+    out[2] = a[2] * factor1 + b[2] * factor2 + c[2] * factor3 + d[2] * factor4;
+    return out;
+}
+
+/**
+ * Transforms a vector by a quaternion.
+ * @param vector The vector.
+ * @param quaternion The quaternion.
+ * @param out The vector to store the result in.
+ * @returns The transformed vector.
+ * @see [Quaternion](https://en.wikipedia.org/wiki/Quaternion)
+ */
+export function transformQuaternion<T extends Vector3Like>(vector: Vector3Like, quaternion: QuaternionLike, out: T): T {
+    const qx: number = quaternion[0];
+    const qy: number = quaternion[1];
+    const qz: number = quaternion[2];
+    const qw: number = quaternion[3];
+
+    const x: number = vector[0];
+    const y: number = vector[1];
+    const z: number = vector[2];
+
+    let uvx: number = qy * z - qz * y;
+    let uvy: number = qz * x - qx * z;
+    let uvz: number = qx * y - qy * x;
+    
+    let uuvx: number = qy * uvz - qz * uvy;
+    let uuvy: number = qz * uvx - qx * uvz;
+    let uuvz: number = qx * uvy - qy * uvx;
+    
+    const w2: number = qw * 2;
+    uvx *= w2;
+    uvy *= w2;
+    uvz *= w2;
+    
+    uuvx *= 2;
+    uuvy *= 2;
+    uuvz *= 2;
+    
+    out[0] = x + uvx + uuvx;
+    out[1] = y + uvy + uuvy;
+    out[2] = z + uvz + uuvz;
+    return out;
+}
+
+/** The unit three-dimensional vector that represents the X-axis. */
+const xAxis: Vector3Like = new Float32Array([1, 0, 0]) as Vector3Like;
+
+/** The unit three-dimensional vector that represents the Y-axis. */
+const yAxis: Vector3Like = new Float32Array([0, 1, 0]) as Vector3Like;
+
+/** A three-dimensional vector that is used to store intermediary values. */
+const intermediary: Vector3Like = new Float32Array(3) as Vector3Like;
+
+/**
+ * Creates a quaternion that represents the shortest rotation from one vector to another.
+ * @param a The first vector.
+ * @param b The second vector.
+ * @param out The quaternion to store the result in.
+ * @returns The quaternion.
+ */
+export function rotationTo<T extends QuaternionLike>(a: Vector3Like, b: Vector3Like, out: T): T {
+    const dp: number = dot(a, b);
+
+    if (dp < epsilon - 1) {
+        cross(xAxis, a, intermediary);
+        if (getMagnitude(intermediary) < epsilon) { cross(yAxis, a, intermediary); }
+        normalize(intermediary, intermediary);
+        out[0] = intermediary[0];
+        out[1] = intermediary[1];
+        out[2] = intermediary[2];
+        out[3] = 0;
+        return out;
+    }
+    
+    if (dp > 1 - epsilon) {
+        out[0] = 0;
+        out[1] = 0;
+        out[2] = 0;
+        out[3] = 1;
+        return out;
+    }
+    
+    cross(a, b, intermediary);
+    out[0] = intermediary[0];
+    out[1] = intermediary[1];
+    out[2] = intermediary[2];
+    out[3] = 1 + dp;
+    return out; // TODO: Normalize output here. Others are already normalized.
+}
 
 /**
  * A quantity with magnitude and direction in three dimensions.
@@ -35,10 +707,7 @@ export default class Vector3 extends Float32Array implements Vector {
     public static fromValues<T extends Vector3Like>(x: number, y: number, z: number, out: T): T;
 
     public static fromValues<T extends Vector3Like>(x: number, y: number, z: number, out: T = new Vector3() as T): T {
-        out[0] = x;
-        out[1] = y;
-        out[2] = z;
-        return out;
+        return fromValues(x, y, z, out);
     }
 
     /**
@@ -55,17 +724,7 @@ export default class Vector3 extends Float32Array implements Vector {
 	 * @returns Whether the vectors are equivalent.
 	 */
 	public equals(vector: Vector3Like): boolean {
-        const a0: number = this[0] as number;
-        const a1: number = this[1] as number;
-        const a2: number = this[2] as number;
-
-        const b0: number = vector[0];
-        const b1: number = vector[1];
-        const b2: number = vector[2];
-
-        return Math.abs(a0 - b0) <= epsilon * Math.max(1, Math.abs(a0), Math.abs(b0))
-            && Math.abs(a1 - b1) <= epsilon * Math.max(1, Math.abs(a1), Math.abs(b1))
-            && Math.abs(a2 - b2) <= epsilon * Math.max(1, Math.abs(a2), Math.abs(b2));
+        return equals(this, vector);
     }
 
 	/**
@@ -74,9 +733,7 @@ export default class Vector3 extends Float32Array implements Vector {
 	 * @returns Whether the vectors are equivalent.
 	 */
 	public exactEquals(vector: Vector3Like): boolean {
-        return this[0] == vector[0]
-            && this[1] == vector[1]
-            && this[2] == vector[2];
+        return exactEquals(this, vector);
     }
 
     /**
@@ -95,10 +752,7 @@ export default class Vector3 extends Float32Array implements Vector {
 	public add<T extends Vector3Like>(vector: Vector3Like, out: T): T;
 
 	public add<T extends Vector3Like>(vector: Vector3Like, out: T = new Vector3() as T): T {
-		out[0] = (this[0] as number) + vector[0];
-		out[1] = (this[1] as number) + vector[1];
-        out[2] = (this[2] as number) + vector[2];
-		return out;
+		return add(this, vector, out);
 	}
 
 	/**
@@ -106,11 +760,7 @@ export default class Vector3 extends Float32Array implements Vector {
 	 * @returns A copy of this vector.
 	 */
 	public clone(): Vector3 {
-		const out: Vector3 = new Vector3();
-		out[0] = this[0] as number;
-		out[1] = this[1] as number;
-        out[2] = this[2] as number;
-		return out;
+        return copy(this, new Vector3());
 	}
 
     /**
@@ -119,10 +769,7 @@ export default class Vector3 extends Float32Array implements Vector {
 	 * @returns This vector.
 	 */
 	public copy(vector: Vector3Like): this {
-		this[0] = vector[0];
-		this[1] = vector[1];
-        this[2] = vector[2];
-		return this;
+		return copy(vector, this);
 	}
 
     /**
@@ -141,10 +788,7 @@ export default class Vector3 extends Float32Array implements Vector {
 	public multiply<T extends Vector3Like>(vector: Vector3Like, out: T): T;
 
 	public multiply<T extends Vector3Like>(vector: Vector3Like, out: T = new Vector3() as T): T {
-		out[0] = (this[0] as number) * vector[0];
-		out[1] = (this[1] as number) * vector[1];
-        out[2] = (this[2] as number) * vector[2];
-		return out;
+		return multiply(this, vector, out);
 	}
 
     /**
@@ -154,7 +798,7 @@ export default class Vector3 extends Float32Array implements Vector {
 	 */
 	public divide(vector: Vector3Like): Vector3;
 
-     /**
+    /**
 	 * Divides this vector by another.
 	 * @param vector The other vector.
      * @param out The vector to store the result in.
@@ -163,10 +807,7 @@ export default class Vector3 extends Float32Array implements Vector {
 	public divide<T extends Vector3Like>(vector: Vector3Like, out: T): T;
 
 	public divide<T extends Vector3Like>(vector: Vector3Like, out: T = new Vector3() as T): T {
-		out[0] = (this[0] as number) / vector[0];
-		out[1] = (this[1] as number) / vector[1];
-        out[2] = (this[2] as number) / vector[2];
-		return out;
+		return divide(this, vector, out);
 	}
 
     /**
@@ -185,10 +826,7 @@ export default class Vector3 extends Float32Array implements Vector {
 	public subtract<T extends Vector3Like>(vector: Vector3Like, out: T): T;
 
 	public subtract<T extends Vector3Like>(vector: Vector3Like, out: T = new Vector3() as T): T {
-		out[0] = (this[0] as number) - vector[0];
-		out[1] = (this[1] as number) - vector[1];
-        out[2] = (this[2] as number) - vector[2];
-		return out;
+		return subtract(this, vector, out);
 	}
 
 	/**
@@ -205,10 +843,7 @@ export default class Vector3 extends Float32Array implements Vector {
 	public ceil<T extends Vector3Like>(out: T): T;
 
     public ceil<T extends Vector3Like>(out: T = new Vector3() as T): T {
-        out[0] = Math.ceil(this[0] as number);
-        out[1] = Math.ceil(this[1] as number);
-        out[2] = Math.ceil(this[2] as number);
-        return out;
+        return ceil(this, out);
     }
 
 	/**
@@ -225,10 +860,7 @@ export default class Vector3 extends Float32Array implements Vector {
 	public floor<T extends Vector3Like>(out: T): T;
 
     public floor<T extends Vector3Like>(out: T = new Vector3() as T): T {
-        out[0] = Math.floor(this[0] as number);
-        out[1] = Math.floor(this[1] as number);
-        out[2] = Math.floor(this[2] as number);
-        return out;
+        return floor(this, out);
     }
 
 	/**
@@ -245,10 +877,7 @@ export default class Vector3 extends Float32Array implements Vector {
 	public round<T extends Vector3Like>(out: T): T;
 
     public round<T extends Vector3Like>(out: T = new Vector3() as T): T {
-        out[0] = Math.round(this[0] as number);
-        out[1] = Math.round(this[1] as number);
-        out[2] = Math.round(this[2] as number);
-        return out;
+        return round(this, out);
     }
 
 	/**
@@ -267,16 +896,13 @@ export default class Vector3 extends Float32Array implements Vector {
 	public min<T extends Vector3Like>(vector: Vector3Like, out: T): T;
 
     public min<T extends Vector3Like>(vector: Vector3Like, out: T = new Vector3() as T): T {
-        out[0] = Math.min(this[0] as number, vector[0]);
-        out[1] = Math.min(this[1] as number, vector[1]);
-        out[2] = Math.min(this[2] as number, vector[2]);
-        return out;
+        return min(this, vector, out);
     }
 
 	/**
 	 * Returns the maximum of this and another vector.
 	 * @param vector The other vector.
-	 * @returns The minimum.
+	 * @returns The maximum.
 	 */
 	public max(vector: Vector3Like): Vector3;
 
@@ -284,15 +910,12 @@ export default class Vector3 extends Float32Array implements Vector {
 	 * Returns the maximum of this and another vector.
 	 * @param vector The other vector.
      * @param out The vector to store the result in.
-	 * @returns The minimum.
+	 * @returns The maximum.
 	 */
 	public max<T extends Vector3Like>(vector: Vector3Like, out: T): T;
 
     public max<T extends Vector3Like>(vector: Vector3Like, out: T = new Vector3() as T): T {
-        out[0] = Math.max(this[0] as number, vector[0]);
-        out[1] = Math.max(this[1] as number, vector[1]);
-        out[2] = Math.max(this[2] as number, vector[2]);
-        return out;
+        return max(this, vector, out);
     }
 
 	/**
@@ -311,10 +934,7 @@ export default class Vector3 extends Float32Array implements Vector {
 	public scale<T extends Vector3Like>(scalar: number, out: T): T;
 
     public scale<T extends Vector3Like>(scalar: number, out: T = new Vector3() as T): T {
-        out[0] = (this[0] as number) * scalar;
-        out[1] = (this[1] as number) * scalar;
-        out[2] = (this[2] as number) * scalar;
-        return out;
+        return scale(this, scalar, out);
     }
 
 	/**
@@ -328,57 +948,44 @@ export default class Vector3 extends Float32Array implements Vector {
     /**
 	 * Adds another vector to this one after scaling the other by a scalar.
 	 * @param vector The other vector.
-	 * @param s The scalar.
+	 * @param scalar The scalar.
      * @param out The vector to store the result in.
 	 * @returns The sum.
 	 */
 	public scaleAndAdd<T extends Vector3Like>(vector: Vector3Like, scalar: number, out: T): T;
 
     public scaleAndAdd<T extends Vector3Like>(vector: Vector3Like, scalar: number, out: T = new Vector3() as T): T {
-        out[0] = (this[0] as number) + vector[0] * scalar;
-        out[1] = (this[1] as number) + vector[1] * scalar;
-        out[2] = (this[2] as number) + vector[2] * scalar;
-        return out;
+        return scaleAndAdd(this, vector, scalar, out);
     }
 
 	/**
 	 * Calculates the Euclidean distance between this vector and another.
 	 * @param vector The other vector.
 	 * @returns The distance.
+     * @see [Euclidean distance](https://en.wikipedia.org/wiki/Euclidean_distance)
 	 */
 	public distance(vector: Vector3Like): number {
-        const x: number = vector[0] - (this[0] as number);
-        const y: number = vector[1] - (this[1] as number);
-        const z: number = vector[2] - (this[2] as number);
-        return Math.hypot(x, y, z);
+        return distance(this, vector);
     }
 
 	/**
 	 * Calculates the squared Euclidean distance between this vector and another.
 	 * @param vector The other vector.
 	 * @returns The squared distance.
+     * @see [Euclidean distance](https://en.wikipedia.org/wiki/Euclidean_distance)
 	 */
 	public squaredDistance(vector: Vector3Like): number {
-        const x: number = vector[0] - (this[0] as number);
-        const y: number = vector[1] - (this[1] as number);
-        const z: number = vector[2] - (this[2] as number);
-        return x * x + y * y + z * z;
+        return squaredDistance(this, vector);
     }
 
 	/** The magnitude (length) of this vector. */
 	public get magnitude(): number {
-        const x: number = this[0] as number;
-        const y: number = this[1] as number;
-        const z: number = this[2] as number;
-        return Math.hypot(x, y, z);
+        return getMagnitude(this);
     }
 
 	/** The squared magnitude (length) of this vector. */
 	public get squaredMagnitude(): number {
-        const x: number = this[0] as number;
-        const y: number = this[1] as number;
-        const z: number = this[2] as number;
-        return x * x + y * y + z * z;
+        return getSquaredMagnitude(this);
     }
 
 	/**
@@ -395,10 +1002,7 @@ export default class Vector3 extends Float32Array implements Vector {
 	public negate<T extends Vector3Like>(out: T): T;
 
     public negate<T extends Vector3Like>(out: T = new Vector3() as T): T {
-        out[0] = -(this[0] as number);
-        out[1] = -(this[1] as number);
-        out[2] = -(this[2] as number);
-        return out;
+        return negate(this, out);
     }
 
     /**
@@ -415,15 +1019,13 @@ export default class Vector3 extends Float32Array implements Vector {
 	public inverse<T extends Vector3Like>(out: T): T;
 
     public inverse<T extends Vector3Like>(out: T = new Vector3() as T): T {
-        out[0] = 1 / (this[0] as number);
-        out[1] = 1 / (this[1] as number);
-        out[2] = 1 / (this[2] as number);
-        return out;
+        return inverse(this, out);
     }
 
     /**
 	 * Normalizes this vector.
 	 * @returns The normalized vector.
+     * @see [Unit vector](https://en.wikipedia.org/wiki/Unit_vector)
 	 */
 	public normalize(): Vector3;
 
@@ -431,38 +1033,29 @@ export default class Vector3 extends Float32Array implements Vector {
 	 * Normalizes this vector.
      * @param out The vector to store the result in.
 	 * @returns The normalized vector.
+     * @see [Unit vector](https://en.wikipedia.org/wiki/Unit_vector)
 	 */
 	public normalize<T extends Vector3Like>(out: T): T;
 
     public normalize<T extends Vector3Like>(out: T = new Vector3() as T): T {
-        const x: number = this[0] as number;
-        const y: number = this[1] as number;
-        const z: number = this[2] as number;
-        
-        let len: number = x * x + y * y + z * z;
-        if (len > 0) {
-            len = 1 / Math.sqrt(len);
-        }
-
-        out[0] = x * len;
-        out[1] = y * len;
-        out[2] = z * len;
-        return out;
+        return normalize(this, out);
     }
 
 	/**
 	 * Calculates the dot product of this and another vector.
 	 * @param vector The other vector.
 	 * @returns The dot product.
+     * @see [Dot product](https://en.wikipedia.org/wiki/Dot_product)
 	 */
 	public dot(vector: Vector3Like): number {
-        return (this[0] as number) * vector[0] + (this[1] as number) * vector[1] + (this[2] as number) * vector[2];
+        return dot(this, vector);
     }
 
     /**
 	 * Calculates the cross product of this and another vector.
 	 * @param vector The other vector.
 	 * @returns The cross product.
+     * @see [Cross product](https://en.wikipedia.org/wiki/Cross_product)
 	 */
 	public cross(vector: Vector3Like): Vector3;
 
@@ -471,22 +1064,12 @@ export default class Vector3 extends Float32Array implements Vector {
 	 * @param vector The other vector.
      * @param out The vector to store the result in.
 	 * @returns The cross product.
+     * @see [Cross product](https://en.wikipedia.org/wiki/Cross_product)
 	 */
 	public cross<T extends Vector3Like>(vector: Vector3Like, out: T): T;
 
     public cross<T extends Vector3Like>(vector: Vector3Like, out: T = new Vector3() as T): T {
-        const ax: number = this[0] as number;
-        const ay: number = this[1] as number;
-        const az: number = this[2] as number;
-
-        const bx: number = vector[0];
-        const by: number = vector[1];
-        const bz: number = vector[2];
-
-        out[0] = ay * bz - az * by;
-        out[1] = az * bx - ax * bz;
-        out[2] = ax * by - ay * bx;
-        return out;
+        return cross(this, vector, out);
     }
 
 	/**
@@ -494,6 +1077,7 @@ export default class Vector3 extends Float32Array implements Vector {
 	 * @param vector The other vector.
 	 * @param t The interpolation amount (in `[0,1]`).
 	 * @returns The interpolated vector.
+     * @see [Linear interpolation](https://en.wikipedia.org/wiki/Linear_interpolation)
 	 */
 	public lerp(vector: Vector3Like, t: number): Vector3;
 
@@ -503,18 +1087,12 @@ export default class Vector3 extends Float32Array implements Vector {
 	 * @param t The interpolation amount (in `[0,1]`).
      * @param out The vector to store the result in.
 	 * @returns The interpolated vector.
+     * @see [Linear interpolation](https://en.wikipedia.org/wiki/Linear_interpolation)
 	 */
 	public lerp<T extends Vector3Like>(vector: Vector3Like, t: number, out: T): T;
 
     public lerp<T extends Vector3Like>(vector: Vector3Like, t: number, out: T = new Vector3() as T): T {
-        const ax: number = this[0] as number;
-        const ay: number = this[1] as number;
-        const az: number = this[2] as number;
-
-        out[0] = ax + t * (vector[0] - ax);
-        out[1] = ay + t * (vector[1] - ay);
-        out[2] = az + t * (vector[2] - az);
-        return out;
+        return lerp(this, vector, t, out);
     }
 
 	/**
@@ -523,14 +1101,7 @@ export default class Vector3 extends Float32Array implements Vector {
 	 * @returns This vector.
 	 */
 	public random(magnitude = 1): this {
-        const r: number = Math.random() * 2 * Math.PI;
-        const z: number = Math.random() * 2 - 1;
-        const zScale: number = Math.sqrt(1.0 - z * z) * magnitude;
-
-        this[0] = Math.cos(r) * zScale;
-        this[1] = Math.sin(r) * zScale;
-        this[2] = z * magnitude;
-        return this;
+        return random(magnitude, this);
     }
 
     /**
@@ -549,14 +1120,7 @@ export default class Vector3 extends Float32Array implements Vector {
 	public transformMatrix3<T extends Vector3Like>(matrix: Matrix3Like, out: T): T;
 
     public transformMatrix3<T extends Vector3Like>(matrix: Matrix3Like, out: T = new Vector3() as T): T {
-        const x: number = this[0] as number;
-        const y: number = this[1] as number;
-        const z: number = this[2] as number;
-
-        out[0] = x * matrix[0] + y * matrix[3] + z * matrix[6];
-        out[1] = x * matrix[1] + y * matrix[4] + z * matrix[7];
-        out[2] = x * matrix[2] + y * matrix[5] + z * matrix[8];
-        return out;
+        return transformMatrix3(this, matrix, out);
     }
 
     /**
@@ -575,16 +1139,7 @@ export default class Vector3 extends Float32Array implements Vector {
 	public transformMatrix4<T extends Vector3Like>(matrix: Matrix4Like, out: T): T;
 
     public transformMatrix4<T extends Vector3Like>(matrix: Matrix4Like, out: T = new Vector3() as T): T {
-        const x: number = this[0] as number;
-        const y: number = this[1] as number;
-        const z: number = this[2] as number;
-
-        const w: number = matrix[3] * x + matrix[7] * y + matrix[11] * z + matrix[15] || 1;
-
-        out[0] = (matrix[0] * x + matrix[4] * y + matrix[8] * z + matrix[12]) / w;
-        out[1] = (matrix[1] * x + matrix[5] * y + matrix[9] * z + matrix[13]) / w;
-        out[2] = (matrix[2] * x + matrix[6] * y + matrix[10] * z + matrix[14]) / w;
-        return out;
+        return transformMatrix4(this, matrix, out);
     }
 
     /**
@@ -605,20 +1160,7 @@ export default class Vector3 extends Float32Array implements Vector {
     public rotateX<T extends Vector3Like>(origin: Vector3Like, radians: number, out: T): T;
 
     public rotateX<T extends Vector3Like>(origin: Vector3Like, radians: number, out: T = new Vector3() as T): T {
-        const p: Vector3Like = [
-            (this[0] as number) - origin[0],
-            (this[1] as number) - origin[1],
-            (this[2] as number) - origin[2]];
-
-        const r: Vector3Like = [
-            p[0],
-            p[1] * Math.cos(radians) - p[2] * Math.sin(radians),
-            p[1] * Math.sin(radians) + p[2] * Math.cos(radians)];
-
-        out[0] = r[0] + origin[0];
-        out[1] = r[1] + origin[1];
-        out[2] = r[2] + origin[2];
-        return out;
+        return rotateX(this, origin, radians, out);
     }
 
     /**
@@ -639,20 +1181,7 @@ export default class Vector3 extends Float32Array implements Vector {
     public rotateY<T extends Vector3Like>(origin: Vector3Like, radians: number, out: T): T;
 
     public rotateY<T extends Vector3Like>(origin: Vector3Like, radians: number, out: T = new Vector3() as T): T {
-        const p: Vector3Like = [
-            (this[0] as number) - origin[0],
-            (this[1] as number) - origin[1],
-            (this[2] as number) - origin[2]];
-
-        const r: Vector3Like = [
-            p[2] * Math.sin(radians) + p[0] * Math.cos(radians),
-            p[1],
-            p[2] * Math.cos(radians) - p[0] * Math.sin(radians)];
-
-        out[0] = r[0] + origin[0];
-        out[1] = r[1] + origin[1];
-        out[2] = r[2] + origin[2];
-        return out;
+        return rotateY(this, origin, radians, out);
     }
 
     /**
@@ -673,44 +1202,16 @@ export default class Vector3 extends Float32Array implements Vector {
     public rotateZ<T extends Vector3Like>(origin: Vector3Like, radians: number, out: T): T;
 
     public rotateZ<T extends Vector3Like>(origin: Vector3Like, radians: number, out: T = new Vector3() as T): T {
-        const p: Vector3Like = [
-            (this[0] as number) - origin[0],
-            (this[1] as number) - origin[1],
-            (this[2] as number) - origin[2]];
-
-        const r: Vector3Like = [
-            p[0] * Math.cos(radians) - p[1] * Math.sin(radians),
-            p[0] * Math.sin(radians) + p[1] * Math.cos(radians),
-            p[2]];
-
-        out[0] = r[0] + origin[0];
-        out[1] = r[1] + origin[1];
-        out[2] = r[2] + origin[2];
-        return out;
+        return rotateZ(this, origin, radians, out);
     }
 
     /**
-     * Gets the angle between this and another vector in radians.
+     * Gets the angle from this vector to another in radians.
      * @param vector The other vector.
      * @returns The angular distance from this vector to the other.
      */
     public angle(vector: Vector3Like): number {
-        const ax: number = this[0] as number;
-        const ay: number = this[1] as number;
-        const az: number = this[2] as number;
-
-        const bx: number = vector[0];
-        const by: number = vector[1];
-        const bz: number = vector[2];
-
-        const mag1: number = Math.sqrt(ax * ax + ay * ay + az * az);
-        const mag2: number = Math.sqrt(bx * bx + by * by + bz * bz);
-
-        const mag: number = mag1 * mag2;
-
-        const cosine: number = mag && this.dot(vector) / mag;
-
-        return Math.acos(Math.min(Math.max(cosine, -1), 1));
+        return angle(this, vector);
     }
 
 	/**
@@ -718,10 +1219,7 @@ export default class Vector3 extends Float32Array implements Vector {
 	 * @returns This vector.
 	 */
 	public zero(): this {
-        this[0] = 0;
-        this[1] = 0;
-        this[2] = 0;
-        return this;
+        return zero(this);
     }
 
     /**
@@ -731,6 +1229,7 @@ export default class Vector3 extends Float32Array implements Vector {
      * @param end The other vector.
      * @param t The interpolation amount in the range `[0,1]`.
      * @returns The interpolated vector.
+     * @see [Hermite interpolation](https://en.wikipedia.org/wiki/Hermite_interpolation)
      */
     public hermite(a: Vector3Like, b: Vector3Like, end: Vector3Like, t: number): Vector3;
 
@@ -742,21 +1241,12 @@ export default class Vector3 extends Float32Array implements Vector {
      * @param t The interpolation amount in the range `[0,1]`.
      * @param out The vector to store the result in.
      * @returns The interpolated vector.
+     * @see [Hermite interpolation](https://en.wikipedia.org/wiki/Hermite_interpolation)
      */
     public hermite<T extends Vector3Like>(a: Vector3Like, b: Vector3Like, end: Vector3Like, t: number, out: T): T;
 
     public hermite<T extends Vector3Like>(a: Vector3Like, b: Vector3Like, end: Vector3Like, t: number, out: T = new Vector3() as T): T {
-        const factorTimes2: number = t * t;
-
-        const factor1: number = factorTimes2 * (2 * t - 3) + 1;
-        const factor2: number = factorTimes2 * (t - 2) + t;
-        const factor3: number = factorTimes2 * (t - 1);
-        const factor4: number = factorTimes2 * (3 - 2 * t);
-
-        out[0] = (this[0] as number) * factor1 + a[0] * factor2 + b[0] * factor3 + end[0] * factor4;
-        out[1] = (this[1] as number) * factor1 + a[1] * factor2 + b[1] * factor3 + end[1] * factor4;
-        out[2] = (this[2] as number) * factor1 + a[2] * factor2 + b[2] * factor3 + end[2] * factor4;
-        return out;
+        return hermite(this, a, b, end, t, out);
     }
 
     /**
@@ -766,6 +1256,7 @@ export default class Vector3 extends Float32Array implements Vector {
      * @param end The other vector.
      * @param t The interpolation amount in the range `[0,1]`.
      * @returns The interpolated vector.
+     * @see [Bézier curve](https://en.wikipedia.org/wiki/B%C3%A9zier_curve)
      */
     public bezier(a: Vector3Like, b: Vector3Like, end: Vector3Like, t: number): Vector3;
 
@@ -777,29 +1268,19 @@ export default class Vector3 extends Float32Array implements Vector {
      * @param t The interpolation amount in the range `[0,1]`.
      * @param out The vector to store the result in.
      * @returns The interpolated vector.
+     * @see [Bézier curve](https://en.wikipedia.org/wiki/B%C3%A9zier_curve)
      */
     public bezier<T extends Vector3Like>(a: Vector3Like, b: Vector3Like, end: Vector3Like, t: number, out: T): T;
 
     public bezier<T extends Vector3Like>(a: Vector3Like, b: Vector3Like, end: Vector3Like, t: number, out: T = new Vector3() as T): T {
-        const inverseFactor: number = 1 - t;
-        const inverseFactorTimesTwo: number = inverseFactor * inverseFactor;
-        const factorTimes2: number = t * t;
-
-        const factor1: number = inverseFactorTimesTwo * inverseFactor;
-        const factor2: number = 3 * t * inverseFactorTimesTwo;
-        const factor3: number = 3 * factorTimes2 * inverseFactor;
-        const factor4: number = factorTimes2 * t;
-
-        out[0] = (this[0] as number) * factor1 + a[0] * factor2 + b[0] * factor3 + end[0] * factor4;
-        out[1] = (this[1] as number) * factor1 + a[1] * factor2 + b[1] * factor3 + end[1] * factor4;
-        out[2] = (this[2] as number) * factor1 + a[2] * factor2 + b[2] * factor3 + end[2] * factor4;
-        return out;
+        return bezier(this, a, b, end, t, out);
     }
 
     /**
 	 * Transforms this vector by a quaternion.
 	 * @param quaternion The quaternion.
 	 * @returns The transformed vector.
+     * @see [Quaternion](https://en.wikipedia.org/wiki/Quaternion)
 	 */
 	public transformQuaternion(quaternion: QuaternionLike): Vector3;
 
@@ -808,40 +1289,12 @@ export default class Vector3 extends Float32Array implements Vector {
 	 * @param quaternion The quaternion.
      * @param out The vector to store the result in.
 	 * @returns The transformed vector.
+     * @see [Quaternion](https://en.wikipedia.org/wiki/Quaternion)
 	 */
 	public transformQuaternion<T extends Vector3Like>(quaternion: QuaternionLike, out: T): T;
 
     public transformQuaternion<T extends Vector3Like>(quaternion: QuaternionLike, out: T = new Vector3() as T): T {
-        const qx: number = quaternion[0];
-        const qy: number = quaternion[1];
-        const qz: number = quaternion[2];
-        const qw: number = quaternion[3];
-
-        const x: number = this[0] as number;
-        const y: number = this[1] as number;
-        const z: number = this[2] as number;
-
-        let uvx: number = qy * z - qz * y;
-        let uvy: number = qz * x - qx * z;
-        let uvz: number = qx * y - qy * x;
-        
-        let uuvx: number = qy * uvz - qz * uvy;
-        let uuvy: number = qz * uvx - qx * uvz;
-        let uuvz: number = qx * uvy - qy * uvx;
-        
-        const w2: number = qw * 2;
-        uvx *= w2;
-        uvy *= w2;
-        uvz *= w2;
-        
-        uuvx *= 2;
-        uuvy *= 2;
-        uuvz *= 2;
-        
-        out[0] = x + uvx + uuvx;
-        out[1] = y + uvy + uuvy;
-        out[2] = z + uvz + uuvz;
-        return out;
+        return transformQuaternion(this, quaternion, out);
     }
 
     /**
@@ -860,41 +1313,6 @@ export default class Vector3 extends Float32Array implements Vector {
     public rotationTo<T extends QuaternionLike>(vector: Vector3Like, out: T): T;
 
     public rotationTo<T extends QuaternionLike>(vector: Vector3Like, out: T = new Quaternion() as T): T {
-        const dot: number = this.dot(vector);
-
-        if (dot < epsilon - 1) {
-            xAxis.cross(this, intermediary);
-            if (intermediary.magnitude < epsilon) { yAxis.cross(this, intermediary); }
-            intermediary.normalize(intermediary);
-            out[0] = intermediary[0] as number;
-            out[1] = intermediary[1] as number;
-            out[2] = intermediary[2] as number;
-            out[3] = 0;
-            return out;
-        }
-        
-        if (dot > 1 - epsilon) {
-            out[0] = 0;
-            out[1] = 0;
-            out[2] = 0;
-            out[3] = 1;
-            return out;
-        }
-        
-        this.cross(vector, intermediary);
-        out[0] = intermediary[0] as number;
-        out[1] = intermediary[1] as number;
-        out[2] = intermediary[2] as number;
-        out[3] = 1 + dot;
-        return out; // TODO: Normalize output here. Others are already normalized.
+        return rotationTo(this, vector, out);
     }
 }
-
-/** The unit three-dimensional vector that represents the X-axis. */
-const xAxis: Vector3 = Vector3.fromValues(1, 0, 0);
-
-/** The unit three-dimensional vector that represents the Y-axis. */
-const yAxis: Vector3 = Vector3.fromValues(0, 1, 0);
-
-/** A three-dimensional vector that is used to store intermediary values for some functions. */
-const intermediary: Vector3 = new Vector3();

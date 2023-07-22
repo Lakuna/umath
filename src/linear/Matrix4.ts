@@ -2222,24 +2222,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @returns A copy of this matrix.
 	 */
 	public clone(): Matrix4 {
-		const out: Matrix4 = new Matrix4();
-		out[0] = this[0] as number;
-		out[1] = this[1] as number;
-		out[2] = this[2] as number;
-		out[3] = this[3] as number;
-		out[4] = this[4] as number;
-		out[5] = this[5] as number;
-		out[6] = this[6] as number;
-		out[7] = this[7] as number;
-		out[8] = this[8] as number;
-		out[9] = this[9] as number;
-		out[10] = this[10] as number;
-		out[11] = this[11] as number;
-		out[12] = this[12] as number;
-		out[13] = this[13] as number;
-		out[14] = this[14] as number;
-		out[15] = this[15] as number;
-		return out;
+		return copy(this, new Matrix4());
 	}
 
 	/**
