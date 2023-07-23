@@ -380,7 +380,7 @@ export function lerp<T extends Vector3Like>(a: Vector3Like, b: Vector3Like, t: n
  * @param out The vector to store the result in.
  * @returns This vector.
  */
-export function random<T extends Vector3Like>(magnitude = 1, out: T): T {
+export function random<T extends Vector3Like>(magnitude: number, out: T): T {
     const r: number = Math.random() * 2 * Math.PI;
     const z: number = Math.random() * 2 - 1;
     const zScale: number = Math.sqrt(1 - z * z) * magnitude;

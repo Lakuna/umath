@@ -176,8 +176,8 @@ export function max<T extends Vector2Like>(a: Vector2Like, b: Vector2Like, out: 
 
 /**
  * Multiplies a vector by a scalar.
- * @param vector The multiplicand.
- * @param scalar The multiplier.
+ * @param vector The multiplier.
+ * @param scalar The multiplicand.
  * @param out The vector to store the result in.
  * @returns The product.
  */
@@ -344,7 +344,7 @@ export function lerp<T extends Vector2Like>(a: Vector2Like, b: Vector2Like, t: n
  * @param out The vector to store the result in.
  * @returns The vector.
  */
-export function random<T extends Vector2Like>(magnitude = 1, out: T): T {
+export function random<T extends Vector2Like>(magnitude: number, out: T): T {
 	const r: number = Math.random() * 2 * Math.PI;
 
 	out[0] = Math.cos(r) * magnitude;
@@ -673,7 +673,7 @@ export default class Vector2 extends Float32Array implements Vector {
 	/**
 	 * Returns the maximum of this and another vector.
 	 * @param vector The other vector.
-	 * @returns The minimum.
+	 * @returns The maximum.
 	 */
 	public max(vector: Vector2Like): Vector2;
 
@@ -681,7 +681,7 @@ export default class Vector2 extends Float32Array implements Vector {
 	 * Returns the maximum of this and another vector.
 	 * @param vector The other vector.
      * @param out The vector to store the result in.
-	 * @returns The minimum.
+	 * @returns The maximum.
 	 */
 	public max<T extends Vector2Like>(vector: Vector2Like, out: T): T;
 
