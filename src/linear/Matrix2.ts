@@ -501,6 +501,7 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	 * @returns A copy of this matrix.
 	 */
 	public clone(): Matrix2 {
+		// TODO: `out` parameter.
 		return copy(this, new Matrix2());
 	}
 

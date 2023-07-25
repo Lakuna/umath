@@ -578,6 +578,7 @@ export default class Quaternion extends Float32Array {
 
     /** The axis and angle that represent this quaternion. */
     public get axisAngle(): AxisAngle {
+        // TODO: `out` parameter.
         return getAxisAngle(this);
     }
 
@@ -811,6 +812,7 @@ export default class Quaternion extends Float32Array {
      * @returns A copy of this quaternion.
      */
     public clone(): Quaternion {
+        // TODO: `out` parameter.
         return copy(this as unknown as Vector4Like, new Quaternion() as unknown as Vector4Like) as unknown as Quaternion;
     }
 

@@ -3,6 +3,7 @@ import type { Matrix3Like } from "@lakuna/umath/Matrix3";
 import type { Matrix4Like } from "@lakuna/umath/Matrix4";
 import type { QuaternionLike } from "@lakuna/umath/Quaternion";
 import Quaternion from "@lakuna/umath/Quaternion";
+import { normalize as normalizeVector4, type Vector4Like } from "@lakuna/umath/Vector4";
 
 /** A quantity with magnitude and direction in three dimensions. */
 export type Vector3Like = Vector3 | [number, number, number];
@@ -679,7 +680,7 @@ export function rotationTo<T extends QuaternionLike>(a: Vector3Like, b: Vector3L
     out[1] = intermediary[1];
     out[2] = intermediary[2];
     out[3] = 1 + dp;
-    return out; // TODO: Normalize output here. Others are already normalized.
+    return normalizeVector4(out as Vector4Like, out as Vector4Like) as T;
 }
 
 /**
@@ -760,6 +761,7 @@ export default class Vector3 extends Float32Array implements Vector {
 	 * @returns A copy of this vector.
 	 */
 	public clone(): Vector3 {
+        // TODO: `out` parameter.
         return copy(this, new Vector3());
 	}
 

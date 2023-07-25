@@ -232,7 +232,7 @@ export function squaredDistance(a: Vector2Like, b: Vector2Like): number {
  * @param vector The vector.
  * @returns The magnitude.
  */
-export function magnitude(vector: Vector2Like): number {
+export function getMagnitude(vector: Vector2Like): number {
 	const x: number = vector[0];
 	const y: number = vector[1];
 	return Math.hypot(x, y);
@@ -243,7 +243,7 @@ export function magnitude(vector: Vector2Like): number {
  * @param vector The vector.
  * @returns The squared magnitude.
  */
-export function squaredMagnitude(vector: Vector2Like): number {
+export function getSquaredMagnitude(vector: Vector2Like): number {
 	const x: number = vector[0];
 	const y: number = vector[1];
 	return x * x + y * y;
@@ -531,6 +531,7 @@ export default class Vector2 extends Float32Array implements Vector {
 	 * @returns A copy of this vector.
 	 */
 	public clone(): Vector2 {
+		// TODO: `out` parameter.
 		return copy(this, new Vector2());
 	}
 
@@ -751,12 +752,12 @@ export default class Vector2 extends Float32Array implements Vector {
 
 	/** The magnitude (length) of this vector. */
 	public get magnitude(): number {
-        return magnitude(this);
+        return getMagnitude(this);
     }
 
 	/** The squared magnitude (length) of this vector. */
 	public get squaredMagnitude(): number {
-        return squaredMagnitude(this);
+        return getSquaredMagnitude(this);
     }
 
 	/**

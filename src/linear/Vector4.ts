@@ -77,7 +77,7 @@ export function add<T extends Vector4Like>(a: Vector4Like, b: Vector4Like, out: 
  * Copies the values from one vector to another.
  * @param vector The vector to copy.
  * @param out The vector to store the result in.
- * @returns This vector.
+ * @returns The copy.
  */
 export function copy<T extends Vector4Like>(vector: Vector4Like, out: T): T {
     out[0] = vector[0];
@@ -576,6 +576,7 @@ export default class Vector4 extends Float32Array implements Vector {
      * @returns A copy of this vector.
      */
     public clone(): Vector4 {
+        // TODO: `out` parameter.
         return copy(this, new Vector4());
     }
 

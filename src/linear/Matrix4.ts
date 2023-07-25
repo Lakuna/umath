@@ -398,6 +398,9 @@ export function fromRotationTranslationScaleOrigin<T extends Matrix4Like>(rotati
 	return out;
 }
 
+/** A vector that is used to store intermediary values for some functions. */
+const intermediary: Vector3Like = new Float32Array(3) as Vector3Like;
+
 /**
  * Creates a transformation matrix from a dual quaternion.
  * @param quaternion The dual quaternion.
@@ -408,8 +411,6 @@ export function fromRotationTranslationScaleOrigin<T extends Matrix4Like>(rotati
  * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
  */
 export function fromDualQuaternion<T extends Matrix4Like>(quaternion: DualQuaternionLike, out: T): T {
-	const translation: Vector3Like = new Float32Array(3) as Vector3Like;
-
 	const bx: number = -quaternion[0];
 	const by: number = -quaternion[1];
 	const bz: number = -quaternion[2];
@@ -421,16 +422,16 @@ export function fromDualQuaternion<T extends Matrix4Like>(quaternion: DualQuater
 
 	const magnitude: number = bx * bx + by * by + bz * bz + bw * bw;
 	if (magnitude > 0) {
-		translation[0] = ((ax * bw + aw * bx + ay * bz - az * by) * 2) / magnitude;
-		translation[1] = ((ay * bw + aw * by + az * bx - ax * bz) * 2) / magnitude;
-		translation[2] = ((az * bw + aw * bz + ax * by - ay * bx) * 2) / magnitude;
+		intermediary[0] = ((ax * bw + aw * bx + ay * bz - az * by) * 2) / magnitude;
+		intermediary[1] = ((ay * bw + aw * by + az * bx - ax * bz) * 2) / magnitude;
+		intermediary[2] = ((az * bw + aw * bz + ax * by - ay * bx) * 2) / magnitude;
 	} else {
-		translation[0] = (ax * bw + aw * bx + ay * bz - az * by) * 2;
-		translation[1] = (ay * bw + aw * by + az * bx - ax * bz) * 2;
-		translation[2] = (az * bw + aw * bz + ax * by - ay * bx) * 2;
+		intermediary[0] = (ax * bw + aw * bx + ay * bz - az * by) * 2;
+		intermediary[1] = (ay * bw + aw * by + az * bx - ax * bz) * 2;
+		intermediary[2] = (az * bw + aw * bz + ax * by - ay * bx) * 2;
 	}
 
-	return fromRotationTranslation(quaternion as QuaternionLike, translation, out);
+	return fromRotationTranslation(quaternion as QuaternionLike, intermediary, out);
 }
 
 /**
@@ -1604,20 +1605,25 @@ export function rotateZ<T extends Matrix4Like>(matrix: Matrix4Like, radians: num
 /**
  * Gets the translation vector component of a transformation matrix.
  * @param matrix The matrix.
+ * @param out The vector to store the result in.
  * @returns The translation vector.
  * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
  */
-export function getTranslation(matrix: Matrix4Like): Vector3Like {
-	return new Float32Array([matrix[12], matrix[13], matrix[14]]) as Vector3Like;
+export function getTranslation<T extends Vector3Like>(matrix: Matrix4Like, out: T): T {
+	out[0] = matrix[12];
+	out[1] = matrix[13];
+	out[2] = matrix[14];
+	return out;
 }
 
 /**
  * Gets the scaling factor of a transformation matrix.
  * @param matrix The matrix.
+ * @param out The vector to store the result in.
  * @returns The scaling vector.
  * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
  */
-export function getScaling(matrix: Matrix4Like): Vector3Like {
+export function getScaling<T extends Vector3Like>(matrix: Matrix4Like, out: T): T {
 	const m11: number = matrix[0];
 	const m12: number = matrix[1];
 	const m13: number = matrix[2];
@@ -1628,17 +1634,21 @@ export function getScaling(matrix: Matrix4Like): Vector3Like {
 	const m32: number = matrix[9];
 	const m33: number = matrix[10];
 
-	return new Float32Array([Math.hypot(m11, m12, m13), Math.hypot(m21, m22, m23), Math.hypot(m31, m32, m33)]) as Vector3Like;
+	out[0] = Math.hypot(m11, m12, m13);
+	out[1] = Math.hypot(m21, m22, m23);
+	out[2] = Math.hypot(m31, m32, m33);
+	return out;
 }
 
 /**
  * Gets the rotational component of a transformation matrix.
  * @param matrix The matrix.
+ * @param out The quaternion to store the result in.
  * @returns The rotation.
  * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
  */
-export function getRotation(matrix: Matrix4Like): QuaternionLike {
-	const scaling: Vector3Like = getScaling(matrix);
+export function getRotation<T extends QuaternionLike>(matrix: Matrix4Like, out: T): T {
+	const scaling: Vector3Like = getScaling(matrix, new Float32Array(3) as Vector3Like);
 
 	const is1: number = 1 / scaling[0];
 	const is2: number = 1 / scaling[1];
@@ -1658,21 +1668,37 @@ export function getRotation(matrix: Matrix4Like): QuaternionLike {
 
 	if (trace > 0) {
 		const s: number = Math.sqrt(trace + 1) * 2;
-		return new Float32Array([(sm23 - sm32) / s, (sm31 - sm13) / s, (sm12 - sm21) / s, 0.25 * s]) as QuaternionLike;
+		out[0] = (sm23 - sm32) / s;
+		out[1] = (sm31 - sm13) / s;
+		out[2] = (sm12 - sm21) / s;
+		out[3] = 0.25 * s;
+		return out;
 	}
 	
 	if (sm11 > sm22 && sm11 > sm33) {
 		const s: number = Math.sqrt(1 + sm11 - sm22 - sm33) * 2;
-		return new Float32Array([0.25 * s, (sm12 + sm21) / s, (sm31 + sm13) / s, (sm23 - sm32) / s]) as QuaternionLike;
+		out[0] = 0.25 * s;
+		out[1] = (sm12 + sm21) / s;
+		out[2] = (sm31 + sm13) / s;
+		out[3] = (sm23 - sm32) / s;
+		return out;
 	}
 	
 	if (sm22 > sm33) {
 		const s: number = Math.sqrt(1 + sm22 - sm11 - sm33) * 2;
-		return new Float32Array([(sm12 + sm21) / s, 0.25 * s, (sm23 + sm32) / s, (sm31 - sm13) / s]) as QuaternionLike;
+		out[0] = (sm12 + sm21) / s;
+		out[1] = 0.25 * s;
+		out[2] = (sm23 + sm32) / s;
+		out[3] = (sm31 - sm13) / s;
+		return out;
 	}
 
 	const s: number = Math.sqrt(1 + sm33 - sm11 - sm22) * 2;
-	return new Float32Array([(sm31 + sm13) / s, (sm23 + sm32) / s, 0.25 * s, (sm12 - sm21) / s]) as QuaternionLike;
+	out[0] = (sm31 + sm13) / s;
+	out[1] = (sm23 + sm32) / s;
+	out[2] = 0.25 * s;
+	out[3] = (sm12 - sm21) / s;
+	return out;
 }
 
 /**
@@ -2222,6 +2248,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @returns A copy of this matrix.
 	 */
 	public clone(): Matrix4 {
+		// TODO: `out` parameter.
 		return copy(this, new Matrix4());
 	}
 
@@ -2518,7 +2545,8 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
 	 */
 	public get translation(): Vector3Like {
-		return getTranslation(this);
+		// TODO: `out` parameter.
+		return getTranslation(this, new Float32Array(3) as Vector3Like);
 	}
 
 	/**
@@ -2526,7 +2554,8 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
 	 */
 	public get scaling(): Vector3Like {
-		return getScaling(this);
+		// TODO: `out` parameter.
+		return getScaling(this, new Float32Array(3) as Vector3Like);
 	}
 
 	/**
@@ -2534,6 +2563,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	 * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
 	 */
 	public get rotation(): QuaternionLike {
-		return getRotation(this);
+		// TODO: `out` parameter.
+		return getRotation(this, new Float32Array(4) as QuaternionLike);
 	}
 }
