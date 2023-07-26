@@ -1,6 +1,6 @@
 {
 	"name": "@lakuna/umath",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"description": "A lightweight math library.",
 	"keywords": [
 		"math"
@@ -21,11 +21,30 @@
 		"url": "https://github.com/sponsors/Lakuna"
 	},
 	"files": [
-		"dist/*",
-		"src/*"
+		"dist",
+		"src"
 	],
-	"main": "./dist/index.js",
-	"browser": "./dist/index.js",
+	"repository": {
+		"type": "git",
+		"url": "github:Lakuna/umath"
+	},
+	"scripts": {
+		"build": "tsc",
+		"lint": "eslint src",
+		"doc": "typedoc src",
+		"test": "mocha"
+	},
+	"devDependencies": {
+		"@types/chai": "^4.3.5",
+		"@types/mocha": "^10.0.1",
+		"@typescript-eslint/eslint-plugin": "^6.1.0",
+		"@typescript-eslint/parser": "^6.1.0",
+		"chai": "^4.3.7",
+		"eslint": "^8.45.0",
+		"mocha": "^10.2.0",
+		"typedoc": "^0.24.8",
+		"typescript": "^5.1.6"
+	},
 	"exports": {
 		".": "./dist/index.js",
 		"./DualQuaternion": "./dist/linear/DualQuaternion.js",
@@ -38,28 +57,6 @@
 		"./Vector4": "./dist/linear/Vector4.js"
 	},
 	"types": "./dist/index.d.ts",
-	"repository": {
-		"type": "git",
-		"url": "github:Lakuna/umath"
-	},
-	"scripts": {
-		"build": "tsc",
-		"lint": "eslint src",
-		"doc": "typedoc src",
-		"test": "mocha"
-	},
 	"type": "module",
-	"sideEffects": false,
-	"devDependencies": {
-		"@types/chai": "^4.3.5",
-		"@types/mocha": "^10.0.1",
-		"@typescript-eslint/eslint-plugin": "^6.1.0",
-		"@typescript-eslint/parser": "^6.1.0",
-		"chai": "^4.3.7",
-		"eslint": "^8.45.0",
-		"gl-matrix": "^3.4.3",
-		"mocha": "^10.2.0",
-		"typedoc": "^0.24.8",
-		"typescript": "^5.1.6"
-	}
+	"sideEffects": false
 }
