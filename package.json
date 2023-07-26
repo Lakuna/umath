@@ -45,7 +45,8 @@
 	"scripts": {
 		"build": "tsc",
 		"lint": "eslint src",
-		"doc": "typedoc src"
+		"doc": "typedoc src",
+		"test": "mocha"
 	},
 	"type": "module",
 	"sideEffects": false,
