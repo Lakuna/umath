@@ -431,7 +431,7 @@ export function fromDualQuaternion<T extends Matrix4Like>(quaternion: DualQuater
 		intermediary[2] = (az * bw + aw * bz + ax * by - ay * bx) * 2;
 	}
 
-	return fromRotationTranslation(quaternion as QuaternionLike, intermediary, out);
+	return fromRotationTranslation(quaternion as unknown as QuaternionLike, intermediary, out);
 }
 
 /**
