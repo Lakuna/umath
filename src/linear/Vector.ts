@@ -1,8 +1,6 @@
 /** A quantity with magnitude and direction. */
 export type VectorLike = Vector | Iterable<number>;
 
-// TODO: Link documentation to relevant articles.
-
 /**
  * A quantity with magnitude and direction.
  * @see [Wikipedia](https://en.wikipedia.org/wiki/Euclidean_vector)
@@ -145,6 +143,7 @@ export default interface Vector extends Iterable<number> {
 	/**
 	 * Normalizes this vector.
 	 * @returns The normalized vector.
+	 * @see [Unit vector](https://en.wikipedia.org/wiki/Unit_vector)
 	 */
 	normalize(): Vector;
 
@@ -152,6 +151,7 @@ export default interface Vector extends Iterable<number> {
 	 * Calculates the dot product of this and another vector.
 	 * @param vector The other vector.
 	 * @returns The dot product.
+	 * @see [Dot product](https://en.wikipedia.org/wiki/Dot_product)
 	 */
 	dot(vector: VectorLike): number;
 

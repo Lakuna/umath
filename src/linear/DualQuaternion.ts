@@ -989,6 +989,7 @@ export default class DualQuaternion extends Float32Array {
      * Multiplies this dual quaternion by a quaternion.
      * @param quaternion The quaternion.
      * @returns The rotated dual quaternion.
+     * @see [Quaternion](https://en.wikipedia.org/wiki/Quaternion)
      */
     public rotateByQuaternionAppend(quaternion: QuaternionLike): DualQuaternion;
 
@@ -997,6 +998,7 @@ export default class DualQuaternion extends Float32Array {
      * @param quaternion The quaternion.
      * @param out The dual quaternion to store the result in.
      * @returns The rotated dual quaternion.
+     * @see [Quaternion](https://en.wikipedia.org/wiki/Quaternion)
      */
     public rotateByQuaternionAppend<T extends DualQuaternionLike>(quaternion: QuaternionLike, out: T): T;
     
@@ -1008,6 +1010,7 @@ export default class DualQuaternion extends Float32Array {
      * Multiplies a quaternion by this dual quaternion.
      * @param quaternion The quaternion.
      * @returns The rotated dual quaternion.
+     * @see [Quaternion](https://en.wikipedia.org/wiki/Quaternion)
      */
     public rotateByQuaternionPrepend(quaternion: QuaternionLike): DualQuaternion;
 
@@ -1016,6 +1019,7 @@ export default class DualQuaternion extends Float32Array {
      * @param quaternion The quaternion.
      * @param out The dual quaternion to store the result in.
      * @returns The rotated dual quaternion.
+     * @see [Quaternion](https://en.wikipedia.org/wiki/Quaternion)
      */
     public rotateByQuaternionPrepend<T extends DualQuaternionLike>(quaternion: QuaternionLike, out: T): T;
     

@@ -1,4 +1,4 @@
-import { type FieldOfView, MagnitudeError, SingularMatrixError, epsilon, type SquareMatrix } from "@lakuna/umath";
+import { type FieldOfView, MagnitudeError, SingularMatrixError, epsilon, type SquareMatrix, Vector3, Quaternion } from "@lakuna/umath";
 import type { DualQuaternionLike } from "@lakuna/umath/DualQuaternion";
 import type { QuaternionLike } from "@lakuna/umath/Quaternion";
 import type { Vector3Like } from "@lakuna/umath/Vector3";
@@ -2244,13 +2244,21 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	}
 
 	/**
-	 * Creates a copy of this matrix.
-	 * @returns A copy of this matrix.
-	 */
-	public clone(): Matrix4 {
-		// TODO: `out` parameter.
-		return copy(this, new Matrix4());
-	}
+     * Creates a copy of this matrix.
+     * @returns The copy.
+     */
+    public clone(): Matrix4;
+
+    /**
+     * Copies the values from this matrix to another one.
+     * @param out The matrix to store the result in.
+     * @returns The copy.
+     */
+    public clone<T extends Matrix4Like>(out: T): T;
+    
+    public clone<T extends Matrix4Like>(out: T = new Matrix4() as T): T {
+        return copy(this, out);
+    }
 
 	/**
 	 * Copies the values of another matrix into this one.
@@ -2541,29 +2549,59 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	}
 
 	/**
-	 * The translation vector component of this transformation matrix.
+	 * Gets the translation vector component of this transformation matrix.
+	 * @returns The translation.
 	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
 	 */
-	public get translation(): Vector3Like {
-		// TODO: `out` parameter.
-		return getTranslation(this, new Float32Array(3) as Vector3Like);
+	public getTranslation(): Vector3;
+	
+	/**
+	 * Gets the translation vector component of this transformation matrix.
+	 * @param out The vector to store the result in.
+	 * @returns The translation.
+	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
+	 */
+	public getTranslation<T extends Vector3Like>(out: T): T;
+	
+	public getTranslation<T extends Vector3Like>(out: T = new Vector3() as T): T{
+		return getTranslation(this, out);
 	}
 
 	/**
-	 * The scaling factor of this transformation matrix.
+	 * Gets the scaling vector component of this transformation matrix.
+	 * @returns The scaling.
 	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
 	 */
-	public get scaling(): Vector3Like {
-		// TODO: `out` parameter.
-		return getScaling(this, new Float32Array(3) as Vector3Like);
+	public getScaling(): Vector3;
+	
+	/**
+	 * Gets the scaling vector component of this transformation matrix.
+	 * @param out The vector to store the result in.
+	 * @returns The scaling.
+	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
+	 */
+	public getScaling<T extends Vector3Like>(out: T): T;
+	
+	public getScaling<T extends Vector3Like>(out: T = new Vector3() as T): T{
+		return getScaling(this, out);
 	}
 
 	/**
-	 * The rotational component of this transformation matrix.
+	 * Gets the scaling vector component of this transformation matrix.
+	 * @returns The rotation.
 	 * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
 	 */
-	public get rotation(): QuaternionLike {
-		// TODO: `out` parameter.
-		return getRotation(this, new Float32Array(4) as QuaternionLike);
+	public getRotation(): Quaternion;
+	
+	/**
+	 * Gets the scaling vector component of this transformation matrix.
+	 * @param out The quaternion to store the result in.
+	 * @returns The rotation.
+	 * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
+	 */
+	public getRotation<T extends QuaternionLike>(out: T): T;
+	
+	public getRotation<T extends QuaternionLike>(out: T = new Quaternion() as T): T{
+		return getRotation(this, out);
 	}
 }

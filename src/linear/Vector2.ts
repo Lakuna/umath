@@ -527,13 +527,21 @@ export default class Vector2 extends Float32Array implements Vector {
 	}
 
 	/**
-	 * Creates a copy of this vector.
-	 * @returns A copy of this vector.
-	 */
-	public clone(): Vector2 {
-		// TODO: `out` parameter.
-		return copy(this, new Vector2());
-	}
+     * Creates a copy of this vector.
+     * @returns The copy.
+     */
+    public clone(): Vector2;
+
+    /**
+     * Copies the values from this vector to another one.
+     * @param out The vector to store the result in.
+     * @returns The copy.
+     */
+    public clone<T extends Vector2Like>(out: T): T;
+    
+    public clone<T extends Vector2Like>(out: T = new Vector2() as T): T {
+        return copy(this, out);
+    }
 
     /**
 	 * Copies the values of another vector into this one.

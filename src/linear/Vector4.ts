@@ -573,11 +573,19 @@ export default class Vector4 extends Float32Array implements Vector {
 
     /**
      * Creates a copy of this vector.
-     * @returns A copy of this vector.
+     * @returns The copy.
      */
-    public clone(): Vector4 {
-        // TODO: `out` parameter.
-        return copy(this, new Vector4());
+    public clone(): Vector4;
+
+    /**
+     * Copies the values from this vector to another one.
+     * @param out The vector to store the result in.
+     * @returns The copy.
+     */
+    public clone<T extends Vector4Like>(out: T): T;
+    
+    public clone<T extends Vector4Like>(out: T = new Vector4() as T): T {
+        return copy(this, out);
     }
 
     /**

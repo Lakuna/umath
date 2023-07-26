@@ -8,7 +8,7 @@ Documentation is automatically generated and uploaded to [the website](https://u
 
 The source code can be found on [the GitHub repository](https://github.com/Lakuna/umath).
 
-# Linear Algebra API
+## Linear Algebra API
 
 In addition to exporting convenience classes representing a variety of linear algebra-related data types, each such type also has its own module
 that exports individual functions. For example, a two-by-two matrix can be imported in two different ways:

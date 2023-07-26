@@ -110,18 +110,18 @@ export function identity<T extends QuaternionLike>(out: T): T {
 /**
  * Calculates the axis and angle that represent a quaternion.
  * @param quaternion The quaternion.
+ * @param out The axis and angle to store the result in.
  * @returns The axis and angle.
  */
-export function getAxisAngle(quaternion: QuaternionLike): AxisAngle {
+export function getAxisAngle<T extends AxisAngle>(quaternion: QuaternionLike, out: T): T {
     const r: number = Math.acos(quaternion[3] as number) * 2;
     const s: number = Math.sin(r / 2);
 
-    return {
-        axis: s > epsilon
-            ? [quaternion[0] / s, quaternion[1] / s, quaternion[2] / s]
-            : [1, 0, 0],
-        angle: r
-    };
+    out.axis = s > epsilon
+        ? [quaternion[0] / s, quaternion[1] / s, quaternion[2] / s]
+        : [1, 0, 0];
+    out.angle = r;
+    return out;
 }
 
 /**
@@ -576,15 +576,29 @@ export default class Quaternion extends Float32Array {
         return identity(this);
     }
 
-    /** The axis and angle that represent this quaternion. */
-    public get axisAngle(): AxisAngle {
-        // TODO: `out` parameter.
-        return getAxisAngle(this);
+    /**
+     * Gets the axis and angle that represent this quaternion.
+     * @returns The axis and angle.
+     */
+    public getAxisAngle(): AxisAngle;
+    
+    /**
+     * Gets the axis and angle that represent this quaternion.
+     * @param out The axis and angle to store the result in.
+     * @returns The axis and angle.
+     */
+    public getAxisAngle<T extends AxisAngle>(out: T): T;
+    
+    public getAxisAngle<T extends AxisAngle>(out: T = {} as T): T {
+        return getAxisAngle(this, out);
     }
 
-    /** The axis and angle that represent this quaternion. */
-    public set axisAngle(value: AxisAngle) {
-        setAxisAngle(this, value);
+    /**
+     * Sets the axis and angle that represent this quaternion.
+     * @param axisAngle The axis and angle.
+     */
+    public setAxisAngle(axisAngle: AxisAngle): void {
+        setAxisAngle(this, axisAngle);
     }
 
     /**
@@ -809,11 +823,19 @@ export default class Quaternion extends Float32Array {
 
     /**
      * Creates a copy of this quaternion.
-     * @returns A copy of this quaternion.
+     * @returns The copy.
      */
-    public clone(): Quaternion {
-        // TODO: `out` parameter.
-        return copy(this as unknown as Vector4Like, new Quaternion() as unknown as Vector4Like) as unknown as Quaternion;
+    public clone(): Quaternion;
+
+    /**
+     * Copies the values from this quaternion to another one.
+     * @param out The quaternion to store the result in.
+     * @returns The copy.
+     */
+    public clone<T extends QuaternionLike>(out: T): T;
+    
+    public clone<T extends QuaternionLike>(out: T = new Quaternion() as T): T {
+        return copy(this as unknown as Vector4Like, out as Vector4Like) as T;
     }
 
     /**

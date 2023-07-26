@@ -497,13 +497,21 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	}
 
 	/**
-	 * Creates a copy of this matrix.
-	 * @returns A copy of this matrix.
-	 */
-	public clone(): Matrix2 {
-		// TODO: `out` parameter.
-		return copy(this, new Matrix2());
-	}
+     * Creates a copy of this matrix.
+     * @returns The copy.
+     */
+    public clone(): Matrix2;
+
+    /**
+     * Copies the values from this matrix to another one.
+     * @param out The matrix to store the result in.
+     * @returns The copy.
+     */
+    public clone<T extends Matrix2Like>(out: T): T;
+    
+    public clone<T extends Matrix2Like>(out: T = new Matrix2() as T): T {
+        return copy(this, out);
+    }
 
 	/**
 	 * Copies the values of another matrix into this one.
