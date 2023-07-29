@@ -8,11 +8,6 @@ import { epsilon } from "@lakuna/umath";
 import { mat3, mat4 } from "gl-matrix";
 
 describe("Matrix3", () => {
-	let a;
-	let b;
-	let out;
-	let result;
-
 	const aValues = [
 		1, 0, 0,
 		0, 1, 0,
@@ -25,21 +20,16 @@ describe("Matrix3", () => {
 		3, 4, 1
 	];
 
+	let a;
+	let b;
+	let out;
+	let result;
+
 	beforeEach(() => {
 		a = [...aValues];
 		b = [...bValues];
-
-		out = [
-			0, 0, 0,
-			0, 0, 0,
-			0, 0, 0
-		];
-
-		result = [
-			0, 0, 0,
-			0, 0, 0,
-			0, 0, 0
-		];
+		out = [];
+		result = [];
 	});
 
 	describe("#add()", () => {

@@ -138,7 +138,7 @@ export default interface Vector extends Iterable<number> {
 	 * Calculates the multiplicative inverse of the components of this vector.
 	 * @returns The inverted vector.
 	 */
-	inverse(): Vector;
+	invert(): Vector;
 
 	/**
 	 * Normalizes this vector.

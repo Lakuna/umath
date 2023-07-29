@@ -267,7 +267,7 @@ export function negate<T extends Vector2Like>(vector: Vector2Like, out: T): T {
  * @param out The vector to store the result in.
  * @returns The inverted vector.
  */
-export function inverse<T extends Vector2Like>(vector: Vector2Like, out: T): T {
+export function invert<T extends Vector2Like>(vector: Vector2Like, out: T): T {
 	out[0] = 1 / vector[0];
 	out[1] = 1 / vector[1];
 	return out;
@@ -314,9 +314,10 @@ export function dot(a: Vector2Like, b: Vector2Like): number {
  * @see [Cross product](https://en.wikipedia.org/wiki/Cross_product)
  */
 export function cross<T extends Vector3Like>(a: Vector2Like, b: Vector2Like, out: T): T {
+	const z: number = a[0] * b[1] - a[1] * b[0]
 	out[0] = 0;
 	out[1] = 0;
-	out[2] = a[0] * b[1] - a[1] * b[0];
+	out[2] = z;
 	return out;
 }
 
@@ -354,8 +355,8 @@ export function random<T extends Vector2Like>(magnitude: number, out: T): T {
 
 /**
  * Transforms a vector by a two-by-two matrix.
- * @param vector The vector.
- * @param matrix The matrix.
+ * @param vector The vector (multiplier).
+ * @param matrix The matrix (multiplicand).
  * @param out The vector to store the result in.
  * @returns The transformed vector.
  * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
@@ -371,8 +372,8 @@ export function transformMatrix2<T extends Vector2Like>(vector: Vector2Like, mat
 
 /**
  * Transforms a vector by a three-by-three matrix.
- * @param vector The vector.
- * @param matrix The matrix.
+ * @param vector The vector (multiplier).
+ * @param matrix The matrix (multiplicand).
  * @param out The vector to store the result in.
  * @returns The transformed vector.
  * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
@@ -388,8 +389,8 @@ export function transformMatrix3<T extends Vector2Like>(vector: Vector2Like, mat
 
 /**
  * Transforms a vector by a four-by-four matrix.
- * @param vector The vector.
- * @param matrix The matrix.
+ * @param vector The vector (multiplier).
+ * @param matrix The matrix (multiplicand).
  * @param out The vector to store the result in.
  * @returns The transformed vector.
  * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
@@ -789,17 +790,17 @@ export default class Vector2 extends Float32Array implements Vector {
 	 * Calculates the multiplicative inverse of the components of this vector.
 	 * @returns The inverted vector.
 	 */
-	public inverse(): Vector2;
+	public invert(): Vector2;
 
     /**
 	 * Calculates the multiplicative inverse of the components of this vector.
      * @param out The vector to store the result in.
 	 * @returns The inverted vector.
 	 */
-	public inverse<T extends Vector2Like>(out: T): T;
+	public invert<T extends Vector2Like>(out: T): T;
 
-    public inverse<T extends Vector2Like>(out: T = new Vector2() as T): T {
-        return inverse(this, out);
+    public invert<T extends Vector2Like>(out: T = new Vector2() as T): T {
+        return invert(this, out);
     }
 
     /**

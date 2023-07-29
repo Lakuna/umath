@@ -7,11 +7,6 @@ import { epsilon } from "@lakuna/umath";
 import { mat2 } from "gl-matrix";
 
 describe("Matrix2", () => {
-	let a;
-	let b;
-	let out;
-	let result;
-
 	const aValues = [
 		1, 2,
 		3, 4
@@ -22,19 +17,16 @@ describe("Matrix2", () => {
 		7, 8
 	];
 
+	let a;
+	let b;
+	let out;
+	let result;
+
 	beforeEach(() => {
 		a = [...aValues];
 		b = [...bValues];
-
-		out = [
-			0, 0,
-			0, 0
-		];
-
-		result = [
-			0, 0,
-			0, 0
-		];
+		out = [];
+		result = [];
 	});
 
 	describe("#add()", () => {

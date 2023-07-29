@@ -311,7 +311,7 @@ export function negate<T extends Vector4Like>(vector: Vector4Like, out: T): T {
  * @param out The vector to store the result in.
  * @returns The inverted vector.
  */
-export function inverse<T extends Vector4Like>(vector: Vector4Like, out: T): T {
+export function invert<T extends Vector4Like>(vector: Vector4Like, out: T): T {
 	out[0] = 1 / vector[0];
 	out[1] = 1 / vector[1];
 	out[2] = 1 / vector[2];
@@ -434,8 +434,8 @@ export function random<T extends Vector4Like>(magnitude: number, out: T): T {
 
 /**
  * Transforms a vector by a four-by-four matrix.
- * @param vector The vector.
- * @param matrix The matrix.
+ * @param vector The vector (multiplier).
+ * @param matrix The matrix (multiplicand).
  * @param out The vector to store the result in.
  * @returns The transformed vector.
  * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
@@ -834,17 +834,17 @@ export default class Vector4 extends Float32Array implements Vector {
 	 * Calculates the multiplicative inverse of the components of this vector.
 	 * @returns The inverted vector.
 	 */
-	public inverse(): Vector4;
+	public invert(): Vector4;
 
 	/**
 	 * Calculates the multiplicative inverse of the components of this vector.
 	 * @param out The vector to store the result in.
 	 * @returns The inverted vector.
 	 */
-	public inverse<T extends Vector4Like>(out: T): T;
+	public invert<T extends Vector4Like>(out: T): T;
 
-	public inverse<T extends Vector4Like>(out: T = new Vector4() as T): T {
-		return inverse(this, out);
+	public invert<T extends Vector4Like>(out: T = new Vector4() as T): T {
+		return invert(this, out);
 	}
 
 	/**

@@ -10,11 +10,6 @@ import { epsilon } from "@lakuna/umath";
 import { mat4 } from "gl-matrix";
 
 describe("Matrix4", () => {
-	let a;
-	let b;
-	let out;
-	let result;
-
 	const aValues = [
 		1, 0, 0, 0,
 		0, 1, 0, 0,
@@ -29,23 +24,16 @@ describe("Matrix4", () => {
 		4, 5, 6, 1
 	];
 
+	let a;
+	let b;
+	let out;
+	let result;
+
 	beforeEach(() => {
 		a = [...aValues];
 		b = [...bValues];
-
-		out = [
-			0, 0, 0, 0,
-			0, 0, 0, 0,
-			0, 0, 0, 0,
-			0, 0, 0, 0
-		];
-
-		result = [
-			0, 0, 0, 0,
-			0, 0, 0, 0,
-			0, 0, 0, 0,
-			0, 0, 0, 0
-		];
+		out = [];
+		result = [];
 	});
 
 	describe("#add()", () => {
