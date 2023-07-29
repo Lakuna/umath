@@ -9,26 +9,18 @@ export type MatrixLike = Matrix | ArrayLike<number>;
  * @see [Matrix](https://en.wikipedia.org/wiki/Matrix_(mathematics))
  */
 export default interface Matrix extends ArrayLike<number> {
-	/** The number of columns in this matrix. */
-	width: number;
-
 	/** The number of rows in this matrix. */
 	height: number;
 
-	/**
-	 * Determines whether this matrix is roughly equivalent to another.
-	 * @param matrix The other matrix.
-	 * @returns Whether the matrices are equivalent.
-	 */
-	equals(matrix: MatrixLike): boolean;
+	/** The number of columns in this matrix. */
+	width: number;
 
 	/**
-	 * Determines whether this matrix is exactly equivalent to another.
-	 * @param matrix The other matrix.
-	 * @returns Whether the matrices are equivalent.
+	 * The Frobenius norm of this matrix.
+	 * @see [Matrix norm](https://en.wikipedia.org/wiki/Matrix_norm)
 	 */
-	exactEquals(matrix: MatrixLike): boolean;
-
+	get frob(): number;
+	
 	/**
 	 * Adds two matrices of the same size.
 	 * @param matrix The other matrix.
@@ -36,13 +28,6 @@ export default interface Matrix extends ArrayLike<number> {
 	 * @see [Matrix addition](https://en.wikipedia.org/wiki/Matrix_addition)
 	 */
 	add(matrix: MatrixLike): Matrix;
-
-	/**
-	 * Calculates the adjugate of this matrix.
-	 * @returns The adjugate of this matrix.
-	 * @see [Adjugate matrix](https://en.wikipedia.org/wiki/Adjugate_matrix)
-	 */
-	adjoint(): Matrix;
 
 	/**
 	 * Creates a copy of this matrix.
@@ -58,10 +43,18 @@ export default interface Matrix extends ArrayLike<number> {
 	copy(matrix: MatrixLike): this;
 
 	/**
-	 * The Frobenius norm of this matrix.
-	 * @see [Matrix norm](https://en.wikipedia.org/wiki/Matrix_norm)
+	 * Determines whether this matrix is roughly equivalent to another.
+	 * @param matrix The other matrix.
+	 * @returns Whether the matrices are equivalent.
 	 */
-	get frob(): number;
+	equals(matrix: MatrixLike): boolean;
+
+	/**
+	 * Determines whether this matrix is exactly equivalent to another.
+	 * @param matrix The other matrix.
+	 * @returns Whether the matrices are equivalent.
+	 */
+	exactEquals(matrix: MatrixLike): boolean;
 
 	/**
 	 * Multiplies this matrix by another.
