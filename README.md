@@ -1,3 +1,7 @@
+[![CodeQL](https://github.com/Lakuna/umath/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/Lakuna/umath/actions/workflows/github-code-scanning/codeql)
+[![Publish](https://github.com/Lakuna/umath/actions/workflows/publish.yml/badge.svg)](https://github.com/Lakuna/umath/actions/workflows/publish.yml)
+[![Test](https://github.com/Lakuna/umath/actions/workflows/test.yml/badge.svg)](https://github.com/Lakuna/umath/actions/workflows/test.yml)
+
 # μMath
 
 A lightweight math library.

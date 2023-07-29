@@ -647,7 +647,7 @@ const yAxis: Vector3Like = new Float32Array([0, 1, 0]) as Vector3Like;
 const intermediary: Vector3Like = new Float32Array(3) as Vector3Like;
 
 /**
- * Creates a quaternion that represents the shortest rotation from one vector to another.
+ * Creates a quaternion that represents the shortest rotation from one unit vector to another.
  * @param a The first vector.
  * @param b The second vector.
  * @param out The quaternion to store the result in.
@@ -1315,7 +1315,7 @@ export default class Vector3 extends Float32Array implements Vector {
 	public rotationTo(vector: Vector3Like): Quaternion;
 
 	/**
-	 * Creates a quaternion that represents the shortest rotation from this vector to another.
+	 * Creates a quaternion that represents the shortest rotation from this unit vector to another.
 	 * @param vector The other vector.
 	 * @param out The quaternion to store the result in.
 	 * @returns The quaternion.
