@@ -54,6 +54,7 @@
 		"./Matrix4": "./dist/linear/Matrix4.js",
 		"./Quaternion": "./dist/linear/Quaternion.js",
 		"./SlowMatrix": "./dist/linear/SlowMatrix.js",
+		"./SlowSquareMatrix": "./dist/linear/SlowSquareMatrix.js",
 		"./Vector2": "./dist/linear/Vector2.js",
 		"./Vector3": "./dist/linear/Vector3.js",
 		"./Vector4": "./dist/linear/Vector4.js"
