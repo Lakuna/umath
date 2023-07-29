@@ -126,17 +126,19 @@ export function getAxisAngle<T extends AxisAngle>(quaternion: QuaternionLike, ou
 
 /**
  * Sets the axis and angle that represent a quaternion.
- * @param quaternion The quaternion.
  * @param axisAngle The axis and angle.
+ * @param out The quaternion to store the result in.
+ * @returns The quaternion.
  */
-export function setAxisAngle(quaternion: QuaternionLike, axisAngle: AxisAngle): void {
+export function setAxisAngle<T extends QuaternionLike>(axisAngle: AxisAngle, out: T): T {
 	const r: number = axisAngle.angle * 0.5;
 	const s: number = Math.sin(r);
 
-	quaternion[0] = s * axisAngle.axis[0];
-	quaternion[1] = s * axisAngle.axis[1];
-	quaternion[2] = s * axisAngle.axis[2];
-	quaternion[3] = Math.cos(r);
+	out[0] = s * axisAngle.axis[0];
+	out[1] = s * axisAngle.axis[1];
+	out[2] = s * axisAngle.axis[2];
+	out[3] = Math.cos(r);
+	return out;
 }
 
 /**
@@ -596,9 +598,10 @@ export default class Quaternion extends Float32Array {
 	/**
 	 * Sets the axis and angle that represent this quaternion.
 	 * @param axisAngle The axis and angle.
+	 * @returns This quaternion.
 	 */
-	public setAxisAngle(axisAngle: AxisAngle): void {
-		setAxisAngle(this, axisAngle);
+	public setAxisAngle(axisAngle: AxisAngle): this {
+		return setAxisAngle(axisAngle, this);
 	}
 
 	/**

@@ -363,7 +363,7 @@ describe("Vector4", () => {
 		});
 	});
 
-	describe("#cross()", () => {
+	describe("#dot()", () => {
 		const product = vec4.dot(aValues, bValues);
 
 		let innerResult;
