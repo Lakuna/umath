@@ -1,28 +1,32 @@
 import { describe, it, beforeEach } from "mocha";
 import { expect } from "chai";
-import { add, adjoint, copy, equals, exactEquals, identity, invert, multiply, multiplyScalar,
-	multiplyScalarAndAdd, rotate, scale, subtract, translate, transpose, fromMatrix4,
-	fromQuaternion, fromRotation, fromScaling, fromTranslation, fromValues, normalFromMatrix4,
-	projection } from "@lakuna/umath/Matrix3";
+import { add, adjoint, copy, equals, exactEquals, getRotation, getScaling, getTranslation,
+	identity, invert, multiply, multiplyScalar, multiplyScalarAndAdd, rotate, rotateX, rotateY,
+	rotateZ, scale, subtract, translate, transpose, fromDualQuaternion, fromRotation,
+	fromRotationTranslation, fromRotationTranslationScale, fromRotationTranslationScaleOrigin,
+	fromScaling, fromTranslation, fromValues, fromXRotation, fromYRotation, fromZRotation, frustum,
+	lookAt, ortho, perspective, perspectiveFromFieldOfView, targetTo } from "@lakuna/umath/Matrix4";
 import { epsilon } from "@lakuna/umath";
-import { mat3, mat4 } from "gl-matrix";
+import { mat4 } from "gl-matrix";
 
-describe("Matrix3", () => {
+describe("Matrix4", () => {
 	let a;
 	let b;
 	let out;
 	let result;
 
 	const aValues = [
-		1, 0, 0,
-		0, 1, 0,
-		1, 2, 1
+		1, 0, 0, 0,
+		0, 1, 0, 0,
+		0, 0, 1, 0,
+		1, 2, 3, 1
 	];
 
 	const bValues = [
-		1, 0, 0,
-		0, 1, 0,
-		3, 4, 1
+		1, 0, 0, 0,
+		0, 1, 0, 0,
+		0, 0, 1, 0,
+		4, 5, 6, 1
 	];
 
 	beforeEach(() => {
@@ -30,20 +34,22 @@ describe("Matrix3", () => {
 		b = [...bValues];
 
 		out = [
-			0, 0, 0,
-			0, 0, 0,
-			0, 0, 0
+			0, 0, 0, 0,
+			0, 0, 0, 0,
+			0, 0, 0, 0,
+			0, 0, 0, 0
 		];
 
 		result = [
-			0, 0, 0,
-			0, 0, 0,
-			0, 0, 0
+			0, 0, 0, 0,
+			0, 0, 0, 0,
+			0, 0, 0, 0,
+			0, 0, 0, 0
 		];
 	});
 
 	describe("#add()", () => {
-		const sum = mat3.add([], aValues, bValues);
+		const sum = mat4.add([], aValues, bValues);
 
 		describe("with a separate output matrix", () => {
 			beforeEach(() => {
@@ -105,7 +111,7 @@ describe("Matrix3", () => {
 	});
 
 	describe("#adjoint()", () => {
-		const adjugate = mat3.adjoint([], aValues);
+		const adjugate = mat4.adjoint([], aValues);
 
 		describe("with a separate output matrix", () => {
 			beforeEach(() => {
@@ -234,11 +240,87 @@ describe("Matrix3", () => {
 		});
 	});
 
+	describe("#getRotation()", () => {
+		const expected = mat4.getRotation([], aValues);
+
+		let innerOut;
+		let innerResult;
+
+		beforeEach(() => {
+			innerOut = [];
+
+			innerResult = getRotation(a, innerOut);
+		});
+
+		it("should return the correct value", () => {
+			expect(innerResult).to.have.ordered.members(expected);
+		});
+
+		it("should return the `out` parameter", () => {
+			expect(innerResult).to.equal(innerOut);
+		});
+
+		it("should not modify the original matrix", () => {
+			expect(a).to.have.ordered.members(aValues);
+		});
+	});
+
+	describe("#getRotation()", () => {
+		const expected = mat4.getScaling([], aValues);
+
+		let innerOut;
+		let innerResult;
+
+		beforeEach(() => {
+			innerOut = [];
+
+			innerResult = getScaling(a, innerOut);
+		});
+
+		it("should return the correct value", () => {
+			expect(innerResult).to.have.ordered.members(expected);
+		});
+
+		it("should return the `out` parameter", () => {
+			expect(innerResult).to.equal(innerOut);
+		});
+
+		it("should not modify the original matrix", () => {
+			expect(a).to.have.ordered.members(aValues);
+		});
+	});
+
+	describe("#getTranslation()", () => {
+		const expected = mat4.getTranslation([], aValues);
+
+		let innerOut;
+		let innerResult;
+
+		beforeEach(() => {
+			innerOut = [];
+
+			innerResult = getTranslation(a, innerOut);
+		});
+
+		it("should return the correct value", () => {
+			expect(innerResult).to.have.ordered.members(expected);
+		});
+
+		it("should return the `out` parameter", () => {
+			expect(innerResult).to.equal(innerOut);
+		});
+
+		it("should not modify the original matrix", () => {
+			expect(a).to.have.ordered.members(aValues);
+		});
+	});
+
 	describe("#identity()", () => {
 		const expected = [
-			1, 0, 0,
-			0, 1, 0,
-			0, 0, 1
+			1, 0, 0, 0,
+			0, 1, 0, 0,
+			0, 0, 1, 0,
+			0, 0, 0, 1
 		];
 
 		beforeEach(() => {
@@ -255,7 +337,7 @@ describe("Matrix3", () => {
 	});
 
 	describe("#invert()", () => {
-		const inverse = mat3.invert([], aValues);
+		const inverse = mat4.invert([], aValues);
 
 		describe("with a separate output matrix", () => {
 			beforeEach(() => {
@@ -291,7 +373,7 @@ describe("Matrix3", () => {
 	});
 
 	describe("#multiply()", () => {
-		const product = mat3.multiply([], aValues, bValues);
+		const product = mat4.multiply([], aValues, bValues);
 
 		describe("with a separate output matrix", () => {
 			beforeEach(() => {
@@ -354,7 +436,7 @@ describe("Matrix3", () => {
 
 	describe("#multiplyScalar()", () => {
 		const scalar = 2;
-		const product = mat3.multiplyScalar([], aValues, scalar);
+		const product = mat4.multiplyScalar([], aValues, scalar);
 
 		describe("with a separate output matrix", () => {
 			beforeEach(() => {
@@ -391,7 +473,7 @@ describe("Matrix3", () => {
 
 	describe("#multiplyScalarAndAdd()", () => {
 		const scalar = 2;
-		const sum = mat3.multiplyScalarAndAdd([], aValues, bValues, 2);
+		const sum = mat4.multiplyScalarAndAdd([], aValues, bValues, 2);
 
 		describe("with a separate output matrix", () => {
 			beforeEach(() => {
@@ -453,12 +535,19 @@ describe("Matrix3", () => {
 	});
 
 	describe("#rotate()", () => {
-		const radians = Math.PI / 2;
-		const expected = mat3.rotate([], aValues, radians);
+		const angle = Math.PI / 2;
+		const axisValues = [1 / Math.sqrt(2), 0, 1 / Math.sqrt(2)];
+		const expected = mat4.rotate([], aValues, angle, axisValues);
+
+		let axis;
+
+		beforeEach(() => {
+			axis = [...axisValues];
+		});
 
 		describe("with a separate output matrix", () => {
 			beforeEach(() => {
-				result = rotate(a, radians, out);
+				result = rotate(a, angle, axis, out);
 			});
 
 			it("should return the correct value", () => {
@@ -469,14 +558,133 @@ describe("Matrix3", () => {
 				expect(result).to.equal(out);
 			});
 
-			it("should not modify the original matrix", () => {
+			it("should not modify the matrix", () => {
+				expect(a).to.have.ordered.members(aValues);
+			});
+
+			it("should not modify the axis", () => {
+				expect(axis).to.have.ordered.members(axisValues);
+			});
+		});
+
+		describe("with the same output matrix", () => {
+			beforeEach(() => {
+				result = rotate(a, angle, axis, a);
+			});
+
+			it("should return the correct value", () => {
+				expect(result).to.have.ordered.members(expected);
+			});
+
+			it("should return the `out` parameter", () => {
+				expect(result).to.equal(a);
+			});
+
+			it("should not modify the axis", () => {
+				expect(axis).to.have.ordered.members(axisValues);
+			});
+		});
+	});
+
+	describe("#rotateX()", () => {
+		const angle = Math.PI / 2;
+		const expected = mat4.rotateX([], aValues, angle);
+
+		describe("with a separate output matrix", () => {
+			beforeEach(() => {
+				result = rotateX(a, angle, out);
+			});
+
+			it("should return the correct value", () => {
+				expect(result).to.have.ordered.members(expected);
+			});
+
+			it("should return the `out` parameter", () => {
+				expect(result).to.equal(out);
+			});
+
+			it("should not modify the matrix", () => {
 				expect(a).to.have.ordered.members(aValues);
 			});
 		});
 
 		describe("with the same output matrix", () => {
 			beforeEach(() => {
-				result = rotate(a, radians, a);
+				result = rotateX(a, angle, a);
+			});
+
+			it("should return the correct value", () => {
+				expect(result).to.have.ordered.members(expected);
+			});
+
+			it("should return the `out` parameter", () => {
+				expect(result).to.equal(a);
+			});
+		});
+	});
+
+	describe("#rotateY()", () => {
+		const angle = Math.PI / 2;
+		const expected = mat4.rotateY([], aValues, angle);
+
+		describe("with a separate output matrix", () => {
+			beforeEach(() => {
+				result = rotateY(a, angle, out);
+			});
+
+			it("should return the correct value", () => {
+				expect(result).to.have.ordered.members(expected);
+			});
+
+			it("should return the `out` parameter", () => {
+				expect(result).to.equal(out);
+			});
+
+			it("should not modify the matrix", () => {
+				expect(a).to.have.ordered.members(aValues);
+			});
+		});
+
+		describe("with the same output matrix", () => {
+			beforeEach(() => {
+				result = rotateY(a, angle, a);
+			});
+
+			it("should return the correct value", () => {
+				expect(result).to.have.ordered.members(expected);
+			});
+
+			it("should return the `out` parameter", () => {
+				expect(result).to.equal(a);
+			});
+		});
+	});
+
+	describe("#rotateZ()", () => {
+		const angle = Math.PI / 2;
+		const expected = mat4.rotateZ([], aValues, angle);
+
+		describe("with a separate output matrix", () => {
+			beforeEach(() => {
+				result = rotateZ(a, angle, out);
+			});
+
+			it("should return the correct value", () => {
+				expect(result).to.have.ordered.members(expected);
+			});
+
+			it("should return the `out` parameter", () => {
+				expect(result).to.equal(out);
+			});
+
+			it("should not modify the matrix", () => {
+				expect(a).to.have.ordered.members(aValues);
+			});
+		});
+
+		describe("with the same output matrix", () => {
+			beforeEach(() => {
+				result = rotateZ(a, angle, a);
 			});
 
 			it("should return the correct value", () => {
@@ -490,8 +698,8 @@ describe("Matrix3", () => {
 	});
 
 	describe("#scale()", () => {
-		const vectorValues = [2, 3];
-		const product = mat3.scale([], aValues, vectorValues);
+		const vectorValues = [2, 3, 4];
+		const product = mat4.scale([], aValues, vectorValues);
 
 		let vector;
 
@@ -541,7 +749,7 @@ describe("Matrix3", () => {
 	});
 
 	describe("#subtract()", () => {
-		const difference = mat3.subtract([], aValues, bValues);
+		const difference = mat4.subtract([], aValues, bValues);
 
 		describe("with a separate output matrix", () => {
 			beforeEach(() => {
@@ -603,8 +811,8 @@ describe("Matrix3", () => {
 	});
 
 	describe("#translate()", () => {
-		const vectorValues = [2, 3];
-		const expected = mat3.translate([], aValues, vectorValues);
+		const vectorValues = [2, 3, 4];
+		const expected = mat4.translate([], aValues, vectorValues);
 
 		let vector;
 
@@ -654,7 +862,7 @@ describe("Matrix3", () => {
 	});
 
 	describe("#transpose()", () => {
-		const expected = mat3.transpose([], aValues);
+		const expected = mat4.transpose([], aValues);
 
 		describe("with a separate output matrix", () => {
 			beforeEach(() => {
@@ -689,22 +897,16 @@ describe("Matrix3", () => {
 		});
 	});
 
-	describe(".fromMatrix4()", () => {
-		const matrixValues = [
-			1, 2, 3, 4,
-			5, 6, 7, 8,
-			9, 10, 11, 12,
-			13, 14, 15, 16
-		];
+	describe(".fromScaling()", () => {
+		const dualQuaternionValues = [1, 2, 3, 4, 5, 6, 7, 8];
+		const expected = mat4.fromQuat2([], dualQuaternionValues);
 
-		const expected = mat3.fromMat4([], matrixValues);
-
-		let matrix;
+		let dualQuaternion;
 
 		beforeEach(() => {
-			matrix = [...matrixValues];
+			dualQuaternion = [...dualQuaternionValues];
 
-			result = fromMatrix4(matrix, out);
+			result = fromDualQuaternion(dualQuaternion, out);
 		});
 
 		it("should return the correct value", () => {
@@ -713,44 +915,20 @@ describe("Matrix3", () => {
 
 		it("should return the `out` parameter", () => {
 			expect(result).to.equal(out);
-		});
-
-		it("should not modify the original matrix", () => {
-			expect(matrix).to.have.ordered.members(matrixValues);
-		});
-	});
-
-	describe(".fromQuaternion()", () => {
-		const quaternionValues = [0, -1 / Math.sqrt(2), 0, 1 / Math.sqrt(2)];
-		const expected = mat3.fromQuat([], quaternionValues);
-
-		let quaternion;
-
-		beforeEach(() => {
-			quaternion = [...quaternionValues];
-
-			result = fromQuaternion(quaternion, out);
-		});
-
-		it("should return the correct value", () => {
-			expect(result).to.have.ordered.members(expected);
-		});
-
-		it("should return the `out` parameter", () => {
-			expect(result).to.equal(out);
-		});
-
-		it("should not modify the quaternion", () => {
-			expect(quaternion).to.have.ordered.members(quaternionValues);
 		});
 	});
 
 	describe(".fromRotation()", () => {
-		const radians = Math.PI / 2;
-		const expected = mat3.fromRotation([], radians);
+		const angle = Math.PI / 2;
+		const axisValues = [1 / Math.sqrt(2), 0, 1 / Math.sqrt(2)];
+		const expected = mat4.fromRotation([], angle, axisValues);
+
+		let axis;
 
 		beforeEach(() => {
-			result = fromRotation(radians, out);
+			axis = [...axisValues];
+
+			result = fromRotation(angle, axis, out);
 		});
 
 		it("should return the correct value", () => {
@@ -760,11 +938,132 @@ describe("Matrix3", () => {
 		it("should return the `out` parameter", () => {
 			expect(result).to.equal(out);
 		});
+
+		it("should not modify the axis", () => {
+			expect(axis).to.have.ordered.members(axisValues);
+		});
+	});
+
+	describe(".fromRotationTranslation()", () => {
+		const rotationValues = [0, -1 / Math.sqrt(2), 0, 1 / Math.sqrt(2)];
+		const translationValues = [1, 2, 3];
+		const expected = mat4.fromRotationTranslation([], rotationValues, translationValues);
+
+		let rotation;
+		let translation;
+
+		beforeEach(() => {
+			rotation = [...rotationValues];
+			translation = [...translationValues];
+
+			result = fromRotationTranslation(rotation, translation, out);
+		});
+
+		it("should return the correct value", () => {
+			expect(result).to.have.ordered.members(expected);
+		});
+
+		it("should return the `out` parameter", () => {
+			expect(result).to.equal(out);
+		});
+
+		it("should not modify the rotation quaternion", () => {
+			expect(rotation).to.have.ordered.members(rotationValues);
+		});
+
+		it("should not modify the translation vector", () => {
+			expect(translation).to.have.ordered.members(translationValues);
+		});
+	});
+
+	describe(".fromRotationTranslation()", () => {
+		const rotationValues = [0, -1 / Math.sqrt(2), 0, 1 / Math.sqrt(2)];
+		const translationValues = [1, 2, 3];
+		const scalingValues = [1, 2, 3];
+		const expected = mat4.fromRotationTranslationScale([], rotationValues, translationValues, scalingValues);
+
+		let rotation;
+		let translation;
+		let scaling;
+
+		beforeEach(() => {
+			rotation = [...rotationValues];
+			translation = [...translationValues];
+			scaling = [...scalingValues];
+
+			result = fromRotationTranslationScale(rotation, translation, scaling, out);
+		});
+
+		it("should return the correct value", () => {
+			expect(result).to.have.ordered.members(expected);
+		});
+
+		it("should return the `out` parameter", () => {
+			expect(result).to.equal(out);
+		});
+
+		it("should not modify the rotation quaternion", () => {
+			expect(rotation).to.have.ordered.members(rotationValues);
+		});
+
+		it("should not modify the translation vector", () => {
+			expect(translation).to.have.ordered.members(translationValues);
+		});
+
+		it("should not modify the scaling vector", () => {
+			expect(scaling).to.have.ordered.members(scalingValues);
+		});
+	});
+
+	describe(".fromRotationTranslation()", () => {
+		const rotationValues = [0, -1 / Math.sqrt(2), 0, 1 / Math.sqrt(2)];
+		const translationValues = [1, 2, 3];
+		const scalingValues = [1, 2, 3];
+		const originValues = [1, 2, 3];
+		const expected = mat4.fromRotationTranslationScaleOrigin([], rotationValues, translationValues, scalingValues, originValues);
+
+		let rotation;
+		let translation;
+		let scaling;
+		let origin;
+
+		beforeEach(() => {
+			rotation = [...rotationValues];
+			translation = [...translationValues];
+			scaling = [...scalingValues];
+			origin = [...originValues];
+
+			result = fromRotationTranslationScaleOrigin(rotation, translation, scaling, origin, out);
+		});
+
+		it("should return the correct value", () => {
+			expect(result).to.have.ordered.members(expected);
+		});
+
+		it("should return the `out` parameter", () => {
+			expect(result).to.equal(out);
+		});
+
+		it("should not modify the rotation quaternion", () => {
+			expect(rotation).to.have.ordered.members(rotationValues);
+		});
+
+		it("should not modify the translation vector", () => {
+			expect(translation).to.have.ordered.members(translationValues);
+		});
+
+		it("should not modify the scaling vector", () => {
+			expect(scaling).to.have.ordered.members(scalingValues);
+		});
+
+		it("should not modify the origin vector", () => {
+			expect(origin).to.have.ordered.members(originValues);
+		});
 	});
 
 	describe(".fromScaling()", () => {
-		const vectorValues = [2, 3];
-		const expected = mat3.fromScaling([], vectorValues);
+		const vectorValues = [2, 3, 4];
+		const expected = mat4.fromScaling([], vectorValues);
 
 		let vector;
 
@@ -784,8 +1083,8 @@ describe("Matrix3", () => {
 	});
 
 	describe(".fromTranslation()", () => {
-		const vectorValues = [2, 3];
-		const expected = mat3.fromTranslation([], vectorValues);
+		const vectorValues = [2, 3, 4];
+		const expected = mat4.fromTranslation([], vectorValues);
 
 		let vector;
 
@@ -806,9 +1105,10 @@ describe("Matrix3", () => {
 
 	describe(".fromValues()", () => {
 		const expected = [
-			1, 2, 3,
-			4, 5, 6,
-			7, 8, 9
+			1, 2, 3, 4,
+			5, 6, 7, 8,
+			9, 10, 11, 12,
+			13, 14, 15, 16
 		];
 
 		beforeEach(() => {
@@ -824,68 +1124,12 @@ describe("Matrix3", () => {
 		});
 	});
 
-	describe(".normalFromMatrix4()", () => {
-		describe("with rotation and translation", () => {
-			const rotation = [0, -1 / Math.sqrt(2), 0, 1 / Math.sqrt(2)];
-			const translation = [1, 2, 3];
-			const matrixValues = mat4.fromRotationTranslation([], rotation, translation);
-			const expected = mat3.normalFromMat4([], matrixValues);
-
-			let matrix;
-
-			beforeEach(() => {
-				matrix = [...matrixValues];
-
-				result = normalFromMatrix4(matrix, out);
-			});
-
-			it("should return the correct value", () => {
-				expect(result).to.have.ordered.members(expected);
-			});
-	
-			it("should return the `out` parameter", () => {
-				expect(result).to.equal(out);
-			});
-
-			it("should not modify the original matrix", () => {
-				expect(matrix).to.have.ordered.members(matrixValues);
-			});
-
-			describe("with scaling", () => {
-				const scaling = [1, 2, 3];
-				const innerMatrixValues = mat4.fromRotationTranslationScale([], rotation, translation, scaling);
-				const innerExpected = mat3.normalFromMat4([], innerMatrixValues);
-
-				let innerMatrix;
-
-				beforeEach(() => {
-					innerMatrix = [...innerMatrixValues];
-
-					result = normalFromMatrix4(innerMatrix, out);
-				});
-
-				it("should return the correct value", () => {
-					expect(result).to.have.ordered.members(innerExpected);
-				});
-		
-				it("should return the `out` parameter", () => {
-					expect(result).to.equal(out);
-				});
-	
-				it("should not modify the original matrix", () => {
-					expect(matrix).to.have.ordered.members(matrixValues);
-				});
-			});
-		});
-	});
-
-	describe(".projection()", () => {
-		const width = 100;
-		const height = 200;
-		const expected = mat3.projection([], width, height);
+	describe(".fromXRotation()", () => {
+		const angle = Math.PI / 2;
+		const expected = mat4.fromXRotation([], angle);
 
 		beforeEach(() => {
-			result = projection(width, height, out);
+			result = fromXRotation(angle, out);
 		});
 
 		it("should return the correct value", () => {
@@ -894,6 +1138,214 @@ describe("Matrix3", () => {
 
 		it("should return the `out` parameter", () => {
 			expect(result).to.equal(out);
+		});
+	});
+
+	describe(".fromYRotation()", () => {
+		const angle = Math.PI / 2;
+		const expected = mat4.fromYRotation([], angle);
+
+		beforeEach(() => {
+			result = fromYRotation(angle, out);
+		});
+
+		it("should return the correct value", () => {
+			expect(result).to.have.ordered.members(expected);
+		});
+
+		it("should return the `out` parameter", () => {
+			expect(result).to.equal(out);
+		});
+	});
+
+	describe(".fromZRotation()", () => {
+		const angle = Math.PI / 2;
+		const expected = mat4.fromZRotation([], angle);
+
+		beforeEach(() => {
+			result = fromZRotation(angle, out);
+		});
+
+		it("should return the correct value", () => {
+			expect(result).to.have.ordered.members(expected);
+		});
+
+		it("should return the `out` parameter", () => {
+			expect(result).to.equal(out);
+		});
+	});
+
+	describe(".frustum()", () => {
+		const left = -1;
+		const right = 1;
+		const bottom = -1;
+		const top = 1;
+		const near = -1;
+		const far = 1;
+		const expected = mat4.frustum([], left, right, bottom, top, near, far);
+
+		beforeEach(() => {
+			result = frustum(left, right, bottom, top, near, far, out);
+		});
+
+		it("should return the correct value", () => {
+			expect(result).to.have.ordered.members(expected);
+		});
+
+		it("should return the `out` parameter", () => {
+			expect(result).to.equal(out);
+		});
+	});
+
+	describe(".lookAt()", () => {
+		const eyeValues = [1, 0, 1];
+		const centerValues = [0, 0, 0];
+		const upValues = [0, 1, 0];
+		const expected = mat4.lookAt([], eyeValues, centerValues, upValues);
+
+		let eye;
+		let center;
+		let up;
+
+		beforeEach(() => {
+			eye = [...eyeValues];
+			center = [...centerValues];
+			up = [...upValues];
+
+			result = lookAt(eye, center, up, out);
+		});
+
+		it("should return the correct value", () => {
+			expect(result).to.have.ordered.members(expected);
+		});
+
+		it("should return the `out` parameter", () => {
+			expect(result).to.equal(out);
+		});
+
+		it("should not modify the eye vector", () => {
+			expect(eye).to.have.ordered.members(eyeValues);
+		});
+
+		it("should not modify the center vector", () => {
+			expect(center).to.have.ordered.members(centerValues);
+		});
+
+		it("should not modify the up vector", () => {
+			expect(up).to.have.ordered.members(upValues);
+		});
+	});
+
+	describe(".ortho()", () => {
+		const left = -1;
+		const right = 1;
+		const bottom = -1;
+		const top = 1;
+		const near = -1;
+		const far = 1;
+		const expected = mat4.ortho([], left, right, bottom, top, near, far);
+
+		beforeEach(() => {
+			result = ortho(left, right, bottom, top, near, far, out);
+		});
+
+		it("should return the correct value", () => {
+			expect(result).to.have.ordered.members(expected);
+		});
+
+		it("should return the `out` parameter", () => {
+			expect(result).to.equal(out);
+		});
+	});
+
+	describe(".perspective()", () => {
+		const fov = Math.PI / 2;
+		const aspect = 1;
+		const near = 0;
+		const far = 1;
+		const expected = mat4.perspective([], fov, aspect, near, far);
+
+		beforeEach(() => {
+			result = perspective(fov, aspect, near, far, out);
+		});
+
+		it("should return the correct value", () => {
+			expect(result).to.have.ordered.members(expected);
+		});
+
+		it("should return the `out` parameter", () => {
+			expect(result).to.equal(out);
+		});
+	});
+
+	describe(".perspectiveFromFieldOfView()", () => {
+		const fovValues = {
+			upDegrees: Math.PI / 2,
+			downDegrees: Math.PI / 2,
+			leftDegrees: Math.PI / 2,
+			rightDegrees: Math.PI / 2
+		};
+		const near = 0;
+		const far = 1;
+		const expected = mat4.perspectiveFromFieldOfView([], fovValues, near, far);
+
+		let fov;
+
+		beforeEach(() => {
+			fov = { ...fovValues };
+
+			result = perspectiveFromFieldOfView(fov, near, far, out);
+		});
+
+		it("should return the correct value", () => {
+			expect(result).to.have.ordered.members(expected);
+		});
+
+		it("should return the `out` parameter", () => {
+			expect(result).to.equal(out);
+		});
+
+		it("should not modify the field of view", () => {
+			expect(fov).to.deep.equal(fovValues);
+		});
+	});
+
+	describe(".targetTo()", () => {
+		const eyeValues = [1, 0, 1];
+		const centerValues = [0, 0, 0];
+		const upValues = [0, 1, 0];
+		const expected = mat4.targetTo([], eyeValues, centerValues, upValues);
+
+		let eye;
+		let center;
+		let up;
+
+		beforeEach(() => {
+			eye = [...eyeValues];
+			center = [...centerValues];
+			up = [...upValues];
+
+			result = targetTo(eye, center, up, out);
+		});
+
+		it("should return the correct value", () => {
+			expect(result).to.have.ordered.members(expected);
+		});
+
+		it("should return the `out` parameter", () => {
+			expect(result).to.equal(out);
+		});
+
+		it("should not modify the eye vector", () => {
+			expect(eye).to.have.ordered.members(eyeValues);
+		});
+
+		it("should not modify the center vector", () => {
+			expect(center).to.have.ordered.members(centerValues);
+		});
+
+		it("should not modify the up vector", () => {
+			expect(up).to.have.ordered.members(upValues);
 		});
 	});
 });
