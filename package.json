@@ -1,6 +1,6 @@
 {
 	"name": "@lakuna/umath",
-	"version": "0.0.6",
+	"version": "0.0.7",
 	"description": "A lightweight math library.",
 	"keywords": [
 		"math"

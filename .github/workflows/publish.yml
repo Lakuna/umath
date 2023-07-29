@@ -63,7 +63,8 @@ jobs:
   
   publish-gpr:
     name: Publish to GitHub Packages
-    permissions: {}
+    permissions:
+      packages: write
     needs: build
     runs-on: ubuntu-latest
     steps:
