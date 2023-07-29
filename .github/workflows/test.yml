@@ -13,7 +13,7 @@ jobs:
     permissions: {}
     runs-on: ubuntu-latest
     steps:
-      - name: Check-Out
+      - name: Check-Out Repository
         uses: actions/checkout@v3
       - name: Set Up Node.js
         uses: actions/setup-node@v3
