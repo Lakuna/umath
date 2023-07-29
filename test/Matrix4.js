@@ -966,7 +966,7 @@ describe("Matrix4", () => {
 		});
 	});
 
-	describe(".fromRotationTranslation()", () => {
+	describe(".fromRotationTranslationScale()", () => {
 		const rotationValues = [0, -1 / Math.sqrt(2), 0, 1 / Math.sqrt(2)];
 		const translationValues = [1, 2, 3];
 		const scalingValues = [1, 2, 3];
@@ -1005,7 +1005,7 @@ describe("Matrix4", () => {
 		});
 	});
 
-	describe(".fromRotationTranslation()", () => {
+	describe(".fromRotationTranslationScaleOrigin()", () => {
 		const rotationValues = [0, -1 / Math.sqrt(2), 0, 1 / Math.sqrt(2)];
 		const translationValues = [1, 2, 3];
 		const scalingValues = [1, 2, 3];
@@ -1073,15 +1073,15 @@ describe("Matrix4", () => {
 	});
 
 	describe(".fromTranslation()", () => {
-		const vectorValues = [2, 3, 4];
-		const expected = mat4.fromTranslation([], vectorValues);
+		const translationValues = [2, 3, 4];
+		const expected = mat4.fromTranslation([], translationValues);
 
-		let vector;
+		let translation;
 
 		beforeEach(() => {
-			vector = [...vectorValues];
+			translation = [...translationValues];
 
-			result = fromTranslation(vector, out);
+			result = fromTranslation(translation, out);
 		});
 
 		it("should return the correct value", () => {

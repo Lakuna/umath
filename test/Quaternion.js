@@ -519,7 +519,7 @@ describe("Quaternion", () => {
 		const t = 0.5;
 		const expected = quat.slerp([], aValues, bValues, t);
 
-		describe("with a separate output vector", () => {
+		describe("with a separate output quaternion", () => {
 			beforeEach(() => {
 				result = slerp(a, b, t, out);
 			});
@@ -532,16 +532,16 @@ describe("Quaternion", () => {
 				expect(result).to.equal(out);
 			});
 
-			it("should not modify the first vector", () => {
+			it("should not modify the first quaternion", () => {
 				expect(a).to.have.ordered.members(aValues);
 			});
 
-			it("should not modify the second vector", () => {
+			it("should not modify the second quaternion", () => {
 				expect(b).to.have.ordered.members(bValues);
 			});
 		});
 
-		describe("with the first vector as the output vector", () => {
+		describe("with the first quaternion as the output quaternion", () => {
 			beforeEach(() => {
 				result = slerp(a, b, t, a);
 			});
@@ -554,12 +554,12 @@ describe("Quaternion", () => {
 				expect(result).to.equal(a);
 			});
 
-			it("should not modify the second vector", () => {
+			it("should not modify the second quaternion", () => {
 				expect(b).to.have.ordered.members(bValues);
 			});
 		});
 
-		describe("with the second vector as the output vector", () => {
+		describe("with the second quaternion as the output quaternion", () => {
 			beforeEach(() => {
 				result = slerp(a, b, t, b);
 			});
@@ -572,7 +572,7 @@ describe("Quaternion", () => {
 				expect(result).to.equal(b);
 			});
 
-			it("should not modify the first vector", () => {
+			it("should not modify the first quaternion", () => {
 				expect(a).to.have.ordered.members(aValues);
 			});
 		});

@@ -88,7 +88,7 @@ export function fromTranslation<T extends DualQuaternionLike>(translation: Vecto
 	out[0] = 0;
 	out[1] = 0;
 	out[2] = 0;
-	out[3] = 0;
+	out[3] = 1;
 	out[4] = translation[0] * 0.5;
 	out[5] = translation[1] * 0.5;
 	out[6] = translation[2] * 0.5;
