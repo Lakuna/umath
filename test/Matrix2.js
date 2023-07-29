@@ -1,6 +1,6 @@
 import { describe, it, beforeEach } from "mocha";
 import { expect } from "chai";
-import { add, equals, subtract } from "@lakuna/umath/Matrix2";
+import { add, adjoint, copy, equals, exactEquals, subtract } from "@lakuna/umath/Matrix2";
 import { epsilon } from "@lakuna/umath";
 import { mat2 } from "gl-matrix";
 
@@ -9,7 +9,6 @@ describe("Matrix2", () => {
     let b;
     let out;
     let result;
-    let identity;
 
     const aValues = [
         0, 1,
@@ -33,11 +32,6 @@ describe("Matrix2", () => {
         result = [
             0, 0,
             0, 0
-        ];
-
-        identity = [
-            1, 0,
-            0, 1
         ];
     });
 
@@ -104,15 +98,57 @@ describe("Matrix2", () => {
     });
 
     describe("#adjoint()", () => {
-        // TODO
-    });
+        const adjugate = mat2.adjoint([], aValues);
 
-    describe("#clone()", () => {
-        // TODO
+        describe("with a separate output matrix", () => {
+            beforeEach(() => {
+                result = adjoint(a, out);
+            });
+
+            it("should return the correct adjugate", () => {
+                expect(result).to.have.ordered.members(adjugate);
+            });
+
+            it("should return the `out` parameter", () => {
+                expect(result).to.equal(out);
+            });
+
+            it("should not modify the original matrix", () => {
+                expect(a).to.have.ordered.members(aValues);
+            });
+        });
+
+        describe("with the same output matrix", () => {
+            beforeEach(() => {
+                result = adjoint(a, a);
+            });
+
+            it("should return the correct adjugate", () => {
+                expect(result).to.have.ordered.members(adjugate);
+            });
+
+            it("should return the `out` parameter", () => {
+                expect(result).to.equal(a);
+            });
+        });
     });
 
     describe("#copy()", () => {
-        // TODO
+        beforeEach(() => {
+            result = copy(a, out);
+        });
+
+        it("should return a copy", () => {
+            expect(result).to.have.ordered.members(aValues);
+        });
+
+        it("should return the `out` parameter", () => {
+            expect(result).to.equal(out);
+        });
+
+        it("should not modify the original matrix", () => {
+            expect(a).to.have.ordered.members(aValues);
+        });
     });
 
     describe("#equals()", () =>  {
@@ -154,7 +190,41 @@ describe("Matrix2", () => {
     });
 
     describe("#exactEquals()", () => {
-        // TODO
+        let c;
+        let d;
+        let e;
+
+        beforeEach(() => {
+            c = [...aValues];
+
+            d = [...aValues];
+            d[0]++;
+
+            e = [...aValues];
+            e[0] += epsilon * 0.1;
+        });
+
+        it("should return true for identical matrices", () => {
+            expect(exactEquals(a, c)).to.be.true;
+        });
+
+        it("should return false for different matrices", () => {
+            expect(exactEquals(a, d)).to.be.false;
+        });
+
+        it("should return false for similar matrices", () => {
+            expect(exactEquals(a, e)).to.be.false;
+        });
+
+        it("should not modify the first matrix", () => {
+            exactEquals(a, b);
+            expect(a).to.have.ordered.members(aValues);
+        });
+
+        it("should not modify the second matrix", () => {
+            exactEquals(a, b);
+            expect(b).to.have.ordered.members(bValues);
+        });
     });
 
     describe("#identity()", () => {
