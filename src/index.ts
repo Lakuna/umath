@@ -15,6 +15,7 @@ export { type Matrix3Like, default as Matrix3 } from "@lakuna/umath/Matrix3";
 export { type Matrix4Like, default as Matrix4 } from "@lakuna/umath/Matrix4";
 export { type QuaternionLike, default as Quaternion } from "@lakuna/umath/Quaternion";
 export { default as SlowMatrix } from "@lakuna/umath/SlowMatrix";
+export { default as SlowSquareMatrix } from "@lakuna/umath/SlowSquareMatrix";
 export type { default as SquareMatrix } from "./linear/SquareMatrix.js";
 export type { VectorLike, default as Vector } from "./linear/Vector.js";
 export { type Vector2Like, default as Vector2 } from "@lakuna/umath/Vector2";
