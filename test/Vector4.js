@@ -1,17 +1,16 @@
 import { describe, it, beforeEach } from "mocha";
 import { expect } from "chai";
 import {
-	getMagnitude, getSquaredMagnitude, add, angle, ceil, copy, cross, distance, divide, dot,
-	equals, exactEquals, floor, invert, lerp, max, min, multiply, negate, normalize, random,
-	rotate, round, scale, scaleAndAdd, squaredDistance, subtract, transformMatrix2,
-	transformMatrix3, transformMatrix4, zero, fromValues
-} from "@lakuna/umath/Vector2";
+	getMagnitude, getSquaredMagnitude, add, ceil, copy, cross, distance, divide, dot, equals,
+	exactEquals, floor, invert, lerp, max, min, multiply, negate, normalize, random, round, scale,
+	scaleAndAdd, squaredDistance, subtract, transformMatrix4, transformQuaternion, zero, fromValues
+} from "@lakuna/umath/Vector4";
 import { epsilon } from "@lakuna/umath";
-import { vec2 } from "gl-matrix";
+import { vec4 } from "gl-matrix";
 
-describe("Vector2", () => {
-	const aValues = [1, 2];
-	const bValues = [3, 4];
+describe("Vector4", () => {
+	const aValues = [1, 2, 3, 4];
+	const bValues = [5, 6, 7, 8];
 
 	let a;
 	let b;
@@ -26,7 +25,7 @@ describe("Vector2", () => {
 	});
 
 	describe("#magnitude", () => {
-		const expected = vec2.length(aValues);
+		const expected = vec4.length(aValues);
 
 		let innerResult;
 
@@ -44,7 +43,7 @@ describe("Vector2", () => {
 	});
 
 	describe("#squaredMagnitude", () => {
-		const expected = vec2.squaredLength(aValues);
+		const expected = vec4.squaredLength(aValues);
 
 		let innerResult;
 
@@ -62,7 +61,7 @@ describe("Vector2", () => {
 	});
 
 	describe("#add()", () => {
-		const sum = vec2.add([], aValues, bValues);
+		const sum = vec4.add([], aValues, bValues);
 
 		describe("with a separate output vector", () => {
 			beforeEach(() => {
@@ -123,30 +122,8 @@ describe("Vector2", () => {
 		});
 	});
 
-	describe("#angle()", () => {
-		const expected = vec2.angle(aValues, bValues);
-
-		let innerResult;
-
-		beforeEach(() => {
-			innerResult = angle(a, b);
-		});
-
-		it("should return the correct value", () => {
-			expect(innerResult).to.equal(expected);
-		});
-
-		it("should not modify the first vector", () => {
-			expect(a).to.have.ordered.members(aValues);
-		});
-
-		it("should not modify the second vector", () => {
-			expect(b).to.have.ordered.members(bValues);
-		});
-	});
-
 	describe("#ceil()", () => {
-		const expected = vec2.ceil([], aValues);
+		const expected = vec4.ceil([], aValues);
 
 		describe("with a separate output vector", () => {
 			beforeEach(() => {
@@ -200,11 +177,18 @@ describe("Vector2", () => {
 	});
 
 	describe("#cross()", () => {
-		const product = vec2.cross([], aValues, bValues);
+		const cValues = [9, 10, 11, 12];
+		const product = vec4.cross([], aValues, bValues, cValues);
+
+		let c;
+
+		beforeEach(() => {
+			c = [...cValues];
+		});
 
 		describe("with a separate output vector", () => {
 			beforeEach(() => {
-				result = cross(a, b, out);
+				result = cross(a, b, c, out);
 			});
 
 			it("should return the correct product", () => {
@@ -215,18 +199,22 @@ describe("Vector2", () => {
 				expect(result).to.equal(out);
 			});
 
-			it("should not modify the multiplicand", () => {
+			it("should not modify the first vector", () => {
 				expect(a).to.have.ordered.members(aValues);
 			});
 
-			it("should not modify the multiplier", () => {
+			it("should not modify the second vector", () => {
 				expect(b).to.have.ordered.members(bValues);
+			});
+
+			it("should not modify the third vector", () => {
+				expect(c).to.have.ordered.members(cValues);
 			});
 		});
 
-		describe("with the multiplicand as the output vector", () => {
+		describe("with the first vector as the output vector", () => {
 			beforeEach(() => {
-				result = cross(a, b, a);
+				result = cross(a, b, c, a);
 			});
 
 			it("should return the correct product", () => {
@@ -237,14 +225,18 @@ describe("Vector2", () => {
 				expect(result).to.equal(a);
 			});
 
-			it("should not modify the multiplier", () => {
+			it("should not modify the second vector", () => {
 				expect(b).to.have.ordered.members(bValues);
+			});
+
+			it("should not modify the third vector", () => {
+				expect(c).to.have.ordered.members(cValues);
 			});
 		});
 
-		describe("with the multiplier as the output vector", () => {
+		describe("with the second vector as the output vector", () => {
 			beforeEach(() => {
-				result = cross(a, b, b);
+				result = cross(a, b, c, b);
 			});
 
 			it("should return the correct product", () => {
@@ -255,14 +247,40 @@ describe("Vector2", () => {
 				expect(result).to.equal(b);
 			});
 
-			it("should not modify the multiplicand", () => {
+			it("should not modify the first vector", () => {
 				expect(a).to.have.ordered.members(aValues);
+			});
+
+			it("should not modify the third vector", () => {
+				expect(c).to.have.ordered.members(cValues);
+			});
+		});
+
+		describe("with the third vector as the output vector", () => {
+			beforeEach(() => {
+				result = cross(a, b, c, c);
+			});
+
+			it("should return the correct product", () => {
+				expect(result).to.have.ordered.members(product);
+			});
+
+			it("should return the `out` parameter", () => {
+				expect(result).to.equal(c);
+			});
+
+			it("should not modify the first vector", () => {
+				expect(a).to.have.ordered.members(aValues);
+			});
+
+			it("should not modify the second vector", () => {
+				expect(b).to.have.ordered.members(bValues);
 			});
 		});
 	});
 
 	describe("#distance()", () => {
-		const expected = vec2.distance(aValues, bValues);
+		const expected = vec4.distance(aValues, bValues);
 
 		let innerResult;
 
@@ -284,7 +302,7 @@ describe("Vector2", () => {
 	});
 
 	describe("#divide()", () => {
-		const quotient = vec2.divide([], aValues, bValues);
+		const quotient = vec4.divide([], aValues, bValues);
 
 		describe("with a separate output vector", () => {
 			beforeEach(() => {
@@ -346,7 +364,7 @@ describe("Vector2", () => {
 	});
 
 	describe("#cross()", () => {
-		const product = vec2.dot(aValues, bValues);
+		const product = vec4.dot(aValues, bValues);
 
 		let innerResult;
 
@@ -444,7 +462,7 @@ describe("Vector2", () => {
 	});
 
 	describe("#floor()", () => {
-		const expected = vec2.floor([], aValues);
+		const expected = vec4.floor([], aValues);
 
 		describe("with a separate output vector", () => {
 			beforeEach(() => {
@@ -480,7 +498,7 @@ describe("Vector2", () => {
 	});
 
 	describe("#invert()", () => {
-		const expected = vec2.inverse([], aValues);
+		const expected = vec4.inverse([], aValues);
 
 		describe("with a separate output vector", () => {
 			beforeEach(() => {
@@ -517,7 +535,7 @@ describe("Vector2", () => {
 
 	describe("#lerp()", () => {
 		const t = 0.5;
-		const expected = vec2.lerp([], aValues, bValues, t);
+		const expected = vec4.lerp([], aValues, bValues, t);
 
 		describe("with a separate output vector", () => {
 			beforeEach(() => {
@@ -579,7 +597,7 @@ describe("Vector2", () => {
 	});
 
 	describe("#max()", () => {
-		const expected = vec2.max([], aValues, bValues);
+		const expected = vec4.max([], aValues, bValues);
 
 		describe("with a separate output vector", () => {
 			beforeEach(() => {
@@ -641,7 +659,7 @@ describe("Vector2", () => {
 	});
 
 	describe("#min()", () => {
-		const expected = vec2.min([], aValues, bValues);
+		const expected = vec4.min([], aValues, bValues);
 
 		describe("with a separate output vector", () => {
 			beforeEach(() => {
@@ -703,7 +721,7 @@ describe("Vector2", () => {
 	});
 
 	describe("#multiply()", () => {
-		const product = vec2.multiply([], aValues, bValues);
+		const product = vec4.multiply([], aValues, bValues);
 
 		describe("with a separate output vector", () => {
 			beforeEach(() => {
@@ -765,7 +783,7 @@ describe("Vector2", () => {
 	});
 
 	describe("#negate()", () => {
-		const expected = vec2.negate([], aValues);
+		const expected = vec4.negate([], aValues);
 
 		describe("with a separate output vector", () => {
 			beforeEach(() => {
@@ -801,7 +819,7 @@ describe("Vector2", () => {
 	});
 
 	describe("#normalize()", () => {
-		const expected = vec2.normalize([], aValues);
+		const expected = vec4.normalize([], aValues);
 
 		describe("with a separate output vector", () => {
 			beforeEach(() => {
@@ -860,78 +878,8 @@ describe("Vector2", () => {
 		});
 	});
 
-	describe("#rotate()", () => {
-		const originValues = [1, 2];
-		const radians = Math.PI / 2;
-		const expected = vec2.rotate([], aValues, originValues, radians);
-
-		let origin;
-
-		beforeEach(() => {
-			origin = [...originValues];
-		});
-
-		describe("with a separate output vector", () => {
-			beforeEach(() => {
-				result = rotate(a, origin, radians, out);
-			});
-
-			it("should return the correct value", () => {
-				expect(result).to.have.ordered.members(expected);
-			});
-
-			it("should return the `out` parameter", () => {
-				expect(result).to.equal(out);
-			});
-
-			it("should not modify the vector", () => {
-				expect(a).to.have.ordered.members(aValues);
-			});
-
-			it("should not modify the origin vector", () => {
-				expect(origin).to.have.ordered.members(originValues);
-			});
-		});
-
-		describe("with the original vector as the output vector", () => {
-			beforeEach(() => {
-				result = rotate(a, origin, radians, a);
-			});
-
-			it("should return the correct value", () => {
-				expect(result).to.have.ordered.members(expected);
-			});
-
-			it("should return the `out` parameter", () => {
-				expect(result).to.equal(a);
-			});
-
-			it("should not modify the origin vector", () => {
-				expect(origin).to.have.ordered.members(originValues);
-			});
-		});
-
-		describe("with the origin vector as the output vector", () => {
-			beforeEach(() => {
-				result = rotate(a, origin, radians, origin);
-			});
-
-			it("should return the correct value", () => {
-				expect(result).to.have.ordered.members(expected);
-			});
-
-			it("should return the `out` parameter", () => {
-				expect(result).to.equal(origin);
-			});
-
-			it("should not modify the original vector", () => {
-				expect(a).to.have.ordered.members(aValues);
-			});
-		});
-	});
-
 	describe("#round()", () => {
-		const expected = vec2.round([], aValues);
+		const expected = vec4.round([], aValues);
 
 		describe("with a separate output vector", () => {
 			beforeEach(() => {
@@ -960,7 +908,7 @@ describe("Vector2", () => {
 
 	describe("#scale()", () => {
 		const scalar = 2;
-		const product = vec2.scale([], aValues, scalar);
+		const product = vec4.scale([], aValues, scalar);
 
 		describe("with a separate output vector", () => {
 			beforeEach(() => {
@@ -997,7 +945,7 @@ describe("Vector2", () => {
 
 	describe("#scaleAndAdd()", () => {
 		const scalar = 2;
-		const sum = vec2.scaleAndAdd([], aValues, bValues, scalar);
+		const sum = vec4.scaleAndAdd([], aValues, bValues, scalar);
 
 		describe("with a separate output vector", () => {
 			beforeEach(() => {
@@ -1059,7 +1007,7 @@ describe("Vector2", () => {
 	});
 
 	describe("#squaredDistance()", () => {
-		const expected = vec2.squaredDistance(aValues, bValues);
+		const expected = vec4.squaredDistance(aValues, bValues);
 
 		let innerResult;
 
@@ -1081,7 +1029,7 @@ describe("Vector2", () => {
 	});
 
 	describe("#subtract()", () => {
-		const difference = vec2.subtract([], aValues, bValues);
+		const difference = vec4.subtract([], aValues, bValues);
 
 		describe("with a separate output vector", () => {
 			beforeEach(() => {
@@ -1142,117 +1090,6 @@ describe("Vector2", () => {
 		});
 	});
 
-	describe("#transformMatrix2()", () => {
-		const matrixValues = [
-			1, 2,
-			3, 4
-		];
-
-		const product = vec2.transformMat2([], aValues, matrixValues);
-
-		let matrix;
-
-		beforeEach(() => {
-			matrix = [...matrixValues];
-		});
-
-		describe("with a separate output vector", () => {
-			beforeEach(() => {
-				result = transformMatrix2(a, matrix, out);
-			});
-
-			it("should return the correct product", () => {
-				expect(result).to.have.ordered.members(product);
-			});
-
-			it("should return the `out` parameter", () => {
-				expect(result).to.equal(out);
-			});
-
-			it("should not modify the multiplicand", () => {
-				expect(matrix).to.have.ordered.members(matrixValues);
-			});
-
-			it("should not modify the multiplier", () => {
-				expect(a).to.have.ordered.members(aValues);
-			});
-		});
-
-		describe("with the multiplier as the output vector", () => {
-			beforeEach(() => {
-				result = transformMatrix2(a, matrix, a);
-			});
-
-			it("should return the correct product", () => {
-				expect(result).to.have.ordered.members(product);
-			});
-
-			it("should return the `out` parameter", () => {
-				expect(result).to.equal(a);
-			});
-
-			it("should not modify the multiplicand", () => {
-				expect(matrix).to.have.ordered.members(matrixValues);
-			});
-		});
-	});
-
-	describe("#transformMatrix3()", () => {
-		const matrixValues = [
-			1, 2, 3,
-			4, 5, 6,
-			7, 8, 9
-		];
-
-		const product = vec2.transformMat3([], aValues, matrixValues);
-
-		let matrix;
-
-		beforeEach(() => {
-			matrix = [...matrixValues];
-		});
-
-		describe("with a separate output vector", () => {
-			beforeEach(() => {
-				result = transformMatrix3(a, matrix, out);
-			});
-
-			it("should return the correct product", () => {
-				expect(result).to.have.ordered.members(product);
-			});
-
-			it("should return the `out` parameter", () => {
-				expect(result).to.equal(out);
-			});
-
-			it("should not modify the multiplicand", () => {
-				expect(matrix).to.have.ordered.members(matrixValues);
-			});
-
-			it("should not modify the multiplier", () => {
-				expect(a).to.have.ordered.members(aValues);
-			});
-		});
-
-		describe("with the multiplier as the output vector", () => {
-			beforeEach(() => {
-				result = transformMatrix3(a, matrix, a);
-			});
-
-			it("should return the correct product", () => {
-				expect(result).to.have.ordered.members(product);
-			});
-
-			it("should return the `out` parameter", () => {
-				expect(result).to.equal(a);
-			});
-
-			it("should not modify the multiplicand", () => {
-				expect(matrix).to.have.ordered.members(matrixValues);
-			});
-		});
-	});
-
 	describe("#transformMatrix4()", () => {
 		const matrixValues = [
 			1, 2, 3, 4,
@@ -1261,7 +1098,7 @@ describe("Vector2", () => {
 			13, 14, 15, 16
 		];
 
-		const product = vec2.transformMat4([], aValues, matrixValues);
+		const product = vec4.transformMat4([], aValues, matrixValues);
 
 		let matrix;
 
@@ -1310,8 +1147,59 @@ describe("Vector2", () => {
 		});
 	});
 
+	describe("#transformQuaternion()", () => {
+		const quaternionValues = [0, -1 / Math.sqrt(2), 0, 1 / Math.sqrt(2)];
+		const product = vec4.transformQuat([], aValues, quaternionValues);
+
+		let quaternion;
+
+		beforeEach(() => {
+			quaternion = [...quaternionValues];
+		});
+
+		describe("with a separate output vector", () => {
+			beforeEach(() => {
+				result = transformQuaternion(a, quaternion, out);
+			});
+
+			it("should return the correct product", () => {
+				expect(result).to.have.ordered.members(product);
+			});
+
+			it("should return the `out` parameter", () => {
+				expect(result).to.equal(out);
+			});
+
+			it("should not modify the multiplicand", () => {
+				expect(quaternion).to.have.ordered.members(quaternionValues);
+			});
+
+			it("should not modify the multiplier", () => {
+				expect(a).to.have.ordered.members(aValues);
+			});
+		});
+
+		describe("with the multiplier as the output vector", () => {
+			beforeEach(() => {
+				result = transformQuaternion(a, quaternion, a);
+			});
+
+			it("should return the correct product", () => {
+				expect(result).to.have.ordered.members(product);
+			});
+
+			it("should return the `out` parameter", () => {
+				expect(result).to.equal(a);
+			});
+
+			it("should not modify the multiplicand", () => {
+				expect(quaternion).to.have.ordered.members(quaternionValues);
+			});
+		});
+	});
+
 	describe("#zero()", () => {
-		const expected = [0, 0];
+		const expected = [0, 0, 0, 0];
 
 		beforeEach(() => {
 			result = zero(out);
@@ -1327,7 +1215,7 @@ describe("Vector2", () => {
 	});
 
 	describe(".fromValues()", () => {
-		const expected = [1, 2];
+		const expected = [1, 2, 3, 4];
 
 		beforeEach(() => {
 			result = fromValues(...expected, out);

@@ -1,9 +1,11 @@
 import { describe, it, beforeEach } from "mocha";
 import { expect } from "chai";
-import { add, adjoint, copy, equals, exactEquals, identity, invert, multiply, multiplyScalar,
+import {
+	add, adjoint, copy, equals, exactEquals, identity, invert, multiply, multiplyScalar,
 	multiplyScalarAndAdd, rotate, scale, subtract, translate, transpose, fromMatrix4,
 	fromQuaternion, fromRotation, fromScaling, fromTranslation, fromValues, normalFromMatrix4,
-	projection } from "@lakuna/umath/Matrix3";
+	projection
+} from "@lakuna/umath/Matrix3";
 import { epsilon } from "@lakuna/umath";
 import { mat3, mat4 } from "gl-matrix";
 

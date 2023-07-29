@@ -365,22 +365,22 @@ export function dot(a: Vector4Like, b: Vector4Like): number {
  * @see [Cross product](https://en.wikipedia.org/wiki/Cross_product)
  */
 export function cross<T extends Vector4Like>(a: Vector4Like, b: Vector4Like, c: Vector4Like, out: T): T {
-	const d = a[0] * b[1] - a[1] * b[0];
-	const e = a[0] * b[2] - a[2] * b[0];
-	const f = a[0] * b[3] - a[3] * b[0];
-	const g = a[1] * b[2] - a[2] * b[1];
-	const h = a[1] * b[3] - a[3] * b[1];
-	const i = a[2] * b[3] - a[3] * b[2];
+	const d = b[0] * c[1] - b[1] * c[0];
+	const e = b[0] * c[2] - b[2] * c[0];
+	const f = b[0] * c[3] - b[3] * c[0];
+	const g = b[1] * c[2] - b[2] * c[1];
+	const h = b[1] * c[3] - b[3] * c[1];
+	const i = b[2] * c[3] - b[3] * c[2];
 
-	const j = c[0];
-	const k = c[1];
-	const l = c[2];
-	const m = c[3];
+	const j = a[0];
+	const k = a[1];
+	const l = a[2];
+	const m = a[3];
 
 	out[0] = k * i - l * h + m * g;
 	out[1] = -(j * i) + l * f - m * e;
 	out[2] = j * h - k * f + m * d;
-	out[3] = -(j * g) + k * e - k * d;
+	out[3] = -(j * g) + k * e - l * d;
 	return out;
 }
 

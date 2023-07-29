@@ -1,11 +1,13 @@
 import { describe, it, beforeEach } from "mocha";
 import { expect } from "chai";
-import { add, adjoint, copy, equals, exactEquals, getRotation, getScaling, getTranslation,
-	identity, invert, multiply, multiplyScalar, multiplyScalarAndAdd, rotate, rotateX, rotateY,
-	rotateZ, scale, subtract, translate, transpose, fromDualQuaternion, fromRotation,
+import {
+	add, adjoint, copy, equals, exactEquals, getRotation, getScaling, getTranslation, identity,
+	invert, multiply, multiplyScalar, multiplyScalarAndAdd, rotate, rotateX, rotateY, rotateZ,
+	scale, subtract, translate, transpose, fromDualQuaternion, fromRotation,
 	fromRotationTranslation, fromRotationTranslationScale, fromRotationTranslationScaleOrigin,
 	fromScaling, fromTranslation, fromValues, fromXRotation, fromYRotation, fromZRotation, frustum,
-	lookAt, ortho, perspective, perspectiveFromFieldOfView, targetTo } from "@lakuna/umath/Matrix4";
+	lookAt, ortho, perspective, perspectiveFromFieldOfView, targetTo
+} from "@lakuna/umath/Matrix4";
 import { epsilon } from "@lakuna/umath";
 import { mat4 } from "gl-matrix";
 
