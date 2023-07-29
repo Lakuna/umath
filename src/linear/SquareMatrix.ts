@@ -6,6 +6,13 @@ import type { Matrix } from "@lakuna/umath";
  */
 export default interface SquareMatrix extends Matrix {
 	/**
+	 * Calculates the adjugate of this matrix.
+	 * @returns The adjugate of this matrix.
+	 * @see [Adjugate matrix](https://en.wikipedia.org/wiki/Adjugate_matrix)
+	 */
+	adjoint(): Matrix;
+	
+	/**
 	 * The determinant of this matrix.
 	 * @see [Determinant](https://en.wikipedia.org/wiki/Determinant)
 	 */

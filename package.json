@@ -1,6 +1,6 @@
 {
 	"name": "@lakuna/umath",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"description": "A lightweight math library.",
 	"keywords": [
 		"math"
@@ -53,6 +53,7 @@
 		"./Matrix3": "./dist/linear/Matrix3.js",
 		"./Matrix4": "./dist/linear/Matrix4.js",
 		"./Quaternion": "./dist/linear/Quaternion.js",
+		"./SlowMatrix": "./dist/linear/SlowMatrix.js",
 		"./Vector2": "./dist/linear/Vector2.js",
 		"./Vector3": "./dist/linear/Vector3.js",
 		"./Vector4": "./dist/linear/Vector4.js"
