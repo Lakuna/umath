@@ -1,7 +1,7 @@
 import { describe, it, beforeEach } from "mocha";
 import { expect } from "chai";
 import {
-	add, adjoint, copy, equals, exactEquals, identity, invert, multiply, multiplyScalar,
+	determinant, frob, add, adjoint, copy, equals, exactEquals, identity, invert, multiply, multiplyScalar,
 	multiplyScalarAndAdd, rotate, scale, subtract, transpose, fromRotation, fromScaling, fromValues
 } from "@lakuna/umath/Matrix2";
 import { epsilon } from "@lakuna/umath";
@@ -28,6 +28,42 @@ describe("Matrix2", () => {
 		b = [...bValues];
 		out = [];
 		result = [];
+	});
+
+	describe("#determinant", () => {
+		const expected = mat2.determinant(aValues);
+
+		let innerOut;
+
+		beforeEach(() => {
+			innerOut = determinant(a);
+		});
+
+		it("should return the correct determinant", () => {
+			expect(innerOut).to.equal(expected);
+		});
+
+		it("should not modify the matrix", () => {
+			expect(a).to.have.ordered.members(aValues);
+		});
+	});
+
+	describe("#frob", () => {
+		const expected = mat2.frob(aValues);
+
+		let innerOut;
+
+		beforeEach(() => {
+			innerOut = frob(a);
+		});
+
+		it("should return the correct Frobenius norm", () => {
+			expect(innerOut).to.equal(expected);
+		});
+
+		it("should not modify the matrix", () => {
+			expect(a).to.have.ordered.members(aValues);
+		});
 	});
 
 	describe("#add()", () => {

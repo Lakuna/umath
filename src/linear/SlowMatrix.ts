@@ -9,14 +9,18 @@ export default class SlowMatrix extends Float32Array implements Matrix {
 	 * Creates a variable-size matrix from the given columns.
 	 * @param cols The columns in the matrix.
 	 */
-	public constructor(...columns: Array<Array<number>>) {
-		super(columns.flat());
-		this.width = columns.length;
-		this.height = this.width && (columns[0] as Array<number>).length;
+	public constructor(...cols: Array<Array<number>>) {
+		super(cols.flat());
+		this.width = cols.length;
+		this.height = this.width && (cols[0] as Array<number>).length;
+
+		if (this.width < 1 || this.height < 1) {
+			throw new MatrixSizeError();
+		}
 
 		// Ensure that every column is the same height.
 		for (let i = 0; i < this.width; i++) {
-			if ((columns[i] as Array<number>).length != this.height) {
+			if ((cols[i]?.length ?? 0) != this.height) {
 				throw new PartialMatrixError();
 			}
 		}

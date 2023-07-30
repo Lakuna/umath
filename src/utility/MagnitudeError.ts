@@ -6,5 +6,6 @@ export default class MagnitudeError extends Error {
 	 */
 	public constructor(message = "The vector is too small.") {
 		super(message);
+		this.name = "MagnitudeError";
 	}
 }

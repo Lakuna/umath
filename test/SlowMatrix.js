@@ -39,6 +39,24 @@ describe("SlowMatrix", () => {
 		result = new SlowMatrix(...zero);
 	});
 
+	describe("#frob", () => {
+		const expected = mat4.frob(aValuesFlat);
+
+		let innerOut;
+
+		beforeEach(() => {
+			innerOut = a.frob;
+		});
+
+		it("should return the correct Frobenius norm", () => {
+			expect(innerOut).to.equal(expected);
+		});
+
+		it("should not modify the matrix", () => {
+			expect([...a]).to.have.ordered.members(aValuesFlat);
+		});
+	});
+
 	describe("#add()", () => {
 		const sum = mat4.add([], aValuesFlat, bValuesFlat);
 
