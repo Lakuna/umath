@@ -1,9 +1,9 @@
-import { type Vector, epsilon } from "@lakuna/umath";
-import type { Matrix3Like } from "@lakuna/umath/Matrix3";
-import type { Matrix4Like } from "@lakuna/umath/Matrix4";
-import type { QuaternionLike } from "@lakuna/umath/Quaternion";
-import Quaternion from "@lakuna/umath/Quaternion";
-import { normalize as normalizeVector4, type Vector4Like } from "@lakuna/umath/Vector4";
+import type { Matrix3Like } from "#linalg/Matrix3";
+import type { Matrix4Like } from "#linalg/Matrix4";
+import Quaternion, { type QuaternionLike } from "#linalg/Quaternion";
+import type Vector from "#linalg/Vector";
+import { normalize as normalizeVector4, type Vector4Like } from "#linalg/Vector4";
+import epsilon from "#utility/epsilon";
 
 /** A quantity with magnitude and direction in three dimensions. */
 export type Vector3Like = Vector3 | [number, number, number];

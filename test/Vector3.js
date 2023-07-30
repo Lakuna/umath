@@ -1,13 +1,13 @@
-import { describe, it, beforeEach } from "mocha";
-import { expect } from "chai";
 import {
-	getMagnitude, getSquaredMagnitude, add, angle, bezier, ceil, copy, cross, distance, divide,
-	dot, equals, exactEquals, floor, hermite, invert, lerp, max, min, multiply, negate, normalize,
-	random, rotateX, rotateY, rotateZ, rotationTo, round, scale, scaleAndAdd, squaredDistance,
-	subtract, transformMatrix3, transformMatrix4, transformQuaternion, zero, fromValues
-} from "@lakuna/umath/Vector3";
-import { epsilon } from "@lakuna/umath";
+	add, angle, bezier, ceil, copy, cross, distance, divide, dot, equals, exactEquals, floor,
+	fromValues, getMagnitude, getSquaredMagnitude, hermite, invert, lerp, max, min, multiply,
+	negate, normalize, random, rotateX, rotateY, rotateZ, rotationTo, round, scale, scaleAndAdd,
+	squaredDistance, subtract, transformMatrix3, transformMatrix4, transformQuaternion, zero
+} from "#linalg/Vector3";
+import epsilon from "#utility/epsilon";
+import { expect } from "chai";
 import { vec3, quat } from "gl-matrix";
+import { beforeEach, describe, it } from "mocha";
 
 describe("Vector3", () => {
 	const aValues = [1, 2, 3];

@@ -1,4 +1,4 @@
-import { factorial } from "@lakuna/umath";
+import factorial from "#algorithms/factorial";
 
 /**
  * Calculates the number of combinations.

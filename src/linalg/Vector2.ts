@@ -1,8 +1,9 @@
-import { epsilon, type Vector } from "@lakuna/umath";
-import type { Matrix2Like } from "@lakuna/umath/Matrix2";
-import type { Matrix3Like } from "@lakuna/umath/Matrix3";
-import type { Matrix4Like } from "@lakuna/umath/Matrix4";
-import Vector3, { type Vector3Like } from "@lakuna/umath/Vector3";
+import type { Matrix2Like } from "#linalg/Matrix2";
+import type { Matrix3Like } from "#linalg/Matrix3";
+import type { Matrix4Like } from "#linalg/Matrix4";
+import type Vector from "#linalg/Vector";
+import Vector3, { type Vector3Like } from "#linalg/Vector3";
+import epsilon from "#utility/epsilon";
 
 /** A quantity with magnitude and direction in two dimensions. */
 export type Vector2Like = Vector2 | [number, number];

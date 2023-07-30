@@ -48,16 +48,22 @@
 	},
 	"exports": {
 		".": "./dist/index.js",
-		"./DualQuaternion": "./dist/linear/DualQuaternion.js",
-		"./Matrix2": "./dist/linear/Matrix2.js",
-		"./Matrix3": "./dist/linear/Matrix3.js",
-		"./Matrix4": "./dist/linear/Matrix4.js",
-		"./Quaternion": "./dist/linear/Quaternion.js",
-		"./SlowMatrix": "./dist/linear/SlowMatrix.js",
-		"./SlowSquareMatrix": "./dist/linear/SlowSquareMatrix.js",
-		"./Vector2": "./dist/linear/Vector2.js",
-		"./Vector3": "./dist/linear/Vector3.js",
-		"./Vector4": "./dist/linear/Vector4.js"
+		"./DualQuaternion": "./dist/linalg/DualQuaternion.js",
+		"./Matrix2": "./dist/linalg/Matrix2.js",
+		"./Matrix3": "./dist/linalg/Matrix3.js",
+		"./Matrix4": "./dist/linalg/Matrix4.js",
+		"./Quaternion": "./dist/linalg/Quaternion.js",
+		"./SlowMatrix": "./dist/linalg/SlowMatrix.js",
+		"./SlowSquareMatrix": "./dist/linalg/SlowSquareMatrix.js",
+		"./Vector2": "./dist/linalg/Vector2.js",
+		"./Vector3": "./dist/linalg/Vector3.js",
+		"./Vector4": "./dist/linalg/Vector4.js"
+	},
+	"imports": {
+		"#algorithms/*": "./dist/algorithms/*.js",
+		"#linalg/*": "./dist/linalg/*.js",
+		"#types/*": "./dist/types/*.js",
+		"#utility/*": "./dist/utility/*.js"
 	},
 	"types": "./dist/index.d.ts",
 	"type": "module",

@@ -1,13 +1,12 @@
-import { describe, it, beforeEach } from "mocha";
-import { expect } from "chai";
 import {
-	determinant, frob, add, adjoint, copy, equals, exactEquals, identity, invert, multiply, multiplyScalar,
-	multiplyScalarAndAdd, rotate, scale, subtract, translate, transpose, fromMatrix4,
-	fromQuaternion, fromRotation, fromScaling, fromTranslation, fromValues, normalFromMatrix4,
-	projection
-} from "@lakuna/umath/Matrix3";
-import { epsilon } from "@lakuna/umath";
+	add, adjoint, copy, determinant, equals, exactEquals, frob, fromMatrix4, fromQuaternion,
+	fromRotation, fromScaling, fromTranslation, fromValues, identity, invert, multiply, multiplyScalar,
+	multiplyScalarAndAdd, normalFromMatrix4, projection, rotate, scale, subtract, translate, transpose
+} from "#linalg/Matrix3";
+import epsilon from "#utility/epsilon";
+import { expect } from "chai";
 import { mat3, mat4 } from "gl-matrix";
+import { beforeEach, describe, it } from "mocha";
 
 describe("Matrix3", () => {
 	const aValues = [

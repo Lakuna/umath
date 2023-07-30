@@ -1,5 +1,7 @@
-import { type SquareMatrix, MatrixSizeError, SingularMatrixError } from "@lakuna/umath";
-import SlowMatrix from "@lakuna/umath/SlowMatrix";
+import SlowMatrix from "#linalg/SlowMatrix";
+import type SquareMatrix from "#linalg/SquareMatrix";
+import MatrixSizeError from "#utility/MatrixSizeError";
+import SingularMatrixError from "#utility/SingularMatrixError";
 
 /**
  * A variable-size matrix with the same number of rows and columns.

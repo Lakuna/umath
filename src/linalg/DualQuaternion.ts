@@ -1,8 +1,8 @@
-import Quaternion, { type QuaternionLike, rotateX as quaternionRotateX, rotateY as quaternionRotateY, rotateZ as quaternionRotateZ } from "@lakuna/umath/Quaternion";
-import Vector3, { type Vector3Like } from "@lakuna/umath/Vector3";
-import { copy as xetReal, dot, type Vector4Like, getMagnitude, getSquaredMagnitude } from "@lakuna/umath/Vector4";
-import { getRotation as getMatrix4Rotation, getTranslation as getMatrix4Translation, type Matrix4Like } from "@lakuna/umath/Matrix4";
-import { epsilon } from "@lakuna/umath";
+import { getRotation as getMatrix4Rotation, getTranslation as getMatrix4Translation, type Matrix4Like } from "#linalg/Matrix4";
+import Quaternion, { type QuaternionLike, rotateX as quaternionRotateX, rotateY as quaternionRotateY, rotateZ as quaternionRotateZ } from "#linalg/Quaternion";
+import Vector3, { type Vector3Like } from "#linalg/Vector3";
+import { copy as xetReal, dot, getMagnitude, getSquaredMagnitude, type Vector4Like } from "#linalg/Vector4";
+import epsilon from "#utility/epsilon";
 
 /** A complex number that is commonly used to describe transformations. */
 export type DualQuaternionLike = DualQuaternion | [number, number, number, number, number, number, number, number];

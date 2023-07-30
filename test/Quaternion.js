@@ -1,11 +1,10 @@
-import { describe, it, beforeEach } from "mocha";
-import { expect } from "chai";
 import {
-	calculateW, conjugate, exp, getAngle, getAxisAngle, identity, invert, ln, multiply, pow,
-	random, rotateX, rotateY, rotateZ, setAxisAngle, slerp, sqlerp, fromAxes, fromEuler,
-	fromMatrix3
-} from "@lakuna/umath/Quaternion";
+	calculateW, conjugate, exp, fromAxes, fromEuler, fromMatrix3, getAngle, getAxisAngle, identity,
+	invert, ln, multiply, pow, random, rotateX, rotateY, rotateZ, setAxisAngle, slerp, sqlerp
+} from "#linalg/Quaternion";
+import { expect } from "chai";
 import { quat } from "gl-matrix";
+import { beforeEach, describe, it } from "mocha";
 
 describe("Quaternion", () => {
 	const aValues = [0, -1 / Math.sqrt(2), 0, 1 / Math.sqrt(2)];

@@ -1,7 +1,7 @@
-import { describe, it, beforeEach } from "mocha";
+import SlowMatrix from "#linalg/SlowMatrix";
+import epsilon from "#utility/epsilon";
 import { expect } from "chai";
-import SlowMatrix from "@lakuna/umath/SlowMatrix";
-import { epsilon } from "@lakuna/umath";
+import { beforeEach, describe, it } from "mocha";
 import { mat4 } from "gl-matrix";
 
 describe("SlowMatrix", () => {

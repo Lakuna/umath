@@ -1,7 +1,8 @@
-import { epsilon, type AxisAngle } from "@lakuna/umath";
-import { type Matrix3Like } from "@lakuna/umath/Matrix3";
-import type { Vector3Like } from "@lakuna/umath/Vector3";
-import Vector4, { fromValues, copy, add, scale, dot, lerp, getMagnitude, getSquaredMagnitude, normalize, equals, exactEquals, type Vector4Like } from "./Vector4.js";
+import type { Matrix3Like } from "#linalg/Matrix3";
+import type { Vector3Like } from "#linalg/Vector3";
+import Vector4, { add, copy, dot, equals, exactEquals, fromValues, getMagnitude, getSquaredMagnitude, lerp, normalize, scale, type Vector4Like } from "#linalg/Vector4";
+import type AxisAngle from "#types/AxisAngle";
+import epsilon from "#utility/epsilon";
 
 /** A complex number that is commonly used to describe rotations. */
 export type QuaternionLike = Quaternion | [number, number, number, number];
