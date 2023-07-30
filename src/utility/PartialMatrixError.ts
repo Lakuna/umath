@@ -6,5 +6,6 @@ export default class PartialMatrixError extends Error {
 	 */
 	public constructor(message = "The matrix is not rectangular.") {
 		super(message);
+		this.name = "PartialMatrixError";
 	}
 }

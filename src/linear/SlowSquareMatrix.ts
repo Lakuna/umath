@@ -1,78 +1,46 @@
-import { type Matrix, type SquareMatrix, epsilon, MatrixSizeError, SingularMatrixError } from "@lakuna/umath";
+import { type SquareMatrix, MatrixSizeError, SingularMatrixError } from "@lakuna/umath";
+import SlowMatrix from "@lakuna/umath/SlowMatrix";
 
 /**
  * A variable-size matrix with the same number of rows and columns.
- * @see [Matrix](https://en.wikipedia.org/wiki/Matrix_(mathematics))
  * @see [Square matrix](https://en.wikipedia.org/wiki/Square_matrix)
  */
-export default class SlowSquareMatrix extends Float32Array implements SquareMatrix {
+export default class SlowSquareMatrix extends SlowMatrix implements SquareMatrix {
 	/**
 	 * Creates a variable-size matrix with the same number of rows and columns from the given columns.
 	 * @param cols The columns in the matrix.
+	 * @see [Square matrix](https://en.wikipedia.org/wiki/Square_matrix)
 	 */
-	public constructor(...columns: Array<Array<number>>) {
-		super(columns.flat());
-		this.width = columns.length;
-		this.height = this.width;
+	public constructor(...cols: Array<Array<number>>) {
+		super(...cols);
 
 		// Ensure that every column is the same height and that the height is equal to the width.
 		for (let i = 0; i < this.width; i++) {
-			if ((columns[i] as Array<number>).length != this.height) {
+			if ((cols[i] as Array<number>).length != this.height) {
 				throw new MatrixSizeError();
 			}
 		}
 	}
-
-	/** The number of rows in this matrix. */
-	public readonly height: number;
-
-	/** The number of columns in this matrix. */
-	public readonly width: number;
 
 	/**
 	 * The determinant of this matrix.
 	 * @see [Determinant](https://en.wikipedia.org/wiki/Determinant)
 	 */
 	public get determinant(): number {
-		if (this.length <= 1) {
+		if (this.length < 1) {
+			throw new MatrixSizeError();
+		}
+
+		if (this.length == 1) {
 			return this[0] ?? 0;
 		}
 
 		let out = 0;
-		for (let i = 0; i < this.height; i++) {
-			out += (i % 2 ? 1 : -1) * (this[i] as number) * this.minor(0, i);
+		for (let i = 0; i < this.width; i++) {
+			out += (this[i * this.height] as number) * (i % 2 ? -1 : 1) * this.minor(0, i);
 		}
 		
 		return out;
-	}
-
-	/**
-	 * The Frobenius norm of this matrix.
-	 * @see [Matrix norm](https://en.wikipedia.org/wiki/Matrix_norm)
-	 */
-	public get frob(): number {
-		return Math.hypot(...this);
-	}
-
-	/**
-	 * Adds two matrices of the same size.
-	 * @param matrix The other matrix.
-	 * @returns The sum of the matrices.
-	 * @see [Matrix addition](https://en.wikipedia.org/wiki/Matrix_addition)
-	 */
-	public add(matrix: Matrix): SlowSquareMatrix {
-		if (this.width != matrix.width || this.height != matrix.height) {
-			throw new MatrixSizeError();
-		}
-
-		const cols: Array<Array<number>> = [];
-		for (let x = 0; x < this.width; x++) {
-			for (let y = 0; y < this.height; y++) {
-				(cols[x] ??= [])[y] = (this[x * this.height + y] as number) + (matrix[x * matrix.height + y] as number);
-			}
-		}
-
-		return new SlowSquareMatrix(...cols);
 	}
 
 	/**
@@ -88,7 +56,7 @@ export default class SlowSquareMatrix extends Float32Array implements SquareMatr
 	 * Creates a copy of this matrix.
 	 * @returns A copy of this matrix.
 	 */
-	public clone(): SlowSquareMatrix {
+	public override clone(): SlowSquareMatrix {
 		const cols: Array<Array<number>> = [];
 		for (let x = 0; x < this.width; x++) {
 			for (let y = 0; y < this.height; y++) {
@@ -106,70 +74,13 @@ export default class SlowSquareMatrix extends Float32Array implements SquareMatr
 	 */
 	public cofactor(): SlowSquareMatrix {
 		const out: Array<Array<number>> = [];
-		for (let i = 0; i < this.width; i++) {
-			for (let j = 0; j < this.height; j++) {
-				(out[i] ??= [])[j] = ((i + j) % 2 ? -1 : 1) * this.minor(i, j);
+		for (let i = 0; i < this.width; i++) { // col i
+			for (let j = 0; j < this.height; j++) { // row j
+				(out[j] ??= [])[i] = ((i + j) % 2 ? -1 : 1) * this.minor(i, j);
 			}
 		}
 
-		return this;
-	}
-
-	/**
-	 * Copies the values of another matrix into this one.
-	 * @param matrix The matrix to copy.
-	 * @returns This matrix.
-	 */
-	public copy(matrix: Matrix): this {
-		if (this.width != matrix.width || this.height != matrix.height) {
-			throw new MatrixSizeError();
-		}
-
-		for (let x = 0; x < this.width; x++) {
-			for (let y = 0; y < this.height; y++) {
-				(this[x * this.width + y] as number) = matrix[x * this.height + y] as number;
-			}
-		}
-
-		return this;
-	}
-
-	/**
-	 * Determines whether this matrix is roughly equivalent to another.
-	 * @param matrix The other matrix.
-	 * @returns Whether the matrices are equivalent.
-	 */
-	public equals(matrix: Matrix): boolean {
-		if (this.width != matrix.width || this.height != matrix.height) {
-			return false;
-		}
-
-		for (let i = 0; i < this.length; i++) {
-			if (Math.abs((this[i] as number) - (matrix[i] as number)) > epsilon) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Determines whether this matrix is exactly equivalent to another.
-	 * @param matrix The other matrix.
-	 * @returns Whether the matrices are equivalent.
-	 */
-	public exactEquals(matrix: Matrix): boolean {
-		if (this.width != matrix.width || this.height != matrix.height) {
-			return false;
-		}
-
-		for (let i = 0; i < this.length; i++) {
-			if (this[i] != matrix[i]) {
-				return false;
-			}
-		}
-
-		return true;
+		return new SlowSquareMatrix(...out);
 	}
 
 	/**
@@ -183,7 +94,7 @@ export default class SlowSquareMatrix extends Float32Array implements SquareMatr
 				this[i * this.height + j] = i == j ? 1 : 0;
 			}
 		}
-
+		
 		return this;
 	}
 
@@ -196,7 +107,7 @@ export default class SlowSquareMatrix extends Float32Array implements SquareMatr
 		const dim: number = this.width;
 
 		const clone: SlowSquareMatrix = this.clone();
-		this.identity();
+		const identity: SlowSquareMatrix = this.clone().identity();
 
 		for (let i = 0; i < dim; i++) {
 			let diagonal: number = clone[i * dim + i] as number;
@@ -204,7 +115,7 @@ export default class SlowSquareMatrix extends Float32Array implements SquareMatr
 				for (let ii: number = i + 1; ii < dim; ii++) {
 					if (clone[ii * dim + i]) {
 						for (let j = 0; j < dim; j++) {
-							for (const matrix of [clone, this]) {
+							for (const matrix of [clone, identity]) {
 								[matrix[i * dim + j], matrix[ii * dim + j]] = [matrix[ii * dim + j] as number, matrix[i * dim + j] as number];
 							}
 						}
@@ -227,14 +138,14 @@ export default class SlowSquareMatrix extends Float32Array implements SquareMatr
 				const temp: number = clone[ii * dim + i] as number;
 
 				for (let j = 0; j < dim; j++) {
-					for (const matrix of [clone, this]) {
+					for (const matrix of [clone, identity]) {
 						matrix[ii * dim + j] -= temp * (matrix[i * dim + j] as number);
 					}
 				}
 			}
 		}
 
-		return this;
+		return identity;
 	}
 
 	/**
@@ -246,62 +157,6 @@ export default class SlowSquareMatrix extends Float32Array implements SquareMatr
 	 */
 	public minor(row: number, col: number): number {
 		return this.submatrix(row, col).determinant;
-	}
-
-	/**
-	 * Multiplies this matrix by another.
-	 * @param matrix The other matrix.
-	 * @returns The product of the matrices.
-	 * @see [Matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication)
-	 */
-	public multiply(matrix: Matrix): SlowSquareMatrix {
-		if (this.width != matrix.height) {
-			throw new MatrixSizeError();
-		}
-
-		const n: number = this.height;
-		const m: number = this.width;
-		const p: number = matrix.width;
-
-		const out: Array<Array<number>> = [];
-		for (let i = 0; i < n; i++) {
-			for (let j = 0; j < p; j++) {
-				let sum = 0;
-				for (let k = 0; k < m; k++) {
-					sum += (this[k * this.height + i] as number) * (matrix[j * matrix.height + k] as number)
-				}
-				(out[j] ??= [])[i] = sum;
-			}
-		}
-
-		return new SlowSquareMatrix(...out);
-	}
-
-	/**
-	 * Multiplies this matrix by a scalar value.
-	 * @param scalar The scalar value.
-	 * @returns The product of the matrix and the scalar value.
-	 * @see [Matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication)
-	 */
-	public multiplyScalar(scalar: number): SlowSquareMatrix {
-		const out = this.clone();
-		for (let i = 0; i < out.length; i++) {
-			out[i] *= scalar;
-		}
-
-		return out;
-	}
-
-	/**
-	 * Adds this matrix to another after multiplying the other by a scalar.
-	 * @param matrix The other matrix.
-	 * @param scalar The scalar.
-	 * @returns The sum.
-	 * @see [Matrix addition](https://en.wikipedia.org/wiki/Matrix_addition)
-	 * @see [Matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication)
-	 */
-	public multiplyScalarAndAdd(matrix: Matrix, scalar: number): SlowSquareMatrix {
-		return this.add(matrix.multiplyScalar(scalar));
 	}
 
 	/**
@@ -323,28 +178,7 @@ export default class SlowSquareMatrix extends Float32Array implements SquareMatr
 					continue;
 				}
 
-				(cols[i] ??= [])[j] = this[i * this.height + j] as number;
-			}
-		}
-
-		return new SlowSquareMatrix(...cols);
-	}
-
-	/**
-	 * Subtracts another matrix from this one.
-	 * @param matrix The other matrix.
-	 * @returns The difference between the matrices.
-	 * @see [Matrix addition](https://en.wikipedia.org/wiki/Matrix_addition)
-	 */
-	public subtract(matrix: Matrix): SlowSquareMatrix {
-		if (this.width != matrix.width || this.height != matrix.height) {
-			throw new MatrixSizeError();
-		}
-
-		const cols: Array<Array<number>> = [];
-		for (let x = 0; x < this.width; x++) {
-			for (let y = 0; y < this.height; y++) {
-				(cols[x] ??= [])[y] = (this[x * this.height + y] as number) - (matrix[x * matrix.height + y] as number);
+				(cols[i < col ? i : i - 1] ??= [])[j < row ? j : j - 1] = this[i * this.height + j] as number;
 			}
 		}
 
@@ -356,7 +190,7 @@ export default class SlowSquareMatrix extends Float32Array implements SquareMatr
 	 * @returns The transpose of this matrix.
 	 * @see [Transpose](https://en.wikipedia.org/wiki/Transpose)
 	 */
-	public transpose(): SlowSquareMatrix {
+	public override transpose(): SlowSquareMatrix {
 		const cols: Array<Array<number>> = [];
 		for (let x = 0; x < this.width; x++) {
 			for (let y = 0; y < this.height; y++) {

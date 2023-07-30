@@ -1,7 +1,7 @@
 import { describe, it, beforeEach } from "mocha";
 import { expect } from "chai";
 import {
-	add, adjoint, copy, equals, exactEquals, getRotation, getScaling, getTranslation, identity,
+	determinant, frob, add, adjoint, copy, equals, exactEquals, getRotation, getScaling, getTranslation, identity,
 	invert, multiply, multiplyScalar, multiplyScalarAndAdd, rotate, rotateX, rotateY, rotateZ,
 	scale, subtract, translate, transpose, fromDualQuaternion, fromRotation,
 	fromRotationTranslation, fromRotationTranslationScale, fromRotationTranslationScaleOrigin,
@@ -36,6 +36,42 @@ describe("Matrix4", () => {
 		b = [...bValues];
 		out = [];
 		result = [];
+	});
+
+	describe("#determinant", () => {
+		const expected = mat4.determinant(aValues);
+
+		let innerOut;
+
+		beforeEach(() => {
+			innerOut = determinant(a);
+		});
+
+		it("should return the correct determinant", () => {
+			expect(innerOut).to.equal(expected);
+		});
+
+		it("should not modify the matrix", () => {
+			expect(a).to.have.ordered.members(aValues);
+		});
+	});
+
+	describe("#frob", () => {
+		const expected = mat4.frob(aValues);
+
+		let innerOut;
+
+		beforeEach(() => {
+			innerOut = frob(a);
+		});
+
+		it("should return the correct Frobenius norm", () => {
+			expect(innerOut).to.equal(expected);
+		});
+
+		it("should not modify the matrix", () => {
+			expect(a).to.have.ordered.members(aValues);
+		});
 	});
 
 	describe("#add()", () => {
