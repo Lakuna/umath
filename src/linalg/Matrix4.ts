@@ -1,7 +1,11 @@
-import { type FieldOfView, MagnitudeError, SingularMatrixError, epsilon, type SquareMatrix, Vector3, Quaternion } from "@lakuna/umath";
-import type { DualQuaternionLike } from "@lakuna/umath/DualQuaternion";
-import type { QuaternionLike } from "@lakuna/umath/Quaternion";
-import type { Vector3Like } from "@lakuna/umath/Vector3";
+import type { DualQuaternionLike } from "#linalg/DualQuaternion";
+import Quaternion, { type QuaternionLike } from "#linalg/Quaternion";
+import type SquareMatrix from "#linalg/SquareMatrix";
+import Vector3, { type Vector3Like } from "#linalg/Vector3";
+import type FieldOfView from "#types/FieldOfView";
+import epsilon from "#utility/epsilon";
+import MagnitudeError from "#utility/MagnitudeError";
+import SingularMatrixError from "#utility/SingularMatrixError";
 
 /**
  * Numbers arranged into four columns and four rows.

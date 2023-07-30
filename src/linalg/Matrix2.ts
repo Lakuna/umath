@@ -1,5 +1,7 @@
-import { SingularMatrixError, epsilon, type SquareMatrix } from "@lakuna/umath";
-import type { Vector2Like } from "@lakuna/umath/Vector2";
+import type SquareMatrix from "#linalg/SquareMatrix";
+import type { Vector2Like } from "#linalg/Vector2";
+import epsilon from "#utility/epsilon";
+import SingularMatrixError from "#utility/SingularMatrixError";
 
 /**
  * Numbers arranged into two columns and two rows.

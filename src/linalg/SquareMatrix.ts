@@ -1,4 +1,4 @@
-import type { Matrix } from "@lakuna/umath";
+import type Matrix from "#linalg/Matrix";
 
 /**
  * A matrix with the same number of rows and columns.

@@ -1,4 +1,7 @@
-import { type Matrix, PartialMatrixError, epsilon, MatrixSizeError } from "@lakuna/umath";
+import type Matrix from "#linalg/Matrix";
+import epsilon from "#utility/epsilon";
+import MatrixSizeError from "#utility/MatrixSizeError";
+import PartialMatrixError from "#utility/PartialMatrixError";
 
 /**
  * A variable-size matrix.

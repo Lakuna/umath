@@ -1,6 +1,7 @@
-import { type Vector, epsilon } from "@lakuna/umath";
-import type { Matrix4Like } from "@lakuna/umath/Matrix4";
-import type { QuaternionLike } from "@lakuna/umath/Quaternion";
+import type { Matrix4Like } from "#linalg/Matrix4";
+import type { QuaternionLike } from "#linalg/Quaternion";
+import type Vector from "#linalg/Vector";
+import epsilon from "#utility/epsilon";
 
 /** A quantity with magnitude and direction in four dimensions. */
 export type Vector4Like = Vector4 | [number, number, number, number];

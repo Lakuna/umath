@@ -1,14 +1,14 @@
-import { describe, it, beforeEach } from "mocha";
-import { expect } from "chai";
 import {
-	add, conjugate, copy, equals, exactEquals, getDual, getTranslation, identity, invert, lerp,
-	multiply, normalize, rotateAroundAxis, rotateByQuaternionAppend, rotateByQuaternionPrepend,
-	rotateX, rotateY, rotateZ, scale, setDual, translate, fromMatrix4, fromRotation,
-	fromRotationTranslation, fromTranslation, fromValues
-} from "@lakuna/umath/DualQuaternion";
-import { epsilon } from "@lakuna/umath";
-import { getMagnitude } from "@lakuna/umath/Vector4";
+	add, conjugate, copy, equals, exactEquals, fromMatrix4, fromRotation, fromRotationTranslation,
+	fromTranslation, fromValues, getDual, getTranslation, identity, invert, lerp, multiply,
+	normalize, rotateAroundAxis, rotateByQuaternionAppend, rotateByQuaternionPrepend, rotateX,
+	rotateY, rotateZ, scale, setDual, translate
+} from "#linalg/DualQuaternion";
+import { getMagnitude } from "#linalg/Vector4";
+import epsilon from "#utility/epsilon";
+import { expect } from "chai";
 import { quat2 } from "gl-matrix";
+import { beforeEach, describe, it } from "mocha";
 
 describe("DualQuaternion", () => {
 	const aValues = [1, 2, 3, 4, 2, 5, 6, -2];

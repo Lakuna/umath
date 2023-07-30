@@ -1,15 +1,15 @@
-import { describe, it, beforeEach } from "mocha";
-import { expect } from "chai";
 import {
-	determinant, frob, add, adjoint, copy, equals, exactEquals, getRotation, getScaling, getTranslation, identity,
-	invert, multiply, multiplyScalar, multiplyScalarAndAdd, rotate, rotateX, rotateY, rotateZ,
-	scale, subtract, translate, transpose, fromDualQuaternion, fromRotation,
+	add, adjoint, copy, determinant, equals, exactEquals, frob, fromDualQuaternion, fromRotation,
 	fromRotationTranslation, fromRotationTranslationScale, fromRotationTranslationScaleOrigin,
 	fromScaling, fromTranslation, fromValues, fromXRotation, fromYRotation, fromZRotation, frustum,
-	lookAt, ortho, perspective, perspectiveFromFieldOfView, targetTo
-} from "@lakuna/umath/Matrix4";
-import { epsilon } from "@lakuna/umath";
+	getRotation, getScaling, getTranslation, identity, invert, lookAt, multiply, multiplyScalar,
+	multiplyScalarAndAdd, ortho, perspective, perspectiveFromFieldOfView, rotate, rotateX, rotateY,
+	rotateZ, scale, subtract, targetTo, translate, transpose
+} from "#linalg/Matrix4";
+import epsilon from "#utility/epsilon";
+import { expect } from "chai";
 import { mat4 } from "gl-matrix";
+import { beforeEach, describe, it } from "mocha";
 
 describe("Matrix4", () => {
 	const aValues = [

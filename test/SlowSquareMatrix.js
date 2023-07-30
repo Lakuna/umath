@@ -1,7 +1,7 @@
-import { describe, it, beforeEach } from "mocha";
+import SlowSquareMatrix from "#linalg/SlowSquareMatrix";
 import { expect } from "chai";
-import SlowSquareMatrix from "@lakuna/umath/SlowSquareMatrix";
 import { mat4 } from "gl-matrix";
+import { beforeEach, describe, it } from "mocha";
 
 describe("SlowSquareMatrix", () => {
 	const aValues = [

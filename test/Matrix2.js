@@ -1,11 +1,12 @@
-import { describe, it, beforeEach } from "mocha";
-import { expect } from "chai";
 import {
-	determinant, frob, add, adjoint, copy, equals, exactEquals, identity, invert, multiply, multiplyScalar,
-	multiplyScalarAndAdd, rotate, scale, subtract, transpose, fromRotation, fromScaling, fromValues
-} from "@lakuna/umath/Matrix2";
-import { epsilon } from "@lakuna/umath";
+	add, adjoint, copy, determinant, equals, exactEquals, frob, fromRotation, fromScaling,
+	fromValues, identity, invert, multiply, multiplyScalar, multiplyScalarAndAdd, rotate, scale,
+	subtract, transpose
+} from "#linalg/Matrix2";
+import epsilon from "#utility/epsilon";
+import { expect } from "chai";
 import { mat2 } from "gl-matrix";
+import { beforeEach, describe, it } from "mocha";
 
 describe("Matrix2", () => {
 	const aValues = [
