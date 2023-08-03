@@ -3,6 +3,7 @@ export { default as degreesToRadians } from "#algorithms/degreesToRadians";
 export { default as factorial } from "#algorithms/factorial";
 export { default as fibonacci } from "#algorithms/fibonacci";
 export { default as greatestCommonDivisor } from "#algorithms/greatestCommonDivisor";
+export { default as hypergeometricPmf } from "#algorithms/hypergeometricPmf";
 export { default as isPrime } from "#algorithms/isPrime";
 export { default as permutations } from "#algorithms/permutations";
 export { default as primeFactorization } from "#algorithms/primeFactorization";
