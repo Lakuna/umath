@@ -1,16 +1,4 @@
 /**
- * Recursively sums up the results of the given function.
- * @param i The index of summation.
- * @param max The upper bound of the index of summation.
- * @param term The function used to generate each term.
- * @returns The sum.
- * @see [Summation](https://en.wikipedia.org/wiki/Summation)
- */
-function summationInternal(i: number, max: number, term: (i: number) => number): number {
-	return term(i) + (i < max ? summationInternal(i + 1, max, term) : 0);
-}
-
-/**
  * Performs a summation.
  * @param min The lower bound (inclusive) of the index of summation.
  * @param max The upper bound (inclusive) of the index of summation.
@@ -19,5 +7,11 @@ function summationInternal(i: number, max: number, term: (i: number) => number):
  * @see [Summation](https://en.wikipedia.org/wiki/Summation)
  */
 export default function summation(min: number, max: number, term: (i: number) => number): number {
-	return summationInternal(min, max, term);
+	// Not recursive to avoid exceeding the maximum call stack size.
+	let out = 0;
+	for (let i = min; i <= max; i++) {
+		out += term(i);
+	}
+
+	return out;
 }
