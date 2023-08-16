@@ -1,19 +1,17 @@
-import type { Matrix4Like } from "#linalg/Matrix4";
-import type { QuaternionLike } from "#linalg/Quaternion";
-import type SquareMatrix from "#linalg/SquareMatrix";
-import type { Vector2Like } from "#linalg/Vector2";
-import epsilon from "#utility/epsilon";
-import SingularMatrixError from "#utility/SingularMatrixError";
+import type { Matrix4Like } from "#Matrix4";
+import type { QuaternionLike } from "#Quaternion";
+import type SquareMatrix from "#SquareMatrix";
+import type { Vector2Like } from "#Vector2";
+import epsilon from "#epsilon";
+import SingularMatrixError from "#SingularMatrixError";
 
 /**
  * Numbers arranged into three columns and three rows.
  * @see [Matrix](https://en.wikipedia.org/wiki/Matrix_(mathematics))
  */
-export type Matrix3Like = Matrix3 | [
-	number, number, number,
-	number, number, number,
-	number, number, number
-];
+export type Matrix3Like =
+	| Matrix3
+	| [number, number, number, number, number, number, number, number, number];
 
 /**
  * Creates a transformation matrix that represents a rotation by the given angle around the Z-axis.
@@ -22,7 +20,10 @@ export type Matrix3Like = Matrix3 | [
  * @returns The transformation matrix.
  * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
  */
-export function fromRotation<T extends Matrix3Like>(radians: number, out: T): T {
+export function fromRotation<T extends Matrix3Like>(
+	radians: number,
+	out: T
+): T {
 	const s: number = Math.sin(radians);
 	const c: number = Math.cos(radians);
 
@@ -45,7 +46,10 @@ export function fromRotation<T extends Matrix3Like>(radians: number, out: T): T 
  * @returns The transformation matrix.
  * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
  */
-export function fromScaling<T extends Matrix3Like>(vector: Vector2Like, out: T): T {
+export function fromScaling<T extends Matrix3Like>(
+	vector: Vector2Like,
+	out: T
+): T {
 	out[0] = vector[0];
 	out[1] = 0;
 	out[2] = 0;
@@ -65,7 +69,10 @@ export function fromScaling<T extends Matrix3Like>(vector: Vector2Like, out: T):
  * @returns The transformation matrix.
  * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
  */
-export function fromTranslation<T extends Matrix3Like>(vector: Vector2Like, out: T): T {
+export function fromTranslation<T extends Matrix3Like>(
+	vector: Vector2Like,
+	out: T
+): T {
 	out[0] = 1;
 	out[1] = 0;
 	out[2] = 0;
@@ -86,7 +93,10 @@ export function fromTranslation<T extends Matrix3Like>(vector: Vector2Like, out:
  * @see [Quaternion](https://en.wikipedia.org/wiki/Quaternion)
  * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
  */
-export function fromQuaternion<T extends Matrix3Like>(quaternion: QuaternionLike, out: T): T {
+export function fromQuaternion<T extends Matrix3Like>(
+	quaternion: QuaternionLike,
+	out: T
+): T {
 	const x: number = quaternion[0];
 	const y: number = quaternion[1];
 	const z: number = quaternion[2];
@@ -124,7 +134,10 @@ export function fromQuaternion<T extends Matrix3Like>(quaternion: QuaternionLike
  * @returns The normal matrix.
  * @see [Normal matrix](https://en.wikipedia.org/wiki/Normal_matrix)
  */
-export function normalFromMatrix4<T extends Matrix3Like>(matrix: Matrix4Like, out: T): T {
+export function normalFromMatrix4<T extends Matrix3Like>(
+	matrix: Matrix4Like,
+	out: T
+): T {
 	const a00: number = matrix[0];
 	const a01: number = matrix[1];
 	const a02: number = matrix[2];
@@ -154,8 +167,9 @@ export function normalFromMatrix4<T extends Matrix3Like>(matrix: Matrix4Like, ou
 	const b09: number = a21 * a32 - a22 * a31;
 	const b10: number = a21 * a33 - a23 * a31;
 	const b11: number = a22 * a33 - a23 * a32;
-	
-	let determinant: number = b00 * b11 - b01 * b10 + b02 * b09 + b03 * b08 - b04 * b07 + b05 * b06;
+
+	let determinant: number =
+		b00 * b11 - b01 * b10 + b02 * b09 + b03 * b08 - b04 * b07 + b05 * b06;
 	if (!determinant) {
 		throw new SingularMatrixError();
 	}
@@ -182,7 +196,11 @@ export function normalFromMatrix4<T extends Matrix3Like>(matrix: Matrix4Like, ou
  * @see [Camera matrix](https://en.wikipedia.org/wiki/Camera_matrix)
  * @see [3D projection](https://en.wikipedia.org/wiki/3D_projection)
  */
-export function projection<T extends Matrix3Like>(width: number, height: number, out: T): T {
+export function projection<T extends Matrix3Like>(
+	width: number,
+	height: number,
+	out: T
+): T {
 	out[0] = 2 / width;
 	out[1] = 0;
 	out[2] = 0;
@@ -201,7 +219,10 @@ export function projection<T extends Matrix3Like>(width: number, height: number,
  * @param out The matrix to store the result in.
  * @returns The three-by-three matrix.
  */
-export function fromMatrix4<T extends Matrix3Like>(matrix: Matrix4Like, out: T): T {
+export function fromMatrix4<T extends Matrix3Like>(
+	matrix: Matrix4Like,
+	out: T
+): T {
 	out[0] = matrix[0];
 	out[1] = matrix[1];
 	out[2] = matrix[2];
@@ -228,7 +249,18 @@ export function fromMatrix4<T extends Matrix3Like>(matrix: Matrix4Like, out: T):
  * @param out The matrix to store the result in.
  * @returns The matrix.
  */
-export function fromValues<T extends Matrix3Like>(c0r0: number, c0r1: number, c0r2: number, c1r0: number, c1r1: number, c1r2: number, c2r0: number, c2r1: number, c2r2: number, out: T): T {
+export function fromValues<T extends Matrix3Like>(
+	c0r0: number,
+	c0r1: number,
+	c0r2: number,
+	c1r0: number,
+	c1r1: number,
+	c1r2: number,
+	c2r0: number,
+	c2r1: number,
+	c2r2: number,
+	out: T
+): T {
 	out[0] = c0r0;
 	out[1] = c0r1;
 	out[2] = c0r2;
@@ -268,15 +300,17 @@ export function equals(a: Matrix3Like, b: Matrix3Like): boolean {
 	const b7: number = b[7];
 	const b8: number = b[8];
 
-	return (Math.abs(a0 - b0) <= epsilon * Math.max(1, Math.abs(a0), Math.abs(b0))
-		&& Math.abs(a1 - b1) <= epsilon * Math.max(1, Math.abs(a1), Math.abs(b1))
-		&& Math.abs(a2 - b2) <= epsilon * Math.max(1, Math.abs(a2), Math.abs(b2))
-		&& Math.abs(a3 - b3) <= epsilon * Math.max(1, Math.abs(a3), Math.abs(b3))
-		&& Math.abs(a4 - b4) <= epsilon * Math.max(1, Math.abs(a4), Math.abs(b4))
-		&& Math.abs(a5 - b5) <= epsilon * Math.max(1, Math.abs(a5), Math.abs(b5))
-		&& Math.abs(a6 - b6) <= epsilon * Math.max(1, Math.abs(a6), Math.abs(b6))
-		&& Math.abs(a7 - b7) <= epsilon * Math.max(1, Math.abs(a7), Math.abs(b7))
-		&& Math.abs(a8 - b8) <= epsilon * Math.max(1, Math.abs(a8), Math.abs(b8)));
+	return (
+		Math.abs(a0 - b0) <= epsilon * Math.max(1, Math.abs(a0), Math.abs(b0)) &&
+		Math.abs(a1 - b1) <= epsilon * Math.max(1, Math.abs(a1), Math.abs(b1)) &&
+		Math.abs(a2 - b2) <= epsilon * Math.max(1, Math.abs(a2), Math.abs(b2)) &&
+		Math.abs(a3 - b3) <= epsilon * Math.max(1, Math.abs(a3), Math.abs(b3)) &&
+		Math.abs(a4 - b4) <= epsilon * Math.max(1, Math.abs(a4), Math.abs(b4)) &&
+		Math.abs(a5 - b5) <= epsilon * Math.max(1, Math.abs(a5), Math.abs(b5)) &&
+		Math.abs(a6 - b6) <= epsilon * Math.max(1, Math.abs(a6), Math.abs(b6)) &&
+		Math.abs(a7 - b7) <= epsilon * Math.max(1, Math.abs(a7), Math.abs(b7)) &&
+		Math.abs(a8 - b8) <= epsilon * Math.max(1, Math.abs(a8), Math.abs(b8))
+	);
 }
 
 /**
@@ -286,15 +320,17 @@ export function equals(a: Matrix3Like, b: Matrix3Like): boolean {
  * @returns Whether the matrices are equivalent.
  */
 export function exactEquals(a: Matrix3Like, b: Matrix3Like): boolean {
-	return a[0] == b[0]
-		&& a[1] == b[1]
-		&& a[2] == b[2]
-		&& a[3] == b[3]
-		&& a[4] == b[4]
-		&& a[5] == b[5]
-		&& a[6] == b[6]
-		&& a[7] == b[7]
-		&& a[8] == b[8];
+	return (
+		a[0] == b[0] &&
+		a[1] == b[1] &&
+		a[2] == b[2] &&
+		a[3] == b[3] &&
+		a[4] == b[4] &&
+		a[5] == b[5] &&
+		a[6] == b[6] &&
+		a[7] == b[7] &&
+		a[8] == b[8]
+	);
 }
 
 /**
@@ -305,7 +341,11 @@ export function exactEquals(a: Matrix3Like, b: Matrix3Like): boolean {
  * @returns The sum.
  * @see [Matrix addition](https://en.wikipedia.org/wiki/Matrix_addition)
  */
-export function add<T extends Matrix3Like>(a: Matrix3Like, b: Matrix3Like, out: T): T {
+export function add<T extends Matrix3Like>(
+	a: Matrix3Like,
+	b: Matrix3Like,
+	out: T
+): T {
 	out[0] = a[0] + b[0];
 	out[1] = a[1] + b[1];
 	out[2] = a[2] + b[2];
@@ -375,9 +415,15 @@ export function copy<T extends Matrix3Like>(matrix: Matrix3Like, out: T): T {
  */
 export function frob(matrix: Matrix3Like): number {
 	return Math.hypot(
-		matrix[0] as number, matrix[1] as number, matrix[2] as number,
-		matrix[3] as number, matrix[4] as number, matrix[5] as number,
-		matrix[6] as number, matrix[7] as number, matrix[8] as number
+		matrix[0] as number,
+		matrix[1] as number,
+		matrix[2] as number,
+		matrix[3] as number,
+		matrix[4] as number,
+		matrix[5] as number,
+		matrix[6] as number,
+		matrix[7] as number,
+		matrix[8] as number
 	);
 }
 
@@ -389,7 +435,11 @@ export function frob(matrix: Matrix3Like): number {
  * @returns The product of the matrices.
  * @see [Matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication)
  */
-export function multiply<T extends Matrix3Like>(a: Matrix3Like, b: Matrix3Like, out: T): T {
+export function multiply<T extends Matrix3Like>(
+	a: Matrix3Like,
+	b: Matrix3Like,
+	out: T
+): T {
 	const a00: number = a[0];
 	const a01: number = a[1];
 	const a02: number = a[2];
@@ -430,7 +480,11 @@ export function multiply<T extends Matrix3Like>(a: Matrix3Like, b: Matrix3Like, 
  * @returns The product.
  * @see [Matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication)
  */
-export function multiplyScalar<T extends Matrix3Like>(matrix: Matrix3Like, scalar: number, out: T): T {
+export function multiplyScalar<T extends Matrix3Like>(
+	matrix: Matrix3Like,
+	scalar: number,
+	out: T
+): T {
 	out[0] = matrix[0] * scalar;
 	out[1] = matrix[1] * scalar;
 	out[2] = matrix[2] * scalar;
@@ -453,7 +507,12 @@ export function multiplyScalar<T extends Matrix3Like>(matrix: Matrix3Like, scala
  * @see [Matrix addition](https://en.wikipedia.org/wiki/Matrix_addition)
  * @see [Matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication)
  */
-export function multiplyScalarAndAdd<T extends Matrix3Like>(a: Matrix3Like, b: Matrix3Like, scalar: number, out: T): T {
+export function multiplyScalarAndAdd<T extends Matrix3Like>(
+	a: Matrix3Like,
+	b: Matrix3Like,
+	scalar: number,
+	out: T
+): T {
 	out[0] = a[0] + b[0] * scalar;
 	out[1] = a[1] + b[1] * scalar;
 	out[2] = a[2] + b[2] * scalar;
@@ -474,7 +533,11 @@ export function multiplyScalarAndAdd<T extends Matrix3Like>(a: Matrix3Like, b: M
  * @returns The difference.
  * @see [Matrix addition](https://en.wikipedia.org/wiki/Matrix_addition)
  */
-export function subtract<T extends Matrix3Like>(a: Matrix3Like, b: Matrix3Like, out: T): T {
+export function subtract<T extends Matrix3Like>(
+	a: Matrix3Like,
+	b: Matrix3Like,
+	out: T
+): T {
 	out[0] = a[0] - b[0];
 	out[1] = a[1] - b[1];
 	out[2] = a[2] - b[2];
@@ -494,8 +557,11 @@ export function subtract<T extends Matrix3Like>(a: Matrix3Like, b: Matrix3Like, 
  * @returns The transpose of the matrix.
  * @see [Transpose](https://en.wikipedia.org/wiki/Transpose)
  */
-export function transpose<T extends Matrix3Like>(matrix: Matrix3Like, out: T): T {
-	if (out == matrix as unknown as T) {
+export function transpose<T extends Matrix3Like>(
+	matrix: Matrix3Like,
+	out: T
+): T {
+	if (out == (matrix as unknown as T)) {
 		const a01: number = matrix[1];
 		const a02: number = matrix[2];
 		const a12: number = matrix[5];
@@ -536,9 +602,11 @@ export function determinant(matrix: Matrix3Like): number {
 	const a21: number = matrix[7];
 	const a22: number = matrix[8];
 
-	return (a00 * (a22 * a11 - a12 * a21)
-		+ a01 * (-a22 * a10 + a12 * a20)
-		+ a02 * (a21 * a10 - a11 * a20));
+	return (
+		a00 * (a22 * a11 - a12 * a21) +
+		a01 * (-a22 * a10 + a12 * a20) +
+		a02 * (a21 * a10 - a11 * a20)
+	);
 }
 
 /**
@@ -581,7 +649,7 @@ export function invert<T extends Matrix3Like>(matrix: Matrix3Like, out: T): T {
 	const b01: number = a22 * a11 - a12 * a21;
 	const b11: number = -a22 * a10 + a12 * a20;
 	const b21: number = a21 * a10 - a11 * a20;
-	
+
 	let determinant: number = a00 * b01 + a01 * b11 + a02 * b21;
 	if (!determinant) {
 		throw new SingularMatrixError();
@@ -608,7 +676,11 @@ export function invert<T extends Matrix3Like>(matrix: Matrix3Like, out: T): T {
  * @returns The rotated matrix.
  * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
  */
-export function rotate<T extends Matrix3Like>(matrix: Matrix3Like, radians: number, out: T): T {
+export function rotate<T extends Matrix3Like>(
+	matrix: Matrix3Like,
+	radians: number,
+	out: T
+): T {
 	const a00: number = matrix[0];
 	const a01: number = matrix[1];
 	const a02: number = matrix[2];
@@ -642,7 +714,11 @@ export function rotate<T extends Matrix3Like>(matrix: Matrix3Like, radians: numb
  * @returns The scaled matrix.
  * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
  */
-export function scale<T extends Matrix3Like>(matrix: Matrix3Like, vector: Vector2Like, out: T): T {
+export function scale<T extends Matrix3Like>(
+	matrix: Matrix3Like,
+	vector: Vector2Like,
+	out: T
+): T {
 	const x: number = vector[0];
 	const y: number = vector[1];
 
@@ -666,7 +742,11 @@ export function scale<T extends Matrix3Like>(matrix: Matrix3Like, vector: Vector
  * @returns The translated matrix.
  * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
  */
-export function translate<T extends Matrix3Like>(matrix: Matrix3Like, vector: Vector2Like, out: T): T {
+export function translate<T extends Matrix3Like>(
+	matrix: Matrix3Like,
+	vector: Vector2Like,
+	out: T
+): T {
 	const a00: number = matrix[0];
 	const a01: number = matrix[1];
 	const a02: number = matrix[2];
@@ -676,7 +756,7 @@ export function translate<T extends Matrix3Like>(matrix: Matrix3Like, vector: Ve
 	const a20: number = matrix[6];
 	const a21: number = matrix[7];
 	const a22: number = matrix[8];
-	
+
 	const x: number = vector[0];
 	const y: number = vector[1];
 
@@ -714,7 +794,10 @@ export default class Matrix3 extends Float32Array implements SquareMatrix {
 	 */
 	public static fromRotation<T extends Matrix3Like>(radians: number, out: T): T;
 
-	public static fromRotation<T extends Matrix3Like>(radians: number, out: T = new Matrix3() as T): T {
+	public static fromRotation<T extends Matrix3Like>(
+		radians: number,
+		out: T = new Matrix3() as T
+	): T {
 		return fromRotation(radians, out);
 	}
 
@@ -733,9 +816,15 @@ export default class Matrix3 extends Float32Array implements SquareMatrix {
 	 * @returns The transformation matrix.
 	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
 	 */
-	public static fromScaling<T extends Matrix3Like>(vector: Vector2Like, out: T): T;
+	public static fromScaling<T extends Matrix3Like>(
+		vector: Vector2Like,
+		out: T
+	): T;
 
-	public static fromScaling<T extends Matrix3Like>(vector: Vector2Like, out: T = new Matrix3() as T): T {
+	public static fromScaling<T extends Matrix3Like>(
+		vector: Vector2Like,
+		out: T = new Matrix3() as T
+	): T {
 		return fromScaling(vector, out);
 	}
 
@@ -754,9 +843,15 @@ export default class Matrix3 extends Float32Array implements SquareMatrix {
 	 * @returns The transformation matrix.
 	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
 	 */
-	public static fromTranslation<T extends Matrix3Like>(vector: Vector2Like, out: T): T;
+	public static fromTranslation<T extends Matrix3Like>(
+		vector: Vector2Like,
+		out: T
+	): T;
 
-	public static fromTranslation<T extends Matrix3Like>(vector: Vector2Like, out: T = new Matrix3() as T): T {
+	public static fromTranslation<T extends Matrix3Like>(
+		vector: Vector2Like,
+		out: T = new Matrix3() as T
+	): T {
 		return fromTranslation(vector, out);
 	}
 
@@ -777,9 +872,15 @@ export default class Matrix3 extends Float32Array implements SquareMatrix {
 	 * @see [Quaternion](https://en.wikipedia.org/wiki/Quaternion)
 	 * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
 	 */
-	public static fromQuaternion<T extends Matrix3Like>(quaternion: QuaternionLike, out: T): T;
+	public static fromQuaternion<T extends Matrix3Like>(
+		quaternion: QuaternionLike,
+		out: T
+	): T;
 
-	public static fromQuaternion<T extends Matrix3Like>(quaternion: QuaternionLike, out: T = new Matrix3() as T): T {
+	public static fromQuaternion<T extends Matrix3Like>(
+		quaternion: QuaternionLike,
+		out: T = new Matrix3() as T
+	): T {
 		return fromQuaternion(quaternion, out);
 	}
 
@@ -798,9 +899,15 @@ export default class Matrix3 extends Float32Array implements SquareMatrix {
 	 * @returns The normal matrix.
 	 * @see [Normal matrix](https://en.wikipedia.org/wiki/Normal_matrix)
 	 */
-	public static normalFromMatrix4<T extends Matrix3Like>(matrix: Matrix4Like, out: T): T;
+	public static normalFromMatrix4<T extends Matrix3Like>(
+		matrix: Matrix4Like,
+		out: T
+	): T;
 
-	public static normalFromMatrix4<T extends Matrix3Like>(matrix: Matrix4Like, out: T = new Matrix3() as T): T {
+	public static normalFromMatrix4<T extends Matrix3Like>(
+		matrix: Matrix4Like,
+		out: T = new Matrix3() as T
+	): T {
 		return normalFromMatrix4(matrix, out);
 	}
 
@@ -823,9 +930,17 @@ export default class Matrix3 extends Float32Array implements SquareMatrix {
 	 * @see [Camera matrix](https://en.wikipedia.org/wiki/Camera_matrix)
 	 * @see [3D projection](https://en.wikipedia.org/wiki/3D_projection)
 	 */
-	public static projection<T extends Matrix3Like>(width: number, height: number, out: T): T;
+	public static projection<T extends Matrix3Like>(
+		width: number,
+		height: number,
+		out: T
+	): T;
 
-	public static projection<T extends Matrix3Like>(width: number, height: number, out: T = new Matrix3() as T): T {
+	public static projection<T extends Matrix3Like>(
+		width: number,
+		height: number,
+		out: T = new Matrix3() as T
+	): T {
 		return projection(width, height, out);
 	}
 
@@ -842,9 +957,15 @@ export default class Matrix3 extends Float32Array implements SquareMatrix {
 	 * @param out The matrix to store the result in.
 	 * @returns The three-by-three matrix.
 	 */
-	public static fromMatrix4<T extends Matrix3Like>(matrix: Matrix4Like, out: T): T;
+	public static fromMatrix4<T extends Matrix3Like>(
+		matrix: Matrix4Like,
+		out: T
+	): T;
 
-	public static fromMatrix4<T extends Matrix3Like>(matrix: Matrix4Like, out: T = new Matrix3() as T): T {
+	public static fromMatrix4<T extends Matrix3Like>(
+		matrix: Matrix4Like,
+		out: T = new Matrix3() as T
+	): T {
 		return fromMatrix4(matrix, out);
 	}
 
@@ -861,7 +982,17 @@ export default class Matrix3 extends Float32Array implements SquareMatrix {
 	 * @param c2r2 The value in the third column and third row.
 	 * @returns The matrix.
 	 */
-	public static fromValues(c0r0: number, c0r1: number, c0r2: number, c1r0: number, c1r1: number, c1r2: number, c2r0: number, c2r1: number, c2r2: number): Matrix3;
+	public static fromValues(
+		c0r0: number,
+		c0r1: number,
+		c0r2: number,
+		c1r0: number,
+		c1r1: number,
+		c1r2: number,
+		c2r0: number,
+		c2r1: number,
+		c2r2: number
+	): Matrix3;
 
 	/**
 	 * Creates a two-by-two matrix with the given values.
@@ -877,12 +1008,45 @@ export default class Matrix3 extends Float32Array implements SquareMatrix {
 	 * @param out The matrix to store the result in.
 	 * @returns The matrix.
 	 */
-	public static fromValues<T extends Matrix3Like>(c0r0: number, c0r1: number, c0r2: number, c1r0: number, c1r1: number, c1r2: number, c2r0: number, c2r1: number, c2r2: number, out: T): T;
+	public static fromValues<T extends Matrix3Like>(
+		c0r0: number,
+		c0r1: number,
+		c0r2: number,
+		c1r0: number,
+		c1r1: number,
+		c1r2: number,
+		c2r0: number,
+		c2r1: number,
+		c2r2: number,
+		out: T
+	): T;
 
-	public static fromValues<T extends Matrix3Like>(c0r0: number, c0r1: number, c0r2: number, c1r0: number, c1r1: number, c1r2: number, c2r0: number, c2r1: number, c2r2: number, out: T = new Matrix3() as T): T {
-		return fromValues(c0r0, c0r1, c0r2, c1r0, c1r1, c1r2, c2r0, c2r1, c2r2, out);
+	public static fromValues<T extends Matrix3Like>(
+		c0r0: number,
+		c0r1: number,
+		c0r2: number,
+		c1r0: number,
+		c1r1: number,
+		c1r2: number,
+		c2r0: number,
+		c2r1: number,
+		c2r2: number,
+		out: T = new Matrix3() as T
+	): T {
+		return fromValues(
+			c0r0,
+			c0r1,
+			c0r2,
+			c1r0,
+			c1r1,
+			c1r2,
+			c2r0,
+			c2r1,
+			c2r2,
+			out
+		);
 	}
-	
+
 	/**
 	 * Creates a three-by-three identity matrix.
 	 * @see [Identity matrix](https://en.wikipedia.org/wiki/Identity_matrix)
@@ -939,7 +1103,10 @@ export default class Matrix3 extends Float32Array implements SquareMatrix {
 	 */
 	public add<T extends Matrix3Like>(matrix: Matrix3Like, out: T): T;
 
-	public add<T extends Matrix3Like>(matrix: Matrix3Like, out: T = new Matrix3() as T): T {
+	public add<T extends Matrix3Like>(
+		matrix: Matrix3Like,
+		out: T = new Matrix3() as T
+	): T {
 		return add(this, matrix, out);
 	}
 
@@ -963,21 +1130,21 @@ export default class Matrix3 extends Float32Array implements SquareMatrix {
 	}
 
 	/**
-     * Creates a copy of this matrix.
-     * @returns The copy.
-     */
-    public clone(): Matrix3;
+	 * Creates a copy of this matrix.
+	 * @returns The copy.
+	 */
+	public clone(): Matrix3;
 
-    /**
-     * Copies the values from this matrix to another one.
-     * @param out The matrix to store the result in.
-     * @returns The copy.
-     */
-    public clone<T extends Matrix3Like>(out: T): T;
-    
-    public clone<T extends Matrix3Like>(out: T = new Matrix3() as T): T {
-        return copy(this, out);
-    }
+	/**
+	 * Copies the values from this matrix to another one.
+	 * @param out The matrix to store the result in.
+	 * @returns The copy.
+	 */
+	public clone<T extends Matrix3Like>(out: T): T;
+
+	public clone<T extends Matrix3Like>(out: T = new Matrix3() as T): T {
+		return copy(this, out);
+	}
 
 	/**
 	 * Copies the values of another matrix into this one.
@@ -1013,7 +1180,10 @@ export default class Matrix3 extends Float32Array implements SquareMatrix {
 	 */
 	public multiply<T extends Matrix3Like>(matrix: Matrix3Like, out: T): T;
 
-	public multiply<T extends Matrix3Like>(matrix: Matrix3Like, out: T = new Matrix3() as T): T {
+	public multiply<T extends Matrix3Like>(
+		matrix: Matrix3Like,
+		out: T = new Matrix3() as T
+	): T {
 		return multiply(this, matrix, out);
 	}
 
@@ -1034,7 +1204,10 @@ export default class Matrix3 extends Float32Array implements SquareMatrix {
 	 */
 	public multiplyScalar<T extends Matrix3Like>(scalar: number, out: T): T;
 
-	public multiplyScalar<T extends Matrix3Like>(scalar: number, out: T = new Matrix3() as T): T {
+	public multiplyScalar<T extends Matrix3Like>(
+		scalar: number,
+		out: T = new Matrix3() as T
+	): T {
 		return multiplyScalar(this, scalar, out);
 	}
 
@@ -1057,9 +1230,17 @@ export default class Matrix3 extends Float32Array implements SquareMatrix {
 	 * @see [Matrix addition](https://en.wikipedia.org/wiki/Matrix_addition)
 	 * @see [Matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication)
 	 */
-	public multiplyScalarAndAdd<T extends Matrix3Like>(matrix: Matrix3Like, scalar: number, out: T): T;
+	public multiplyScalarAndAdd<T extends Matrix3Like>(
+		matrix: Matrix3Like,
+		scalar: number,
+		out: T
+	): T;
 
-	public multiplyScalarAndAdd<T extends Matrix3Like>(matrix: Matrix3Like, scalar: number, out: T = new Matrix3() as T): T {
+	public multiplyScalarAndAdd<T extends Matrix3Like>(
+		matrix: Matrix3Like,
+		scalar: number,
+		out: T = new Matrix3() as T
+	): T {
 		return multiplyScalarAndAdd(this, matrix, scalar, out);
 	}
 
@@ -1080,7 +1261,10 @@ export default class Matrix3 extends Float32Array implements SquareMatrix {
 	 */
 	public subtract<T extends Matrix3Like>(matrix: Matrix3Like, out: T): T;
 
-	public subtract<T extends Matrix3Like>(matrix: Matrix3Like, out: T = new Matrix3() as T): T {
+	public subtract<T extends Matrix3Like>(
+		matrix: Matrix3Like,
+		out: T = new Matrix3() as T
+	): T {
 		return subtract(this, matrix, out);
 	}
 
@@ -1156,7 +1340,10 @@ export default class Matrix3 extends Float32Array implements SquareMatrix {
 	 */
 	public rotate<T extends Matrix3Like>(radians: number, out: T): T;
 
-	public rotate<T extends Matrix3Like>(radians: number, out: T = new Matrix3() as T): T {
+	public rotate<T extends Matrix3Like>(
+		radians: number,
+		out: T = new Matrix3() as T
+	): T {
 		return rotate(this, radians, out);
 	}
 
@@ -1177,7 +1364,10 @@ export default class Matrix3 extends Float32Array implements SquareMatrix {
 	 */
 	public scale<T extends Matrix3Like>(vector: Vector2Like, out: T): T;
 
-	public scale<T extends Matrix3Like>(vector: Vector2Like, out: T = new Matrix3() as T): T {
+	public scale<T extends Matrix3Like>(
+		vector: Vector2Like,
+		out: T = new Matrix3() as T
+	): T {
 		return scale(this, vector, out);
 	}
 
@@ -1198,7 +1388,10 @@ export default class Matrix3 extends Float32Array implements SquareMatrix {
 	 */
 	public translate<T extends Matrix3Like>(vector: Vector2Like, out: T): T;
 
-	public translate<T extends Matrix3Like>(vector: Vector2Like, out: T = new Matrix3() as T): T {
+	public translate<T extends Matrix3Like>(
+		vector: Vector2Like,
+		out: T = new Matrix3() as T
+	): T {
 		return translate(this, vector, out);
 	}
 }

@@ -1,23 +1,33 @@
 import {
-	add, adjoint, copy, determinant, equals, exactEquals, frob, fromRotation, fromScaling,
-	fromValues, identity, invert, multiply, multiplyScalar, multiplyScalarAndAdd, rotate, scale,
-	subtract, transpose
-} from "#linalg/Matrix2";
-import epsilon from "#utility/epsilon";
+	add,
+	adjoint,
+	copy,
+	determinant,
+	equals,
+	exactEquals,
+	frob,
+	fromRotation,
+	fromScaling,
+	fromValues,
+	identity,
+	invert,
+	multiply,
+	multiplyScalar,
+	multiplyScalarAndAdd,
+	rotate,
+	scale,
+	subtract,
+	transpose
+} from "#Matrix2";
+import epsilon from "#epsilon";
 import { expect } from "chai";
 import { mat2 } from "gl-matrix";
 import { beforeEach, describe, it } from "mocha";
 
 describe("Matrix2", () => {
-	const aValues = [
-		1, 2,
-		3, 4
-	];
+	const aValues = [1, 2, 3, 4];
 
-	const bValues = [
-		5, 6,
-		7, 8
-	];
+	const bValues = [5, 6, 7, 8];
 
 	let a;
 	let b;
@@ -183,7 +193,7 @@ describe("Matrix2", () => {
 		});
 	});
 
-	describe("#equals()", () =>  {
+	describe("#equals()", () => {
 		let c;
 		let d;
 		let e;
@@ -260,10 +270,7 @@ describe("Matrix2", () => {
 	});
 
 	describe("#identity()", () => {
-		const expected = [
-			1, 0,
-			0, 1
-		];
+		const expected = [1, 0, 0, 1];
 
 		beforeEach(() => {
 			result = identity(out);
@@ -701,10 +708,7 @@ describe("Matrix2", () => {
 	});
 
 	describe(".fromValues()", () => {
-		const expected = [
-			1, 2,
-			3, 4
-		];
+		const expected = [1, 2, 3, 4];
 
 		beforeEach(() => {
 			result = fromValues(...expected, out);

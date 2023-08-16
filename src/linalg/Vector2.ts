@@ -1,9 +1,9 @@
-import type { Matrix2Like } from "#linalg/Matrix2";
-import type { Matrix3Like } from "#linalg/Matrix3";
-import type { Matrix4Like } from "#linalg/Matrix4";
-import type Vector from "#linalg/Vector";
-import Vector3, { type Vector3Like } from "#linalg/Vector3";
-import epsilon from "#utility/epsilon";
+import type { Matrix2Like } from "#Matrix2";
+import type { Matrix3Like } from "#Matrix3";
+import type { Matrix4Like } from "#Matrix4";
+import type Vector from "#Vector";
+import Vector3, { type Vector3Like } from "#Vector3";
+import epsilon from "#epsilon";
 
 /** A quantity with magnitude and direction in two dimensions. */
 export type Vector2Like = Vector2 | [number, number];
@@ -15,7 +15,11 @@ export type Vector2Like = Vector2 | [number, number];
  * @param out The vector to store the result in.
  * @returns A new vector.
  */
-export function fromValues<T extends Vector2Like>(x: number, y: number, out: T): T {
+export function fromValues<T extends Vector2Like>(
+	x: number,
+	y: number,
+	out: T
+): T {
 	out[0] = x;
 	out[1] = y;
 	return out;
@@ -34,8 +38,10 @@ export function equals(a: Vector2Like, b: Vector2Like): boolean {
 	const b0: number = b[0];
 	const b1: number = b[1];
 
-	return Math.abs(a0 - b0) <= epsilon * Math.max(1, Math.abs(a0), Math.abs(b0))
-		&& Math.abs(a1 - b1) <= epsilon * Math.max(1, Math.abs(a1), Math.abs(b1));
+	return (
+		Math.abs(a0 - b0) <= epsilon * Math.max(1, Math.abs(a0), Math.abs(b0)) &&
+		Math.abs(a1 - b1) <= epsilon * Math.max(1, Math.abs(a1), Math.abs(b1))
+	);
 }
 
 /**
@@ -45,8 +51,7 @@ export function equals(a: Vector2Like, b: Vector2Like): boolean {
  * @returns Whether the vectors are equivalent.
  */
 export function exactEquals(a: Vector2Like, b: Vector2Like): boolean {
-	return a[0] == b[0]
-		&& a[1] == b[1];
+	return a[0] == b[0] && a[1] == b[1];
 }
 
 /**
@@ -56,7 +61,11 @@ export function exactEquals(a: Vector2Like, b: Vector2Like): boolean {
  * @param out The vector to store the result in.
  * @returns The sum.
  */
-export function add<T extends Vector2Like>(a: Vector2Like, b: Vector2Like, out: T): T {
+export function add<T extends Vector2Like>(
+	a: Vector2Like,
+	b: Vector2Like,
+	out: T
+): T {
 	out[0] = a[0] + b[0];
 	out[1] = a[1] + b[1];
 	return out;
@@ -81,7 +90,11 @@ export function copy<T extends Vector2Like>(vector: Vector2Like, out: T): T {
  * @param out The vector to store the result in.
  * @returns The product.
  */
-export function multiply<T extends Vector2Like>(a: Vector2Like, b: Vector2Like, out: T): T {
+export function multiply<T extends Vector2Like>(
+	a: Vector2Like,
+	b: Vector2Like,
+	out: T
+): T {
 	out[0] = a[0] * b[0];
 	out[1] = a[1] * b[1];
 	return out;
@@ -94,7 +107,11 @@ export function multiply<T extends Vector2Like>(a: Vector2Like, b: Vector2Like, 
  * @param out The vector to store the result in.
  * @returns The quotient.
  */
-export function divide<T extends Vector2Like>(a: Vector2Like, b: Vector2Like, out: T): T {
+export function divide<T extends Vector2Like>(
+	a: Vector2Like,
+	b: Vector2Like,
+	out: T
+): T {
 	out[0] = a[0] / b[0];
 	out[1] = a[1] / b[1];
 	return out;
@@ -107,7 +124,11 @@ export function divide<T extends Vector2Like>(a: Vector2Like, b: Vector2Like, ou
  * @param out The vector to store the result in.
  * @returns The difference.
  */
-export function subtract<T extends Vector2Like>(a: Vector2Like, b: Vector2Like, out: T): T {
+export function subtract<T extends Vector2Like>(
+	a: Vector2Like,
+	b: Vector2Like,
+	out: T
+): T {
 	out[0] = a[0] - b[0];
 	out[1] = a[1] - b[1];
 	return out;
@@ -156,7 +177,11 @@ export function round<T extends Vector2Like>(vector: Vector2Like, out: T): T {
  * @param out The vector to store the result in.
  * @returns The minimum.
  */
-export function min<T extends Vector2Like>(a: Vector2Like, b: Vector2Like, out: T): T {
+export function min<T extends Vector2Like>(
+	a: Vector2Like,
+	b: Vector2Like,
+	out: T
+): T {
 	out[0] = Math.min(a[0], b[0]);
 	out[1] = Math.min(a[1], b[1]);
 	return out;
@@ -169,7 +194,11 @@ export function min<T extends Vector2Like>(a: Vector2Like, b: Vector2Like, out: 
  * @param out The vector to store the result in.
  * @returns The minimum.
  */
-export function max<T extends Vector2Like>(a: Vector2Like, b: Vector2Like, out: T): T {
+export function max<T extends Vector2Like>(
+	a: Vector2Like,
+	b: Vector2Like,
+	out: T
+): T {
 	out[0] = Math.max(a[0], b[0]);
 	out[1] = Math.max(a[1], b[1]);
 	return out;
@@ -182,7 +211,11 @@ export function max<T extends Vector2Like>(a: Vector2Like, b: Vector2Like, out: 
  * @param out The vector to store the result in.
  * @returns The product.
  */
-export function scale<T extends Vector2Like>(vector: Vector2Like, scalar: number, out: T): T {
+export function scale<T extends Vector2Like>(
+	vector: Vector2Like,
+	scalar: number,
+	out: T
+): T {
 	out[0] = vector[0] * scalar;
 	out[1] = vector[1] * scalar;
 	return out;
@@ -196,7 +229,12 @@ export function scale<T extends Vector2Like>(vector: Vector2Like, scalar: number
  * @param out The vector to store the result in.
  * @returns The sum.
  */
-export function scaleAndAdd<T extends Vector2Like>(a: Vector2Like, b: Vector2Like, scalar: number, out: T): T {
+export function scaleAndAdd<T extends Vector2Like>(
+	a: Vector2Like,
+	b: Vector2Like,
+	scalar: number,
+	out: T
+): T {
 	out[0] = a[0] + b[0] * scalar;
 	out[1] = a[1] + b[1] * scalar;
 	return out;
@@ -281,10 +319,13 @@ export function invert<T extends Vector2Like>(vector: Vector2Like, out: T): T {
  * @returns The normalized vector.
  * @see [Unit vector](https://en.wikipedia.org/wiki/Unit_vector)
  */
-export function normalize<T extends Vector2Like>(vector: Vector2Like, out: T): T {
+export function normalize<T extends Vector2Like>(
+	vector: Vector2Like,
+	out: T
+): T {
 	const x: number = vector[0];
 	const y: number = vector[1];
-	
+
 	let len: number = x * x + y * y;
 	if (len > 0) {
 		len = 1 / Math.sqrt(len);
@@ -314,8 +355,12 @@ export function dot(a: Vector2Like, b: Vector2Like): number {
  * @returns The cross product.
  * @see [Cross product](https://en.wikipedia.org/wiki/Cross_product)
  */
-export function cross<T extends Vector3Like>(a: Vector2Like, b: Vector2Like, out: T): T {
-	const z: number = a[0] * b[1] - a[1] * b[0]
+export function cross<T extends Vector3Like>(
+	a: Vector2Like,
+	b: Vector2Like,
+	out: T
+): T {
+	const z: number = a[0] * b[1] - a[1] * b[0];
 	out[0] = 0;
 	out[1] = 0;
 	out[2] = z;
@@ -331,7 +376,12 @@ export function cross<T extends Vector3Like>(a: Vector2Like, b: Vector2Like, out
  * @returns The interpolated vector.
  * @see [Linear interpolation](https://en.wikipedia.org/wiki/Linear_interpolation)
  */
-export function lerp<T extends Vector2Like>(a: Vector2Like, b: Vector2Like, t: number, out: T): T {
+export function lerp<T extends Vector2Like>(
+	a: Vector2Like,
+	b: Vector2Like,
+	t: number,
+	out: T
+): T {
 	const ax: number = a[0];
 	const ay: number = a[1];
 
@@ -362,7 +412,11 @@ export function random<T extends Vector2Like>(magnitude: number, out: T): T {
  * @returns The transformed vector.
  * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
  */
-export function transformMatrix2<T extends Vector2Like>(vector: Vector2Like, matrix: Matrix2Like, out: T): T {
+export function transformMatrix2<T extends Vector2Like>(
+	vector: Vector2Like,
+	matrix: Matrix2Like,
+	out: T
+): T {
 	const x: number = vector[0];
 	const y: number = vector[1];
 
@@ -379,7 +433,11 @@ export function transformMatrix2<T extends Vector2Like>(vector: Vector2Like, mat
  * @returns The transformed vector.
  * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
  */
-export function transformMatrix3<T extends Vector2Like>(vector: Vector2Like, matrix: Matrix3Like, out: T): T {
+export function transformMatrix3<T extends Vector2Like>(
+	vector: Vector2Like,
+	matrix: Matrix3Like,
+	out: T
+): T {
 	const x: number = vector[0] as number;
 	const y: number = vector[1] as number;
 
@@ -396,7 +454,11 @@ export function transformMatrix3<T extends Vector2Like>(vector: Vector2Like, mat
  * @returns The transformed vector.
  * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
  */
-export function transformMatrix4<T extends Vector2Like>(vector: Vector2Like, matrix: Matrix4Like, out: T): T {
+export function transformMatrix4<T extends Vector2Like>(
+	vector: Vector2Like,
+	matrix: Matrix4Like,
+	out: T
+): T {
 	const x: number = vector[0] as number;
 	const y: number = vector[1] as number;
 
@@ -413,7 +475,12 @@ export function transformMatrix4<T extends Vector2Like>(vector: Vector2Like, mat
  * @param out The vector to store the result in.
  * @returns The rotated vector.
  */
-export function rotate<T extends Vector2Like>(vector: Vector2Like, origin: Vector2Like, radians: number, out: T): T {
+export function rotate<T extends Vector2Like>(
+	vector: Vector2Like,
+	origin: Vector2Like,
+	radians: number,
+	out: T
+): T {
 	const o0: number = origin[0];
 	const o1: number = origin[1];
 
@@ -422,7 +489,7 @@ export function rotate<T extends Vector2Like>(vector: Vector2Like, origin: Vecto
 
 	const s: number = Math.sin(radians);
 	const c: number = Math.cos(radians);
-	
+
 	out[0] = p0 * c - p1 * s + o0;
 	out[1] = p0 * s + p1 * c + o1;
 	return out;
@@ -441,7 +508,8 @@ export function angle(a: Vector2Like, b: Vector2Like): number {
 	const x2: number = b[0];
 	const y2: number = b[1];
 
-	const magnitudeProduct: number = Math.sqrt(x1 * x1 + y1 * y1) * Math.sqrt(x2 * x2 + y2 * y2);
+	const magnitudeProduct: number =
+		Math.sqrt(x1 * x1 + y1 * y1) * Math.sqrt(x2 * x2 + y2 * y2);
 	const c: number = magnitudeProduct && (x1 * x2 + y1 * y2) / magnitudeProduct;
 	return Math.acos(Math.min(Math.max(c, -1), 1));
 }
@@ -462,43 +530,51 @@ export function zero<T extends Vector2Like>(out: T): T {
  * @see [Euclidean vector](https://en.wikipedia.org/wiki/Euclidean_vector)
  */
 export default class Vector2 extends Float32Array implements Vector {
-    /**
-     * Creates a vector with the given values.
-     * @param x The first component.
-     * @param y The second component.
-     * @returns A new vector.
-     */
-    public static fromValues(x: number, y: number): Vector2;
+	/**
+	 * Creates a vector with the given values.
+	 * @param x The first component.
+	 * @param y The second component.
+	 * @returns A new vector.
+	 */
+	public static fromValues(x: number, y: number): Vector2;
 
-    /**
-     * Creates a vector with the given values.
-     * @param x The first component.
-     * @param y The second component.
-     * @param out The vector to store the result in.
-     * @returns A new vector.
-     */
-    public static fromValues<T extends Vector2Like>(x: number, y: number, out: T): T;
+	/**
+	 * Creates a vector with the given values.
+	 * @param x The first component.
+	 * @param y The second component.
+	 * @param out The vector to store the result in.
+	 * @returns A new vector.
+	 */
+	public static fromValues<T extends Vector2Like>(
+		x: number,
+		y: number,
+		out: T
+	): T;
 
-    public static fromValues<T extends Vector2Like>(x: number, y: number, out: T = new Vector2() as T): T {
-        return fromValues(x, y, out);
-    }
+	public static fromValues<T extends Vector2Like>(
+		x: number,
+		y: number,
+		out: T = new Vector2() as T
+	): T {
+		return fromValues(x, y, out);
+	}
 
-    /**
+	/**
 	 * Creates a two-dimensional zero vector.
 	 * @see [Euclidean vector](https://en.wikipedia.org/wiki/Euclidean_vector)
 	 */
-    public constructor() {
-        super(2);
-    }
+	public constructor() {
+		super(2);
+	}
 
-    /**
+	/**
 	 * Determines whether this vector is roughly equivalent to another.
 	 * @param vector The other vector.
 	 * @returns Whether the vectors are equivalent.
 	 */
 	public equals(vector: Vector2Like): boolean {
-        return equals(this, vector);
-    }
+		return equals(this, vector);
+	}
 
 	/**
 	 * Determines whether this vector is exactly equivalent to another.
@@ -506,46 +582,49 @@ export default class Vector2 extends Float32Array implements Vector {
 	 * @returns Whether the vectors are equivalent.
 	 */
 	public exactEquals(vector: Vector2Like): boolean {
-        return exactEquals(this, vector);
-    }
+		return exactEquals(this, vector);
+	}
 
-    /**
+	/**
 	 * Adds another vector to this one.
 	 * @param vector The other vector.
 	 * @returns The sum of the vectors.
 	 */
 	public add(vector: Vector2Like): Vector2;
 
-    /**
+	/**
 	 * Adds another vector to this one.
 	 * @param vector The other vector.
-     * @param out The vector to store the result in.
+	 * @param out The vector to store the result in.
 	 * @returns The sum of the vectors.
 	 */
 	public add<T extends Vector2Like>(vector: Vector2Like, out: T): T;
 
-	public add<T extends Vector2Like>(vector: Vector2Like, out: T = new Vector2() as T): T {
+	public add<T extends Vector2Like>(
+		vector: Vector2Like,
+		out: T = new Vector2() as T
+	): T {
 		return add(this, vector, out);
 	}
 
 	/**
-     * Creates a copy of this vector.
-     * @returns The copy.
-     */
-    public clone(): Vector2;
+	 * Creates a copy of this vector.
+	 * @returns The copy.
+	 */
+	public clone(): Vector2;
 
-    /**
-     * Copies the values from this vector to another one.
-     * @param out The vector to store the result in.
-     * @returns The copy.
-     */
-    public clone<T extends Vector2Like>(out: T): T;
-    
-    public clone<T extends Vector2Like>(out: T = new Vector2() as T): T {
-        return copy(this, out);
-    }
+	/**
+	 * Copies the values from this vector to another one.
+	 * @param out The vector to store the result in.
+	 * @returns The copy.
+	 */
+	public clone<T extends Vector2Like>(out: T): T;
 
-    /**
+	public clone<T extends Vector2Like>(out: T = new Vector2() as T): T {
+		return copy(this, out);
+	}
+
+	/**
 	 * Copies the values of another vector into this one.
 	 * @param vector The vector to copy.
 	 * @returns This vector.
@@ -554,60 +633,69 @@ export default class Vector2 extends Float32Array implements Vector {
 		return copy(vector, this);
 	}
 
-    /**
+	/**
 	 * Multiplies the components in this vector by the corresponding components in another.
 	 * @param vector The other vector.
 	 * @returns The product of the vectors.
 	 */
 	public multiply(vector: Vector2Like): Vector2;
 
-    /**
+	/**
 	 * Multiplies the components in this vector by the corresponding components in another.
 	 * @param vector The other vector.
-     * @param out The vector to store the result in.
+	 * @param out The vector to store the result in.
 	 * @returns The product of the vectors.
 	 */
 	public multiply<T extends Vector2Like>(vector: Vector2Like, out: T): T;
 
-	public multiply<T extends Vector2Like>(vector: Vector2Like, out: T = new Vector2() as T): T {
+	public multiply<T extends Vector2Like>(
+		vector: Vector2Like,
+		out: T = new Vector2() as T
+	): T {
 		return multiply(this, vector, out);
 	}
 
-    /**
+	/**
 	 * Divides this vector by another.
 	 * @param vector The other vector.
 	 * @returns The quotient of the vectors.
 	 */
 	public divide(vector: Vector2Like): Vector2;
 
-     /**
+	/**
 	 * Divides this vector by another.
 	 * @param vector The other vector.
-     * @param out The vector to store the result in.
+	 * @param out The vector to store the result in.
 	 * @returns The quotient of the vectors.
 	 */
 	public divide<T extends Vector2Like>(vector: Vector2Like, out: T): T;
 
-	public divide<T extends Vector2Like>(vector: Vector2Like, out: T = new Vector2() as T): T {
+	public divide<T extends Vector2Like>(
+		vector: Vector2Like,
+		out: T = new Vector2() as T
+	): T {
 		return divide(this, vector, out);
 	}
 
-    /**
+	/**
 	 * Subtracts another vector from this one.
 	 * @param vector The other vector.
 	 * @returns The difference between the vectors.
 	 */
 	public subtract(vector: Vector2Like): Vector2;
 
-    /**
+	/**
 	 * Subtracts another vector from this one.
 	 * @param vector The other vector.
-     * @param out The vector to store the result in.
+	 * @param out The vector to store the result in.
 	 * @returns The difference between the vectors.
 	 */
 	public subtract<T extends Vector2Like>(vector: Vector2Like, out: T): T;
 
-	public subtract<T extends Vector2Like>(vector: Vector2Like, out: T = new Vector2() as T): T {
+	public subtract<T extends Vector2Like>(
+		vector: Vector2Like,
+		out: T = new Vector2() as T
+	): T {
 		return subtract(this, vector, out);
 	}
 
@@ -617,16 +705,16 @@ export default class Vector2 extends Float32Array implements Vector {
 	 */
 	public ceil(): Vector2;
 
-    /**
+	/**
 	 * Rounds up the components of this vector.
-     * @param out The vector to store the result in.
+	 * @param out The vector to store the result in.
 	 * @returns The rounded vector.
 	 */
 	public ceil<T extends Vector2Like>(out: T): T;
 
-    public ceil<T extends Vector2Like>(out: T = new Vector2() as T): T {
-        return ceil(this, out);
-    }
+	public ceil<T extends Vector2Like>(out: T = new Vector2() as T): T {
+		return ceil(this, out);
+	}
 
 	/**
 	 * Rounds down the components of this vector.
@@ -634,16 +722,16 @@ export default class Vector2 extends Float32Array implements Vector {
 	 */
 	public floor(): Vector2;
 
-    /**
+	/**
 	 * Rounds down the components of this vector.
-     * @param out The vector to store the result in.
+	 * @param out The vector to store the result in.
 	 * @returns The rounded vector.
 	 */
 	public floor<T extends Vector2Like>(out: T): T;
 
-    public floor<T extends Vector2Like>(out: T = new Vector2() as T): T {
-        return floor(this, out);
-    }
+	public floor<T extends Vector2Like>(out: T = new Vector2() as T): T {
+		return floor(this, out);
+	}
 
 	/**
 	 * Rounds the components of this vector.
@@ -651,16 +739,16 @@ export default class Vector2 extends Float32Array implements Vector {
 	 */
 	public round(): Vector2;
 
-    /**
+	/**
 	 * Rounds the components of this vector.
-     * @param out The vector to store the result in.
+	 * @param out The vector to store the result in.
 	 * @returns The rounded vector.
 	 */
 	public round<T extends Vector2Like>(out: T): T;
 
-    public round<T extends Vector2Like>(out: T = new Vector2() as T): T {
-        return round(this, out);
-    }
+	public round<T extends Vector2Like>(out: T = new Vector2() as T): T {
+		return round(this, out);
+	}
 
 	/**
 	 * Returns the minimum of this and another vector.
@@ -669,17 +757,20 @@ export default class Vector2 extends Float32Array implements Vector {
 	 */
 	public min(vector: Vector2Like): Vector2;
 
-    /**
+	/**
 	 * Returns the minimum of this and another vector.
 	 * @param vector The other vector.
-     * @param out The vector to store the result in.
+	 * @param out The vector to store the result in.
 	 * @returns The minimum.
 	 */
 	public min<T extends Vector2Like>(vector: Vector2Like, out: T): T;
 
-    public min<T extends Vector2Like>(vector: Vector2Like, out: T = new Vector2() as T): T {
-        return min(this, vector, out);
-    }
+	public min<T extends Vector2Like>(
+		vector: Vector2Like,
+		out: T = new Vector2() as T
+	): T {
+		return min(this, vector, out);
+	}
 
 	/**
 	 * Returns the maximum of this and another vector.
@@ -688,17 +779,20 @@ export default class Vector2 extends Float32Array implements Vector {
 	 */
 	public max(vector: Vector2Like): Vector2;
 
-    /**
+	/**
 	 * Returns the maximum of this and another vector.
 	 * @param vector The other vector.
-     * @param out The vector to store the result in.
+	 * @param out The vector to store the result in.
 	 * @returns The maximum.
 	 */
 	public max<T extends Vector2Like>(vector: Vector2Like, out: T): T;
 
-    public max<T extends Vector2Like>(vector: Vector2Like, out: T = new Vector2() as T): T {
-        return max(this, vector, out);
-    }
+	public max<T extends Vector2Like>(
+		vector: Vector2Like,
+		out: T = new Vector2() as T
+	): T {
+		return max(this, vector, out);
+	}
 
 	/**
 	 * Scales this vector by a scalar.
@@ -707,17 +801,20 @@ export default class Vector2 extends Float32Array implements Vector {
 	 */
 	public scale(scalar: number): Vector2;
 
-    /**
+	/**
 	 * Scales this vector by a scalar.
 	 * @param scalar The scalar.
-     * @param out The vector to store the result in.
+	 * @param out The vector to store the result in.
 	 * @returns The scaled vector.
 	 */
 	public scale<T extends Vector2Like>(scalar: number, out: T): T;
 
-    public scale<T extends Vector2Like>(scalar: number, out: T = new Vector2() as T): T {
-        return scale(this, scalar, out);
-    }
+	public scale<T extends Vector2Like>(
+		scalar: number,
+		out: T = new Vector2() as T
+	): T {
+		return scale(this, scalar, out);
+	}
 
 	/**
 	 * Adds another vector to this one after scaling the other by a scalar.
@@ -727,18 +824,26 @@ export default class Vector2 extends Float32Array implements Vector {
 	 */
 	public scaleAndAdd(vector: Vector2Like, scalar: number): Vector2;
 
-    /**
+	/**
 	 * Adds another vector to this one after scaling the other by a scalar.
 	 * @param vector The other vector.
 	 * @param scalar The scalar.
-     * @param out The vector to store the result in.
+	 * @param out The vector to store the result in.
 	 * @returns The sum.
 	 */
-	public scaleAndAdd<T extends Vector2Like>(vector: Vector2Like, scalar: number, out: T): T;
+	public scaleAndAdd<T extends Vector2Like>(
+		vector: Vector2Like,
+		scalar: number,
+		out: T
+	): T;
 
-    public scaleAndAdd<T extends Vector2Like>(vector: Vector2Like, scalar: number, out: T = new Vector2() as T): T {
-        return scaleAndAdd(this, vector, scalar, out);
-    }
+	public scaleAndAdd<T extends Vector2Like>(
+		vector: Vector2Like,
+		scalar: number,
+		out: T = new Vector2() as T
+	): T {
+		return scaleAndAdd(this, vector, scalar, out);
+	}
 
 	/**
 	 * Calculates the Euclidean distance from this vector to another.
@@ -747,8 +852,8 @@ export default class Vector2 extends Float32Array implements Vector {
 	 * @see [Euclidean distance](https://en.wikipedia.org/wiki/Euclidean_distance)
 	 */
 	public distance(vector: Vector2Like): number {
-        return distance(this, vector);
-    }
+		return distance(this, vector);
+	}
 
 	/**
 	 * Calculates the squared Euclidean distance from this vector to another.
@@ -757,18 +862,18 @@ export default class Vector2 extends Float32Array implements Vector {
 	 * @see [Euclidean distance](https://en.wikipedia.org/wiki/Euclidean_distance)
 	 */
 	public squaredDistance(vector: Vector2Like): number {
-        return squaredDistance(this, vector);
-    }
+		return squaredDistance(this, vector);
+	}
 
 	/** The magnitude (length) of this vector. */
 	public get magnitude(): number {
-        return getMagnitude(this);
-    }
+		return getMagnitude(this);
+	}
 
 	/** The squared magnitude (length) of this vector. */
 	public get squaredMagnitude(): number {
-        return getSquaredMagnitude(this);
-    }
+		return getSquaredMagnitude(this);
+	}
 
 	/**
 	 * Negates this vector.
@@ -776,52 +881,52 @@ export default class Vector2 extends Float32Array implements Vector {
 	 */
 	public negate(): Vector2;
 
-    /**
+	/**
 	 * Negates this vector.
-     * @param out The vector to store the result in.
+	 * @param out The vector to store the result in.
 	 * @returns The negated vector.
 	 */
 	public negate<T extends Vector2Like>(out: T): T;
 
-    public negate<T extends Vector2Like>(out: T = new Vector2() as T): T {
-        return negate(this, out);
-    }
+	public negate<T extends Vector2Like>(out: T = new Vector2() as T): T {
+		return negate(this, out);
+	}
 
-    /**
+	/**
 	 * Calculates the multiplicative inverse of the components of this vector.
 	 * @returns The inverted vector.
 	 */
 	public invert(): Vector2;
 
-    /**
+	/**
 	 * Calculates the multiplicative inverse of the components of this vector.
-     * @param out The vector to store the result in.
+	 * @param out The vector to store the result in.
 	 * @returns The inverted vector.
 	 */
 	public invert<T extends Vector2Like>(out: T): T;
 
-    public invert<T extends Vector2Like>(out: T = new Vector2() as T): T {
-        return invert(this, out);
-    }
+	public invert<T extends Vector2Like>(out: T = new Vector2() as T): T {
+		return invert(this, out);
+	}
 
-    /**
+	/**
 	 * Normalizes this vector.
 	 * @returns The normalized vector.
 	 * @see [Unit vector](https://en.wikipedia.org/wiki/Unit_vector)
 	 */
 	public normalize(): Vector2;
 
-    /**
+	/**
 	 * Normalizes this vector.
-     * @param out The vector to store the result in.
+	 * @param out The vector to store the result in.
 	 * @returns The normalized vector.
 	 * @see [Unit vector](https://en.wikipedia.org/wiki/Unit_vector)
 	 */
 	public normalize<T extends Vector2Like>(out: T): T;
 
-    public normalize<T extends Vector2Like>(out: T = new Vector2() as T): T {
-        return normalize(this, out);
-    }
+	public normalize<T extends Vector2Like>(out: T = new Vector2() as T): T {
+		return normalize(this, out);
+	}
 
 	/**
 	 * Calculates the dot product of this and another vector.
@@ -830,10 +935,10 @@ export default class Vector2 extends Float32Array implements Vector {
 	 * @see [Dot product](https://en.wikipedia.org/wiki/Dot_product)
 	 */
 	public dot(vector: Vector2Like): number {
-        return dot(this, vector);
-    }
+		return dot(this, vector);
+	}
 
-    /**
+	/**
 	 * Calculates the cross product of this and another vector.
 	 * @param vector The other vector.
 	 * @returns The cross product.
@@ -841,18 +946,21 @@ export default class Vector2 extends Float32Array implements Vector {
 	 */
 	public cross(vector: Vector2Like): Vector3;
 
-    /**
+	/**
 	 * Calculates the cross product of this and another vector.
 	 * @param vector The other vector.
-     * @param out The vector to store the result in.
+	 * @param out The vector to store the result in.
 	 * @returns The cross product.
 	 * @see [Cross product](https://en.wikipedia.org/wiki/Cross_product)
 	 */
 	public cross<T extends Vector3Like>(vector: Vector2Like, out: T): T;
 
-    public cross<T extends Vector3Like>(vector: Vector2Like, out: T = new Vector3() as T): T {
-        return cross(this, vector, out);
-    }
+	public cross<T extends Vector3Like>(
+		vector: Vector2Like,
+		out: T = new Vector3() as T
+	): T {
+		return cross(this, vector, out);
+	}
 
 	/**
 	 * Performs a linear interpolation between this and another vector.
@@ -863,19 +971,23 @@ export default class Vector2 extends Float32Array implements Vector {
 	 */
 	public lerp(vector: Vector2Like, t: number): Vector2;
 
-    /**
+	/**
 	 * Performs a linear interpolation between this and another vector.
 	 * @param vector The other vector.
 	 * @param t The interpolation amount (in `[0,1]`).
-     * @param out The vector to store the result in.
+	 * @param out The vector to store the result in.
 	 * @returns The interpolated vector.
 	 * @see [Linear interpolation](https://en.wikipedia.org/wiki/Linear_interpolation)
 	 */
 	public lerp<T extends Vector2Like>(vector: Vector2Like, t: number, out: T): T;
 
-    public lerp<T extends Vector2Like>(vector: Vector2Like, t: number, out: T = new Vector2() as T): T {
-        return lerp(this, vector, t, out);
-    }
+	public lerp<T extends Vector2Like>(
+		vector: Vector2Like,
+		t: number,
+		out: T = new Vector2() as T
+	): T {
+		return lerp(this, vector, t, out);
+	}
 
 	/**
 	 * Sets this vector to a random value with the given magnitude.
@@ -883,8 +995,8 @@ export default class Vector2 extends Float32Array implements Vector {
 	 * @returns This vector.
 	 */
 	public random(magnitude = 1): this {
-        return random(magnitude, this);
-    }
+		return random(magnitude, this);
+	}
 
 	/**
 	 * Transforms this vector by a two-by-two matrix.
@@ -894,20 +1006,26 @@ export default class Vector2 extends Float32Array implements Vector {
 	 */
 	public transformMatrix2(matrix: Matrix2Like): Vector2;
 
-    /**
+	/**
 	 * Transforms this vector by a two-by-two matrix.
 	 * @param matrix The matrix.
-     * @param out The vector to store the result in.
+	 * @param out The vector to store the result in.
 	 * @returns The transformed vector.
 	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
 	 */
-	public transformMatrix2<T extends Vector2Like>(matrix: Matrix2Like, out: T): T;
+	public transformMatrix2<T extends Vector2Like>(
+		matrix: Matrix2Like,
+		out: T
+	): T;
 
-    public transformMatrix2<T extends Vector2Like>(matrix: Matrix2Like, out: T = new Vector2() as T): T {
-        return transformMatrix2(this, matrix, out);
-    }
+	public transformMatrix2<T extends Vector2Like>(
+		matrix: Matrix2Like,
+		out: T = new Vector2() as T
+	): T {
+		return transformMatrix2(this, matrix, out);
+	}
 
-    /**
+	/**
 	 * Transforms this vector by a three-by-three matrix.
 	 * @param matrix The matrix.
 	 * @returns The transformed vector.
@@ -915,20 +1033,26 @@ export default class Vector2 extends Float32Array implements Vector {
 	 */
 	public transformMatrix3(matrix: Matrix3Like): Vector2;
 
-    /**
+	/**
 	 * Transforms this vector by a three-by-three matrix.
 	 * @param matrix The matrix.
-     * @param out The vector to store the result in.
+	 * @param out The vector to store the result in.
 	 * @returns The transformed vector.
 	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
 	 */
-	public transformMatrix3<T extends Vector2Like>(matrix: Matrix3Like, out: T): T;
+	public transformMatrix3<T extends Vector2Like>(
+		matrix: Matrix3Like,
+		out: T
+	): T;
 
-    public transformMatrix3<T extends Vector2Like>(matrix: Matrix3Like, out: T = new Vector2() as T): T {
-        return transformMatrix3(this, matrix, out);
-    }
+	public transformMatrix3<T extends Vector2Like>(
+		matrix: Matrix3Like,
+		out: T = new Vector2() as T
+	): T {
+		return transformMatrix3(this, matrix, out);
+	}
 
-    /**
+	/**
 	 * Transforms this vector by a four-by-four matrix.
 	 * @param matrix The matrix.
 	 * @returns The transformed vector.
@@ -936,54 +1060,68 @@ export default class Vector2 extends Float32Array implements Vector {
 	 */
 	public transformMatrix4(matrix: Matrix4Like): Vector2;
 
-    /**
+	/**
 	 * Transforms this vector by a four-by-four matrix.
 	 * @param matrix The matrix.
-     * @param out The vector to store the result in.
+	 * @param out The vector to store the result in.
 	 * @returns The transformed vector.
 	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
 	 */
-	public transformMatrix4<T extends Vector2Like>(matrix: Matrix4Like, out: T): T;
+	public transformMatrix4<T extends Vector2Like>(
+		matrix: Matrix4Like,
+		out: T
+	): T;
 
-    public transformMatrix4<T extends Vector2Like>(matrix: Matrix4Like, out: T = new Vector2() as T): T {
-        return transformMatrix4(this, matrix, out);
-    }
+	public transformMatrix4<T extends Vector2Like>(
+		matrix: Matrix4Like,
+		out: T = new Vector2() as T
+	): T {
+		return transformMatrix4(this, matrix, out);
+	}
 
-    /**
-     * Rotates this vector.
-     * @param origin The origin of the rotation.
-     * @param radians The angle of rotation in radians.
-     * @returns The rotated vector.
-     */
-    public rotate(origin: Vector2Like, radians: number): Vector2;
+	/**
+	 * Rotates this vector.
+	 * @param origin The origin of the rotation.
+	 * @param radians The angle of rotation in radians.
+	 * @returns The rotated vector.
+	 */
+	public rotate(origin: Vector2Like, radians: number): Vector2;
 
-    /**
-     * Rotates this vector.
-     * @param origin The origin of the rotation.
-     * @param radians The angle of rotation in radians.
-     * @param out The vector to store the result in.
-     * @returns The rotated vector.
-     */
-    public rotate<T extends Vector2Like>(origin: Vector2Like, radians: number, out: T): T;
+	/**
+	 * Rotates this vector.
+	 * @param origin The origin of the rotation.
+	 * @param radians The angle of rotation in radians.
+	 * @param out The vector to store the result in.
+	 * @returns The rotated vector.
+	 */
+	public rotate<T extends Vector2Like>(
+		origin: Vector2Like,
+		radians: number,
+		out: T
+	): T;
 
-    public rotate<T extends Vector2Like>(origin: Vector2Like, radians: number, out: T = new Vector2() as T): T {
-        return rotate(this, origin, radians, out);
-    }
+	public rotate<T extends Vector2Like>(
+		origin: Vector2Like,
+		radians: number,
+		out: T = new Vector2() as T
+	): T {
+		return rotate(this, origin, radians, out);
+	}
 
-    /**
-     * Gets the angle from this to another vector in radians.
-     * @param vector The other vector.
-     * @returns The angular distance.
-     */
-    public angle(vector: Vector2Like): number {
-        return angle(this, vector);
-    }
+	/**
+	 * Gets the angle from this to another vector in radians.
+	 * @param vector The other vector.
+	 * @returns The angular distance.
+	 */
+	public angle(vector: Vector2Like): number {
+		return angle(this, vector);
+	}
 
 	/**
 	 * Sets this to the zero vector.
 	 * @returns This vector.
 	 */
 	public zero(): this {
-        return zero(this);
-    }
+		return zero(this);
+	}
 }

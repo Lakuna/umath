@@ -1,4 +1,4 @@
-import type { Vector3Like } from "#linalg/Vector3";
+import type { Vector3Like } from "#Vector3";
 
 /** An axis and an angle to rotate around it. */
 export default interface AxisAngle {

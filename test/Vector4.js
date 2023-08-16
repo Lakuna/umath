@@ -1,10 +1,35 @@
 import {
-	add, ceil, copy, cross, distance, divide, dot, equals, exactEquals, floor, fromValues,
-	getMagnitude, getSquaredMagnitude, invert, lerp, max, min, multiply, negate, normalize, random,
-	round, scale, scaleAndAdd, squaredDistance, subtract, transformMatrix4, transformQuaternion,
+	add,
+	ceil,
+	copy,
+	cross,
+	distance,
+	divide,
+	dot,
+	equals,
+	exactEquals,
+	floor,
+	fromValues,
+	getMagnitude,
+	getSquaredMagnitude,
+	invert,
+	lerp,
+	max,
+	min,
+	multiply,
+	negate,
+	normalize,
+	random,
+	round,
+	scale,
+	scaleAndAdd,
+	squaredDistance,
+	subtract,
+	transformMatrix4,
+	transformQuaternion,
 	zero
-} from "#linalg/Vector4";
-import epsilon from "#utility/epsilon";
+} from "#Vector4";
+import epsilon from "#epsilon";
 import { expect } from "chai";
 import { vec4 } from "gl-matrix";
 import { beforeEach, describe, it } from "mocha";
@@ -386,7 +411,7 @@ describe("Vector4", () => {
 		});
 	});
 
-	describe("#equals()", () =>  {
+	describe("#equals()", () => {
 		let c;
 		let d;
 		let e;
@@ -1093,10 +1118,7 @@ describe("Vector4", () => {
 
 	describe("#transformMatrix4()", () => {
 		const matrixValues = [
-			1, 2, 3, 4,
-			5, 6, 7, 8,
-			9, 10, 11, 12,
-			13, 14, 15, 16
+			1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
 		];
 
 		const product = vec4.transformMat4([], aValues, matrixValues);

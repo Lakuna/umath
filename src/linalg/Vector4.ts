@@ -1,7 +1,7 @@
-import type { Matrix4Like } from "#linalg/Matrix4";
-import type { QuaternionLike } from "#linalg/Quaternion";
-import type Vector from "#linalg/Vector";
-import epsilon from "#utility/epsilon";
+import type { Matrix4Like } from "#Matrix4";
+import type { QuaternionLike } from "#Quaternion";
+import type Vector from "#Vector";
+import epsilon from "#epsilon";
 
 /** A quantity with magnitude and direction in four dimensions. */
 export type Vector4Like = Vector4 | [number, number, number, number];
@@ -15,7 +15,13 @@ export type Vector4Like = Vector4 | [number, number, number, number];
  * @param out The vector to store the result in.
  * @returns A new vector.
  */
-export function fromValues<T extends Vector4Like>(x: number, y: number, z: number, w: number, out: T): T {
+export function fromValues<T extends Vector4Like>(
+	x: number,
+	y: number,
+	z: number,
+	w: number,
+	out: T
+): T {
 	out[0] = x;
 	out[1] = y;
 	out[2] = z;
@@ -40,10 +46,12 @@ export function equals(a: Vector4Like, b: Vector4Like): boolean {
 	const b2: number = b[2];
 	const b3: number = b[3];
 
-	return Math.abs(a0 - b0) <= epsilon * Math.max(1, Math.abs(a0), Math.abs(b0))
-		&& Math.abs(a1 - b1) <= epsilon * Math.max(1, Math.abs(a1), Math.abs(b1))
-		&& Math.abs(a2 - b2) <= epsilon * Math.max(1, Math.abs(a2), Math.abs(b2))
-		&& Math.abs(a3 - b3) <= epsilon * Math.max(1, Math.abs(a3), Math.abs(b3));
+	return (
+		Math.abs(a0 - b0) <= epsilon * Math.max(1, Math.abs(a0), Math.abs(b0)) &&
+		Math.abs(a1 - b1) <= epsilon * Math.max(1, Math.abs(a1), Math.abs(b1)) &&
+		Math.abs(a2 - b2) <= epsilon * Math.max(1, Math.abs(a2), Math.abs(b2)) &&
+		Math.abs(a3 - b3) <= epsilon * Math.max(1, Math.abs(a3), Math.abs(b3))
+	);
 }
 
 /**
@@ -52,11 +60,8 @@ export function equals(a: Vector4Like, b: Vector4Like): boolean {
  * @param b The second vector.
  * @returns Whether the vectors are equivalent.
  */
-export function exactEquals(a: Vector4Like,b : Vector4Like): boolean {
-	return a[0] == b[0]
-		&& a[1] == b[1]
-		&& a[2] == b[2]
-		&& a[3] == b[3];
+export function exactEquals(a: Vector4Like, b: Vector4Like): boolean {
+	return a[0] == b[0] && a[1] == b[1] && a[2] == b[2] && a[3] == b[3];
 }
 
 /**
@@ -66,7 +71,11 @@ export function exactEquals(a: Vector4Like,b : Vector4Like): boolean {
  * @param out The vector to store the result in.
  * @returns The sum.
  */
-export function add<T extends Vector4Like>(a: Vector4Like, b: Vector4Like, out: T): T {
+export function add<T extends Vector4Like>(
+	a: Vector4Like,
+	b: Vector4Like,
+	out: T
+): T {
 	out[0] = a[0] + b[0];
 	out[1] = a[1] + b[1];
 	out[2] = a[2] + b[2];
@@ -95,7 +104,11 @@ export function copy<T extends Vector4Like>(vector: Vector4Like, out: T): T {
  * @param out The vector to store the result in.
  * @returns The product.
  */
-export function multiply<T extends Vector4Like>(a: Vector4Like, b: Vector4Like, out: T): T {
+export function multiply<T extends Vector4Like>(
+	a: Vector4Like,
+	b: Vector4Like,
+	out: T
+): T {
 	out[0] = a[0] * b[0];
 	out[1] = a[1] * b[1];
 	out[2] = a[2] * b[2];
@@ -110,7 +123,11 @@ export function multiply<T extends Vector4Like>(a: Vector4Like, b: Vector4Like, 
  * @param out The vector to store the result in.
  * @returns The quotient.
  */
-export function divide<T extends Vector4Like>(a: Vector4Like, b: Vector4Like, out: T): T {
+export function divide<T extends Vector4Like>(
+	a: Vector4Like,
+	b: Vector4Like,
+	out: T
+): T {
 	out[0] = a[0] / b[0];
 	out[1] = a[1] / b[1];
 	out[2] = a[2] / b[2];
@@ -125,7 +142,11 @@ export function divide<T extends Vector4Like>(a: Vector4Like, b: Vector4Like, ou
  * @param out The vector to store the result in.
  * @returns The difference.
  */
-export function subtract<T extends Vector4Like>(a: Vector4Like, b: Vector4Like, out: T): T {
+export function subtract<T extends Vector4Like>(
+	a: Vector4Like,
+	b: Vector4Like,
+	out: T
+): T {
 	out[0] = a[0] - b[0];
 	out[1] = a[1] - b[1];
 	out[2] = a[2] - b[2];
@@ -182,7 +203,11 @@ export function round<T extends Vector4Like>(vector: Vector4Like, out: T): T {
  * @param out The vector to store the result in.
  * @returns The minimum.
  */
-export function min<T extends Vector4Like>(a: Vector4Like, b: Vector4Like, out: T): T {
+export function min<T extends Vector4Like>(
+	a: Vector4Like,
+	b: Vector4Like,
+	out: T
+): T {
 	out[0] = Math.min(a[0], b[0]);
 	out[1] = Math.min(a[1], b[1]);
 	out[2] = Math.min(a[2], b[2]);
@@ -197,7 +222,11 @@ export function min<T extends Vector4Like>(a: Vector4Like, b: Vector4Like, out: 
  * @param out The vector to store the result in.
  * @returns The maximum.
  */
-export function max<T extends Vector4Like>(a: Vector4Like, b: Vector4Like, out: T): T {
+export function max<T extends Vector4Like>(
+	a: Vector4Like,
+	b: Vector4Like,
+	out: T
+): T {
 	out[0] = Math.max(a[0], b[0]);
 	out[1] = Math.max(a[1], b[1]);
 	out[2] = Math.max(a[2], b[2]);
@@ -212,7 +241,11 @@ export function max<T extends Vector4Like>(a: Vector4Like, b: Vector4Like, out: 
  * @param out The vector to store the result in.
  * @returns The product.
  */
-export function scale<T extends Vector4Like>(vector: Vector4Like, scalar: number, out: T): T {
+export function scale<T extends Vector4Like>(
+	vector: Vector4Like,
+	scalar: number,
+	out: T
+): T {
 	out[0] = vector[0] * scalar;
 	out[1] = vector[1] * scalar;
 	out[2] = vector[2] * scalar;
@@ -228,7 +261,12 @@ export function scale<T extends Vector4Like>(vector: Vector4Like, scalar: number
  * @param out The vector to store the result in.
  * @returns The sum.
  */
-export function scaleAndAdd<T extends Vector4Like>(a: Vector4Like, b: Vector4Like, scalar: number, out: T): T {
+export function scaleAndAdd<T extends Vector4Like>(
+	a: Vector4Like,
+	b: Vector4Like,
+	scalar: number,
+	out: T
+): T {
 	out[0] = a[0] + b[0] * scalar;
 	out[1] = a[1] + b[1] * scalar;
 	out[2] = a[2] + b[2] * scalar;
@@ -327,12 +365,15 @@ export function invert<T extends Vector4Like>(vector: Vector4Like, out: T): T {
  * @returns The normalized vector.
  * @see [Unit vector](https://en.wikipedia.org/wiki/Unit_vector)
  */
-export function normalize<T extends Vector4Like>(vector: Vector4Like, out: T): T {
+export function normalize<T extends Vector4Like>(
+	vector: Vector4Like,
+	out: T
+): T {
 	const x: number = vector[0];
 	const y: number = vector[1];
 	const z: number = vector[2];
 	const w: number = vector[3];
-	
+
 	let len: number = x * x + y * y + z * z + w * w;
 	if (len > 0) {
 		len = 1 / Math.sqrt(len);
@@ -365,7 +406,12 @@ export function dot(a: Vector4Like, b: Vector4Like): number {
  * @returns The cross product.
  * @see [Cross product](https://en.wikipedia.org/wiki/Cross_product)
  */
-export function cross<T extends Vector4Like>(a: Vector4Like, b: Vector4Like, c: Vector4Like, out: T): T {
+export function cross<T extends Vector4Like>(
+	a: Vector4Like,
+	b: Vector4Like,
+	c: Vector4Like,
+	out: T
+): T {
 	const d = b[0] * c[1] - b[1] * c[0];
 	const e = b[0] * c[2] - b[2] * c[0];
 	const f = b[0] * c[3] - b[3] * c[0];
@@ -394,7 +440,12 @@ export function cross<T extends Vector4Like>(a: Vector4Like, b: Vector4Like, c: 
  * @returns The interpolated vector.
  * @see [Linear interpolation](https://en.wikipedia.org/wiki/Linear_interpolation)
  */
-export function lerp<T extends Vector4Like>(a: Vector4Like, b: Vector4Like, t: number, out: T): T {
+export function lerp<T extends Vector4Like>(
+	a: Vector4Like,
+	b: Vector4Like,
+	t: number,
+	out: T
+): T {
 	const ax: number = a[0];
 	const ay: number = a[1];
 	const az: number = a[2];
@@ -441,7 +492,11 @@ export function random<T extends Vector4Like>(magnitude: number, out: T): T {
  * @returns The transformed vector.
  * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
  */
-export function transformMatrix4<T extends Vector4Like>(vector: Vector4Like, matrix: Matrix4Like, out: T): T {
+export function transformMatrix4<T extends Vector4Like>(
+	vector: Vector4Like,
+	matrix: Matrix4Like,
+	out: T
+): T {
 	const x: number = vector[0];
 	const y: number = vector[1];
 	const z: number = vector[2];
@@ -475,7 +530,11 @@ export function zero<T extends Vector4Like>(out: T): T {
  * @returns The transformed vector.
  * @see [Quaternion](https://en.wikipedia.org/wiki/Quaternion)
  */
-export function transformQuaternion<T extends Vector4Like>(vector: Vector4Like, quaternion: QuaternionLike, out: T): T {
+export function transformQuaternion<T extends Vector4Like>(
+	vector: Vector4Like,
+	quaternion: QuaternionLike,
+	out: T
+): T {
 	const x: number = vector[0];
 	const y: number = vector[1];
 	const z: number = vector[2];
@@ -489,7 +548,7 @@ export function transformQuaternion<T extends Vector4Like>(vector: Vector4Like, 
 	const iy: number = qw * y + qz * x - qx * z;
 	const iz: number = qw * z + qx * y - qy * x;
 	const iw: number = -qx * x - qy * y - qz * z;
-	
+
 	out[0] = ix * qw + iw * -qx + iy * -qz - iz * -qy;
 	out[1] = iy * qw + iw * -qy + iz * -qx - ix * -qz;
 	out[2] = iz * qw + iw * -qz + ix * -qy - iy * -qx;
@@ -521,9 +580,21 @@ export default class Vector4 extends Float32Array implements Vector {
 	 * @param out The vector to store the result in.
 	 * @returns A new vector.
 	 */
-	public static fromValues<T extends Vector4Like>(x: number, y: number, z: number, w: number, out: T): T;
+	public static fromValues<T extends Vector4Like>(
+		x: number,
+		y: number,
+		z: number,
+		w: number,
+		out: T
+	): T;
 
-	public static fromValues<T extends Vector4Like>(x: number, y: number, z: number, w: number, out: T = new Vector4() as T): T {
+	public static fromValues<T extends Vector4Like>(
+		x: number,
+		y: number,
+		z: number,
+		w: number,
+		out: T = new Vector4() as T
+	): T {
 		return fromValues(x, y, z, w, out);
 	}
 
@@ -568,7 +639,10 @@ export default class Vector4 extends Float32Array implements Vector {
 	 */
 	public add<T extends Vector4Like>(vector: Vector4Like, out: T): T;
 
-	public add<T extends Vector4Like>(vector: Vector4Like, out: T = new Vector4() as T): T {
+	public add<T extends Vector4Like>(
+		vector: Vector4Like,
+		out: T = new Vector4() as T
+	): T {
 		return add(this, vector, out);
 	}
 
@@ -584,7 +658,7 @@ export default class Vector4 extends Float32Array implements Vector {
 	 * @returns The copy.
 	 */
 	public clone<T extends Vector4Like>(out: T): T;
-	
+
 	public clone<T extends Vector4Like>(out: T = new Vector4() as T): T {
 		return copy(this, out);
 	}
@@ -613,7 +687,10 @@ export default class Vector4 extends Float32Array implements Vector {
 	 */
 	public multiply<T extends Vector4Like>(vector: Vector4Like, out: T): T;
 
-	public multiply<T extends Vector4Like>(vector: Vector4Like, out: T = new Vector4() as T): T {
+	public multiply<T extends Vector4Like>(
+		vector: Vector4Like,
+		out: T = new Vector4() as T
+	): T {
 		return multiply(this, vector, out);
 	}
 
@@ -632,7 +709,10 @@ export default class Vector4 extends Float32Array implements Vector {
 	 */
 	public divide<T extends Vector4Like>(vector: Vector4Like, out: T): T;
 
-	public divide<T extends Vector4Like>(vector: Vector4Like, out: T = new Vector4() as T): T {
+	public divide<T extends Vector4Like>(
+		vector: Vector4Like,
+		out: T = new Vector4() as T
+	): T {
 		return divide(this, vector, out);
 	}
 
@@ -651,7 +731,10 @@ export default class Vector4 extends Float32Array implements Vector {
 	 */
 	public subtract<T extends Vector4Like>(vector: Vector4Like, out: T): T;
 
-	public subtract<T extends Vector4Like>(vector: Vector4Like, out: T = new Vector4() as T): T {
+	public subtract<T extends Vector4Like>(
+		vector: Vector4Like,
+		out: T = new Vector4() as T
+	): T {
 		return subtract(this, vector, out);
 	}
 
@@ -721,7 +804,10 @@ export default class Vector4 extends Float32Array implements Vector {
 	 */
 	public min<T extends Vector4Like>(vector: Vector4Like, out: T): T;
 
-	public min<T extends Vector4Like>(vector: Vector4Like, out: T = new Vector4() as T): T {
+	public min<T extends Vector4Like>(
+		vector: Vector4Like,
+		out: T = new Vector4() as T
+	): T {
 		return min(this, vector, out);
 	}
 
@@ -740,7 +826,10 @@ export default class Vector4 extends Float32Array implements Vector {
 	 */
 	public max<T extends Vector4Like>(vector: Vector4Like, out: T): T;
 
-	public max<T extends Vector4Like>(vector: Vector4Like, out: T = new Vector4() as T): T {
+	public max<T extends Vector4Like>(
+		vector: Vector4Like,
+		out: T = new Vector4() as T
+	): T {
 		return max(this, vector, out);
 	}
 
@@ -759,7 +848,10 @@ export default class Vector4 extends Float32Array implements Vector {
 	 */
 	public scale<T extends Vector4Like>(scalar: number, out: T): T;
 
-	public scale<T extends Vector4Like>(scalar: number, out: T = new Vector4() as T): T {
+	public scale<T extends Vector4Like>(
+		scalar: number,
+		out: T = new Vector4() as T
+	): T {
 		return scale(this, scalar, out);
 	}
 
@@ -778,9 +870,17 @@ export default class Vector4 extends Float32Array implements Vector {
 	 * @param out The vector to store the result in.
 	 * @returns The sum.
 	 */
-	public scaleAndAdd<T extends Vector4Like>(vector: Vector4Like, scalar: number, out: T): T;
+	public scaleAndAdd<T extends Vector4Like>(
+		vector: Vector4Like,
+		scalar: number,
+		out: T
+	): T;
 
-	public scaleAndAdd<T extends Vector4Like>(vector: Vector4Like, scalar: number, out: T = new Vector4() as T): T {
+	public scaleAndAdd<T extends Vector4Like>(
+		vector: Vector4Like,
+		scalar: number,
+		out: T = new Vector4() as T
+	): T {
 		return scaleAndAdd(this, vector, scalar, out);
 	}
 
@@ -894,9 +994,17 @@ export default class Vector4 extends Float32Array implements Vector {
 	 * @returns The cross product.
 	 * @see [Cross product](https://en.wikipedia.org/wiki/Cross_product)
 	 */
-	public cross<T extends Vector4Like>(a: Vector4Like, b: Vector4Like, out: T): T;
+	public cross<T extends Vector4Like>(
+		a: Vector4Like,
+		b: Vector4Like,
+		out: T
+	): T;
 
-	public cross<T extends Vector4Like>(a: Vector4Like, b: Vector4Like, out: T = new Vector4() as T): T {
+	public cross<T extends Vector4Like>(
+		a: Vector4Like,
+		b: Vector4Like,
+		out: T = new Vector4() as T
+	): T {
 		return cross(this, a, b, out);
 	}
 
@@ -919,7 +1027,11 @@ export default class Vector4 extends Float32Array implements Vector {
 	 */
 	public lerp<T extends Vector4Like>(vector: Vector4Like, t: number, out: T): T;
 
-	public lerp<T extends Vector4Like>(vector: Vector4Like, t: number, out: T = new Vector4() as T): T {
+	public lerp<T extends Vector4Like>(
+		vector: Vector4Like,
+		t: number,
+		out: T = new Vector4() as T
+	): T {
 		return lerp(this, vector, t, out);
 	}
 
@@ -947,9 +1059,15 @@ export default class Vector4 extends Float32Array implements Vector {
 	 * @returns The transformed vector.
 	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
 	 */
-	public transformMatrix4<T extends Vector4Like>(matrix: Matrix4Like, out: T): T;
+	public transformMatrix4<T extends Vector4Like>(
+		matrix: Matrix4Like,
+		out: T
+	): T;
 
-	public transformMatrix4<T extends Vector4Like>(matrix: Matrix4Like, out: T = new Vector4() as T): T {
+	public transformMatrix4<T extends Vector4Like>(
+		matrix: Matrix4Like,
+		out: T = new Vector4() as T
+	): T {
 		return transformMatrix4(this, matrix, out);
 	}
 
@@ -976,9 +1094,15 @@ export default class Vector4 extends Float32Array implements Vector {
 	 * @returns The transformed vector.
 	 * @see [Quaternion](https://en.wikipedia.org/wiki/Quaternion)
 	 */
-	public transformQuaternion<T extends Vector4Like>(quaternion: QuaternionLike, out: T): T;
+	public transformQuaternion<T extends Vector4Like>(
+		quaternion: QuaternionLike,
+		out: T
+	): T;
 
-	public transformQuaternion<T extends Vector4Like>(quaternion: QuaternionLike, out: T = new Vector4() as T): T {
+	public transformQuaternion<T extends Vector4Like>(
+		quaternion: QuaternionLike,
+		out: T = new Vector4() as T
+	): T {
 		return transformQuaternion(this, quaternion, out);
 	}
 }

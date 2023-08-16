@@ -1,7 +1,7 @@
-import type Matrix from "#linalg/Matrix";
-import epsilon from "#utility/epsilon";
-import MatrixSizeError from "#utility/MatrixSizeError";
-import PartialMatrixError from "#utility/PartialMatrixError";
+import type Matrix from "#Matrix";
+import epsilon from "#epsilon";
+import MatrixSizeError from "#MatrixSizeError";
+import PartialMatrixError from "#PartialMatrixError";
 
 /**
  * A variable-size matrix.
@@ -57,7 +57,9 @@ export default class SlowMatrix extends Float32Array implements Matrix {
 		const cols: Array<Array<number>> = [];
 		for (let x = 0; x < this.width; x++) {
 			for (let y = 0; y < this.height; y++) {
-				(cols[x] ??= [])[y] = (this[x * this.height + y] as number) + (matrix[x * matrix.height + y] as number);
+				(cols[x] ??= [])[y] =
+					(this[x * this.height + y] as number) +
+					(matrix[x * matrix.height + y] as number);
 			}
 		}
 
@@ -91,7 +93,9 @@ export default class SlowMatrix extends Float32Array implements Matrix {
 
 		for (let x = 0; x < this.width; x++) {
 			for (let y = 0; y < this.height; y++) {
-				(this[x * this.width + y] as number) = matrix[x * this.height + y] as number;
+				(this[x * this.width + y] as number) = matrix[
+					x * this.height + y
+				] as number;
 			}
 		}
 
@@ -156,7 +160,9 @@ export default class SlowMatrix extends Float32Array implements Matrix {
 			for (let j = 0; j < p; j++) {
 				let sum = 0;
 				for (let k = 0; k < m; k++) {
-					sum += (this[k * this.height + i] as number) * (matrix[j * matrix.height + k] as number)
+					sum +=
+						(this[k * this.height + i] as number) *
+						(matrix[j * matrix.height + k] as number);
 				}
 				(out[j] ??= [])[i] = sum;
 			}
@@ -206,7 +212,9 @@ export default class SlowMatrix extends Float32Array implements Matrix {
 		const cols: Array<Array<number>> = [];
 		for (let x = 0; x < this.width; x++) {
 			for (let y = 0; y < this.height; y++) {
-				(cols[x] ??= [])[y] = (this[x * this.height + y] as number) - (matrix[x * matrix.height + y] as number);
+				(cols[x] ??= [])[y] =
+					(this[x * this.height + y] as number) -
+					(matrix[x * matrix.height + y] as number);
 			}
 		}
 
@@ -222,7 +230,7 @@ export default class SlowMatrix extends Float32Array implements Matrix {
 		const cols: Array<Array<number>> = [];
 		for (let x = 0; x < this.width; x++) {
 			for (let y = 0; y < this.height; y++) {
-				(cols[y] ??= [])[x] = (this[x * this.height + y] as number);
+				(cols[y] ??= [])[x] = this[x * this.height + y] as number;
 			}
 		}
 

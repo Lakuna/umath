@@ -1,10 +1,43 @@
 import {
-	add, angle, bezier, ceil, copy, cross, distance, divide, dot, equals, exactEquals, floor,
-	fromValues, getMagnitude, getSquaredMagnitude, hermite, invert, lerp, max, min, multiply,
-	negate, normalize, random, rotateX, rotateY, rotateZ, rotationTo, round, scale, scaleAndAdd,
-	squaredDistance, subtract, transformMatrix3, transformMatrix4, transformQuaternion, zero
-} from "#linalg/Vector3";
-import epsilon from "#utility/epsilon";
+	add,
+	angle,
+	bezier,
+	ceil,
+	copy,
+	cross,
+	distance,
+	divide,
+	dot,
+	equals,
+	exactEquals,
+	floor,
+	fromValues,
+	getMagnitude,
+	getSquaredMagnitude,
+	hermite,
+	invert,
+	lerp,
+	max,
+	min,
+	multiply,
+	negate,
+	normalize,
+	random,
+	rotateX,
+	rotateY,
+	rotateZ,
+	rotationTo,
+	round,
+	scale,
+	scaleAndAdd,
+	squaredDistance,
+	subtract,
+	transformMatrix3,
+	transformMatrix4,
+	transformQuaternion,
+	zero
+} from "#Vector3";
+import epsilon from "#epsilon";
 import { expect } from "chai";
 import { vec3, quat } from "gl-matrix";
 import { beforeEach, describe, it } from "mocha";
@@ -516,7 +549,7 @@ describe("Vector3", () => {
 		});
 	});
 
-	describe("#equals()", () =>  {
+	describe("#equals()", () => {
 		let c;
 		let d;
 		let e;
@@ -1402,7 +1435,7 @@ describe("Vector3", () => {
 				expect(b).to.have.ordered.members(bValues);
 			});
 		});
-		
+
 		describe("with the first vector as the output vector", () => {
 			beforeEach(() => {
 				innerResult = rotationTo(a, b, a);
@@ -1653,11 +1686,7 @@ describe("Vector3", () => {
 	});
 
 	describe("#transformMatrix3()", () => {
-		const matrixValues = [
-			1, 2, 3,
-			4, 5, 6,
-			7, 8, 9
-		];
+		const matrixValues = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 		const product = vec3.transformMat3([], aValues, matrixValues);
 
@@ -1710,10 +1739,7 @@ describe("Vector3", () => {
 
 	describe("#transformMatrix4()", () => {
 		const matrixValues = [
-			1, 2, 3, 4,
-			5, 6, 7, 8,
-			9, 10, 11, 12,
-			13, 14, 15, 16
+			1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
 		];
 
 		const product = vec3.transformMat4([], aValues, matrixValues);

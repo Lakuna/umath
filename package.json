@@ -1,6 +1,6 @@
 {
 	"name": "@lakuna/umath",
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"description": "A lightweight math library.",
 	"keywords": [
 		"math"
@@ -30,7 +30,7 @@
 	},
 	"scripts": {
 		"build": "tsc",
-		"lint": "eslint src",
+		"lint": "prettier . --check && eslint src",
 		"doc": "typedoc src",
 		"test": "mocha"
 	},
@@ -41,8 +41,10 @@
 		"@typescript-eslint/parser": "^6.1.0",
 		"chai": "^4.3.7",
 		"eslint": "^8.45.0",
+		"eslint-config-prettier": "^9.0.0",
 		"gl-matrix": "^3.4.3",
 		"mocha": "^10.2.0",
+		"prettier": "^3.0.2",
 		"typedoc": "^0.24.8",
 		"typescript": "^5.1.6"
 	},
@@ -60,10 +62,39 @@
 		"./Vector4": "./dist/linalg/Vector4.js"
 	},
 	"imports": {
-		"#algorithms/*": "./dist/algorithms/*.js",
-		"#linalg/*": "./dist/linalg/*.js",
-		"#types/*": "./dist/types/*.js",
-		"#utility/*": "./dist/utility/*.js"
+		"#combinations": "./dist/algorithms/combinations.js",
+		"#degreesToRadians": "./dist/algorithms/degreesToRadians.js",
+		"#factorial": "./dist/algorithms/factorial.js",
+		"#fibonacci": "./dist/algorithms/fibonacci.js",
+		"#greatestCommonDivisor": "./dist/algorithms/greatestCommonDivisor.js",
+		"#hypergeometricPmf": "./dist/algorithms/hypergeometricPmf.js",
+		"#isPrime": "./dist/algorithms/isPrime.js",
+		"#permutations": "./dist/algorithms/permutations.js",
+		"#primeFactorization": "./dist/algorithms/primeFactorization.js",
+		"#radiansToDegrees": "./dist/algorithms/radiansToDegrees.js",
+		"#summation": "./dist/algorithms/summation.js",
+		"#DualQuaternion": "./dist/linalg/DualQuaternion.js",
+		"#Matrix": "./dist/linalg/Matrix.js",
+		"#Matrix2": "./dist/linalg/Matrix2.js",
+		"#Matrix3": "./dist/linalg/Matrix3.js",
+		"#Matrix4": "./dist/linalg/Matrix4.js",
+		"#Quaternion": "./dist/linalg/Quaternion.js",
+		"#SlowMatrix": "./dist/linalg/SlowMatrix.js",
+		"#SlowSquareMatrix": "./dist/linalg/SlowSquareMatrix.js",
+		"#SquareMatrix": "./dist/linalg/SquareMatrix.js",
+		"#Vector": "./dist/linalg/Vector.js",
+		"#Vector2": "./dist/linalg/Vector2.js",
+		"#Vector3": "./dist/linalg/Vector3.js",
+		"#Vector4": "./dist/linalg/Vector4.js",
+		"#AxisAngle": "./dist/types/AxisAngle.js",
+		"#FieldOfView": "./dist/types/FieldOfView.js",
+		"#IntegerRepresentation": "./dist/types/IntegerRepresentation.js",
+		"#BigNumber": "./dist/utility/BigNumber.js",
+		"#epsilon": "./dist/utility/epsilon.js",
+		"#MagnitudeError": "./dist/utility/MagnitudeError.js",
+		"#MatrixSizeError": "./dist/utility/MatrixSizeError.js",
+		"#PartialMatrixError": "./dist/utility/PartialMatrixError.js",
+		"#SingularMatrixError": "./dist/utility/SingularMatrixError.js"
 	},
 	"types": "./dist/index.d.ts",
 	"type": "module",

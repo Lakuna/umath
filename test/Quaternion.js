@@ -1,7 +1,25 @@
 import {
-	calculateW, conjugate, exp, fromAxes, fromEuler, fromMatrix3, getAngle, getAxisAngle, identity,
-	invert, ln, multiply, pow, random, rotateX, rotateY, rotateZ, setAxisAngle, slerp, sqlerp
-} from "#linalg/Quaternion";
+	calculateW,
+	conjugate,
+	exp,
+	fromAxes,
+	fromEuler,
+	fromMatrix3,
+	getAngle,
+	getAxisAngle,
+	identity,
+	invert,
+	ln,
+	multiply,
+	pow,
+	random,
+	rotateX,
+	rotateY,
+	rotateZ,
+	setAxisAngle,
+	slerp,
+	sqlerp
+} from "#Quaternion";
 import { expect } from "chai";
 import { quat } from "gl-matrix";
 import { beforeEach, describe, it } from "mocha";
@@ -165,7 +183,10 @@ describe("Quaternion", () => {
 		});
 
 		it("should return the correct value", () => {
-			expect(innerResult).to.deep.equal({ axis: expectedAxis, angle: expectedAngle });
+			expect(innerResult).to.deep.equal({
+				axis: expectedAxis,
+				angle: expectedAngle
+			});
 		});
 
 		it("should return the `out` parameter", () => {
@@ -490,8 +511,15 @@ describe("Quaternion", () => {
 	});
 
 	describe("#setAxisAngle()", () => {
-		const axisAngleValues = { axis: Math.PI / 2, angle: [1 / Math.sqrt(2), 0, 1 / Math.sqrt(2)] }
-		const expected = quat.setAxisAngle([], axisAngleValues.axis, axisAngleValues.angle);
+		const axisAngleValues = {
+			axis: Math.PI / 2,
+			angle: [1 / Math.sqrt(2), 0, 1 / Math.sqrt(2)]
+		};
+		const expected = quat.setAxisAngle(
+			[],
+			axisAngleValues.axis,
+			axisAngleValues.angle
+		);
 
 		let axisAngle;
 
@@ -785,11 +813,7 @@ describe("Quaternion", () => {
 	});
 
 	describe(".fromMatrix3()", () => {
-		const matrixValues = [
-			1, 2, 3,
-			4, 5, 6,
-			7, 8, 9
-		]
+		const matrixValues = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 		const expected = quat.fromMat3([], matrixValues);
 

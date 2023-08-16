@@ -1,4 +1,4 @@
-import combinations from "#algorithms/combinations";
+import combinations from "#combinations";
 
 /**
  * The probability mass function for the hypergeometric distribution.
@@ -9,6 +9,11 @@ import combinations from "#algorithms/combinations";
  * @see [Hypergeometric distribution](https://en.wikipedia.org/wiki/Hypergeometric_distribution)
  * @see [Probability mass function](https://en.wikipedia.org/wiki/Probability_mass_function)
  */
-export default function hypergeometricPmf(N: number, K: number, n: number, k: number): number {
-    return (combinations(K, k) * combinations(N - K, n - k)) / combinations(N, n);
+export default function hypergeometricPmf(
+	N: number,
+	K: number,
+	n: number,
+	k: number
+): number {
+	return (combinations(K, k) * combinations(N - K, n - k)) / combinations(N, n);
 }

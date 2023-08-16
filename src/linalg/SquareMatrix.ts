@@ -1,4 +1,4 @@
-import type Matrix from "#linalg/Matrix";
+import type Matrix from "#Matrix";
 
 /**
  * A matrix with the same number of rows and columns.

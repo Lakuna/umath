@@ -1,11 +1,33 @@
 import {
-	add, conjugate, copy, equals, exactEquals, fromMatrix4, fromRotation, fromRotationTranslation,
-	fromTranslation, fromValues, getDual, getTranslation, identity, invert, lerp, multiply,
-	normalize, rotateAroundAxis, rotateByQuaternionAppend, rotateByQuaternionPrepend, rotateX,
-	rotateY, rotateZ, scale, setDual, translate
-} from "#linalg/DualQuaternion";
-import { getMagnitude } from "#linalg/Vector4";
-import epsilon from "#utility/epsilon";
+	add,
+	conjugate,
+	copy,
+	equals,
+	exactEquals,
+	fromMatrix4,
+	fromRotation,
+	fromRotationTranslation,
+	fromTranslation,
+	fromValues,
+	getDual,
+	getTranslation,
+	identity,
+	invert,
+	lerp,
+	multiply,
+	normalize,
+	rotateAroundAxis,
+	rotateByQuaternionAppend,
+	rotateByQuaternionPrepend,
+	rotateX,
+	rotateY,
+	rotateZ,
+	scale,
+	setDual,
+	translate
+} from "#DualQuaternion";
+import { getMagnitude } from "#Vector4";
+import epsilon from "#epsilon";
 import { expect } from "chai";
 import { quat2 } from "gl-matrix";
 import { beforeEach, describe, it } from "mocha";
@@ -142,7 +164,7 @@ describe("DualQuaternion", () => {
 		});
 	});
 
-	describe("#equals()", () =>  {
+	describe("#equals()", () => {
 		let c;
 		let d;
 		let e;
@@ -869,10 +891,7 @@ describe("DualQuaternion", () => {
 
 	describe(".fromMatrix4()", () => {
 		const matrixValues = [
-			1, 2, 3, 4,
-			5, 6, 7, 8,
-			9, 10, 11, 12,
-			13, 14, 15, 16
+			1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
 		];
 
 		const expected = quat2.fromMat4([], matrixValues);
@@ -926,7 +945,11 @@ describe("DualQuaternion", () => {
 	describe(".fromRotationTranslation()", () => {
 		const rotationValues = [0, -1 / Math.sqrt(2), 0, 1 / Math.sqrt(2)];
 		const translationValues = [1, 2, 3];
-		const expected = quat2.fromRotationTranslation([], rotationValues, translationValues);
+		const expected = quat2.fromRotationTranslation(
+			[],
+			rotationValues,
+			translationValues
+		);
 
 		let rotation;
 		let translation;

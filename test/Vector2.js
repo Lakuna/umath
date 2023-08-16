@@ -1,10 +1,38 @@
 import {
-	add, angle, ceil, copy, cross, distance, divide, dot, equals, exactEquals, floor, fromValues,
-	getMagnitude, getSquaredMagnitude, invert, lerp, max, min, multiply, negate, normalize, random,
-	rotate, round, scale, scaleAndAdd, squaredDistance, subtract, transformMatrix2,
-	transformMatrix3, transformMatrix4, zero
-} from "#linalg/Vector2";
-import epsilon from "#utility/epsilon";
+	add,
+	angle,
+	ceil,
+	copy,
+	cross,
+	distance,
+	divide,
+	dot,
+	equals,
+	exactEquals,
+	floor,
+	fromValues,
+	getMagnitude,
+	getSquaredMagnitude,
+	invert,
+	lerp,
+	max,
+	min,
+	multiply,
+	negate,
+	normalize,
+	random,
+	rotate,
+	round,
+	scale,
+	scaleAndAdd,
+	squaredDistance,
+	subtract,
+	transformMatrix2,
+	transformMatrix3,
+	transformMatrix4,
+	zero
+} from "#Vector2";
+import epsilon from "#epsilon";
 import { expect } from "chai";
 import { vec2 } from "gl-matrix";
 import { beforeEach, describe, it } from "mocha";
@@ -367,7 +395,7 @@ describe("Vector2", () => {
 		});
 	});
 
-	describe("#equals()", () =>  {
+	describe("#equals()", () => {
 		let c;
 		let d;
 		let e;
@@ -1143,10 +1171,7 @@ describe("Vector2", () => {
 	});
 
 	describe("#transformMatrix2()", () => {
-		const matrixValues = [
-			1, 2,
-			3, 4
-		];
+		const matrixValues = [1, 2, 3, 4];
 
 		const product = vec2.transformMat2([], aValues, matrixValues);
 
@@ -1198,11 +1223,7 @@ describe("Vector2", () => {
 	});
 
 	describe("#transformMatrix3()", () => {
-		const matrixValues = [
-			1, 2, 3,
-			4, 5, 6,
-			7, 8, 9
-		];
+		const matrixValues = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 		const product = vec2.transformMat3([], aValues, matrixValues);
 
@@ -1255,10 +1276,7 @@ describe("Vector2", () => {
 
 	describe("#transformMatrix4()", () => {
 		const matrixValues = [
-			1, 2, 3, 4,
-			5, 6, 7, 8,
-			9, 10, 11, 12,
-			13, 14, 15, 16
+			1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
 		];
 
 		const product = vec2.transformMat4([], aValues, matrixValues);
