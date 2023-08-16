@@ -1,13 +1,16 @@
-import SlowMatrix from "#linalg/SlowMatrix";
-import type SquareMatrix from "#linalg/SquareMatrix";
-import MatrixSizeError from "#utility/MatrixSizeError";
-import SingularMatrixError from "#utility/SingularMatrixError";
+import SlowMatrix from "#SlowMatrix";
+import type SquareMatrix from "#SquareMatrix";
+import MatrixSizeError from "#MatrixSizeError";
+import SingularMatrixError from "#SingularMatrixError";
 
 /**
  * A variable-size matrix with the same number of rows and columns.
  * @see [Square matrix](https://en.wikipedia.org/wiki/Square_matrix)
  */
-export default class SlowSquareMatrix extends SlowMatrix implements SquareMatrix {
+export default class SlowSquareMatrix
+	extends SlowMatrix
+	implements SquareMatrix
+{
 	/**
 	 * Creates a variable-size matrix with the same number of rows and columns from the given columns.
 	 * @param cols The columns in the matrix.
@@ -39,9 +42,10 @@ export default class SlowSquareMatrix extends SlowMatrix implements SquareMatrix
 
 		let out = 0;
 		for (let i = 0; i < this.width; i++) {
-			out += (this[i * this.height] as number) * (i % 2 ? -1 : 1) * this.minor(0, i);
+			out +=
+				(this[i * this.height] as number) * (i % 2 ? -1 : 1) * this.minor(0, i);
 		}
-		
+
 		return out;
 	}
 
@@ -76,8 +80,10 @@ export default class SlowSquareMatrix extends SlowMatrix implements SquareMatrix
 	 */
 	public cofactor(): SlowSquareMatrix {
 		const out: Array<Array<number>> = [];
-		for (let i = 0; i < this.width; i++) { // col i
-			for (let j = 0; j < this.height; j++) { // row j
+		for (let i = 0; i < this.width; i++) {
+			// col i
+			for (let j = 0; j < this.height; j++) {
+				// row j
 				(out[j] ??= [])[i] = ((i + j) % 2 ? -1 : 1) * this.minor(i, j);
 			}
 		}
@@ -96,7 +102,7 @@ export default class SlowSquareMatrix extends SlowMatrix implements SquareMatrix
 				this[i * this.height + j] = i == j ? 1 : 0;
 			}
 		}
-		
+
 		return this;
 	}
 
@@ -118,7 +124,10 @@ export default class SlowSquareMatrix extends SlowMatrix implements SquareMatrix
 					if (clone[ii * dim + i]) {
 						for (let j = 0; j < dim; j++) {
 							for (const matrix of [clone, identity]) {
-								[matrix[i * dim + j], matrix[ii * dim + j]] = [matrix[ii * dim + j] as number, matrix[i * dim + j] as number];
+								[matrix[i * dim + j], matrix[ii * dim + j]] = [
+									matrix[ii * dim + j] as number,
+									matrix[i * dim + j] as number
+								];
 							}
 						}
 
@@ -180,7 +189,9 @@ export default class SlowSquareMatrix extends SlowMatrix implements SquareMatrix
 					continue;
 				}
 
-				(cols[i < col ? i : i - 1] ??= [])[j < row ? j : j - 1] = this[i * this.height + j] as number;
+				(cols[i < col ? i : i - 1] ??= [])[j < row ? j : j - 1] = this[
+					i * this.height + j
+				] as number;
 			}
 		}
 
@@ -196,7 +207,7 @@ export default class SlowSquareMatrix extends SlowMatrix implements SquareMatrix
 		const cols: Array<Array<number>> = [];
 		for (let x = 0; x < this.width; x++) {
 			for (let y = 0; y < this.height; y++) {
-				(cols[y] ??= [])[x] = (this[x * this.height + y] as number);
+				(cols[y] ??= [])[x] = this[x * this.height + y] as number;
 			}
 		}
 

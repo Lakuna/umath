@@ -8,6 +8,6 @@ export default function factorial(n: number): number {
 	return n < 0
 		? Infinity * (n % 2 ? 1 : -1) // Division by zero returns `Infinity` in JavaScript.
 		: n == 0
-			? 1
-			: n * factorial(n - 1);
+		? 1
+		: n * factorial(n - 1);
 }

@@ -1,5 +1,5 @@
-import greatestCommonDivisor from "#algorithms/greatestCommonDivisor";
-import type { IntegerRepresentation } from "#types/IntegerRepresentation";
+import greatestCommonDivisor from "#greatestCommonDivisor";
+import type { IntegerRepresentation } from "#IntegerRepresentation";
 
 /** A number with no maximum precise size. */
 export default class BigNumber {
@@ -14,12 +14,20 @@ export default class BigNumber {
 	 * @param dividend The dividend of the fraction.
 	 * @param divisor The divisor of the fraction.
 	 */
-	public constructor(dividend?: IntegerRepresentation, divisor?: IntegerRepresentation);
+	public constructor(
+		dividend?: IntegerRepresentation,
+		divisor?: IntegerRepresentation
+	);
 
-	public constructor(dividend: IntegerRepresentation = 0, divisor: IntegerRepresentation = 1) {
+	public constructor(
+		dividend: IntegerRepresentation = 0,
+		divisor: IntegerRepresentation = 1
+	) {
 		this.dividend = BigInt(dividend);
 		this.divisor = BigInt(divisor);
-		if (!this.divisor) { throw new Error("Cannot divide by zero."); }
+		if (!this.divisor) {
+			throw new Error("Cannot divide by zero.");
+		}
 		this.simplify();
 	}
 
@@ -118,7 +126,10 @@ export default class BigNumber {
 	 * @returns This number as a `number`.
 	 */
 	public toNumber(): number {
-		return Number(this.dividend / this.divisor) + (Number(this.dividend % this.divisor) / Number(this.divisor));
+		return (
+			Number(this.dividend / this.divisor) +
+			Number(this.dividend % this.divisor) / Number(this.divisor)
+		);
 	}
 
 	/**

@@ -1,30 +1,54 @@
 import {
-	add, adjoint, copy, determinant, equals, exactEquals, frob, fromDualQuaternion, fromRotation,
-	fromRotationTranslation, fromRotationTranslationScale, fromRotationTranslationScaleOrigin,
-	fromScaling, fromTranslation, fromValues, fromXRotation, fromYRotation, fromZRotation, frustum,
-	getRotation, getScaling, getTranslation, identity, invert, lookAt, multiply, multiplyScalar,
-	multiplyScalarAndAdd, ortho, perspective, perspectiveFromFieldOfView, rotate, rotateX, rotateY,
-	rotateZ, scale, subtract, targetTo, translate, transpose
-} from "#linalg/Matrix4";
-import epsilon from "#utility/epsilon";
+	add,
+	adjoint,
+	copy,
+	determinant,
+	equals,
+	exactEquals,
+	frob,
+	fromDualQuaternion,
+	fromRotation,
+	fromRotationTranslation,
+	fromRotationTranslationScale,
+	fromRotationTranslationScaleOrigin,
+	fromScaling,
+	fromTranslation,
+	fromValues,
+	fromXRotation,
+	fromYRotation,
+	fromZRotation,
+	frustum,
+	getRotation,
+	getScaling,
+	getTranslation,
+	identity,
+	invert,
+	lookAt,
+	multiply,
+	multiplyScalar,
+	multiplyScalarAndAdd,
+	ortho,
+	perspective,
+	perspectiveFromFieldOfView,
+	rotate,
+	rotateX,
+	rotateY,
+	rotateZ,
+	scale,
+	subtract,
+	targetTo,
+	translate,
+	transpose
+} from "#Matrix4";
+import epsilon from "#epsilon";
 import { expect } from "chai";
 import { mat4 } from "gl-matrix";
 import { beforeEach, describe, it } from "mocha";
 
 describe("Matrix4", () => {
-	const aValues = [
-		1, 0, 0, 0,
-		0, 1, 0, 0,
-		0, 0, 1, 0,
-		1, 2, 3, 1
-	];
+	const aValues = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 2, 3, 1];
 
-	const bValues = [
-		1, 0, 0, 0,
-		0, 1, 0, 0,
-		0, 0, 1, 0,
-		4, 5, 6, 1
-	];
+	const bValues = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 4, 5, 6, 1];
 
 	let a;
 	let b;
@@ -190,7 +214,7 @@ describe("Matrix4", () => {
 		});
 	});
 
-	describe("#equals()", () =>  {
+	describe("#equals()", () => {
 		let c;
 		let d;
 		let e;
@@ -342,12 +366,7 @@ describe("Matrix4", () => {
 	});
 
 	describe("#identity()", () => {
-		const expected = [
-			1, 0, 0, 0,
-			0, 1, 0, 0,
-			0, 0, 1, 0,
-			0, 0, 0, 1
-		];
+		const expected = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
 
 		beforeEach(() => {
 			result = identity(out);
@@ -973,7 +992,11 @@ describe("Matrix4", () => {
 	describe(".fromRotationTranslation()", () => {
 		const rotationValues = [0, -1 / Math.sqrt(2), 0, 1 / Math.sqrt(2)];
 		const translationValues = [1, 2, 3];
-		const expected = mat4.fromRotationTranslation([], rotationValues, translationValues);
+		const expected = mat4.fromRotationTranslation(
+			[],
+			rotationValues,
+			translationValues
+		);
 
 		let rotation;
 		let translation;
@@ -1006,7 +1029,12 @@ describe("Matrix4", () => {
 		const rotationValues = [0, -1 / Math.sqrt(2), 0, 1 / Math.sqrt(2)];
 		const translationValues = [1, 2, 3];
 		const scalingValues = [1, 2, 3];
-		const expected = mat4.fromRotationTranslationScale([], rotationValues, translationValues, scalingValues);
+		const expected = mat4.fromRotationTranslationScale(
+			[],
+			rotationValues,
+			translationValues,
+			scalingValues
+		);
 
 		let rotation;
 		let translation;
@@ -1017,7 +1045,12 @@ describe("Matrix4", () => {
 			translation = [...translationValues];
 			scaling = [...scalingValues];
 
-			result = fromRotationTranslationScale(rotation, translation, scaling, out);
+			result = fromRotationTranslationScale(
+				rotation,
+				translation,
+				scaling,
+				out
+			);
 		});
 
 		it("should return the correct value", () => {
@@ -1046,7 +1079,13 @@ describe("Matrix4", () => {
 		const translationValues = [1, 2, 3];
 		const scalingValues = [1, 2, 3];
 		const originValues = [1, 2, 3];
-		const expected = mat4.fromRotationTranslationScaleOrigin([], rotationValues, translationValues, scalingValues, originValues);
+		const expected = mat4.fromRotationTranslationScaleOrigin(
+			[],
+			rotationValues,
+			translationValues,
+			scalingValues,
+			originValues
+		);
 
 		let rotation;
 		let translation;
@@ -1059,7 +1098,13 @@ describe("Matrix4", () => {
 			scaling = [...scalingValues];
 			origin = [...originValues];
 
-			result = fromRotationTranslationScaleOrigin(rotation, translation, scaling, origin, out);
+			result = fromRotationTranslationScaleOrigin(
+				rotation,
+				translation,
+				scaling,
+				origin,
+				out
+			);
 		});
 
 		it("should return the correct value", () => {
@@ -1130,12 +1175,7 @@ describe("Matrix4", () => {
 	});
 
 	describe(".fromValues()", () => {
-		const expected = [
-			1, 2, 3, 4,
-			5, 6, 7, 8,
-			9, 10, 11, 12,
-			13, 14, 15, 16
-		];
+		const expected = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
 
 		beforeEach(() => {
 			result = fromValues(...expected, out);

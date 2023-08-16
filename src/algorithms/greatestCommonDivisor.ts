@@ -16,10 +16,17 @@ export default function greatestCommonDivisor(a: bigint, b: bigint): bigint;
  */
 export default function greatestCommonDivisor(a: number, b: number): number;
 
-export default function greatestCommonDivisor(a: bigint | number, b: bigint | number): bigint | number {
+export default function greatestCommonDivisor(
+	a: bigint | number,
+	b: bigint | number
+): bigint | number {
 	// Ensure that all of the integers are positive.
-	if (a < 0) { a = -a; }
-	if (b < 0) { b = -b; }
+	if (a < 0) {
+		a = -a;
+	}
+	if (b < 0) {
+		b = -b;
+	}
 
 	// Apply the Euclidean algorithm.
 	while (b) {

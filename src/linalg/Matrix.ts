@@ -20,7 +20,7 @@ export default interface Matrix extends ArrayLike<number> {
 	 * @see [Matrix norm](https://en.wikipedia.org/wiki/Matrix_norm)
 	 */
 	get frob(): number;
-	
+
 	/**
 	 * Adds two matrices of the same size.
 	 * @param matrix The other matrix.

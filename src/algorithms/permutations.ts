@@ -1,4 +1,4 @@
-import factorial from "#algorithms/factorial";
+import factorial from "#factorial";
 
 /**
  * Calculates the number of permutations.

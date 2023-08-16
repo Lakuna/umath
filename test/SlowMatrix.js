@@ -1,5 +1,5 @@
-import SlowMatrix from "#linalg/SlowMatrix";
-import epsilon from "#utility/epsilon";
+import SlowMatrix from "#SlowMatrix";
+import epsilon from "#epsilon";
 import { expect } from "chai";
 import { beforeEach, describe, it } from "mocha";
 import { mat4 } from "gl-matrix";
@@ -95,7 +95,7 @@ describe("SlowMatrix", () => {
 		});
 	});
 
-	describe("#equals()", () =>  {
+	describe("#equals()", () => {
 		let c;
 		let d;
 		let e;

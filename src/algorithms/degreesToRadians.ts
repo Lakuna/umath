@@ -6,5 +6,5 @@
  * @see [Radian](https://en.wikipedia.org/wiki/Radian)
  */
 export default function degreesToRadians(degrees: number): number {
-	return degrees * Math.PI / 180;
+	return (degrees * Math.PI) / 180;
 }

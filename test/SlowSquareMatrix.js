@@ -1,4 +1,4 @@
-import SlowSquareMatrix from "#linalg/SlowSquareMatrix";
+import SlowSquareMatrix from "#SlowSquareMatrix";
 import { expect } from "chai";
 import { mat4 } from "gl-matrix";
 import { beforeEach, describe, it } from "mocha";
@@ -64,12 +64,7 @@ describe("SlowSquareMatrix", () => {
 
 	describe("#cofactor()", () => {
 		// TODO: Automate based on `a`.
-		const expected = [
-			1, 0, 0, -1,
-			0, 1, 0, -2,
-			0, 0, 1, -3,
-			0, 0, 0, 1
-		];
+		const expected = [1, 0, 0, -1, 0, 1, 0, -2, 0, 0, 1, -3, 0, 0, 0, 1];
 
 		beforeEach(() => {
 			result = a.cofactor();
@@ -85,12 +80,7 @@ describe("SlowSquareMatrix", () => {
 	});
 
 	describe("#identity()", () => {
-		const expected = [
-			1, 0, 0, 0,
-			0, 1, 0, 0,
-			0, 0, 1, 0,
-			0, 0, 0, 1
-		];
+		const expected = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
 
 		beforeEach(() => {
 			result = a.identity();
@@ -148,11 +138,7 @@ describe("SlowSquareMatrix", () => {
 		const col = 0;
 
 		// TODO: Automate based on `a`, `row`, and `col`.
-		const expected = [
-			1, 0, 0,
-			0, 1, 0,
-			2, 3, 1
-		];
+		const expected = [1, 0, 0, 0, 1, 0, 2, 3, 1];
 
 		let innerResult;
 

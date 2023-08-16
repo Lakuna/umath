@@ -1,25 +1,39 @@
 import {
-	add, adjoint, copy, determinant, equals, exactEquals, frob, fromMatrix4, fromQuaternion,
-	fromRotation, fromScaling, fromTranslation, fromValues, identity, invert, multiply, multiplyScalar,
-	multiplyScalarAndAdd, normalFromMatrix4, projection, rotate, scale, subtract, translate, transpose
-} from "#linalg/Matrix3";
-import epsilon from "#utility/epsilon";
+	add,
+	adjoint,
+	copy,
+	determinant,
+	equals,
+	exactEquals,
+	frob,
+	fromMatrix4,
+	fromQuaternion,
+	fromRotation,
+	fromScaling,
+	fromTranslation,
+	fromValues,
+	identity,
+	invert,
+	multiply,
+	multiplyScalar,
+	multiplyScalarAndAdd,
+	normalFromMatrix4,
+	projection,
+	rotate,
+	scale,
+	subtract,
+	translate,
+	transpose
+} from "#Matrix3";
+import epsilon from "#epsilon";
 import { expect } from "chai";
 import { mat3, mat4 } from "gl-matrix";
 import { beforeEach, describe, it } from "mocha";
 
 describe("Matrix3", () => {
-	const aValues = [
-		1, 0, 0,
-		0, 1, 0,
-		1, 2, 1
-	];
+	const aValues = [1, 0, 0, 0, 1, 0, 1, 2, 1];
 
-	const bValues = [
-		1, 0, 0,
-		0, 1, 0,
-		3, 4, 1
-	];
+	const bValues = [1, 0, 0, 0, 1, 0, 3, 4, 1];
 
 	let a;
 	let b;
@@ -185,7 +199,7 @@ describe("Matrix3", () => {
 		});
 	});
 
-	describe("#equals()", () =>  {
+	describe("#equals()", () => {
 		let c;
 		let d;
 		let e;
@@ -262,11 +276,7 @@ describe("Matrix3", () => {
 	});
 
 	describe("#identity()", () => {
-		const expected = [
-			1, 0, 0,
-			0, 1, 0,
-			0, 0, 1
-		];
+		const expected = [1, 0, 0, 0, 1, 0, 0, 0, 1];
 
 		beforeEach(() => {
 			result = identity(out);
@@ -718,10 +728,7 @@ describe("Matrix3", () => {
 
 	describe(".fromMatrix4()", () => {
 		const matrixValues = [
-			1, 2, 3, 4,
-			5, 6, 7, 8,
-			9, 10, 11, 12,
-			13, 14, 15, 16
+			1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
 		];
 
 		const expected = mat3.fromMat4([], matrixValues);
@@ -832,11 +839,7 @@ describe("Matrix3", () => {
 	});
 
 	describe(".fromValues()", () => {
-		const expected = [
-			1, 2, 3,
-			4, 5, 6,
-			7, 8, 9
-		];
+		const expected = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 		beforeEach(() => {
 			result = fromValues(...expected, out);
@@ -855,7 +858,11 @@ describe("Matrix3", () => {
 		describe("with rotation and translation", () => {
 			const rotation = [0, -1 / Math.sqrt(2), 0, 1 / Math.sqrt(2)];
 			const translation = [1, 2, 3];
-			const matrixValues = mat4.fromRotationTranslation([], rotation, translation);
+			const matrixValues = mat4.fromRotationTranslation(
+				[],
+				rotation,
+				translation
+			);
 			const expected = mat3.normalFromMat4([], matrixValues);
 
 			let matrix;
@@ -869,7 +876,7 @@ describe("Matrix3", () => {
 			it("should return the correct value", () => {
 				expect(result).to.have.ordered.members(expected);
 			});
-	
+
 			it("should return the `out` parameter", () => {
 				expect(result).to.equal(out);
 			});
@@ -880,7 +887,12 @@ describe("Matrix3", () => {
 
 			describe("with scaling", () => {
 				const scaling = [1, 2, 3];
-				const innerMatrixValues = mat4.fromRotationTranslationScale([], rotation, translation, scaling);
+				const innerMatrixValues = mat4.fromRotationTranslationScale(
+					[],
+					rotation,
+					translation,
+					scaling
+				);
 				const innerExpected = mat3.normalFromMat4([], innerMatrixValues);
 
 				let innerMatrix;
@@ -894,11 +906,11 @@ describe("Matrix3", () => {
 				it("should return the correct value", () => {
 					expect(result).to.have.ordered.members(innerExpected);
 				});
-		
+
 				it("should return the `out` parameter", () => {
 					expect(result).to.equal(out);
 				});
-	
+
 				it("should not modify the original matrix", () => {
 					expect(matrix).to.have.ordered.members(matrixValues);
 				});
