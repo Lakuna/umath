@@ -35,6 +35,7 @@ import {
 	rotateY,
 	rotateZ,
 	scale,
+	setTranslation,
 	subtract,
 	targetTo,
 	translate,
@@ -362,6 +363,46 @@ describe("Matrix4", () => {
 
 		it("should not modify the original matrix", () => {
 			expect(a).to.have.ordered.members(aValues);
+		});
+	});
+
+	describe("#setTranslation()", () => {
+		const translation = [16, 17, 18];
+		const expected = [...aValues];
+		expected[12] = translation[0];
+		expected[13] = translation[1];
+		expected[14] = translation[2];
+
+		describe("with a separate output matrix", () => {
+			beforeEach(() => {
+				result = setTranslation(a, translation, out);
+			});
+
+			it("should return the correct value", () => {
+				expect(result).to.have.ordered.members(expected);
+			});
+
+			it("should return the `out` parameter", () => {
+				expect(result).to.equal(out);
+			});
+
+			it("should not modify the original matrix", () => {
+				expect(a).to.have.ordered.members(aValues);
+			});
+		});
+
+		describe("with the same output matrix", () => {
+			beforeEach(() => {
+				result = setTranslation(a, translation, a);
+			});
+
+			it("should return the correct value", () => {
+				expect(result).to.have.ordered.members(expected);
+			});
+
+			it("should return the `out` parameter", () => {
+				expect(result).to.equal(a);
+			});
 		});
 	});
 

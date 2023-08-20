@@ -1827,9 +1827,25 @@ export function setTranslation<T extends Matrix4Like>(
 	translation: Vector3Like,
 	out: T
 ): T {
-	matrix[12] = translation[0];
-	matrix[13] = translation[1];
-	matrix[14] = translation[2];
+	if (out != matrix) {
+		out[0] = matrix[0];
+		out[1] = matrix[1];
+		out[2] = matrix[2];
+		out[3] = matrix[3];
+		out[4] = matrix[4];
+		out[5] = matrix[5];
+		out[6] = matrix[6];
+		out[7] = matrix[7];
+		out[8] = matrix[8];
+		out[9] = matrix[9];
+		out[10] = matrix[10];
+		out[11] = matrix[11];
+		out[15] = matrix[15];
+	}
+
+	out[12] = translation[0];
+	out[13] = translation[1];
+	out[14] = translation[2];
 	return out;
 }
 
@@ -3132,10 +3148,7 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 		translation: Vector3Like,
 		out: T = new Matrix4() as T
 	): T {
-		matrix[12] = translation[0];
-		matrix[13] = translation[1];
-		matrix[14] = translation[2];
-		return out;
+		return setTranslation(matrix, translation, out);
 	}
 
 	/**
