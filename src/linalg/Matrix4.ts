@@ -1815,6 +1815,25 @@ export function getTranslation<T extends Vector3Like>(
 }
 
 /**
+ * Sets the translation vector component of a transformation matrix.
+ * @param matrix The matrix.
+ * @param translation The translation vector.
+ * @param out The matrix to store the result in.
+ * @returns The transformation matrix.
+ * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
+ */
+export function setTranslation<T extends Matrix4Like>(
+	matrix: Matrix4Like,
+	translation: Vector3Like,
+	out: T
+): T {
+	matrix[12] = translation[0];
+	matrix[13] = translation[1];
+	matrix[14] = translation[2];
+	return out;
+}
+
+/**
  * Gets the scaling factor of a transformation matrix.
  * @param matrix The matrix.
  * @param out The vector to store the result in.
@@ -3083,6 +3102,40 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 
 	public getTranslation<T extends Vector3Like>(out: T = new Vector3() as T): T {
 		return getTranslation(this, out);
+	}
+
+	/**
+	 * Sets the translation vector component of a transformation matrix.
+	 * @param matrix The matrix.
+	 * @param translation The translation vector.
+	 * @returns The transformation matrix.
+	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
+	 */
+	public setTranslation(matrix: Matrix4Like, translation: Vector3Like): Matrix4;
+
+	/**
+	 * Sets the translation vector component of a transformation matrix.
+	 * @param matrix The matrix.
+	 * @param translation The translation vector.
+	 * @param out The matrix to store the result in.
+	 * @returns The transformation matrix.
+	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
+	 */
+	public setTranslation<T extends Matrix4Like>(
+		matrix: Matrix4Like,
+		translation: Vector3Like,
+		out: T
+	): T;
+
+	public setTranslation<T extends Matrix4Like>(
+		matrix: Matrix4Like,
+		translation: Vector3Like,
+		out: T = new Matrix4() as T
+	): T {
+		matrix[12] = translation[0];
+		matrix[13] = translation[1];
+		matrix[14] = translation[2];
+		return out;
 	}
 
 	/**
