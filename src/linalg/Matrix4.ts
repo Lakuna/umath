@@ -774,7 +774,7 @@ export function lookAt<T extends Matrix4Like>(
  * @returns The transformation matrix.
  * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
  */
-export function targetTo<T extends Matrix4>(
+export function targetTo<T extends Matrix4Like>(
 	eye: Vector3Like,
 	target: Vector3Like,
 	up: Vector3Like,
