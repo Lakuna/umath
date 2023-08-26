@@ -9,5 +9,6 @@ export default class SingularMatrixError extends Error {
 	 */
 	public constructor(message = "The matrix cannot be inverted.") {
 		super(message);
+		this.name = "SingularMatrixError";
 	}
 }

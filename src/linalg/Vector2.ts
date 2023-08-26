@@ -9,6 +9,14 @@ import epsilon from "#epsilon";
 export type Vector2Like = Vector2 | [number, number];
 
 /**
+ * Creates a 2x1 vector-like object.
+ * @returns A 2x1 vector-like object.
+ */
+export function createVector2Like(): Vector2Like {
+	return new Float32Array(2) as Vector2Like;
+}
+
+/**
  * Creates a vector with the given values.
  * @param x The first component.
  * @param y The second component.
@@ -84,7 +92,8 @@ export function copy<T extends Vector2Like>(vector: Vector2Like, out: T): T {
 }
 
 /**
- * Multiplies the components in one vector by the corresponding components in another.
+ * Multiplies the components in one vector by the corresponding components in
+ * another.
  * @param a The multiplicand.
  * @param b The multiplier.
  * @param out The vector to store the result in.
@@ -634,14 +643,16 @@ export default class Vector2 extends Float32Array implements Vector {
 	}
 
 	/**
-	 * Multiplies the components in this vector by the corresponding components in another.
+	 * Multiplies the components in this vector by the corresponding components
+	 * in another.
 	 * @param vector The other vector.
 	 * @returns The product of the vectors.
 	 */
 	public multiply(vector: Vector2Like): Vector2;
 
 	/**
-	 * Multiplies the components in this vector by the corresponding components in another.
+	 * Multiplies the components in this vector by the corresponding components
+	 * in another.
 	 * @param vector The other vector.
 	 * @param out The vector to store the result in.
 	 * @returns The product of the vectors.

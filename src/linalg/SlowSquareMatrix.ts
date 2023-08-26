@@ -12,7 +12,8 @@ export default class SlowSquareMatrix
 	implements SquareMatrix
 {
 	/**
-	 * Creates a variable-size matrix with the same number of rows and columns from the given columns.
+	 * Creates a variable-size matrix with the same number of rows and columns
+	 * from the given columns.
 	 * @param cols The columns in the matrix.
 	 * @see [Square matrix](https://en.wikipedia.org/wiki/Square_matrix)
 	 */
@@ -160,7 +161,8 @@ export default class SlowSquareMatrix
 	}
 
 	/**
-	 * Calculates the minor of this matrix which results from removing the given row and column.
+	 * Calculates the minor of this matrix which results from removing the
+	 * given row and column.
 	 * @param row The row to remove.
 	 * @param col The column to remove.
 	 * @returns The minor.
@@ -171,7 +173,8 @@ export default class SlowSquareMatrix
 	}
 
 	/**
-	 * Creates a submatrix by removing the given row and column from this matrix.
+	 * Creates a submatrix by removing the given row and column from this
+	 * matrix.
 	 * @param row The row to remove.
 	 * @param col The column to remove.
 	 * @returns The submatrix.

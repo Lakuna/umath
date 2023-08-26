@@ -14,7 +14,16 @@ export type Matrix3Like =
 	| [number, number, number, number, number, number, number, number, number];
 
 /**
- * Creates a transformation matrix that represents a rotation by the given angle around the Z-axis.
+ * Creates a 3x3 matrix-like object.
+ * @returns A 3x3 matrix-like object.
+ */
+export function createMatrix3Like(): Matrix3Like {
+	return new Float32Array(9) as Matrix3Like;
+}
+
+/**
+ * Creates a transformation matrix that represents a rotation by the given
+ * angle around the Z-axis.
  * @param radians The angle in radians.
  * @param out The matrix to store the result in.
  * @returns The transformation matrix.
@@ -40,7 +49,8 @@ export function fromRotation<T extends Matrix3Like>(
 }
 
 /**
- * Creates a transformation matrix that represents a scaling by the given vector.
+ * Creates a transformation matrix that represents a scaling by the given
+ * vector.
  * @param vector The scaling vector.
  * @param out The matrix to store the result in.
  * @returns The transformation matrix.
@@ -63,7 +73,8 @@ export function fromScaling<T extends Matrix3Like>(
 }
 
 /**
- * Creates a transformation matrix that represents a translation by the given vector.
+ * Creates a transformation matrix that represents a translation by the given
+ * vector.
  * @param vector The translation vector.
  * @param out The matrix to store the result in.
  * @returns The transformation matrix.
@@ -86,7 +97,8 @@ export function fromTranslation<T extends Matrix3Like>(
 }
 
 /**
- * Creates a transformation matrix that represents a rotation by the given quaternion.
+ * Creates a transformation matrix that represents a rotation by the given
+ * quaternion.
  * @param quaternion The quaternion.
  * @param out The matrix to store the result in.
  * @returns The transformation matrix.
@@ -128,7 +140,8 @@ export function fromQuaternion<T extends Matrix3Like>(
 }
 
 /**
- * Calculates a three-by-three normal (inverse transpose) matrix from a four-by-four matrix.
+ * Calculates a three-by-three normal (inverse transpose) matrix from a
+ * four-by-four matrix.
  * @param matrix The four-by-four matrix.
  * @param out The matrix to store the result in.
  * @returns The normal matrix.
@@ -214,7 +227,8 @@ export function projection<T extends Matrix3Like>(
 }
 
 /**
- * Creates a three-by-three matrix from the upper-left corner of a four-by-four matrix.
+ * Creates a three-by-three matrix from the upper-left corner of a four-by-four
+ * matrix.
  * @param matrix The four-by-four matrix.
  * @param out The matrix to store the result in.
  * @returns The three-by-three matrix.
@@ -778,7 +792,8 @@ export function translate<T extends Matrix3Like>(
  */
 export default class Matrix3 extends Float32Array implements SquareMatrix {
 	/**
-	 * Creates a transformation matrix that represents a rotation by the given angle around the Z-axis.
+	 * Creates a transformation matrix that represents a rotation by the given
+	 * angle around the Z-axis.
 	 * @param radians The angle in radians.
 	 * @returns The transformation matrix.
 	 * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
@@ -786,7 +801,8 @@ export default class Matrix3 extends Float32Array implements SquareMatrix {
 	public static fromRotation(radians: number): Matrix3;
 
 	/**
-	 * Creates a transformation matrix that represents a rotation by the given angle around the Z-axis.
+	 * Creates a transformation matrix that represents a rotation by the given
+	 * angle around the Z-axis.
 	 * @param radians The angle in radians.
 	 * @param out The matrix to store the result in.
 	 * @returns The transformation matrix.
@@ -802,7 +818,8 @@ export default class Matrix3 extends Float32Array implements SquareMatrix {
 	}
 
 	/**
-	 * Creates a transformation matrix that represents a scaling by the given vector.
+	 * Creates a transformation matrix that represents a scaling by the given
+	 * vector.
 	 * @param vector The scaling vector.
 	 * @returns The transformation matrix.
 	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
@@ -810,7 +827,8 @@ export default class Matrix3 extends Float32Array implements SquareMatrix {
 	public static fromScaling(vector: Vector2Like): Matrix3;
 
 	/**
-	 * Creates a transformation matrix that represents a scaling by the given vector.
+	 * Creates a transformation matrix that represents a scaling by the given
+	 * vector.
 	 * @param vector The scaling vector.
 	 * @param out The matrix to store the result in.
 	 * @returns The transformation matrix.
@@ -829,7 +847,8 @@ export default class Matrix3 extends Float32Array implements SquareMatrix {
 	}
 
 	/**
-	 * Creates a transformation matrix that represents a translation by the given vector.
+	 * Creates a transformation matrix that represents a translation by the
+	 * given vector.
 	 * @param vector The translation vector.
 	 * @returns The transformation matrix.
 	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
@@ -837,7 +856,8 @@ export default class Matrix3 extends Float32Array implements SquareMatrix {
 	public static fromTranslation(vector: Vector2Like): Matrix3;
 
 	/**
-	 * Creates a transformation matrix that represents a translation by the given vector.
+	 * Creates a transformation matrix that represents a translation by the
+	 * given vector.
 	 * @param vector The translation vector.
 	 * @param out The matrix to store the result in.
 	 * @returns The transformation matrix.
@@ -856,7 +876,8 @@ export default class Matrix3 extends Float32Array implements SquareMatrix {
 	}
 
 	/**
-	 * Creates a transformation matrix that represents a rotation by the given quaternion.
+	 * Creates a transformation matrix that represents a rotation by the given
+	 * quaternion.
 	 * @param quaternion The quaternion.
 	 * @returns The transformation matrix.
 	 * @see [Quaternion](https://en.wikipedia.org/wiki/Quaternion)
@@ -865,7 +886,8 @@ export default class Matrix3 extends Float32Array implements SquareMatrix {
 	public static fromQuaternion(quaternion: QuaternionLike): Matrix3;
 
 	/**
-	 * Creates a transformation matrix that represents a rotation by the given quaternion.
+	 * Creates a transformation matrix that represents a rotation by the given
+	 * quaternion.
 	 * @param quaternion The quaternion.
 	 * @param out The matrix to store the result in.
 	 * @returns The transformation matrix.
@@ -885,7 +907,8 @@ export default class Matrix3 extends Float32Array implements SquareMatrix {
 	}
 
 	/**
-	 * Calculates a three-by-three normal (inverse transpose) matrix from a four-by-four matrix.
+	 * Calculates a three-by-three normal (inverse transpose) matrix from a
+	 * four-by-four matrix.
 	 * @param matrix The four-by-four matrix.
 	 * @returns The normal matrix.
 	 * @see [Normal matrix](https://en.wikipedia.org/wiki/Normal_matrix)
@@ -893,7 +916,8 @@ export default class Matrix3 extends Float32Array implements SquareMatrix {
 	public static normalFromMatrix4(matrix: Matrix4Like): Matrix3;
 
 	/**
-	 * Calculates a three-by-three normal (inverse transpose) matrix from a four-by-four matrix.
+	 * Calculates a three-by-three normal (inverse transpose) matrix from a
+	 * four-by-four matrix.
 	 * @param matrix The four-by-four matrix.
 	 * @param out The matrix to store the result in.
 	 * @returns The normal matrix.
@@ -945,14 +969,16 @@ export default class Matrix3 extends Float32Array implements SquareMatrix {
 	}
 
 	/**
-	 * Creates a three-by-three matrix from the upper-left corner of a four-by-four matrix.
+	 * Creates a three-by-three matrix from the upper-left corner of a
+	 * four-by-four matrix.
 	 * @param matrix The four-by-four matrix.
 	 * @returns The three-by-three matrix.
 	 */
 	public static fromMatrix4(matrix: Matrix4Like): Matrix3;
 
 	/**
-	 * Creates a three-by-three matrix from the upper-left corner of a four-by-four matrix.
+	 * Creates a three-by-three matrix from the upper-left corner of a
+	 * four-by-four matrix.
 	 * @param matrix The four-by-four matrix.
 	 * @param out The matrix to store the result in.
 	 * @returns The three-by-three matrix.
