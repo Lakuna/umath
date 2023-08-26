@@ -7,6 +7,14 @@ import epsilon from "#epsilon";
 export type Vector4Like = Vector4 | [number, number, number, number];
 
 /**
+ * Creates a 4x1 vector-like object.
+ * @returns A 4x1 vector-like object.
+ */
+export function createVector4Like(): Vector4Like {
+	return new Float32Array(4) as Vector4Like;
+}
+
+/**
  * Creates a vector with the given values.
  * @param x The first component.
  * @param y The second component.
@@ -895,7 +903,8 @@ export default class Vector4 extends Float32Array implements Vector {
 	}
 
 	/**
-	 * Calculates the squared Euclidean distance between this vector and another.
+	 * Calculates the squared Euclidean distance between this vector and
+	 * another.
 	 * @param vector The other vector.
 	 * @returns The squared distance.
 	 * @see [Euclidean distance](https://en.wikipedia.org/wiki/Euclidean_distance)
@@ -978,7 +987,8 @@ export default class Vector4 extends Float32Array implements Vector {
 	}
 
 	/**
-	 * Calculates the cross product of this and two other vectors in a four-dimensional space.
+	 * Calculates the cross product of this and two other vectors in a
+	 * four-dimensional space.
 	 * @param a One other vector.
 	 * @param b The other other vector.
 	 * @returns The cross product.
@@ -987,7 +997,8 @@ export default class Vector4 extends Float32Array implements Vector {
 	public cross(a: Vector4Like, b: Vector4Like): Vector4;
 
 	/**
-	 * Calculates the cross product of this and two other vectors in a four-dimensional space.
+	 * Calculates the cross product of this and two other vectors in a
+	 * four-dimensional space.
 	 * @param a One other vector.
 	 * @param b The other other vector.
 	 * @param out The vector to store the result in.

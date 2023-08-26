@@ -10,7 +10,16 @@ import SingularMatrixError from "#SingularMatrixError";
 export type Matrix2Like = Matrix2 | [number, number, number, number];
 
 /**
- * Creates a transformation matrix that represents a rotation by the given angle around the Z-axis.
+ * Creates a 2x2 matrix-like object.
+ * @returns A 2x2 matrix-like object.
+ */
+export function createMatrix2Like(): Matrix2Like {
+	return new Float32Array(4) as Matrix2Like;
+}
+
+/**
+ * Creates a transformation matrix that represents a rotation by the given
+ * angle around the Z-axis.
  * @param radians The angle in radians.
  * @param out The matrix to store the result in.
  * @returns The transformation matrix.
@@ -31,7 +40,8 @@ export function fromRotation<T extends Matrix2Like>(
 }
 
 /**
- * Creates a transformation matrix that represents a scaling by the given vector.
+ * Creates a transformation matrix that represents a scaling by the given
+ * vector.
  * @param vector The scaling vector.
  * @param out The matrix to store the result in.
  * @returns The transformation matrix.
@@ -398,7 +408,8 @@ export function scale<T extends Matrix2Like>(
  */
 export default class Matrix2 extends Float32Array implements SquareMatrix {
 	/**
-	 * Creates a transformation matrix that represents a rotation by the given angle around the Z-axis.
+	 * Creates a transformation matrix that represents a rotation by the given
+	 * angle around the Z-axis.
 	 * @param radians The angle in radians.
 	 * @returns The transformation matrix.
 	 * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
@@ -406,7 +417,8 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	public static fromRotation(radians: number): Matrix2;
 
 	/**
-	 * Creates a transformation matrix that represents a rotation by the given angle around the Z-axis.
+	 * Creates a transformation matrix that represents a rotation by the given
+	 * angle around the Z-axis.
 	 * @param radians The angle in radians.
 	 * @param out The matrix to store the result in.
 	 * @returns The transformation matrix.
@@ -422,7 +434,8 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	}
 
 	/**
-	 * Creates a transformation matrix that represents a scaling by the given vector.
+	 * Creates a transformation matrix that represents a scaling by the given
+	 * vector.
 	 * @param vector The scaling vector.
 	 * @returns The transformation matrix.
 	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
@@ -430,7 +443,8 @@ export default class Matrix2 extends Float32Array implements SquareMatrix {
 	public static fromScaling(vector: Vector2Like): Matrix2;
 
 	/**
-	 * Creates a transformation matrix that represents a scaling by the given vector.
+	 * Creates a transformation matrix that represents a scaling by the given
+	 * vector.
 	 * @param vector The scaling vector.
 	 * @param out The matrix to store the result in.
 	 * @returns The transformation matrix.

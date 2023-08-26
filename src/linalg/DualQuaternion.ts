@@ -25,6 +25,14 @@ export type DualQuaternionLike =
 	| [number, number, number, number, number, number, number, number];
 
 /**
+ * Creates a dual quaternion-like object.
+ * @returns A dual quaternion-like object.
+ */
+export function createDualQuaternionLike(): DualQuaternionLike {
+	return new Float32Array(8) as DualQuaternionLike;
+}
+
+/**
  * Creates a dual quaternion with the given values.
  * @param x1 The first real component.
  * @param y1 The second real component.
@@ -154,7 +162,9 @@ export function fromRotation<T extends DualQuaternionLike>(
 	return out;
 }
 
-/** A quaternion that is used to store intermediary values for some functions. */
+/**
+ * A quaternion that is used to store intermediary values for some functions.
+ */
 const rotation: QuaternionLike = new Float32Array(4) as QuaternionLike;
 
 /** A vector that is used to store intermediary values for some functions. */
@@ -706,7 +716,8 @@ export function lerp<T extends DualQuaternionLike>(
 }
 
 /**
- * Calculates the inverse of a dual quaternion. If the dual quaternion is normalized, the conjugate is equivalent and faster to calculate.
+ * Calculates the inverse of a dual quaternion. If the dual quaternion is
+ * normalized, the conjugate is equivalent and faster to calculate.
  * @param dualQuaternion The dual quaternion.
  * @param out The dual quaternion to store the result in.
  * @returns The inverse.
@@ -731,7 +742,8 @@ export function invert<T extends DualQuaternionLike>(
 }
 
 /**
- * Calculates the conjugate of a dual quaternion. If the dual quaternion is normalized, this is equivalent to its inverse and faster to calculate.
+ * Calculates the conjugate of a dual quaternion. If the dual quaternion is
+ * normalized, this is equivalent to its inverse and faster to calculate.
  * @param dualQuaternion The dual quaternion.
  * @param out The dual quaternion to store the result in.
  * @returns The conjugate.
@@ -1424,13 +1436,15 @@ export default class DualQuaternion extends Float32Array {
 	}
 
 	/**
-	 * Calculates the inverse of this dual quaternion. If this dual quaternion is normalized, the conjugate is equivalent and faster to calculate.
+	 * Calculates the inverse of this dual quaternion. If this dual quaternion
+	 * is normalized, the conjugate is equivalent and faster to calculate.
 	 * @returns The inverse.
 	 */
 	public invert(): DualQuaternion;
 
 	/**
-	 * Calculates the inverse of this dual quaternion. If this dual quaternion is normalized, the conjugate is equivalent and faster to calculate.
+	 * Calculates the inverse of this dual quaternion. If this dual quaternion
+	 * is normalized, the conjugate is equivalent and faster to calculate.
 	 * @param out The dual quaternion to store the result in.
 	 * @returns The inverse.
 	 */
@@ -1443,13 +1457,17 @@ export default class DualQuaternion extends Float32Array {
 	}
 
 	/**
-	 * Calculates the conjugate of this dual quaternion. If this dual quaternion is normalized, this is equivalent to its inverse and faster to calculate.
+	 * Calculates the conjugate of this dual quaternion. If this dual
+	 * quaternion is normalized, this is equivalent to its inverse and faster
+	 * to calculate.
 	 * @returns The conjugate.
 	 */
 	public conjugate(): DualQuaternion;
 
 	/**
-	 * Calculates the conjugate of this dual quaternion. If this dual quaternion is normalized, this is equivalent to its inverse and faster to calculate.
+	 * Calculates the conjugate of this dual quaternion. If this dual
+	 * quaternion is normalized, this is equivalent to its inverse and faster
+	 * to calculate.
 	 * @param out The dual quaternion to store the result in.
 	 * @returns The conjugate.
 	 */

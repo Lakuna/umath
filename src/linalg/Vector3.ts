@@ -9,6 +9,14 @@ import epsilon from "#epsilon";
 export type Vector3Like = Vector3 | [number, number, number];
 
 /**
+ * Creates a 3x1 vector-like object.
+ * @returns A 3x1 vector-like object.
+ */
+export function createVector3Like(): Vector3Like {
+	return new Float32Array(3) as Vector3Like;
+}
+
+/**
  * Creates a vector with the given values.
  * @param x The first component.
  * @param y The second component.
@@ -745,7 +753,8 @@ const yAxis: Vector3Like = new Float32Array([0, 1, 0]) as Vector3Like;
 const intermediary: Vector3Like = new Float32Array(3) as Vector3Like;
 
 /**
- * Creates a quaternion that represents the shortest rotation from one unit vector to another.
+ * Creates a quaternion that represents the shortest rotation from one unit
+ * vector to another.
  * @param a The first vector.
  * @param b The second vector.
  * @param out The quaternion to store the result in.
@@ -1122,7 +1131,8 @@ export default class Vector3 extends Float32Array implements Vector {
 	}
 
 	/**
-	 * Calculates the squared Euclidean distance between this vector and another.
+	 * Calculates the squared Euclidean distance between this vector and
+	 * another.
 	 * @param vector The other vector.
 	 * @returns The squared distance.
 	 * @see [Euclidean distance](https://en.wikipedia.org/wiki/Euclidean_distance)
@@ -1419,7 +1429,8 @@ export default class Vector3 extends Float32Array implements Vector {
 	}
 
 	/**
-	 * Performs a Hermite interpolation with two control points between this vector and another.
+	 * Performs a Hermite interpolation with two control points between this
+	 * vector and another.
 	 * @param a The first control point.
 	 * @param b The second control point.
 	 * @param end The other vector.
@@ -1435,7 +1446,8 @@ export default class Vector3 extends Float32Array implements Vector {
 	): Vector3;
 
 	/**
-	 * Performs a Hermite interpolation with two control points between this vector and another.
+	 * Performs a Hermite interpolation with two control points between this
+	 * vector and another.
 	 * @param a The first control point.
 	 * @param b The second control point.
 	 * @param end The other vector.
@@ -1463,7 +1475,8 @@ export default class Vector3 extends Float32Array implements Vector {
 	}
 
 	/**
-	 * Performs a Bézier interpolation with two control points between this vector and another.
+	 * Performs a Bézier interpolation with two control points between this
+	 * vector and another.
 	 * @param a The first control point.
 	 * @param b The second control point.
 	 * @param end The other vector.
@@ -1479,7 +1492,8 @@ export default class Vector3 extends Float32Array implements Vector {
 	): Vector3;
 
 	/**
-	 * Performs a Bézier interpolation with two control points between this vector and another.
+	 * Performs a Bézier interpolation with two control points between this
+	 * vector and another.
 	 * @param a The first control point.
 	 * @param b The second control point.
 	 * @param end The other vector.
@@ -1534,14 +1548,16 @@ export default class Vector3 extends Float32Array implements Vector {
 	}
 
 	/**
-	 * Creates a quaternion that represents the shortest rotation from this vector to another.
+	 * Creates a quaternion that represents the shortest rotation from this
+	 * vector to another.
 	 * @param vector The other vector.
 	 * @returns The rotation.
 	 */
 	public rotationTo(vector: Vector3Like): Quaternion;
 
 	/**
-	 * Creates a quaternion that represents the shortest rotation from this unit vector to another.
+	 * Creates a quaternion that represents the shortest rotation from this
+	 * unit vector to another.
 	 * @param vector The other vector.
 	 * @param out The quaternion to store the result in.
 	 * @returns The quaternion.

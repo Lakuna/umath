@@ -122,7 +122,8 @@ export default class BigNumber {
 	}
 
 	/**
-	 * Converts this number to a regular `number`. Might result in loss of precision.
+	 * Converts this number to a regular `number`. Might result in loss of
+	 * precision.
 	 * @returns This number as a `number`.
 	 */
 	public toNumber(): number {

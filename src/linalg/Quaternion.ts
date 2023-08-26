@@ -21,6 +21,14 @@ import epsilon from "#epsilon";
 export type QuaternionLike = Quaternion | [number, number, number, number];
 
 /**
+ * Creates a quaternion-like object.
+ * @returns A quaternion-like object.
+ */
+export function createQuaternionLike(): QuaternionLike {
+	return new Float32Array(4) as QuaternionLike;
+}
+
+/**
  * Creates a quaternion from a three-by-three rotation matrix.
  * @param matrix The matrix.
  * @param out The quaternion to store the result in.
@@ -104,11 +112,15 @@ export function fromEuler<T extends QuaternionLike>(
 	return out;
 }
 
-/** A three-by-three matrix that is used to store intermediary values for some functions. */
+/**
+ * A three-by-three matrix that is used to store intermediary values for some
+ * functions.
+ */
 const intermediary: Matrix3Like = new Float32Array(9) as Matrix3Like;
 
 /**
- * Creates a quaternion with values corresponding to the given orthonormal set of vectors.
+ * Creates a quaternion with values corresponding to the given orthonormal set
+ * of vectors.
  * @param view The vector representing the viewing direction.
  * @param right The vector representing the local "right" direction.
  * @param up The vector representing the local "up" direction.
@@ -318,7 +330,8 @@ export function rotateZ<T extends QuaternionLike>(
 }
 
 /**
- * Calculates the fourth component of a unit quaternion from the first three, ignoring the existing fourth component.
+ * Calculates the fourth component of a unit quaternion from the first three,
+ * ignoring the existing fourth component.
  * @param quaternion The quaternion.
  * @param out The quaternion to store the result in.
  * @returns The quaternion.
@@ -486,7 +499,8 @@ export function random<T extends QuaternionLike>(out: T): T {
 }
 
 /**
- * Calculates the inverse of a quaternion. If the quaternion is normalized, the conjugate is the same but faster to calculate.
+ * Calculates the inverse of a quaternion. If the quaternion is normalized, the
+ * conjugate is the same but faster to calculate.
  * @param quaternion The quaternion.
  * @param out The quaternion to store the result in.
  * @returns The inverse.
@@ -519,7 +533,8 @@ export function invert<T extends QuaternionLike>(
 }
 
 /**
- * Calculates the conjugate of a quaternion. If the quaternion is normalized, this is the same as the inverse but faster to calculate.
+ * Calculates the conjugate of a quaternion. If the quaternion is normalized,
+ * this is the same as the inverse but faster to calculate.
  * @param quaternion The quaternion.
  * @param out The quaternion to store the result in.
  * @returns The conjugate.
@@ -535,14 +550,19 @@ export function conjugate<T extends QuaternionLike>(
 	return out;
 }
 
-/** A quaternion that is used to store intermediary values for some functions. */
+/**
+ * A quaternion that is used to store intermediary values for some functions.
+ */
 const controlPointOne: QuaternionLike = new Float32Array(4) as QuaternionLike;
 
-/** A quaternion that is used to store intermediary values for some functions. */
+/**
+ * A quaternion that is used to store intermediary values for some functions.
+ */
 const controlPointTwo: QuaternionLike = new Float32Array(4) as QuaternionLike;
 
 /**
- * Performs a spherical linear interpolation with two control points between two quaternions.
+ * Performs a spherical linear interpolation with two control points between
+ * two quaternions.
  * @param a The first quaternion.
  * @param b The first control point.
  * @param c The second control point.
@@ -675,7 +695,8 @@ export default class Quaternion extends Float32Array {
 	}
 
 	/**
-	 * Creates a quaternion with values corresponding to the given orthonormal set of vectors.
+	 * Creates a quaternion with values corresponding to the given orthonormal
+	 * set of vectors.
 	 * @param view The vector representing the viewing direction.
 	 * @param right The vector representing the local "right" direction.
 	 * @param up The vector representing the local "up" direction.
@@ -688,7 +709,8 @@ export default class Quaternion extends Float32Array {
 	): Quaternion;
 
 	/**
-	 * Creates a quaternion with values corresponding to the given orthonormal set of vectors.
+	 * Creates a quaternion with values corresponding to the given orthonormal
+	 * set of vectors.
 	 * @param view The vector representing the viewing direction.
 	 * @param right The vector representing the local "right" direction.
 	 * @param up The vector representing the local "up" direction.
@@ -855,13 +877,15 @@ export default class Quaternion extends Float32Array {
 	}
 
 	/**
-	 * Calculates the fourth component of this unit quaternion from the first three, ignoring the existing fourth component.
+	 * Calculates the fourth component of this unit quaternion from the first
+	 * three, ignoring the existing fourth component.
 	 * @returns The quaternion.
 	 */
 	public calculateW(): Quaternion;
 
 	/**
-	 * Calculates the fourth component of this unit quaternion from the first three, ignoring the existing fourth component.
+	 * Calculates the fourth component of this unit quaternion from the first
+	 * three, ignoring the existing fourth component.
 	 * @param out The quaternion to store the result in.
 	 * @returns The quaternion.
 	 */
@@ -930,7 +954,8 @@ export default class Quaternion extends Float32Array {
 	}
 
 	/**
-	 * Performs a spherical linear interpolation between this and another quaternion.
+	 * Performs a spherical linear interpolation between this and another
+	 * quaternion.
 	 * @param quaternion The other quaternion.
 	 * @param t The interpolation amount in `[0,1]`.
 	 * @returns The interpolated quaternion.
@@ -939,7 +964,8 @@ export default class Quaternion extends Float32Array {
 	public slerp(quaternion: QuaternionLike, t: number): Quaternion;
 
 	/**
-	 * Performs a spherical linear interpolation between this and another quaternion.
+	 * Performs a spherical linear interpolation between this and another
+	 * quaternion.
 	 * @param quaternion The other quaternion.
 	 * @param t The interpolation amount in `[0,1]`.
 	 * @param out The quaternion to store the result in.
@@ -969,13 +995,15 @@ export default class Quaternion extends Float32Array {
 	}
 
 	/**
-	 * Calculates the inverse of this quaternion. If the quaternion is normalized, the conjugate is the same but faster to calculate.
+	 * Calculates the inverse of this quaternion. If the quaternion is
+	 * normalized, the conjugate is the same but faster to calculate.
 	 * @returns The inverse.
 	 */
 	public invert(): Quaternion;
 
 	/**
-	 * Calculates the inverse of this quaternion. If the quaternion is normalized, the conjugate is the same but faster to calculate.
+	 * Calculates the inverse of this quaternion. If the quaternion is
+	 * normalized, the conjugate is the same but faster to calculate.
 	 * @param out The quaternion to store the result in.
 	 * @returns The inverse.
 	 */
@@ -986,13 +1014,15 @@ export default class Quaternion extends Float32Array {
 	}
 
 	/**
-	 * Calculates the conjugate of this quaternion. If the quaternion is normalized, this is the same as the inverse but faster to calculate.
+	 * Calculates the conjugate of this quaternion. If the quaternion is
+	 * normalized, this is the same as the inverse but faster to calculate.
 	 * @returns The conjugate.
 	 */
 	public conjugate(): Quaternion;
 
 	/**
-	 * Calculates the conjugate of this quaternion. If the quaternion is normalized, this is the same as the inverse but faster to calculate.
+	 * Calculates the conjugate of this quaternion. If the quaternion is
+	 * normalized, this is the same as the inverse but faster to calculate.
 	 * @param out The quaternion to store the result in.
 	 * @returns The conjugate.
 	 */
@@ -1179,7 +1209,8 @@ export default class Quaternion extends Float32Array {
 	}
 
 	/**
-	 * Performs a spherical linear interpolation with two control points between this and another quaternion.
+	 * Performs a spherical linear interpolation with two control points
+	 * between this and another quaternion.
 	 * @param a The first control point.
 	 * @param b The second control point.
 	 * @param quaternion The other quaternion.
@@ -1195,7 +1226,8 @@ export default class Quaternion extends Float32Array {
 	): Quaternion;
 
 	/**
-	 * Performs a spherical linear interpolation with two control points between this and another quaternion.
+	 * Performs a spherical linear interpolation with two control points
+	 * between this and another quaternion.
 	 * @param a The first control point.
 	 * @param b The second control point.
 	 * @param quaternion The other quaternion.

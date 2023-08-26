@@ -33,7 +33,16 @@ export type Matrix4Like =
 	  ];
 
 /**
- * Creates a transformation matrix that represents a translation by the given vector.
+ * Creates a 4x4 matrix-like object.
+ * @returns A 4x4 matrix-like object.
+ */
+export function createMatrix4Like(): Matrix4Like {
+	return new Float32Array(16) as Matrix4Like;
+}
+
+/**
+ * Creates a transformation matrix that represents a translation by the given
+ * vector.
  * @param vector The translation vector.
  * @param out The matrix to store the result in.
  * @returns The transformation matrix.
@@ -63,7 +72,8 @@ export function fromTranslation<T extends Matrix4Like>(
 }
 
 /**
- * Creates a transformation matrix that represents a scaling by the given vector.
+ * Creates a transformation matrix that represents a scaling by the given
+ * vector.
  * @param vector The scaling vector.
  * @param out The matrix to store the result in.
  * @returns The transformation matrix.
@@ -119,7 +129,8 @@ export function identity<T extends Matrix4Like>(out: T): T {
 }
 
 /**
- * Creates a transformation matrix that represents a rotation by the given angle around the Z-axis.
+ * Creates a transformation matrix that represents a rotation by the given
+ * angle around the Z-axis.
  * @param radians The angle in radians.
  * @param axis The axis to rotate around.
  * @param out The matrix to store the result in.
@@ -169,7 +180,8 @@ export function fromRotation<T extends Matrix4Like>(
 }
 
 /**
- * Creates a transformation matrix that represents a rotation by the given angle around the X-axis.
+ * Creates a transformation matrix that represents a rotation by the given
+ * angle around the X-axis.
  * @param radians The angle in radians.
  * @param out The matrix to store the result in.
  * @returns The transformation matrix.
@@ -202,7 +214,8 @@ export function fromXRotation<T extends Matrix4Like>(
 }
 
 /**
- * Creates a transformation matrix that represents a rotation by the given angle around the Y-axis.
+ * Creates a transformation matrix that represents a rotation by the given
+ * angle around the Y-axis.
  * @param radians The angle in radians.
  * @param out The matrix to store the result in.
  * @returns The transformation matrix.
@@ -235,7 +248,8 @@ export function fromYRotation<T extends Matrix4Like>(
 }
 
 /**
- * Creates a transformation matrix that represents a rotation by the given angle around the Z-axis.
+ * Creates a transformation matrix that represents a rotation by the given
+ * angle around the Z-axis.
  * @param radians The angle in radians.
  * @param out The matrix to store the result in.
  * @returns The transformation matrix.
@@ -320,7 +334,8 @@ export function fromRotationTranslation<T extends Matrix4Like>(
 }
 
 /**
- * Creates a transformation matrix from the given rotation, translation, and scale.
+ * Creates a transformation matrix from the given rotation, translation, and
+ * scale.
  * @param rotation The rotation quaternion.
  * @param translation The translation vector.
  * @param scaling The scaling vector.
@@ -378,7 +393,8 @@ export function fromRotationTranslationScale<T extends Matrix4Like>(
 }
 
 /**
- * Creates a transformation matrix from the given rotation, translation, and scale around the given origin.
+ * Creates a transformation matrix from the given rotation, translation, and
+ * scale around the given origin.
  * @param rotation The rotation quaternion.
  * @param translation The translation vector.
  * @param scaling The scaling vector.
@@ -541,7 +557,8 @@ export function frustum<T extends Matrix4Like>(
 /**
  * Creates a perspective projection matrix with the given bounds.
  * @param fov The vertical field of view in radians.
- * @param aspect The aspect ratio (typically the width of the viewport divided by its height).
+ * @param aspect The aspect ratio (typically the width of the viewport divided
+ * by its height).
  * @param near The near bound of the frustum.
  * @param far The far bound of the frustum.
  * @param out The matrix to store the result in.
@@ -586,7 +603,8 @@ export function perspective<T extends Matrix4Like>(
 }
 
 /**
- * Creates a perspective projection matrix from a field of view. Useful for generating projection matrices to be used with the WebXR API.
+ * Creates a perspective projection matrix from a field of view. Useful for
+ * generating projection matrices to be used with the WebXR API.
  * @param fov The field of view.
  * @param near The near bound of the frustum.
  * @param far The far bound of the frustum.
@@ -674,7 +692,8 @@ export function ortho<T extends Matrix4Like>(
 }
 
 /**
- * Generates a look-at matrix. If you want a matrix that actually makes an object look at another object, use `targetTo` instead.
+ * Generates a look-at matrix. If you want a matrix that actually makes an
+ * object look at another object, use `targetTo` instead.
  * @param eye The position of the viewer.
  * @param center The point that the viewer is looking at.
  * @param up The local up direction.
@@ -1949,7 +1968,8 @@ export function getRotation<T extends QuaternionLike>(
  */
 export default class Matrix4 extends Float32Array implements SquareMatrix {
 	/**
-	 * Creates a transformation matrix that represents a translation by the given vector.
+	 * Creates a transformation matrix that represents a translation by the
+	 * given vector.
 	 * @param vector The translation vector.
 	 * @returns The transformation matrix.
 	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
@@ -1957,7 +1977,8 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	public static fromTranslation(vector: Vector3Like): Matrix4;
 
 	/**
-	 * Creates a transformation matrix that represents a translation by the given vector.
+	 * Creates a transformation matrix that represents a translation by the
+	 * given vector.
 	 * @param vector The translation vector.
 	 * @param out The matrix to store the result in.
 	 * @returns The transformation matrix.
@@ -1976,7 +1997,8 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	}
 
 	/**
-	 * Creates a transformation matrix that represents a scaling by the given vector.
+	 * Creates a transformation matrix that represents a scaling by the given
+	 * vector.
 	 * @param vector The scaling vector.
 	 * @returns The transformation matrix.
 	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
@@ -1984,7 +2006,8 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	public static fromScaling(vector: Vector3Like): Matrix4;
 
 	/**
-	 * Creates a transformation matrix that represents a scaling by the given vector.
+	 * Creates a transformation matrix that represents a scaling by the given
+	 * vector.
 	 * @param vector The scaling vector.
 	 * @param out The matrix to store the result in.
 	 * @returns The transformation matrix.
@@ -2003,7 +2026,8 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	}
 
 	/**
-	 * Creates a transformation matrix that represents a rotation by the given angle around the given axis.
+	 * Creates a transformation matrix that represents a rotation by the given
+	 * angle around the given axis.
 	 * @param radians The angle in radians.
 	 * @param axis The axis to rotate around.
 	 * @returns The transformation matrix.
@@ -2012,7 +2036,8 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	public static fromRotation(radians: number, axis: Vector3Like): Matrix4;
 
 	/**
-	 * Creates a transformation matrix that represents a rotation by the given angle around the Z-axis.
+	 * Creates a transformation matrix that represents a rotation by the given
+	 * angle around the Z-axis.
 	 * @param radians The angle in radians.
 	 * @param axis The axis to rotate around.
 	 * @param out The matrix to store the result in.
@@ -2034,7 +2059,8 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	}
 
 	/**
-	 * Creates a transformation matrix that represents a rotation by the given angle around the X-axis.
+	 * Creates a transformation matrix that represents a rotation by the given
+	 * angle around the X-axis.
 	 * @param radians The angle in radians.
 	 * @returns The transformation matrix.
 	 * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
@@ -2042,7 +2068,8 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	public static fromXRotation(radians: number): Matrix4;
 
 	/**
-	 * Creates a transformation matrix that represents a rotation by the given angle around the X-axis.
+	 * Creates a transformation matrix that represents a rotation by the given
+	 * angle around the X-axis.
 	 * @param radians The angle in radians.
 	 * @param out The matrix to store the result in.
 	 * @returns The transformation matrix.
@@ -2061,7 +2088,8 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	}
 
 	/**
-	 * Creates a transformation matrix that represents a rotation by the given angle around the Y-axis.
+	 * Creates a transformation matrix that represents a rotation by the given
+	 * angle around the Y-axis.
 	 * @param radians The angle in radians.
 	 * @returns The transformation matrix.
 	 * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
@@ -2069,7 +2097,8 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	public static fromYRotation(radians: number): Matrix4;
 
 	/**
-	 * Creates a transformation matrix that represents a rotation by the given angle around the Y-axis.
+	 * Creates a transformation matrix that represents a rotation by the given
+	 * angle around the Y-axis.
 	 * @param radians The angle in radians.
 	 * @param out The matrix to store the result in.
 	 * @returns The transformation matrix.
@@ -2088,7 +2117,8 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	}
 
 	/**
-	 * Creates a transformation matrix that represents a rotation by the given angle around the Z-axis.
+	 * Creates a transformation matrix that represents a rotation by the given
+	 * angle around the Z-axis.
 	 * @param radians The angle in radians.
 	 * @returns The transformation matrix.
 	 * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
@@ -2096,7 +2126,8 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	public static fromZRotation(radians: number): Matrix4;
 
 	/**
-	 * Creates a transformation matrix that represents a rotation by the given angle around the Z-axis.
+	 * Creates a transformation matrix that represents a rotation by the given
+	 * angle around the Z-axis.
 	 * @param radians The angle in radians.
 	 * @param out The matrix to store the result in.
 	 * @returns The transformation matrix.
@@ -2151,7 +2182,8 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	}
 
 	/**
-	 * Creates a transformation matrix from the given rotation, translation, and scale.
+	 * Creates a transformation matrix from the given rotation, translation,
+	 * and scale.
 	 * @param rotation The rotation quaternion.
 	 * @param translation The translation vector.
 	 * @param scaling The scaling vector.
@@ -2166,7 +2198,8 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	): Matrix4;
 
 	/**
-	 * Creates a transformation matrix from the given rotation, translation, and scale.
+	 * Creates a transformation matrix from the given rotation, translation,
+	 * and scale.
 	 * @param rotation The rotation quaternion.
 	 * @param translation The translation vector.
 	 * @param scaling The scaling vector.
@@ -2192,7 +2225,8 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	}
 
 	/**
-	 * Creates a transformation matrix from the given rotation, translation, and scale around the given origin.
+	 * Creates a transformation matrix from the given rotation, translation,
+	 * and scale around the given origin.
 	 * @param rotation The rotation quaternion.
 	 * @param translation The translation vector.
 	 * @param scaling The scaling vector.
@@ -2209,7 +2243,8 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	): Matrix4;
 
 	/**
-	 * Creates a transformation matrix from the given rotation, translation, and scale around the given origin.
+	 * Creates a transformation matrix from the given rotation, translation,
+	 * and scale around the given origin.
 	 * @param rotation The rotation quaternion.
 	 * @param translation The translation vector.
 	 * @param scaling The scaling vector.
@@ -2333,7 +2368,8 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	/**
 	 * Creates a perspective projection matrix with the given bounds.
 	 * @param fov The vertical field of view in radians.
-	 * @param aspect The aspect ratio (typically the width of the viewport divided by its height).
+	 * @param aspect The aspect ratio (typically the width of the viewport
+	 * divided by its height).
 	 * @param near The near bound of the frustum.
 	 * @param far The far bound of the frustum.
 	 * @returns The perspective projection matrix.
@@ -2350,7 +2386,8 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	/**
 	 * Creates a perspective projection matrix with the given bounds.
 	 * @param fov The vertical field of view in radians.
-	 * @param aspect The aspect ratio (typically the width of the viewport divided by its height).
+	 * @param aspect The aspect ratio (typically the width of the viewport
+	 * divided by its height).
 	 * @param near The near bound of the frustum.
 	 * @param far The far bound of the frustum.
 	 * @param out The matrix to store the result in.
@@ -2377,7 +2414,8 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	}
 
 	/**
-	 * Creates a perspective projection matrix from a field of view. Useful for generating projection matrices to be used with the WebXR API.
+	 * Creates a perspective projection matrix from a field of view. Useful for
+	 * generating projection matrices to be used with the WebXR API.
 	 * @param fov The field of view.
 	 * @param near The near bound of the frustum.
 	 * @param far The far bound of the frustum.
@@ -2393,7 +2431,8 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	): Matrix4;
 
 	/**
-	 * Creates a perspective projection matrix from a field of view. Useful for generating projection matrices to be used with the WebXR API.
+	 * Creates a perspective projection matrix from a field of view. Useful for
+	 * generating projection matrices to be used with the WebXR API.
 	 * @param fov The field of view.
 	 * @param near The near bound of the frustum.
 	 * @param far The far bound of the frustum.
@@ -2476,7 +2515,8 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	}
 
 	/**
-	 * Generates a look-at matrix. If you want a matrix that actually makes an object look at another object, use `targetTo` instead.
+	 * Generates a look-at matrix. If you want a matrix that actually makes an
+	 * object look at another object, use `targetTo` instead.
 	 * @param eye The position of the viewer.
 	 * @param center The point that the viewer is looking at.
 	 * @param up The local up direction.
@@ -2490,7 +2530,8 @@ export default class Matrix4 extends Float32Array implements SquareMatrix {
 	): Matrix4;
 
 	/**
-	 * Generates a look-at matrix. If you want a matrix that actually makes an object look at another object, use `targetTo` instead.
+	 * Generates a look-at matrix. If you want a matrix that actually makes an
+	 * object look at another object, use `targetTo` instead.
 	 * @param eye The position of the viewer.
 	 * @param center The point that the viewer is looking at.
 	 * @param up The local up direction.

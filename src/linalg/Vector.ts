@@ -116,7 +116,8 @@ export default interface Vector extends Iterable<number> {
 	distance(vector: VectorLike): number;
 
 	/**
-	 * Calculates the squared Euclidean distance between this vector and another.
+	 * Calculates the squared Euclidean distance between this vector and
+	 * another.
 	 * @param vector The other vector.
 	 * @returns The squared distance.
 	 */
