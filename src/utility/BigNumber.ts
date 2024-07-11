@@ -1,52 +1,44 @@
-import greatestCommonDivisor from "#greatestCommonDivisor";
-import type { IntegerRepresentation } from "#IntegerRepresentation";
+import greatestCommonDivisor from "../algorithms/greatestCommonDivisor.js";
 
 /** A number with no maximum precise size. */
 export default class BigNumber {
 	/**
-	 * Creates a number.
-	 * @param source The number.
-	 */
-	public constructor(source?: IntegerRepresentation);
-
-	/**
-	 * Creates a number from a fraction.
-	 * @param dividend The dividend of the fraction.
-	 * @param divisor The divisor of the fraction.
+	 * Create a number.
+	 * @param dividend - The dividend of the number.
+	 * @param divisor - The divisor of the number.
 	 */
 	public constructor(
-		dividend?: IntegerRepresentation,
-		divisor?: IntegerRepresentation
-	);
-
-	public constructor(
-		dividend: IntegerRepresentation = 0,
-		divisor: IntegerRepresentation = 1
+		dividend: bigint | boolean | number | string = 0,
+		divisor: bigint | boolean | number | string = 1
 	) {
-		this.dividend = BigInt(dividend);
-		this.divisor = BigInt(divisor);
-		if (!this.divisor) {
+		if (divisor === 0) {
 			throw new Error("Cannot divide by zero.");
 		}
+
+		this.dividend = BigInt(dividend);
+		this.divisor = BigInt(divisor);
 		this.simplify();
 	}
 
 	/** The dividend of this fraction. */
-	public dividend: bigint;
+	public dividend;
 
 	/** The divisor of this fraction. */
-	public divisor: bigint;
+	public divisor;
 
-	/** Simplifies this fraction. */
-	private simplify(): void {
-		// Switches signs such that only the dividend can be negative.
+	/**
+	 * Simplify this fraction.
+	 * @internal
+	 */
+	private simplify() {
+		// Switch signs such that only the dividend can be negative.
 		if (this.divisor < 0) {
 			this.dividend = -this.dividend;
 			this.divisor = -this.divisor;
 		}
 
 		// Divide both by their greatest common divisor.
-		const gcd: bigint = greatestCommonDivisor(this.dividend, this.divisor);
+		const gcd = greatestCommonDivisor(this.dividend, this.divisor);
 		if (gcd > 1) {
 			this.dividend /= gcd;
 			this.divisor /= gcd;
@@ -54,11 +46,11 @@ export default class BigNumber {
 	}
 
 	/**
-	 * Adds a number to this number.
-	 * @param n The other number.
+	 * Add a number to this number.
+	 * @param n - The other number.
 	 * @returns This number.
 	 */
-	public add(n: IntegerRepresentation | BigNumber): this {
+	public add(n: bigint | boolean | number | string | BigNumber) {
 		if (n instanceof BigNumber) {
 			this.dividend = this.dividend * n.divisor + n.dividend * this.divisor;
 			this.divisor *= n.divisor;
@@ -71,11 +63,11 @@ export default class BigNumber {
 	}
 
 	/**
-	 * Subtracts a number from this number.
-	 * @param n The other number.
+	 * Subtract a number from this number.
+	 * @param n - The other number.
 	 * @returns This number.
 	 */
-	public subtract(n: IntegerRepresentation | BigNumber): this {
+	public subtract(n: bigint | boolean | number | string | BigNumber) {
 		if (n instanceof BigNumber) {
 			this.dividend = this.dividend * n.divisor - n.dividend * this.divisor;
 			this.divisor *= n.divisor;
@@ -88,11 +80,11 @@ export default class BigNumber {
 	}
 
 	/**
-	 * Multiplies this number by a number.
-	 * @param n The other number.
+	 * Multiply this number by a number.
+	 * @param n - The other number.
 	 * @returns This number.
 	 */
-	public multiply(n: IntegerRepresentation | BigNumber): this {
+	public multiply(n: bigint | boolean | number | string | BigNumber) {
 		if (n instanceof BigNumber) {
 			this.dividend *= n.dividend;
 			this.divisor *= n.divisor;
@@ -105,11 +97,11 @@ export default class BigNumber {
 	}
 
 	/**
-	 * Divides this number by a number.
-	 * @param n The other number.
+	 * Divide this number by a number.
+	 * @param n - The other number.
 	 * @returns This number.
 	 */
-	public divide(n: IntegerRepresentation | BigNumber): this {
+	public divide(n: bigint | boolean | number | string | BigNumber) {
 		if (n instanceof BigNumber) {
 			this.dividend *= n.divisor;
 			this.divisor *= n.dividend;
@@ -122,11 +114,10 @@ export default class BigNumber {
 	}
 
 	/**
-	 * Converts this number to a regular `number`. Might result in loss of
-	 * precision.
+	 * Convert this number to a regular `number`. Might result in loss of precision.
 	 * @returns This number as a `number`.
 	 */
-	public toNumber(): number {
+	public toNumber() {
 		return (
 			Number(this.dividend / this.divisor) +
 			Number(this.dividend % this.divisor) / Number(this.divisor)
@@ -134,10 +125,10 @@ export default class BigNumber {
 	}
 
 	/**
-	 * Converts this number to a string.
+	 * Convert this number to a string.
 	 * @returns A string representation of this number.
 	 */
-	public toString(): string {
-		return `${this.dividend}/${this.divisor}`;
+	public toString() {
+		return `${this.dividend.toLocaleString()}/${this.divisor.toLocaleString()}`;
 	}
 }

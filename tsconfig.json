@@ -1,4 +1,6 @@
 {
+	"include": ["eslint.config.js", "src", "test"],
+	"exclude": [],
 	"compilerOptions": {
 		"allowUnreachableCode": false,
 		"allowUnusedLabels": false,
@@ -55,16 +57,8 @@
 		"isolatedModules": true,
 		"preserveSymlinks": false,
 		"verbatimModuleSyntax": true,
-		"noImplicitUseStrict": false,
-		"noStrictGenericChecks": false,
-		"suppressExcessPropertyErrors": false,
-		"suppressImplicitAnyIndexErrors": false,
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
-		"jsx": "react-native",
-		"jsxFactory": "React.createElement",
-		"jsxFragmentFactory": "React.Fragment",
-		"jsxImportSource": "react",
 		"moduleDetection": "auto",
 		"noLib": false,
 		"target": "esnext",

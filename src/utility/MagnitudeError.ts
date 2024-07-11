@@ -1,10 +1,10 @@
-/** An error resulting from using a vector that is too small. */
+/** An error resulting from using a vector that is too small or too large. */
 export default class MagnitudeError extends Error {
 	/**
-	 * Creates an error resulting from using a vector that is too small.
-	 * @param message The message of the error.
+	 * Create an error resulting from using a vector that is too small or too large.
+	 * @param message - The message of the error.
 	 */
-	public constructor(message = "The vector is too small.") {
+	public constructor(message = "The vector is too small or too large.") {
 		super(message);
 		this.name = "MagnitudeError";
 	}

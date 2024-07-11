@@ -1,178 +1,179 @@
-/** A quantity with magnitude and direction. */
-export type VectorLike = Vector | Iterable<number>;
+import type { Vector4Like } from "./Vector4.js";
+
+/** An object that could be interpreted as a vector. */
+export type VectorLike = Record<number, number>;
 
 /**
  * A quantity with magnitude and direction.
  * @see [Wikipedia](https://en.wikipedia.org/wiki/Euclidean_vector)
  */
-export default interface Vector extends Iterable<number> {
+export default interface Vector extends VectorLike {
 	/**
-	 * Determines whether this vector is roughly equivalent to another.
-	 * @param vector The other vector.
+	 * Determine whether this vector is roughly equivalent to another.
+	 * @param vector - The other vector.
 	 * @returns Whether the vectors are equivalent.
 	 */
-	equals(vector: VectorLike): boolean;
+	equals(vector: Vector4Like): boolean;
 
 	/**
-	 * Determines whether this vector is exactly equivalent to another.
-	 * @param vector The other vector.
+	 * Determine whether this vector is exactly equivalent to another.
+	 * @param vector - The other vector.
 	 * @returns Whether the vectors are equivalent.
 	 */
-	exactEquals(vector: VectorLike): boolean;
+	exactEquals(vector: Vector4Like): boolean;
 
 	/**
-	 * Adds two vectors of the same size.
-	 * @param vector The other vector.
+	 * Add two vectors of the same size.
+	 * @param vector - The other vector.
 	 * @returns The sum of the vectors.
 	 */
-	add(vector: VectorLike): Vector;
+	add(vector: Vector4Like): VectorLike;
 
 	/**
-	 * Creates a copy of this vector.
+	 * Create a copy of this vector.
 	 * @returns A copy of this vector.
 	 */
-	clone(): Vector;
+	clone(): VectorLike;
 
 	/**
-	 * Copies the values of another vector into this one.
-	 * @param vector The vector to copy.
+	 * Copy the values of another vector into this one.
+	 * @param vector - The vector to copy.
 	 * @returns This vector.
 	 */
-	copy(vector: VectorLike): this;
+	copy(vector: Vector4Like): this;
 
 	/**
-	 * Multiplies this vector by another.
-	 * @param vector The other vector.
+	 * Multiply this vector by another.
+	 * @param vector - The other vector.
 	 * @returns The product of the vectors.
 	 */
-	multiply(vector: VectorLike): Vector;
+	multiply(vector: Vector4Like): VectorLike;
 
 	/**
-	 * Divides this vector by another.
-	 * @param vector The other vector.
+	 * Divide this vector by another.
+	 * @param vector - The other vector.
 	 * @returns The quotient of the vectors.
 	 */
-	divide(vector: VectorLike): Vector;
+	divide(vector: Vector4Like): VectorLike;
 
 	/**
-	 * Subtracts another vector from this one.
-	 * @param vector The other vector.
+	 * Subtract another vector from this one.
+	 * @param vector - The other vector.
 	 * @returns The difference between the vectors.
 	 */
-	subtract(vector: VectorLike): Vector;
+	subtract(vector: Vector4Like): VectorLike;
 
 	/**
-	 * Rounds up the components of this vector.
+	 * Round up the components of this vector.
 	 * @returns The rounded vector.
 	 */
-	ceil(): Vector;
+	ceil(): VectorLike;
 
 	/**
-	 * Rounds down the components of this vector.
+	 * Round down the components of this vector.
 	 * @returns The rounded vector.
 	 */
-	floor(): Vector;
+	floor(): VectorLike;
 
 	/**
-	 * Rounds the components of this vector.
+	 * Round the components of this vector.
 	 * @returns The rounded vector.
 	 */
-	round(): Vector;
+	round(): VectorLike;
 
 	/**
-	 * Returns the minimum of this and another vector.
-	 * @param vector The other vector.
+	 * Return the minimum of this and another vector.
+	 * @param vector - The other vector.
 	 * @returns The minimum.
 	 */
-	min(vector: VectorLike): Vector;
+	min(vector: Vector4Like): VectorLike;
 
 	/**
-	 * Returns the maximum of this and another vector.
-	 * @param vector The other vector.
+	 * Return the maximum of this and another vector.
+	 * @param vector - The other vector.
 	 * @returns The maximum.
 	 */
-	max(vector: VectorLike): Vector;
+	max(vector: Vector4Like): VectorLike;
 
 	/**
-	 * Scales this vector by a scalar.
-	 * @param scalar The scalar.
+	 * Scale this vector by a scalar.
+	 * @param scalar - The scalar.
 	 * @returns The scaled vector.
 	 */
-	scale(scalar: number): Vector;
+	scale(scalar: number): VectorLike;
 
 	/**
-	 * Adds another vector to this one after scaling the other by a scalar.
-	 * @param vector The other vector.
-	 * @param scalar The scalar.
+	 * Add another vector to this one after scaling the other by a scalar.
+	 * @param vector - The other vector.
+	 * @param scalar - The scalar.
 	 * @returns The sum.
 	 */
-	scaleAndAdd(vector: VectorLike, scalar: number): Vector;
+	scaleAndAdd(vector: Vector4Like, scalar: number): VectorLike;
 
 	/**
-	 * Calculates the Euclidean distance between this vector and another.
-	 * @param vector The other vector.
+	 * Calculate the Euclidean distance between this vector and another.
+	 * @param vector - The other vector.
 	 * @returns The distance.
 	 */
-	distance(vector: VectorLike): number;
+	distance(vector: Vector4Like): number;
 
 	/**
-	 * Calculates the squared Euclidean distance between this vector and
-	 * another.
-	 * @param vector The other vector.
+	 * Calculate the squared Euclidean distance between this vector and another.
+	 * @param vector - The other vector.
 	 * @returns The squared distance.
 	 */
-	squaredDistance(vector: VectorLike): number;
+	squaredDistance(vector: Vector4Like): number;
 
-	/** The magnitude (length) of this vector. */
+	/** Get the magnitude (length) of this vector. */
 	get magnitude(): number;
 
-	/** The squared magnitude (length) of this vector. */
+	/** Get the squared magnitude (length) of this vector. */
 	get squaredMagnitude(): number;
 
 	/**
-	 * Negates this vector.
+	 * Negate this vector.
 	 * @returns The negated vector.
 	 */
-	negate(): Vector;
+	negate(): VectorLike;
 
 	/**
-	 * Calculates the multiplicative inverse of the components of this vector.
+	 * Calculate the multiplicative inverse of the components of this vector.
 	 * @returns The inverted vector.
 	 */
-	invert(): Vector;
+	invert(): VectorLike;
 
 	/**
-	 * Normalizes this vector.
+	 * Normalize this vector.
 	 * @returns The normalized vector.
 	 * @see [Unit vector](https://en.wikipedia.org/wiki/Unit_vector)
 	 */
-	normalize(): Vector;
+	normalize(): VectorLike;
 
 	/**
-	 * Calculates the dot product of this and another vector.
-	 * @param vector The other vector.
+	 * Calculate the dot product of this and another vector.
+	 * @param vector - The other vector.
 	 * @returns The dot product.
 	 * @see [Dot product](https://en.wikipedia.org/wiki/Dot_product)
 	 */
-	dot(vector: VectorLike): number;
+	dot(vector: Vector4Like): number;
 
 	/**
-	 * Performs a linear interpolation between this and another vector.
-	 * @param vector The other vector.
-	 * @param t The interpolation amount (in `[0,1]`).
+	 * Perform a linear interpolation between this and another vector.
+	 * @param vector - The other vector.
+	 * @param t - The interpolation amount (in `[0,1]`).
 	 * @returns The interpolated vector.
 	 */
-	lerp(vector: VectorLike, t: number): Vector;
+	lerp(vector: Vector4Like, t: number): VectorLike;
 
 	/**
-	 * Sets this vector to a random value with the given magnitude.
-	 * @param magnitude The magnitude.
+	 * Set this vector to a random value with the given magnitude.
+	 * @param magnitude - The magnitude.
 	 * @returns This vector.
 	 */
 	random(magnitude: number): this;
 
 	/**
-	 * Sets this to the zero vector.
+	 * Set this to the zero vector.
 	 * @returns This vector.
 	 */
 	zero(): this;
