@@ -4,7 +4,7 @@
  * @returns A list of prime number factors of the number.
  * @see [Integer factorization](https://en.wikipedia.org/wiki/Integer_factorization)
  */
-export default function primeFactorization(n: number) {
+export default function primeFactorization(n: number): number[] {
 	let m = n;
 	const out = [];
 	let divisor = 2;

@@ -22,9 +22,9 @@ export interface Vector4Like extends VectorLike {
  * Creates a 4x1 vector-like object.
  * @returns A 4x1 vector-like object.
  */
-export function createVector4Like() {
+export const createVector4Like = () => {
 	return new Float32Array(4) as unknown as Vector4Like;
-}
+};
 
 /**
  * Create a vector with the given values.
@@ -35,19 +35,19 @@ export function createVector4Like() {
  * @param out - The vector to store the result in.
  * @returns A new vector.
  */
-export function fromValues<T extends Vector4Like>(
+export const fromValues = <T extends Vector4Like>(
 	x: number,
 	y: number,
 	z: number,
 	w: number,
 	out: T
-) {
+): T => {
 	out[0] = x;
 	out[1] = y;
 	out[2] = z;
 	out[3] = w;
 	return out;
-}
+};
 
 /**
  * Determine whether or not two vectors are roughly equivalent.
@@ -55,7 +55,7 @@ export function fromValues<T extends Vector4Like>(
  * @param b - The second vector.
  * @returns Whether or not the vectors are equivalent.
  */
-export function equals(a: Vector4Like, b: Vector4Like) {
+export const equals = (a: Vector4Like, b: Vector4Like): boolean => {
 	const a0 = a[0];
 	const a1 = a[1];
 	const a2 = a[2];
@@ -72,7 +72,7 @@ export function equals(a: Vector4Like, b: Vector4Like) {
 		Math.abs(a2 - b2) <= epsilon * Math.max(1, Math.abs(a2), Math.abs(b2)) &&
 		Math.abs(a3 - b3) <= epsilon * Math.max(1, Math.abs(a3), Math.abs(b3))
 	);
-}
+};
 
 /**
  * Determine whether or not two vectors are exactly equivalent.
@@ -80,9 +80,9 @@ export function equals(a: Vector4Like, b: Vector4Like) {
  * @param b - The second vector.
  * @returns Whether or not the vectors are equivalent.
  */
-export function exactEquals(a: Vector4Like, b: Vector4Like) {
+export const exactEquals = (a: Vector4Like, b: Vector4Like): boolean => {
 	return a[0] === b[0] && a[1] === b[1] && a[2] === b[2] && a[3] === b[3];
-}
+};
 
 /**
  * Add two vectors.
@@ -91,17 +91,17 @@ export function exactEquals(a: Vector4Like, b: Vector4Like) {
  * @param out - The vector to store the result in.
  * @returns The sum.
  */
-export function add<T extends Vector4Like>(
+export const add = <T extends Vector4Like>(
 	a: Vector4Like,
 	b: Vector4Like,
 	out: T
-) {
+): T => {
 	out[0] = a[0] + b[0];
 	out[1] = a[1] + b[1];
 	out[2] = a[2] + b[2];
 	out[3] = a[3] + b[3];
 	return out;
-}
+};
 
 /**
  * Copy the values from one vector to another.
@@ -109,13 +109,13 @@ export function add<T extends Vector4Like>(
  * @param out - The vector to store the result in.
  * @returns The copy.
  */
-export function copy<T extends Vector4Like>(vector: Vector4Like, out: T) {
+export const copy = <T extends Vector4Like>(vector: Vector4Like, out: T): T => {
 	out[0] = vector[0];
 	out[1] = vector[1];
 	out[2] = vector[2];
 	out[3] = vector[3];
 	return out;
-}
+};
 
 /**
  * Multiply two vectors.
@@ -124,17 +124,17 @@ export function copy<T extends Vector4Like>(vector: Vector4Like, out: T) {
  * @param out - The vector to store the result in.
  * @returns The product.
  */
-export function multiply<T extends Vector4Like>(
+export const multiply = <T extends Vector4Like>(
 	a: Vector4Like,
 	b: Vector4Like,
 	out: T
-) {
+): T => {
 	out[0] = a[0] * b[0];
 	out[1] = a[1] * b[1];
 	out[2] = a[2] * b[2];
 	out[3] = a[3] * b[3];
 	return out;
-}
+};
 
 /**
  * Divide two vectors.
@@ -143,17 +143,17 @@ export function multiply<T extends Vector4Like>(
  * @param out - The vector to store the result in.
  * @returns The quotient.
  */
-export function divide<T extends Vector4Like>(
+export const divide = <T extends Vector4Like>(
 	a: Vector4Like,
 	b: Vector4Like,
 	out: T
-) {
+): T => {
 	out[0] = a[0] / b[0];
 	out[1] = a[1] / b[1];
 	out[2] = a[2] / b[2];
 	out[3] = a[3] / b[3];
 	return out;
-}
+};
 
 /**
  * Subtract two vectors.
@@ -162,17 +162,17 @@ export function divide<T extends Vector4Like>(
  * @param out - The vector to store the result in.
  * @returns The difference.
  */
-export function subtract<T extends Vector4Like>(
+export const subtract = <T extends Vector4Like>(
 	a: Vector4Like,
 	b: Vector4Like,
 	out: T
-): T {
+): T => {
 	out[0] = a[0] - b[0];
 	out[1] = a[1] - b[1];
 	out[2] = a[2] - b[2];
 	out[3] = a[3] - b[3];
 	return out;
-}
+};
 
 /**
  * Round up the components of a vector.
@@ -180,13 +180,13 @@ export function subtract<T extends Vector4Like>(
  * @param out - The vector to store the result in.
  * @returns The rounded vector.
  */
-export function ceil<T extends Vector4Like>(vector: Vector4Like, out: T) {
+export const ceil = <T extends Vector4Like>(vector: Vector4Like, out: T): T => {
 	out[0] = Math.ceil(vector[0]);
 	out[1] = Math.ceil(vector[1]);
 	out[2] = Math.ceil(vector[2]);
 	out[3] = Math.ceil(vector[3]);
 	return out;
-}
+};
 
 /**
  * Round down the components of a vector.
@@ -194,13 +194,16 @@ export function ceil<T extends Vector4Like>(vector: Vector4Like, out: T) {
  * @param out - The vector to store the result in.
  * @returns The rounded vector.
  */
-export function floor<T extends Vector4Like>(vector: Vector4Like, out: T) {
+export const floor = <T extends Vector4Like>(
+	vector: Vector4Like,
+	out: T
+): T => {
 	out[0] = Math.floor(vector[0]);
 	out[1] = Math.floor(vector[1]);
 	out[2] = Math.floor(vector[2]);
 	out[3] = Math.floor(vector[3]);
 	return out;
-}
+};
 
 /**
  * Round the components of a vector.
@@ -208,13 +211,16 @@ export function floor<T extends Vector4Like>(vector: Vector4Like, out: T) {
  * @param out - The vector to store the result in.
  * @returns The rounded vector.
  */
-export function round<T extends Vector4Like>(vector: Vector4Like, out: T) {
+export const round = <T extends Vector4Like>(
+	vector: Vector4Like,
+	out: T
+): T => {
 	out[0] = Math.round(vector[0]);
 	out[1] = Math.round(vector[1]);
 	out[2] = Math.round(vector[2]);
 	out[3] = Math.round(vector[3]);
 	return out;
-}
+};
 
 /**
  * Return the minimum of two vectors.
@@ -223,17 +229,17 @@ export function round<T extends Vector4Like>(vector: Vector4Like, out: T) {
  * @param out - The vector to store the result in.
  * @returns The minimum.
  */
-export function min<T extends Vector4Like>(
+export const min = <T extends Vector4Like>(
 	a: Vector4Like,
 	b: Vector4Like,
 	out: T
-) {
+): T => {
 	out[0] = Math.min(a[0], b[0]);
 	out[1] = Math.min(a[1], b[1]);
 	out[2] = Math.min(a[2], b[2]);
 	out[3] = Math.min(a[3], b[3]);
 	return out;
-}
+};
 
 /**
  * Return the maximum of two vectors.
@@ -242,17 +248,17 @@ export function min<T extends Vector4Like>(
  * @param out - The vector to store the result in.
  * @returns The maximum.
  */
-export function max<T extends Vector4Like>(
+export const max = <T extends Vector4Like>(
 	a: Vector4Like,
 	b: Vector4Like,
 	out: T
-) {
+): T => {
 	out[0] = Math.max(a[0], b[0]);
 	out[1] = Math.max(a[1], b[1]);
 	out[2] = Math.max(a[2], b[2]);
 	out[3] = Math.max(a[3], b[3]);
 	return out;
-}
+};
 
 /**
  * Scale a vector by a scalar.
@@ -261,17 +267,17 @@ export function max<T extends Vector4Like>(
  * @param out - The vector to store the result in.
  * @returns The product.
  */
-export function scale<T extends Vector4Like>(
+export const scale = <T extends Vector4Like>(
 	vector: Vector4Like,
 	scalar: number,
 	out: T
-) {
+): T => {
 	out[0] = vector[0] * scalar;
 	out[1] = vector[1] * scalar;
 	out[2] = vector[2] * scalar;
 	out[3] = vector[3] * scalar;
 	return out;
-}
+};
 
 /**
  * Add two vectors after scaling the second by a scalar.
@@ -281,18 +287,18 @@ export function scale<T extends Vector4Like>(
  * @param out - The vector to store the result in.
  * @returns The sum.
  */
-export function scaleAndAdd<T extends Vector4Like>(
+export const scaleAndAdd = <T extends Vector4Like>(
 	a: Vector4Like,
 	b: Vector4Like,
 	scalar: number,
 	out: T
-) {
+): T => {
 	out[0] = a[0] + b[0] * scalar;
 	out[1] = a[1] + b[1] * scalar;
 	out[2] = a[2] + b[2] * scalar;
 	out[3] = a[3] + b[3] * scalar;
 	return out;
-}
+};
 
 /**
  * Calculate the Euclidean distance between two vectors.
@@ -301,13 +307,13 @@ export function scaleAndAdd<T extends Vector4Like>(
  * @returns The distance.
  * @see [Euclidean distance](https://en.wikipedia.org/wiki/Euclidean_distance)
  */
-export function distance(a: Vector4Like, b: Vector4Like) {
+export const distance = (a: Vector4Like, b: Vector4Like): number => {
 	const x = a[0] - b[0];
 	const y = a[1] - b[1];
 	const z = a[2] - b[2];
 	const w = a[3] - b[3];
 	return Math.hypot(x, y, z, w);
-}
+};
 
 /**
  * Calculate the squared Euclidean distance between two vectors.
@@ -316,39 +322,39 @@ export function distance(a: Vector4Like, b: Vector4Like) {
  * @returns The squared distance.
  * @see [Euclidean distance](https://en.wikipedia.org/wiki/Euclidean_distance)
  */
-export function squaredDistance(a: Vector4Like, b: Vector4Like) {
+export const squaredDistance = (a: Vector4Like, b: Vector4Like): number => {
 	const x = a[0] - b[0];
 	const y = a[1] - b[1];
 	const z = a[2] - b[2];
 	const w = a[3] - b[3];
 	return x * x + y * y + z * z + w * w;
-}
+};
 
 /**
  * Calculate the magnitude (length) of a vector.
  * @param vector - The vector.
  * @returns The magnitude.
  */
-export function getMagnitude(vector: Vector4Like) {
+export const getMagnitude = (vector: Vector4Like): number => {
 	const x = vector[0];
 	const y = vector[1];
 	const z = vector[2];
 	const w = vector[3];
 	return Math.hypot(x, y, z, w);
-}
+};
 
 /**
  * Calculate the squared magnitude (length) of a vector.
  * @param vector - The vector.
  * @returns The magnitude.
  */
-export function getSquaredMagnitude(vector: Vector4Like) {
+export const getSquaredMagnitude = (vector: Vector4Like): number => {
 	const x = vector[0];
 	const y = vector[1];
 	const z = vector[2];
 	const w = vector[3];
 	return x * x + y * y + z * z + w * w;
-}
+};
 
 /**
  * Negate a vector.
@@ -356,13 +362,16 @@ export function getSquaredMagnitude(vector: Vector4Like) {
  * @param out - The vector to store the result in.
  * @returns The negated vector.
  */
-export function negate<T extends Vector4Like>(vector: Vector4Like, out: T) {
+export const negate = <T extends Vector4Like>(
+	vector: Vector4Like,
+	out: T
+): T => {
 	out[0] = -vector[0];
 	out[1] = -vector[1];
 	out[2] = -vector[2];
 	out[3] = -vector[3];
 	return out;
-}
+};
 
 /**
  * Calculate the multiplicative inverse of the components of a vector.
@@ -370,13 +379,16 @@ export function negate<T extends Vector4Like>(vector: Vector4Like, out: T) {
  * @param out - The vector to store the result in.
  * @returns The inverted vector.
  */
-export function invert<T extends Vector4Like>(vector: Vector4Like, out: T) {
+export const invert = <T extends Vector4Like>(
+	vector: Vector4Like,
+	out: T
+): T => {
 	out[0] = 1 / vector[0];
 	out[1] = 1 / vector[1];
 	out[2] = 1 / vector[2];
 	out[3] = 1 / vector[3];
 	return out;
-}
+};
 
 /**
  * Normalize a vector.
@@ -385,7 +397,10 @@ export function invert<T extends Vector4Like>(vector: Vector4Like, out: T) {
  * @returns The normalized vector.
  * @see [Unit vector](https://en.wikipedia.org/wiki/Unit_vector)
  */
-export function normalize<T extends Vector4Like>(vector: Vector4Like, out: T) {
+export const normalize = <T extends Vector4Like>(
+	vector: Vector4Like,
+	out: T
+): T => {
 	const x = vector[0];
 	const y = vector[1];
 	const z = vector[2];
@@ -401,7 +416,7 @@ export function normalize<T extends Vector4Like>(vector: Vector4Like, out: T) {
 	out[2] = z * len;
 	out[3] = w * len;
 	return out;
-}
+};
 
 /**
  * Calculate the dot product of two vectors.
@@ -410,9 +425,9 @@ export function normalize<T extends Vector4Like>(vector: Vector4Like, out: T) {
  * @returns The dot product.
  * @see [Dot product](https://en.wikipedia.org/wiki/Dot_product)
  */
-export function dot(a: Vector4Like, b: Vector4Like) {
+export const dot = (a: Vector4Like, b: Vector4Like): number => {
 	return a[0] * b[0] + a[1] * b[1] + a[2] * b[2] + a[3] * b[3];
-}
+};
 
 /**
  * Calculate the cross product of three vectors in a four-dimensional space.
@@ -423,12 +438,12 @@ export function dot(a: Vector4Like, b: Vector4Like) {
  * @returns The cross product.
  * @see [Cross product](https://en.wikipedia.org/wiki/Cross_product)
  */
-export function cross<T extends Vector4Like>(
+export const cross = <T extends Vector4Like>(
 	a: Vector4Like,
 	b: Vector4Like,
 	c: Vector4Like,
 	out: T
-) {
+): T => {
 	const d = b[0] * c[1] - b[1] * c[0];
 	const e = b[0] * c[2] - b[2] * c[0];
 	const f = b[0] * c[3] - b[3] * c[0];
@@ -446,7 +461,7 @@ export function cross<T extends Vector4Like>(
 	out[2] = j * h - k * f + m * d;
 	out[3] = -(j * g) + k * e - l * d;
 	return out;
-}
+};
 
 /**
  * Perform a linear interpolation between two vectors.
@@ -457,12 +472,12 @@ export function cross<T extends Vector4Like>(
  * @returns The interpolated vector.
  * @see [Linear interpolation](https://en.wikipedia.org/wiki/Linear_interpolation)
  */
-export function lerp<T extends Vector4Like>(
+export const lerp = <T extends Vector4Like>(
 	a: Vector4Like,
 	b: Vector4Like,
 	t: number,
 	out: T
-) {
+): T => {
 	const ax = a[0];
 	const ay = a[1];
 	const az = a[2];
@@ -473,7 +488,7 @@ export function lerp<T extends Vector4Like>(
 	out[2] = az + t * (b[2] - az);
 	out[3] = aw + t * (b[3] - aw);
 	return out;
-}
+};
 
 /**
  * Set this vector to a random value with the given magnitude.
@@ -481,7 +496,7 @@ export function lerp<T extends Vector4Like>(
  * @param out - The vector to store the result in.
  * @returns This vector.
  */
-export function random<T extends Vector4Like>(magnitude: number, out: T) {
+export const random = <T extends Vector4Like>(magnitude: number, out: T): T => {
 	const a = Math.random();
 	const v1 = a * 2 - 1;
 	const v2 = (4 * Math.random() - 2) * Math.sqrt(a * -a + a);
@@ -499,7 +514,7 @@ export function random<T extends Vector4Like>(magnitude: number, out: T) {
 	out[2] = magnitude * v3 * d;
 	out[3] = magnitude * v4 * d;
 	return out;
-}
+};
 
 /**
  * Transform a vector by a four-by-four matrix.
@@ -509,11 +524,11 @@ export function random<T extends Vector4Like>(magnitude: number, out: T) {
  * @returns The transformed vector.
  * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
  */
-export function transformMatrix4<T extends Vector4Like>(
+export const transformMatrix4 = <T extends Vector4Like>(
 	vector: Vector4Like,
 	matrix: Matrix4Like,
 	out: T
-) {
+): T => {
 	const x = vector[0];
 	const y = vector[1];
 	const z = vector[2];
@@ -524,20 +539,20 @@ export function transformMatrix4<T extends Vector4Like>(
 	out[2] = matrix[2] * x + matrix[6] * y + matrix[10] * z + matrix[14] * w;
 	out[3] = matrix[3] * x + matrix[7] * y + matrix[11] * z + matrix[15] * w;
 	return out;
-}
+};
 
 /**
  * Set a vector to the zero vector.
  * @param out - The vector to store the result in.
  * @returns This vector.
  */
-export function zero<T extends Vector4Like>(out: T) {
+export const zero = <T extends Vector4Like>(out: T): T => {
 	out[0] = 0;
 	out[1] = 0;
 	out[2] = 0;
 	out[3] = 0;
 	return out;
-}
+};
 
 /**
  * Transform a vector by a quaternion.
@@ -547,11 +562,11 @@ export function zero<T extends Vector4Like>(out: T) {
  * @returns The transformed vector.
  * @see [Quaternion](https://en.wikipedia.org/wiki/Quaternion)
  */
-export function transformQuaternion<T extends Vector4Like>(
+export const transformQuaternion = <T extends Vector4Like>(
 	vector: Vector4Like,
 	quaternion: QuaternionLike,
 	out: T
-) {
+): T => {
 	const x = vector[0];
 	const y = vector[1];
 	const z = vector[2];
@@ -571,7 +586,7 @@ export function transformQuaternion<T extends Vector4Like>(
 	out[2] = iz * qw + iw * -qz + ix * -qy - iy * -qx;
 	out[3] = vector[3];
 	return out;
-}
+};
 
 /**
  * A quantity with magnitude and direction in four dimensions.
@@ -596,7 +611,7 @@ export default class Vector4
 		z: number,
 		w: number,
 		out = new Vector4() as unknown as T
-	) {
+	): T {
 		return fromValues(x, y, z, w, out);
 	}
 
@@ -625,7 +640,7 @@ export default class Vector4
 	 * @param vector - The other vector.
 	 * @returns Whether or no tthe vectors are equivalent.
 	 */
-	public equals(vector: Vector4Like) {
+	public equals(vector: Vector4Like): boolean {
 		return equals(this, vector);
 	}
 
@@ -634,7 +649,7 @@ export default class Vector4
 	 * @param vector - The other vector.
 	 * @returns Whether the vectors are equivalent.
 	 */
-	public exactEquals(vector: Vector4Like) {
+	public exactEquals(vector: Vector4Like): boolean {
 		return exactEquals(this, vector);
 	}
 
@@ -647,7 +662,7 @@ export default class Vector4
 	public add<T extends Vector4Like>(
 		vector: Vector4Like,
 		out = new Vector4() as unknown as T
-	) {
+	): T {
 		return add(this, vector, out);
 	}
 
@@ -656,7 +671,7 @@ export default class Vector4
 	 * @param out - The vector to store the result in.
 	 * @returns The copy.
 	 */
-	public clone<T extends Vector4Like>(out = new Vector4() as unknown as T) {
+	public clone<T extends Vector4Like>(out = new Vector4() as unknown as T): T {
 		return copy(this, out);
 	}
 
@@ -665,7 +680,7 @@ export default class Vector4
 	 * @param vector - The vector to copy.
 	 * @returns This vector.
 	 */
-	public copy(vector: Vector4Like) {
+	public copy(vector: Vector4Like): this {
 		return copy(vector, this);
 	}
 
@@ -678,7 +693,7 @@ export default class Vector4
 	public multiply<T extends Vector4Like>(
 		vector: Vector4Like,
 		out = new Vector4() as unknown as T
-	) {
+	): T {
 		return multiply(this, vector, out);
 	}
 
@@ -691,7 +706,7 @@ export default class Vector4
 	public divide<T extends Vector4Like>(
 		vector: Vector4Like,
 		out = new Vector4() as unknown as T
-	) {
+	): T {
 		return divide(this, vector, out);
 	}
 
@@ -704,7 +719,7 @@ export default class Vector4
 	public subtract<T extends Vector4Like>(
 		vector: Vector4Like,
 		out = new Vector4() as unknown as T
-	) {
+	): T {
 		return subtract(this, vector, out);
 	}
 
@@ -713,7 +728,7 @@ export default class Vector4
 	 * @param out - The vector to store the result in.
 	 * @returns The rounded vector.
 	 */
-	public ceil<T extends Vector4Like>(out = new Vector4() as unknown as T) {
+	public ceil<T extends Vector4Like>(out = new Vector4() as unknown as T): T {
 		return ceil(this, out);
 	}
 
@@ -722,7 +737,7 @@ export default class Vector4
 	 * @param out - The vector to store the result in.
 	 * @returns The rounded vector.
 	 */
-	public floor<T extends Vector4Like>(out = new Vector4() as unknown as T) {
+	public floor<T extends Vector4Like>(out = new Vector4() as unknown as T): T {
 		return floor(this, out);
 	}
 
@@ -731,7 +746,7 @@ export default class Vector4
 	 * @param out - The vector to store the result in.
 	 * @returns The rounded vector.
 	 */
-	public round<T extends Vector4Like>(out = new Vector4() as unknown as T) {
+	public round<T extends Vector4Like>(out = new Vector4() as unknown as T): T {
 		return round(this, out);
 	}
 
@@ -744,7 +759,7 @@ export default class Vector4
 	public min<T extends Vector4Like>(
 		vector: Vector4Like,
 		out = new Vector4() as unknown as T
-	) {
+	): T {
 		return min(this, vector, out);
 	}
 
@@ -757,7 +772,7 @@ export default class Vector4
 	public max<T extends Vector4Like>(
 		vector: Vector4Like,
 		out = new Vector4() as unknown as T
-	) {
+	): T {
 		return max(this, vector, out);
 	}
 
@@ -770,7 +785,7 @@ export default class Vector4
 	public scale<T extends Vector4Like>(
 		scalar: number,
 		out = new Vector4() as unknown as T
-	) {
+	): T {
 		return scale(this, scalar, out);
 	}
 
@@ -785,7 +800,7 @@ export default class Vector4
 		vector: Vector4Like,
 		scalar: number,
 		out = new Vector4() as unknown as T
-	) {
+	): T {
 		return scaleAndAdd(this, vector, scalar, out);
 	}
 
@@ -795,7 +810,7 @@ export default class Vector4
 	 * @returns The distance.
 	 * @see [Euclidean distance](https://en.wikipedia.org/wiki/Euclidean_distance)
 	 */
-	public distance(vector: Vector4Like) {
+	public distance(vector: Vector4Like): number {
 		return distance(this, vector);
 	}
 
@@ -805,17 +820,17 @@ export default class Vector4
 	 * @returns The squared distance.
 	 * @see [Euclidean distance](https://en.wikipedia.org/wiki/Euclidean_distance)
 	 */
-	public squaredDistance(vector: Vector4Like) {
+	public squaredDistance(vector: Vector4Like): number {
 		return squaredDistance(this, vector);
 	}
 
 	/** Get the magnitude (length) of this vector. */
-	public get magnitude() {
+	public get magnitude(): number {
 		return getMagnitude(this);
 	}
 
 	/** Get the squared magnitude (length) of this vector. */
-	public get squaredMagnitude() {
+	public get squaredMagnitude(): number {
 		return getSquaredMagnitude(this);
 	}
 
@@ -824,7 +839,7 @@ export default class Vector4
 	 * @param out - The vector to store the result in.
 	 * @returns The negated vector.
 	 */
-	public negate<T extends Vector4Like>(out = new Vector4() as unknown as T) {
+	public negate<T extends Vector4Like>(out = new Vector4() as unknown as T): T {
 		return negate(this, out);
 	}
 
@@ -833,7 +848,7 @@ export default class Vector4
 	 * @param out - The vector to store the result in.
 	 * @returns The inverted vector.
 	 */
-	public invert<T extends Vector4Like>(out = new Vector4() as unknown as T) {
+	public invert<T extends Vector4Like>(out = new Vector4() as unknown as T): T {
 		return invert(this, out);
 	}
 
@@ -843,7 +858,9 @@ export default class Vector4
 	 * @returns The normalized vector.
 	 * @see [Unit vector](https://en.wikipedia.org/wiki/Unit_vector)
 	 */
-	public normalize<T extends Vector4Like>(out = new Vector4() as unknown as T) {
+	public normalize<T extends Vector4Like>(
+		out = new Vector4() as unknown as T
+	): T {
 		return normalize(this, out);
 	}
 
@@ -853,7 +870,7 @@ export default class Vector4
 	 * @returns The dot product.
 	 * @see [Dot product](https://en.wikipedia.org/wiki/Dot_product)
 	 */
-	public dot(vector: Vector4Like) {
+	public dot(vector: Vector4Like): number {
 		return dot(this, vector);
 	}
 
@@ -869,7 +886,7 @@ export default class Vector4
 		a: Vector4Like,
 		b: Vector4Like,
 		out = new Vector4() as unknown as T
-	) {
+	): T {
 		return cross(this, a, b, out);
 	}
 
@@ -885,7 +902,7 @@ export default class Vector4
 		vector: Vector4Like,
 		t: number,
 		out = new Vector4() as unknown as T
-	) {
+	): T {
 		return lerp(this, vector, t, out);
 	}
 
@@ -894,7 +911,7 @@ export default class Vector4
 	 * @param magnitude - The magnitude.
 	 * @returns This vector.
 	 */
-	public random(magnitude = 1) {
+	public random(magnitude = 1): this {
 		return random(magnitude, this);
 	}
 
@@ -908,7 +925,7 @@ export default class Vector4
 	public transformMatrix4<T extends Vector4Like>(
 		matrix: Matrix4Like,
 		out = new Vector4() as unknown as T
-	) {
+	): T {
 		return transformMatrix4(this, matrix, out);
 	}
 
@@ -916,7 +933,7 @@ export default class Vector4
 	 * Set this to the zero vector.
 	 * @returns This vector.
 	 */
-	public zero() {
+	public zero(): this {
 		return zero(this);
 	}
 
@@ -930,7 +947,7 @@ export default class Vector4
 	public transformQuaternion<T extends Vector4Like>(
 		quaternion: QuaternionLike,
 		out = new Vector4() as unknown as T
-	) {
+	): T {
 		return transformQuaternion(this, quaternion, out);
 	}
 }

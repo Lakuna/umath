@@ -3,7 +3,7 @@
  * @returns The next value in the Fibonacci sequence.
  * @see [Fibonacci sequence](https://en.wikipedia.org/wiki/Fibonacci_sequence)
  */
-export default function* fibonacci() {
+export default function* fibonacci(): Generator<number, void> {
 	let a = 0;
 	let b = 1;
 

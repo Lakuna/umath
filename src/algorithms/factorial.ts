@@ -4,7 +4,7 @@
  * @returns The factorial.
  * @see [Factorial](https://en.wikipedia.org/wiki/Factorial)
  */
-export default function factorial(n: number) {
+export default function factorial(n: number): number {
 	if (n < 0) {
 		return n % 2 ? Infinity : -Infinity; // Division by zero returns `Infinity` in JavaScript.
 	}

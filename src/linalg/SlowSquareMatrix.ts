@@ -32,7 +32,7 @@ export default class SlowSquareMatrix
 	 * Get the determinant of this matrix.
 	 * @see [Determinant](https://en.wikipedia.org/wiki/Determinant)
 	 */
-	public get determinant() {
+	public get determinant(): number {
 		if (this.length < 1) {
 			throw new MatrixSizeError();
 		}
@@ -58,7 +58,7 @@ export default class SlowSquareMatrix
 	 * @returns The adjugate of this matrix.
 	 * @see [Adjugate matrix](https://en.wikipedia.org/wiki/Adjugate_matrix)
 	 */
-	public adjoint() {
+	public adjoint(): SlowSquareMatrix {
 		return this.cofactor().transpose();
 	}
 
@@ -66,7 +66,7 @@ export default class SlowSquareMatrix
 	 * Create a copy of this matrix.
 	 * @returns A copy of this matrix.
 	 */
-	public override clone() {
+	public override clone(): SlowSquareMatrix {
 		const cols: number[][] = [];
 		for (let x = 0; x < this.width; x++) {
 			for (let y = 0; y < this.height; y++) {
@@ -86,12 +86,12 @@ export default class SlowSquareMatrix
 	 * @returns The cofactor.
 	 * @see [Minor](https://en.wikipedia.org/wiki/Minor_(linear_algebra))
 	 */
-	public cofactor() {
+	public cofactor(): SlowSquareMatrix {
 		const out: number[][] = [];
 		for (let i = 0; i < this.width; i++) {
-			// col i
+			// Column `i`.
 			for (let j = 0; j < this.height; j++) {
-				// row j
+				// Row `j`.
 				(out[j] ??= [])[i] = ((i + j) % 2 ? -1 : 1) * this.minor(i, j);
 			}
 		}
@@ -104,7 +104,7 @@ export default class SlowSquareMatrix
 	 * @returns This matrix.
 	 * @see [Identity matrix](https://en.wikipedia.org/wiki/Identity_matrix)
 	 */
-	public identity() {
+	public identity(): this {
 		for (let i = 0; i < this.width; i++) {
 			for (let j = 0; j < this.height; j++) {
 				this[i * this.height + j] = i === j ? 1 : 0;
@@ -119,7 +119,7 @@ export default class SlowSquareMatrix
 	 * @returns The inverted matrix.
 	 * @see [Invertible matrix](https://en.wikipedia.org/wiki/Invertible_matrix)
 	 */
-	public invert() {
+	public invert(): SlowSquareMatrix {
 		const dim = this.width;
 
 		const clone = this.clone();
@@ -190,7 +190,7 @@ export default class SlowSquareMatrix
 	 * @returns The minor.
 	 * @see [Minor](https://en.wikipedia.org/wiki/Minor_(linear_algebra))
 	 */
-	public minor(row: number, col: number) {
+	public minor(row: number, col: number): number {
 		return this.submatrix(row, col).determinant;
 	}
 
@@ -200,7 +200,7 @@ export default class SlowSquareMatrix
 	 * @param col - The column to remove.
 	 * @returns The submatrix.
 	 */
-	public submatrix(row: number, col: number) {
+	public submatrix(row: number, col: number): SlowSquareMatrix {
 		const cols: number[][] = [];
 
 		for (let i = 0; i < this.width; i++) {
@@ -230,7 +230,7 @@ export default class SlowSquareMatrix
 	 * @returns The transpose of this matrix.
 	 * @see [Transpose](https://en.wikipedia.org/wiki/Transpose)
 	 */
-	public override transpose() {
+	public override transpose(): SlowSquareMatrix {
 		const cols: number[][] = [];
 		for (let x = 0; x < this.width; x++) {
 			for (let y = 0; y < this.height; y++) {

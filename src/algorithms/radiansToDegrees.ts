@@ -5,6 +5,6 @@
  * @see [Degree](https://en.wikipedia.org/wiki/Degree_(angle))
  * @see [Radian](https://en.wikipedia.org/wiki/Radian)
  */
-export default function radiansToDegrees(radians: number) {
+export default function radiansToDegrees(radians: number): number {
 	return (radians * 180) / Math.PI;
 }

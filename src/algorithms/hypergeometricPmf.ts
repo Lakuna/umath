@@ -14,6 +14,6 @@ export default function hypergeometricPmf(
 	K: number,
 	n: number,
 	k: number
-) {
+): number {
 	return (combinations(K, k) * combinations(N - K, n - k)) / combinations(N, n);
 }

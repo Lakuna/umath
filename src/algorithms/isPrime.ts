@@ -4,7 +4,7 @@
  * @returns Whether or not the number is prime.
  * @see [Prime number](https://en.wikipedia.org/wiki/Prime_number)
  */
-export default function isPrime(n: number) {
+export default function isPrime(n: number): boolean {
 	// Negatives, zero, and one can't be prime.
 	if (n < 2) {
 		return false;

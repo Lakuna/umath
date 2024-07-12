@@ -35,9 +35,9 @@ export interface QuaternionLike extends Record<number, number> {
  * Create a quaternion-like object.
  * @returns A quaternion-like object.
  */
-export function createQuaternionLike() {
+export const createQuaternionLike = () => {
 	return new Float32Array(4) as unknown as QuaternionLike;
-}
+};
 
 /**
  * Create a quaternion from a three-by-three rotation matrix.
@@ -46,10 +46,10 @@ export function createQuaternionLike() {
  * @returns The quaternion.
  * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
  */
-export function fromMatrix3<T extends QuaternionLike>(
+export const fromMatrix3 = <T extends QuaternionLike>(
 	matrix: Matrix3Like,
 	out: T
-) {
+): T => {
 	const fTrace = matrix[0] + matrix[4] + matrix[8];
 	if (fTrace > 0) {
 		let fRoot = Math.sqrt(fTrace + 1);
@@ -89,7 +89,7 @@ export function fromMatrix3<T extends QuaternionLike>(
 		(matrix[(k * 3 + i) as 6 | 1 | 5] + matrix[(i * 3 + k) as 2 | 3 | 7]) *
 		fRoot;
 	return out;
-}
+};
 
 /**
  * Create a quaternion from equivalent X-Y-Z Tait-Bryan angles
@@ -100,12 +100,12 @@ export function fromMatrix3<T extends QuaternionLike>(
  * @returns The quaternion.
  * @see [Euler angles](https://en.wikipedia.org/wiki/Euler_angles)
  */
-export function fromEuler<T extends QuaternionLike>(
+export const fromEuler = <T extends QuaternionLike>(
 	x: number,
 	y: number,
 	z: number,
 	out: T
-) {
+): T => {
 	const r = (0.5 * Math.PI) / 180;
 
 	const x2 = x * r;
@@ -124,7 +124,7 @@ export function fromEuler<T extends QuaternionLike>(
 	out[2] = cx * cy * sz - sx * sy * cz;
 	out[3] = cx * cy * cz + sx * sy * sz;
 	return out;
-}
+};
 
 // Stores intermediary values for some functions.
 const intermediary = createMatrix3Like();
@@ -137,12 +137,12 @@ const intermediary = createMatrix3Like();
  * @param out - The quaternion to store the result in.
  * @returns The quaternion.
  */
-export function fromAxes<T extends QuaternionLike>(
+export const fromAxes = <T extends QuaternionLike>(
 	view: Vector3Like,
 	right: Vector3Like,
 	up: Vector3Like,
 	out: T
-) {
+): T => {
 	intermediary[0] = right[0];
 	intermediary[3] = right[1];
 	intermediary[6] = right[2];
@@ -153,20 +153,20 @@ export function fromAxes<T extends QuaternionLike>(
 	intermediary[5] = -view[1];
 	intermediary[8] = -view[2];
 	return normalize(fromMatrix3(intermediary, out), out);
-}
+};
 
 /**
  * Set a quaternion to the identity.
  * @param out - The quaternion to store the result in.
  * @returns This quaternion.
  */
-export function identity<T extends QuaternionLike>(out: T) {
+export const identity = <T extends QuaternionLike>(out: T): T => {
 	out[0] = 0;
 	out[1] = 0;
 	out[2] = 0;
 	out[3] = 1;
 	return out;
-}
+};
 
 /**
  * Calculate the axis and angle that represent a quaternion.
@@ -174,10 +174,10 @@ export function identity<T extends QuaternionLike>(out: T) {
  * @param out - The axis and angle to store the result in.
  * @returns The axis and angle.
  */
-export function getAxisAngle<T extends AxisAngle>(
+export const getAxisAngle = <T extends AxisAngle>(
 	quaternion: QuaternionLike,
 	out: T
-) {
+): T => {
 	const r = Math.acos(quaternion[3]) * 2;
 	const s = Math.sin(r / 2);
 
@@ -187,7 +187,7 @@ export function getAxisAngle<T extends AxisAngle>(
 			: [1, 0, 0];
 	out.angle = r;
 	return out;
-}
+};
 
 /**
  * Set the axis and angle that represent a quaternion.
@@ -195,10 +195,10 @@ export function getAxisAngle<T extends AxisAngle>(
  * @param out - The quaternion to store the result in.
  * @returns The quaternion.
  */
-export function setAxisAngle<T extends QuaternionLike>(
+export const setAxisAngle = <T extends QuaternionLike>(
 	axisAngle: AxisAngle,
 	out: T
-) {
+): T => {
 	const r = axisAngle.angle * 0.5;
 	const s = Math.sin(r);
 
@@ -207,7 +207,7 @@ export function setAxisAngle<T extends QuaternionLike>(
 	out[2] = s * axisAngle.axis[2];
 	out[3] = Math.cos(r);
 	return out;
-}
+};
 
 /**
  * Get the angular distance between two unit quaternions.
@@ -215,10 +215,10 @@ export function setAxisAngle<T extends QuaternionLike>(
  * @param b - The second unit quaternion.
  * @returns The angular distance in radians.
  */
-export function getAngle(a: QuaternionLike, b: QuaternionLike) {
+export const getAngle = (a: QuaternionLike, b: QuaternionLike): number => {
 	const dp = dot(a, b);
 	return Math.acos(2 * dp * dp - 1);
-}
+};
 
 /**
  * Multiply two quaternions.
@@ -227,11 +227,11 @@ export function getAngle(a: QuaternionLike, b: QuaternionLike) {
  * @param out - The quaternion to store the result in.
  * @returns The product.
  */
-export function multiply<T extends QuaternionLike>(
+export const multiply = <T extends QuaternionLike>(
 	a: QuaternionLike,
 	b: QuaternionLike,
 	out: T
-) {
+): T => {
 	const ax = a[0];
 	const ay = a[1];
 	const az = a[2];
@@ -247,7 +247,7 @@ export function multiply<T extends QuaternionLike>(
 	out[2] = az * bw + aw * bz + ax * by - ay * bx;
 	out[3] = aw * bw - ax * bx - ay * by - az * bz;
 	return out;
-}
+};
 
 /**
  * Rotate a quaternion by the given angle around the X-axis.
@@ -256,11 +256,11 @@ export function multiply<T extends QuaternionLike>(
  * @param out - The quaternion to store the result in.
  * @returns The rotated quaternion.
  */
-export function rotateX<T extends QuaternionLike>(
+export const rotateX = <T extends QuaternionLike>(
 	quaternion: QuaternionLike,
 	radians: number,
 	out: T
-) {
+): T => {
 	const r = radians * 0.5;
 
 	const ax = quaternion[0];
@@ -276,7 +276,7 @@ export function rotateX<T extends QuaternionLike>(
 	out[2] = az * bw - ay * bx;
 	out[3] = aw * bw - ax * bx;
 	return out;
-}
+};
 
 /**
  * Rotate a quaternion by the given angle around the Y-axis.
@@ -285,11 +285,11 @@ export function rotateX<T extends QuaternionLike>(
  * @param out - The quaternion to store the result in.
  * @returns The rotated quaternion.
  */
-export function rotateY<T extends QuaternionLike>(
+export const rotateY = <T extends QuaternionLike>(
 	quaternion: QuaternionLike,
 	radians: number,
 	out: T
-) {
+): T => {
 	const r = radians * 0.5;
 
 	const ax = quaternion[0];
@@ -305,7 +305,7 @@ export function rotateY<T extends QuaternionLike>(
 	out[2] = az * bw + ax * by;
 	out[3] = aw * bw - ay * by;
 	return out;
-}
+};
 
 /**
  * Rotate a quaternion by the given angle around the Z-axis.
@@ -314,11 +314,11 @@ export function rotateY<T extends QuaternionLike>(
  * @param out - The quaternion to store the result in.
  * @returns The rotated quaternion.
  */
-export function rotateZ<T extends QuaternionLike>(
+export const rotateZ = <T extends QuaternionLike>(
 	quaternion: QuaternionLike,
 	radians: number,
 	out: T
-) {
+): T => {
 	const r = radians * 0.5;
 
 	const ax = quaternion[0];
@@ -334,7 +334,7 @@ export function rotateZ<T extends QuaternionLike>(
 	out[2] = az * bw + aw * bz;
 	out[3] = aw * bw - az * bz;
 	return out;
-}
+};
 
 /**
  * Calculate the fourth component of a unit quaternion from the first three, ignoring the existing fourth component.
@@ -342,10 +342,10 @@ export function rotateZ<T extends QuaternionLike>(
  * @param out - The quaternion to store the result in.
  * @returns The quaternion.
  */
-export function calculateW<T extends QuaternionLike>(
+export const calculateW = <T extends QuaternionLike>(
 	quaternion: QuaternionLike,
 	out: T
-) {
+): T => {
 	const x = quaternion[0];
 	const y = quaternion[1];
 	const z = quaternion[2];
@@ -355,7 +355,7 @@ export function calculateW<T extends QuaternionLike>(
 	out[2] = z;
 	out[3] = Math.sqrt(Math.abs(1 - x * x - y * y - z * z));
 	return out;
-}
+};
 
 /**
  * Calculate the exponential of a unit quaternion.
@@ -363,10 +363,10 @@ export function calculateW<T extends QuaternionLike>(
  * @param out - The quaternion to store the result in.
  * @returns The exponential.
  */
-export function exp<T extends QuaternionLike>(
+export const exp = <T extends QuaternionLike>(
 	quaternion: QuaternionLike,
 	out: T
-) {
+): T => {
 	const x = quaternion[0];
 	const y = quaternion[1];
 	const z = quaternion[2];
@@ -381,7 +381,7 @@ export function exp<T extends QuaternionLike>(
 	out[2] = z * s;
 	out[3] = et * Math.cos(r);
 	return out;
-}
+};
 
 /**
  * Calculate the natural logarithm of a unit quaternion.
@@ -389,10 +389,10 @@ export function exp<T extends QuaternionLike>(
  * @param out - The quaternion to store the result in.
  * @returns The natural logarithm.
  */
-export function ln<T extends QuaternionLike>(
+export const ln = <T extends QuaternionLike>(
 	quaternion: QuaternionLike,
 	out: T
-) {
+): T => {
 	const x = quaternion[0];
 	const y = quaternion[1];
 	const z = quaternion[2];
@@ -406,7 +406,7 @@ export function ln<T extends QuaternionLike>(
 	out[2] = z * t;
 	out[3] = 0.5 * Math.log(x * x + y * y + z * z + w * w);
 	return out;
-}
+};
 
 /**
  * Calculate a power of a unit quaternion.
@@ -415,13 +415,13 @@ export function ln<T extends QuaternionLike>(
  * @param out - The quaternion to store the result in.
  * @returns The power.
  */
-export function pow<T extends QuaternionLike>(
+export const pow = <T extends QuaternionLike>(
 	quaternion: QuaternionLike,
 	scalar: number,
 	out: T
-) {
+): T => {
 	return exp(scale(ln(quaternion, out), scalar, out), out);
-}
+};
 
 /**
  * Perform a spherical linear interpolation between two quaternions.
@@ -432,12 +432,12 @@ export function pow<T extends QuaternionLike>(
  * @returns The interpolated quaternion.
  * @see [Slerp](https://en.wikipedia.org/wiki/Slerp)
  */
-export function slerp<T extends QuaternionLike>(
+export const slerp = <T extends QuaternionLike>(
 	a: QuaternionLike,
 	b: QuaternionLike,
 	t: number,
 	out: T
-) {
+): T => {
 	const ax = a[0];
 	const ay = a[1];
 	const az = a[2];
@@ -477,14 +477,14 @@ export function slerp<T extends QuaternionLike>(
 	out[2] = scale0 * az + scale1 * bz;
 	out[3] = scale0 * aw + scale1 * bw;
 	return out;
-}
+};
 
 /**
  * Set a quaternion to a random unit quaternion.
  * @param out - The quaternion to store the result in.
  * @returns The quaternion.
  */
-export function random<T extends QuaternionLike>(out: T) {
+export const random = <T extends QuaternionLike>(out: T): T => {
 	const u1 = Math.random();
 	const u2 = Math.random();
 	const u3 = Math.random();
@@ -497,7 +497,7 @@ export function random<T extends QuaternionLike>(out: T) {
 	out[2] = sqrtU1 * Math.sin(2 * Math.PI * u3);
 	out[3] = sqrtU1 * Math.cos(2 * Math.PI * u3);
 	return out;
-}
+};
 
 /**
  * Calculate the inverse of a quaternion. If the quaternion is normalized, the conjugate is the same but faster to calculate.
@@ -505,10 +505,10 @@ export function random<T extends QuaternionLike>(out: T) {
  * @param out - The quaternion to store the result in.
  * @returns The inverse.
  */
-export function invert<T extends QuaternionLike>(
+export const invert = <T extends QuaternionLike>(
 	quaternion: QuaternionLike,
 	out: T
-) {
+): T => {
 	const a0 = quaternion[0];
 	const a1 = quaternion[1];
 	const a2 = quaternion[2];
@@ -530,7 +530,7 @@ export function invert<T extends QuaternionLike>(
 	out[2] = -a2 * invDot;
 	out[3] = a3 * invDot;
 	return out;
-}
+};
 
 /**
  * Calculate the conjugate of a quaternion. If the quaternion is normalized, this is the same as the inverse but faster to calculate.
@@ -538,16 +538,16 @@ export function invert<T extends QuaternionLike>(
  * @param out - The quaternion to store the result in.
  * @returns The conjugate.
  */
-export function conjugate<T extends QuaternionLike>(
+export const conjugate = <T extends QuaternionLike>(
 	quaternion: QuaternionLike,
 	out: T
-) {
+): T => {
 	out[0] = -quaternion[0];
 	out[1] = -quaternion[1];
 	out[2] = -quaternion[2];
 	out[3] = quaternion[3];
 	return out;
-}
+};
 
 // Used to store intermediate values for some functions.
 const controlPointOne = createQuaternionLike();
@@ -564,18 +564,18 @@ const controlPointTwo = createQuaternionLike();
  * @returns The interpolated value.
  * @see [Slerp](https://en.wikipedia.org/wiki/Slerp)
  */
-export function sqlerp<T extends QuaternionLike>(
+export const sqlerp = <T extends QuaternionLike>(
 	a: QuaternionLike,
 	b: QuaternionLike,
 	c: QuaternionLike,
 	d: QuaternionLike,
 	t: number,
 	out: T
-) {
+): T => {
 	slerp(a, d, t, controlPointOne);
 	slerp(b, c, t, controlPointTwo);
 	return slerp(controlPointOne, controlPointTwo, 2 * t * (1 - t), out);
-}
+};
 
 /**
  * A complex number that is commonly used to describe rotations.
@@ -592,7 +592,7 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	public static fromMatrix3<T extends QuaternionLike>(
 		matrix: Matrix3Like,
 		out = new Quaternion() as unknown as T
-	) {
+	): T {
 		return fromMatrix3(matrix, out);
 	}
 
@@ -610,7 +610,7 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 		y: number,
 		z: number,
 		out = new Quaternion() as unknown as T
-	) {
+	): T {
 		return fromEuler(x, y, z, out);
 	}
 
@@ -629,7 +629,7 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 		z: number,
 		w: number,
 		out = new Quaternion() as unknown as T
-	) {
+	): T {
 		return fromValues(x, y, z, w, out);
 	}
 
@@ -646,7 +646,7 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 		right: Vector3Like,
 		up: Vector3Like,
 		out = new Quaternion() as unknown as T
-	) {
+	): T {
 		return fromAxes(view, right, up, out);
 	}
 
@@ -675,7 +675,7 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 * Set this quaternion to the identity.
 	 * @returns This quaternion.
 	 */
-	public identity() {
+	public identity(): this {
 		return identity(this);
 	}
 
@@ -684,7 +684,7 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 * @param out - The axis and angle to store the result in.
 	 * @returns The axis and angle.
 	 */
-	public getAxisAngle<T extends AxisAngle>(out = {} as T) {
+	public getAxisAngle<T extends AxisAngle>(out = {} as T): T {
 		return getAxisAngle(this, out);
 	}
 
@@ -693,7 +693,7 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 * @param axisAngle - The axis and angle.
 	 * @returns This quaternion.
 	 */
-	public setAxisAngle(axisAngle: AxisAngle) {
+	public setAxisAngle(axisAngle: AxisAngle): this {
 		return setAxisAngle(axisAngle, this);
 	}
 
@@ -702,7 +702,7 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 * @param quaternion - The other unit quaternion.
 	 * @returns The angular distance in radians.
 	 */
-	public getAngle(quaternion: QuaternionLike) {
+	public getAngle(quaternion: QuaternionLike): number {
 		return getAngle(this, quaternion);
 	}
 
@@ -715,7 +715,7 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	public multiply<T extends QuaternionLike>(
 		quaternion: QuaternionLike,
 		out = new Quaternion() as unknown as T
-	) {
+	): T {
 		return multiply(this, quaternion, out);
 	}
 
@@ -728,7 +728,7 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	public rotateX<T extends QuaternionLike>(
 		r: number,
 		out = new Quaternion() as unknown as T
-	) {
+	): T {
 		return rotateX(this, r, out);
 	}
 
@@ -741,7 +741,7 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	public rotateY<T extends QuaternionLike>(
 		r: number,
 		out = new Quaternion() as unknown as T
-	) {
+	): T {
 		return rotateY(this, r, out);
 	}
 
@@ -754,7 +754,7 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	public rotateZ<T extends QuaternionLike>(
 		r: number,
 		out = new Quaternion() as unknown as T
-	) {
+	): T {
 		return rotateZ(this, r, out);
 	}
 
@@ -765,7 +765,7 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 */
 	public calculateW<T extends QuaternionLike>(
 		out = new Quaternion() as unknown as T
-	) {
+	): T {
 		return calculateW(this, out);
 	}
 
@@ -774,7 +774,9 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 * @param out - The quaternion to store the result in.
 	 * @returns The exponential.
 	 */
-	public exp<T extends QuaternionLike>(out = new Quaternion() as unknown as T) {
+	public exp<T extends QuaternionLike>(
+		out = new Quaternion() as unknown as T
+	): T {
 		return exp(this, out);
 	}
 
@@ -783,7 +785,9 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 * @param out - The quaternion to store the result in.
 	 * @returns The natural logarithm.
 	 */
-	public ln<T extends QuaternionLike>(out = new Quaternion() as unknown as T) {
+	public ln<T extends QuaternionLike>(
+		out = new Quaternion() as unknown as T
+	): T {
 		return ln(this, out);
 	}
 
@@ -796,7 +800,7 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	public pow<T extends QuaternionLike>(
 		scalar: number,
 		out = new Quaternion() as unknown as T
-	) {
+	): T {
 		return pow(this, scalar, out);
 	}
 
@@ -812,7 +816,7 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 		quaternion: QuaternionLike,
 		t: number,
 		out = new Quaternion() as unknown as T
-	) {
+	): T {
 		return slerp(this, quaternion, t, out);
 	}
 
@@ -820,7 +824,7 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 * Set this to a random unit quaternion.
 	 * @returns A random unit quaternion.
 	 */
-	public random() {
+	public random(): this {
 		return random(this);
 	}
 
@@ -831,7 +835,7 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 */
 	public invert<T extends QuaternionLike>(
 		out = new Quaternion() as unknown as T
-	) {
+	): T {
 		return invert(this, out);
 	}
 
@@ -842,7 +846,7 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 */
 	public conjugate<T extends QuaternionLike>(
 		out = new Quaternion() as unknown as T
-	) {
+	): T {
 		return conjugate(this, out);
 	}
 
@@ -853,7 +857,7 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 */
 	public clone<T extends QuaternionLike>(
 		out = new Quaternion() as unknown as T
-	) {
+	): T {
 		return copy(this, out);
 	}
 
@@ -862,7 +866,7 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 * @param quaternion - The quaternion to copy.
 	 * @returns This quaternion.
 	 */
-	public copy(quaternion: QuaternionLike) {
+	public copy(quaternion: QuaternionLike): this {
 		return copy(quaternion, this);
 	}
 
@@ -875,7 +879,7 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	public add<T extends QuaternionLike>(
 		quaternion: QuaternionLike,
 		out = new Quaternion() as unknown as T
-	) {
+	): T {
 		return add(this, quaternion, out);
 	}
 
@@ -888,7 +892,7 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	public scale<T extends QuaternionLike>(
 		scalar: number,
 		out = new Quaternion() as unknown as T
-	) {
+	): T {
 		return scale(this, scalar, out);
 	}
 
@@ -897,7 +901,7 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 * @param quaternion - The other quaternion.
 	 * @returns The dot product.
 	 */
-	public dot(quaternion: QuaternionLike) {
+	public dot(quaternion: QuaternionLike): number {
 		return dot(this, quaternion);
 	}
 
@@ -912,17 +916,17 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 		quaternion: QuaternionLike,
 		t: number,
 		out = new Quaternion() as unknown as T
-	) {
+	): T {
 		return lerp(this, quaternion, t, out);
 	}
 
 	/** Get the magnitude (length) of this quaternion. */
-	public get magnitude() {
+	public get magnitude(): number {
 		return getMagnitude(this);
 	}
 
 	/** Get the squared magnitude (length) of this quaternion. */
-	public get squaredMagnitude() {
+	public get squaredMagnitude(): number {
 		return getSquaredMagnitude(this);
 	}
 
@@ -933,7 +937,7 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 */
 	public normalize<T extends QuaternionLike>(
 		out = new Quaternion() as unknown as T
-	) {
+	): T {
 		return normalize(this, out);
 	}
 
@@ -942,7 +946,7 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 * @param quaternion - The other quaternion.
 	 * @returns Whether or not the quaternions are equivalent.
 	 */
-	public equals(quaternion: QuaternionLike) {
+	public equals(quaternion: QuaternionLike): boolean {
 		return equals(this, quaternion);
 	}
 
@@ -951,7 +955,7 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 * @param quaternion - The other quaternion.
 	 * @returns Whether or not the quaternions are equivalent.
 	 */
-	public exactEquals(quaternion: QuaternionLike) {
+	public exactEquals(quaternion: QuaternionLike): boolean {
 		return exactEquals(this, quaternion);
 	}
 
@@ -971,7 +975,7 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 		quaternion: QuaternionLike,
 		t: number,
 		out = new Quaternion() as unknown as T
-	) {
+	): T {
 		return sqlerp(this, a, b, quaternion, t, out);
 	}
 }

@@ -10,7 +10,7 @@ export default function summation(
 	min: number,
 	max: number,
 	term: (i: number) => number
-) {
+): number {
 	// Not recursive in order to avoid exceeding the maximum call stack size.
 	let out = 0;
 	for (let i = min; i <= max; i++) {

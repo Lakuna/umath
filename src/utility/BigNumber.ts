@@ -21,10 +21,10 @@ export default class BigNumber {
 	}
 
 	/** The dividend of this fraction. */
-	public dividend;
+	public dividend: bigint;
 
 	/** The divisor of this fraction. */
-	public divisor;
+	public divisor: bigint;
 
 	/**
 	 * Simplify this fraction.
@@ -50,7 +50,7 @@ export default class BigNumber {
 	 * @param n - The other number.
 	 * @returns This number.
 	 */
-	public add(n: bigint | boolean | number | string | BigNumber) {
+	public add(n: bigint | boolean | number | string | BigNumber): this {
 		if (n instanceof BigNumber) {
 			this.dividend = this.dividend * n.divisor + n.dividend * this.divisor;
 			this.divisor *= n.divisor;
@@ -67,7 +67,7 @@ export default class BigNumber {
 	 * @param n - The other number.
 	 * @returns This number.
 	 */
-	public subtract(n: bigint | boolean | number | string | BigNumber) {
+	public subtract(n: bigint | boolean | number | string | BigNumber): this {
 		if (n instanceof BigNumber) {
 			this.dividend = this.dividend * n.divisor - n.dividend * this.divisor;
 			this.divisor *= n.divisor;
@@ -84,7 +84,7 @@ export default class BigNumber {
 	 * @param n - The other number.
 	 * @returns This number.
 	 */
-	public multiply(n: bigint | boolean | number | string | BigNumber) {
+	public multiply(n: bigint | boolean | number | string | BigNumber): this {
 		if (n instanceof BigNumber) {
 			this.dividend *= n.dividend;
 			this.divisor *= n.divisor;
@@ -101,7 +101,7 @@ export default class BigNumber {
 	 * @param n - The other number.
 	 * @returns This number.
 	 */
-	public divide(n: bigint | boolean | number | string | BigNumber) {
+	public divide(n: bigint | boolean | number | string | BigNumber): this {
 		if (n instanceof BigNumber) {
 			this.dividend *= n.divisor;
 			this.divisor *= n.dividend;
@@ -117,7 +117,7 @@ export default class BigNumber {
 	 * Convert this number to a regular `number`. Might result in loss of precision.
 	 * @returns This number as a `number`.
 	 */
-	public toNumber() {
+	public toNumber(): number {
 		return (
 			Number(this.dividend / this.divisor) +
 			Number(this.dividend % this.divisor) / Number(this.divisor)

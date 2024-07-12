@@ -7,6 +7,6 @@ import factorial from "./factorial.js";
  * @returns The number of combinations.
  * @see [Combination](https://en.wikipedia.org/wiki/Combination)
  */
-export default function combinations(n: number, r: number) {
+export default function combinations(n: number, r: number): number {
 	return factorial(n) / (factorial(r) * factorial(n - r));
 }

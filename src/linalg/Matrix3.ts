@@ -43,9 +43,9 @@ export interface Matrix3Like extends MatrixLike {
  * Creates a 3x3 matrix-like object.
  * @returns A 3x3 matrix-like object.
  */
-export function createMatrix3Like() {
+export const createMatrix3Like = () => {
 	return new Float32Array(9) as unknown as Matrix3Like;
-}
+};
 
 /**
  * Create a transformation matrix that represents a rotation by the given angle around the Z-axis.
@@ -54,7 +54,7 @@ export function createMatrix3Like() {
  * @returns The transformation matrix.
  * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
  */
-export function fromRotation<T extends Matrix3Like>(r: number, out: T) {
+export const fromRotation = <T extends Matrix3Like>(r: number, out: T): T => {
 	const s = Math.sin(r);
 	const c = Math.cos(r);
 
@@ -68,7 +68,7 @@ export function fromRotation<T extends Matrix3Like>(r: number, out: T) {
 	out[7] = 0;
 	out[8] = 1;
 	return out;
-}
+};
 
 /**
  * Create a transformation matrix that represents a scaling by the given vector.
@@ -77,10 +77,10 @@ export function fromRotation<T extends Matrix3Like>(r: number, out: T) {
  * @returns The transformation matrix.
  * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
  */
-export function fromScaling<T extends Matrix3Like>(
+export const fromScaling = <T extends Matrix3Like>(
 	vector: Vector2Like,
 	out: T
-) {
+): T => {
 	out[0] = vector[0];
 	out[1] = 0;
 	out[2] = 0;
@@ -91,7 +91,7 @@ export function fromScaling<T extends Matrix3Like>(
 	out[7] = 0;
 	out[8] = 1;
 	return out;
-}
+};
 
 /**
  * Create a transformation matrix that represents a translation by the given vector.
@@ -100,10 +100,10 @@ export function fromScaling<T extends Matrix3Like>(
  * @returns The transformation matrix.
  * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
  */
-export function fromTranslation<T extends Matrix3Like>(
+export const fromTranslation = <T extends Matrix3Like>(
 	vector: Vector2Like,
 	out: T
-) {
+): T => {
 	out[0] = 1;
 	out[1] = 0;
 	out[2] = 0;
@@ -114,7 +114,7 @@ export function fromTranslation<T extends Matrix3Like>(
 	out[7] = vector[1];
 	out[8] = 1;
 	return out;
-}
+};
 
 /**
  * Create a transformation matrix that represents a rotation by the given quaternion.
@@ -124,10 +124,10 @@ export function fromTranslation<T extends Matrix3Like>(
  * @see [Quaternion](https://en.wikipedia.org/wiki/Quaternion)
  * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
  */
-export function fromQuaternion<T extends Matrix3Like>(
+export const fromQuaternion = <T extends Matrix3Like>(
 	quaternion: QuaternionLike,
 	out: T
-) {
+): T => {
 	const x = quaternion[0];
 	const y = quaternion[1];
 	const z = quaternion[2];
@@ -156,7 +156,7 @@ export function fromQuaternion<T extends Matrix3Like>(
 	out[5] = zy + wx;
 	out[8] = 1 - xx - yy;
 	return out;
-}
+};
 
 /**
  * Calculate a three-by-three normal (inverse transpose) matrix from a four-by-four matrix.
@@ -165,10 +165,10 @@ export function fromQuaternion<T extends Matrix3Like>(
  * @returns The normal matrix.
  * @see [Normal matrix](https://en.wikipedia.org/wiki/Normal_matrix)
  */
-export function normalFromMatrix4<T extends Matrix3Like>(
+export const normalFromMatrix4 = <T extends Matrix3Like>(
 	matrix: Matrix4Like,
 	out: T
-) {
+): T => {
 	const a00 = matrix[0];
 	const a01 = matrix[1];
 	const a02 = matrix[2];
@@ -216,7 +216,7 @@ export function normalFromMatrix4<T extends Matrix3Like>(
 	out[7] = (a32 * b02 - a30 * b05 - a33 * b01) * det;
 	out[8] = (a30 * b04 - a31 * b02 + a33 * b00) * det;
 	return out;
-}
+};
 
 /**
  * Generate a two-dimensional projection matrix with the given bounds.
@@ -227,11 +227,11 @@ export function normalFromMatrix4<T extends Matrix3Like>(
  * @see [Camera matrix](https://en.wikipedia.org/wiki/Camera_matrix)
  * @see [3D projection](https://en.wikipedia.org/wiki/3D_projection)
  */
-export function projection<T extends Matrix3Like>(
+export const projection = <T extends Matrix3Like>(
 	width: number,
 	height: number,
 	out: T
-) {
+): T => {
 	out[0] = 2 / width;
 	out[1] = 0;
 	out[2] = 0;
@@ -242,7 +242,7 @@ export function projection<T extends Matrix3Like>(
 	out[7] = 1;
 	out[8] = 1;
 	return out;
-}
+};
 
 /**
  * Create a three-by-three matrix from the upper-left corner of a four-by-four matrix.
@@ -250,10 +250,10 @@ export function projection<T extends Matrix3Like>(
  * @param out - The matrix to store the result in.
  * @returns The three-by-three matrix.
  */
-export function fromMatrix4<T extends Matrix3Like>(
+export const fromMatrix4 = <T extends Matrix3Like>(
 	matrix: Matrix4Like,
 	out: T
-) {
+): T => {
 	out[0] = matrix[0];
 	out[1] = matrix[1];
 	out[2] = matrix[2];
@@ -264,7 +264,7 @@ export function fromMatrix4<T extends Matrix3Like>(
 	out[7] = matrix[9];
 	out[8] = matrix[10];
 	return out;
-}
+};
 
 /**
  * Create a two-by-two matrix with the given values.
@@ -280,7 +280,7 @@ export function fromMatrix4<T extends Matrix3Like>(
  * @param out - The matrix to store the result in.
  * @returns The matrix.
  */
-export function fromValues<T extends Matrix3Like>(
+export const fromValues = <T extends Matrix3Like>(
 	c0r0: number,
 	c0r1: number,
 	c0r2: number,
@@ -291,7 +291,7 @@ export function fromValues<T extends Matrix3Like>(
 	c2r1: number,
 	c2r2: number,
 	out: T
-) {
+): T => {
 	out[0] = c0r0;
 	out[1] = c0r1;
 	out[2] = c0r2;
@@ -302,7 +302,7 @@ export function fromValues<T extends Matrix3Like>(
 	out[7] = c2r1;
 	out[8] = c2r2;
 	return out;
-}
+};
 
 /**
  * Determine whether or not two matrices are roughly equivalent.
@@ -310,7 +310,7 @@ export function fromValues<T extends Matrix3Like>(
  * @param b - The second matrix.
  * @returns Whether or not the matrices are equivalent.
  */
-export function equals(a: Matrix3Like, b: Matrix3Like) {
+export const equals = (a: Matrix3Like, b: Matrix3Like): boolean => {
 	const a0 = a[0];
 	const a1 = a[1];
 	const a2 = a[2];
@@ -342,7 +342,7 @@ export function equals(a: Matrix3Like, b: Matrix3Like) {
 		Math.abs(a7 - b7) <= epsilon * Math.max(1, Math.abs(a7), Math.abs(b7)) &&
 		Math.abs(a8 - b8) <= epsilon * Math.max(1, Math.abs(a8), Math.abs(b8))
 	);
-}
+};
 
 /**
  * Determine whether or not two matrices are exactly equivalent.
@@ -350,7 +350,7 @@ export function equals(a: Matrix3Like, b: Matrix3Like) {
  * @param b - The second matrix.
  * @returns Whether or not the matrices are equivalent.
  */
-export function exactEquals(a: Matrix3Like, b: Matrix3Like) {
+export const exactEquals = (a: Matrix3Like, b: Matrix3Like): boolean => {
 	return (
 		a[0] === b[0] &&
 		a[1] === b[1] &&
@@ -362,7 +362,7 @@ export function exactEquals(a: Matrix3Like, b: Matrix3Like) {
 		a[7] === b[7] &&
 		a[8] === b[8]
 	);
-}
+};
 
 /**
  * Add two matrices.
@@ -372,11 +372,11 @@ export function exactEquals(a: Matrix3Like, b: Matrix3Like) {
  * @returns The sum.
  * @see [Matrix addition](https://en.wikipedia.org/wiki/Matrix_addition)
  */
-export function add<T extends Matrix3Like>(
+export const add = <T extends Matrix3Like>(
 	a: Matrix3Like,
 	b: Matrix3Like,
 	out: T
-) {
+): T => {
 	out[0] = a[0] + b[0];
 	out[1] = a[1] + b[1];
 	out[2] = a[2] + b[2];
@@ -387,7 +387,7 @@ export function add<T extends Matrix3Like>(
 	out[7] = a[7] + b[7];
 	out[8] = a[8] + b[8];
 	return out;
-}
+};
 
 /**
  * Calculate the adjugate of a matrix.
@@ -396,7 +396,10 @@ export function add<T extends Matrix3Like>(
  * @returns The adjugate of the matrix.
  * @see [Adjugate matrix](https://en.wikipedia.org/wiki/Adjugate_matrix)
  */
-export function adjoint<T extends Matrix3Like>(matrix: Matrix3Like, out: T) {
+export const adjoint = <T extends Matrix3Like>(
+	matrix: Matrix3Like,
+	out: T
+): T => {
 	const a00 = matrix[0];
 	const a01 = matrix[1];
 	const a02 = matrix[2];
@@ -417,7 +420,7 @@ export function adjoint<T extends Matrix3Like>(matrix: Matrix3Like, out: T) {
 	out[7] = a01 * a20 - a00 * a21;
 	out[8] = a00 * a11 - a01 * a10;
 	return out;
-}
+};
 
 /**
  * Copy the values of one matrix into another.
@@ -425,7 +428,7 @@ export function adjoint<T extends Matrix3Like>(matrix: Matrix3Like, out: T) {
  * @param out - The matrix to store the result in.
  * @returns This matrix.
  */
-export function copy<T extends Matrix3Like>(matrix: Matrix3Like, out: T) {
+export const copy = <T extends Matrix3Like>(matrix: Matrix3Like, out: T): T => {
 	out[0] = matrix[0];
 	out[1] = matrix[1];
 	out[2] = matrix[2];
@@ -436,7 +439,7 @@ export function copy<T extends Matrix3Like>(matrix: Matrix3Like, out: T) {
 	out[7] = matrix[7];
 	out[8] = matrix[8];
 	return out;
-}
+};
 
 /**
  * Calculate the Frobenius norm of a matrix.
@@ -444,7 +447,7 @@ export function copy<T extends Matrix3Like>(matrix: Matrix3Like, out: T) {
  * @returns The Frobenius norm.
  * @see [Matrix norm](https://en.wikipedia.org/wiki/Matrix_norm)
  */
-export function frob(matrix: Matrix3Like) {
+export const frob = (matrix: Matrix3Like): number => {
 	return Math.hypot(
 		matrix[0],
 		matrix[1],
@@ -456,7 +459,7 @@ export function frob(matrix: Matrix3Like) {
 		matrix[7],
 		matrix[8]
 	);
-}
+};
 
 /**
  * Multiply two matrices.
@@ -466,11 +469,11 @@ export function frob(matrix: Matrix3Like) {
  * @returns The product of the matrices.
  * @see [Matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication)
  */
-export function multiply<T extends Matrix3Like>(
+export const multiply = <T extends Matrix3Like>(
 	a: Matrix3Like,
 	b: Matrix3Like,
 	out: T
-) {
+): T => {
 	const a00 = a[0];
 	const a01 = a[1];
 	const a02 = a[2];
@@ -501,7 +504,7 @@ export function multiply<T extends Matrix3Like>(
 	out[7] = b20 * a01 + b21 * a11 + b22 * a21;
 	out[8] = b20 * a02 + b21 * a12 + b22 * a22;
 	return out;
-}
+};
 
 /**
  * Multiply a matrix by a scalar value.
@@ -511,11 +514,11 @@ export function multiply<T extends Matrix3Like>(
  * @returns The product.
  * @see [Matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication)
  */
-export function multiplyScalar<T extends Matrix3Like>(
+export const multiplyScalar = <T extends Matrix3Like>(
 	matrix: Matrix3Like,
 	scalar: number,
 	out: T
-) {
+): T => {
 	out[0] = matrix[0] * scalar;
 	out[1] = matrix[1] * scalar;
 	out[2] = matrix[2] * scalar;
@@ -526,7 +529,7 @@ export function multiplyScalar<T extends Matrix3Like>(
 	out[7] = matrix[7] * scalar;
 	out[8] = matrix[8] * scalar;
 	return out;
-}
+};
 
 /**
  * Add a matrix to another after multiplying the other by a scalar.
@@ -538,12 +541,12 @@ export function multiplyScalar<T extends Matrix3Like>(
  * @see [Matrix addition](https://en.wikipedia.org/wiki/Matrix_addition)
  * @see [Matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication)
  */
-export function multiplyScalarAndAdd<T extends Matrix3Like>(
+export const multiplyScalarAndAdd = <T extends Matrix3Like>(
 	a: Matrix3Like,
 	b: Matrix3Like,
 	scalar: number,
 	out: T
-) {
+): T => {
 	out[0] = a[0] + b[0] * scalar;
 	out[1] = a[1] + b[1] * scalar;
 	out[2] = a[2] + b[2] * scalar;
@@ -554,7 +557,7 @@ export function multiplyScalarAndAdd<T extends Matrix3Like>(
 	out[7] = a[7] + b[7] * scalar;
 	out[8] = a[8] + b[8] * scalar;
 	return out;
-}
+};
 
 /**
  * Subtract two matrices.
@@ -564,11 +567,11 @@ export function multiplyScalarAndAdd<T extends Matrix3Like>(
  * @returns The difference.
  * @see [Matrix addition](https://en.wikipedia.org/wiki/Matrix_addition)
  */
-export function subtract<T extends Matrix3Like>(
+export const subtract = <T extends Matrix3Like>(
 	a: Matrix3Like,
 	b: Matrix3Like,
 	out: T
-) {
+): T => {
 	out[0] = a[0] - b[0];
 	out[1] = a[1] - b[1];
 	out[2] = a[2] - b[2];
@@ -579,7 +582,7 @@ export function subtract<T extends Matrix3Like>(
 	out[7] = a[7] - b[7];
 	out[8] = a[8] - b[8];
 	return out;
-}
+};
 
 /**
  * Transpose a matrix.
@@ -588,7 +591,10 @@ export function subtract<T extends Matrix3Like>(
  * @returns The transpose of the matrix.
  * @see [Transpose](https://en.wikipedia.org/wiki/Transpose)
  */
-export function transpose<T extends Matrix3Like>(matrix: Matrix3Like, out: T) {
+export const transpose = <T extends Matrix3Like>(
+	matrix: Matrix3Like,
+	out: T
+): T => {
 	if (out === matrix) {
 		const a01 = matrix[1];
 		const a02 = matrix[2];
@@ -611,7 +617,7 @@ export function transpose<T extends Matrix3Like>(matrix: Matrix3Like, out: T) {
 		out[8] = matrix[8];
 	}
 	return out;
-}
+};
 
 /**
  * Calculate the determinant of a matrix.
@@ -619,7 +625,7 @@ export function transpose<T extends Matrix3Like>(matrix: Matrix3Like, out: T) {
  * @returns The determinant.
  * @see [Determinant](https://en.wikipedia.org/wiki/Determinant)
  */
-export function determinant(matrix: Matrix3Like) {
+export const determinant = (matrix: Matrix3Like): number => {
 	const a00 = matrix[0];
 	const a01 = matrix[1];
 	const a02 = matrix[2];
@@ -635,7 +641,7 @@ export function determinant(matrix: Matrix3Like) {
 		a01 * (-a22 * a10 + a12 * a20) +
 		a02 * (a21 * a10 - a11 * a20)
 	);
-}
+};
 
 /**
  * Reset a matrix to identity.
@@ -643,7 +649,7 @@ export function determinant(matrix: Matrix3Like) {
  * @returns The matrix.
  * @see [Identity matrix](https://en.wikipedia.org/wiki/Identity_matrix)
  */
-export function identity<T extends Matrix3Like>(out: T) {
+export const identity = <T extends Matrix3Like>(out: T): T => {
 	out[0] = 1;
 	out[1] = 0;
 	out[2] = 0;
@@ -654,7 +660,7 @@ export function identity<T extends Matrix3Like>(out: T) {
 	out[7] = 0;
 	out[8] = 1;
 	return out;
-}
+};
 
 /**
  * Invert a matrix.
@@ -663,7 +669,10 @@ export function identity<T extends Matrix3Like>(out: T) {
  * @returns The inverted matrix.
  * @see [Invertible matrix](https://en.wikipedia.org/wiki/Invertible_matrix)
  */
-export function invert<T extends Matrix3Like>(matrix: Matrix3Like, out: T) {
+export const invert = <T extends Matrix3Like>(
+	matrix: Matrix3Like,
+	out: T
+): T => {
 	const a00 = matrix[0];
 	const a01 = matrix[1];
 	const a02 = matrix[2];
@@ -694,7 +703,7 @@ export function invert<T extends Matrix3Like>(matrix: Matrix3Like, out: T) {
 	out[7] = (-a21 * a00 + a01 * a20) * det;
 	out[8] = (a11 * a00 - a01 * a10) * det;
 	return out;
-}
+};
 
 /**
  * Rotate a matrix by the given angle around the Z-axis.
@@ -704,11 +713,11 @@ export function invert<T extends Matrix3Like>(matrix: Matrix3Like, out: T) {
  * @returns The rotated matrix.
  * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
  */
-export function rotate<T extends Matrix3Like>(
+export const rotate = <T extends Matrix3Like>(
 	matrix: Matrix3Like,
 	radians: number,
 	out: T
-) {
+): T => {
 	const a00 = matrix[0];
 	const a01 = matrix[1];
 	const a02 = matrix[2];
@@ -732,7 +741,7 @@ export function rotate<T extends Matrix3Like>(
 	out[7] = a21;
 	out[8] = a22;
 	return out;
-}
+};
 
 /**
  * Scale a matrix by the given vector.
@@ -742,11 +751,11 @@ export function rotate<T extends Matrix3Like>(
  * @returns The scaled matrix.
  * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
  */
-export function scale<T extends Matrix3Like>(
+export const scale = <T extends Matrix3Like>(
 	matrix: Matrix3Like,
 	vector: Vector2Like,
 	out: T
-) {
+): T => {
 	const x = vector[0];
 	const y = vector[1];
 
@@ -760,7 +769,7 @@ export function scale<T extends Matrix3Like>(
 	out[7] = matrix[7];
 	out[8] = matrix[8];
 	return out;
-}
+};
 
 /**
  * Translate a matrix by the given vector.
@@ -770,11 +779,11 @@ export function scale<T extends Matrix3Like>(
  * @returns The translated matrix.
  * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
  */
-export function translate<T extends Matrix3Like>(
+export const translate = <T extends Matrix3Like>(
 	matrix: Matrix3Like,
 	vector: Vector2Like,
 	out: T
-) {
+): T => {
 	const a00 = matrix[0];
 	const a01 = matrix[1];
 	const a02 = matrix[2];
@@ -798,7 +807,7 @@ export function translate<T extends Matrix3Like>(
 	out[7] = x * a01 + y * a11 + a21;
 	out[8] = x * a02 + y * a12 + a22;
 	return out;
-}
+};
 
 /**
  * A three-by-three matrix.
@@ -818,7 +827,7 @@ export default class Matrix3
 	public static fromRotation<T extends Matrix3Like>(
 		r: number,
 		out = new Matrix3() as unknown as T
-	) {
+	): T {
 		return fromRotation(r, out);
 	}
 
@@ -832,7 +841,7 @@ export default class Matrix3
 	public static fromScaling<T extends Matrix3Like>(
 		vector: Vector2Like,
 		out = new Matrix3() as unknown as T
-	) {
+	): T {
 		return fromScaling(vector, out);
 	}
 
@@ -846,7 +855,7 @@ export default class Matrix3
 	public static fromTranslation<T extends Matrix3Like>(
 		vector: Vector2Like,
 		out = new Matrix3() as unknown as T
-	) {
+	): T {
 		return fromTranslation(vector, out);
 	}
 
@@ -861,7 +870,7 @@ export default class Matrix3
 	public static fromQuaternion<T extends Matrix3Like>(
 		quaternion: QuaternionLike,
 		out = new Matrix3() as unknown as T
-	) {
+	): T {
 		return fromQuaternion(quaternion, out);
 	}
 
@@ -875,7 +884,7 @@ export default class Matrix3
 	public static normalFromMatrix4<T extends Matrix3Like>(
 		matrix: Matrix4Like,
 		out = new Matrix3() as unknown as T
-	) {
+	): T {
 		return normalFromMatrix4(matrix, out);
 	}
 
@@ -892,7 +901,7 @@ export default class Matrix3
 		width: number,
 		height: number,
 		out = new Matrix3() as unknown as T
-	) {
+	): T {
 		return projection(width, height, out);
 	}
 
@@ -905,7 +914,7 @@ export default class Matrix3
 	public static fromMatrix4<T extends Matrix3Like>(
 		matrix: Matrix4Like,
 		out = new Matrix3() as unknown as T
-	) {
+	): T {
 		return fromMatrix4(matrix, out);
 	}
 
@@ -934,7 +943,7 @@ export default class Matrix3
 		c2r1: number,
 		c2r2: number,
 		out = new Matrix3() as unknown as T
-	) {
+	): T {
 		return fromValues(
 			c0r0,
 			c0r1,
@@ -1002,7 +1011,7 @@ export default class Matrix3
 	 * @param matrix - The other matrix.
 	 * @returns Whether or not the matrices are equivalent.
 	 */
-	public equals(matrix: Matrix3Like) {
+	public equals(matrix: Matrix3Like): boolean {
 		return equals(this, matrix);
 	}
 
@@ -1011,7 +1020,7 @@ export default class Matrix3
 	 * @param matrix - The other matrix.
 	 * @returns Whether or not the matrices are equivalent.
 	 */
-	public exactEquals(matrix: Matrix3Like) {
+	public exactEquals(matrix: Matrix3Like): boolean {
 		return exactEquals(this, matrix);
 	}
 
@@ -1025,7 +1034,7 @@ export default class Matrix3
 	public add<T extends Matrix3Like>(
 		matrix: Matrix3Like,
 		out = new Matrix3() as unknown as T
-	) {
+	): T {
 		return add(this, matrix, out);
 	}
 
@@ -1035,7 +1044,9 @@ export default class Matrix3
 	 * @returns The adjugate of this matrix.
 	 * @see [Adjugate matrix](https://en.wikipedia.org/wiki/Adjugate_matrix)
 	 */
-	public adjoint<T extends Matrix3Like>(out = new Matrix3() as unknown as T) {
+	public adjoint<T extends Matrix3Like>(
+		out = new Matrix3() as unknown as T
+	): T {
 		return adjoint(this, out);
 	}
 
@@ -1044,7 +1055,7 @@ export default class Matrix3
 	 * @param out - The matrix to store the result in.
 	 * @returns The copy.
 	 */
-	public clone<T extends Matrix3Like>(out = new Matrix3() as unknown as T) {
+	public clone<T extends Matrix3Like>(out = new Matrix3() as unknown as T): T {
 		return copy(this, out);
 	}
 
@@ -1053,7 +1064,7 @@ export default class Matrix3
 	 * @param matrix - The matrix to copy.
 	 * @returns This matrix.
 	 */
-	public copy(matrix: Matrix3Like) {
+	public copy(matrix: Matrix3Like): this {
 		return copy(matrix, this);
 	}
 
@@ -1061,7 +1072,7 @@ export default class Matrix3
 	 * Get the Frobenius norm of this matrix.
 	 * @see [Matrix norm](https://en.wikipedia.org/wiki/Matrix_norm)
 	 */
-	public get frob() {
+	public get frob(): number {
 		return frob(this);
 	}
 
@@ -1075,7 +1086,7 @@ export default class Matrix3
 	public multiply<T extends Matrix3Like>(
 		matrix: Matrix3Like,
 		out = new Matrix3() as unknown as T
-	) {
+	): T {
 		return multiply(this, matrix, out);
 	}
 
@@ -1089,7 +1100,7 @@ export default class Matrix3
 	public multiplyScalar<T extends Matrix3Like>(
 		scalar: number,
 		out = new Matrix3() as unknown as T
-	) {
+	): T {
 		return multiplyScalar(this, scalar, out);
 	}
 
@@ -1106,7 +1117,7 @@ export default class Matrix3
 		matrix: Matrix3Like,
 		scalar: number,
 		out = new Matrix3() as unknown as T
-	) {
+	): T {
 		return multiplyScalarAndAdd(this, matrix, scalar, out);
 	}
 
@@ -1120,7 +1131,7 @@ export default class Matrix3
 	public subtract<T extends Matrix3Like>(
 		matrix: Matrix3Like,
 		out = new Matrix3() as unknown as T
-	) {
+	): T {
 		return subtract(this, matrix, out);
 	}
 
@@ -1130,7 +1141,9 @@ export default class Matrix3
 	 * @returns The transpose of this matrix.
 	 * @see [Transpose](https://en.wikipedia.org/wiki/Transpose)
 	 */
-	public transpose<T extends Matrix3Like>(out = new Matrix3() as unknown as T) {
+	public transpose<T extends Matrix3Like>(
+		out = new Matrix3() as unknown as T
+	): T {
 		return transpose(this, out);
 	}
 
@@ -1138,7 +1151,7 @@ export default class Matrix3
 	 * Get the determinant of this matrix.
 	 * @see [Determinant](https://en.wikipedia.org/wiki/Determinant)
 	 */
-	public get determinant() {
+	public get determinant(): number {
 		return determinant(this);
 	}
 
@@ -1147,7 +1160,7 @@ export default class Matrix3
 	 * @returns This matrix.
 	 * @see [Identity matrix](https://en.wikipedia.org/wiki/Identity_matrix)
 	 */
-	public identity() {
+	public identity(): this {
 		return identity(this);
 	}
 
@@ -1157,7 +1170,7 @@ export default class Matrix3
 	 * @returns The inverted matrix.
 	 * @see [Invertible matrix](https://en.wikipedia.org/wiki/Invertible_matrix)
 	 */
-	public invert<T extends Matrix3Like>(out = new Matrix3() as unknown as T) {
+	public invert<T extends Matrix3Like>(out = new Matrix3() as unknown as T): T {
 		return invert(this, out);
 	}
 
@@ -1171,7 +1184,7 @@ export default class Matrix3
 	public rotate<T extends Matrix3Like>(
 		r: number,
 		out = new Matrix3() as unknown as T
-	) {
+	): T {
 		return rotate(this, r, out);
 	}
 
@@ -1185,7 +1198,7 @@ export default class Matrix3
 	public scale<T extends Matrix3Like>(
 		vector: Vector2Like,
 		out = new Matrix3() as unknown as T
-	) {
+	): T {
 		return scale(this, vector, out);
 	}
 
@@ -1199,7 +1212,7 @@ export default class Matrix3
 	public translate<T extends Matrix3Like>(
 		vector: Vector2Like,
 		out = new Matrix3() as unknown as T
-	) {
+	): T {
 		return translate(this, vector, out);
 	}
 }

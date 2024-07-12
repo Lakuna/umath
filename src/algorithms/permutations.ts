@@ -7,6 +7,6 @@ import factorial from "./factorial.js";
  * @returns The number of permutations.
  * @see [Permutation](https://en.wikipedia.org/wiki/Permutation)
  */
-export default function permutations(n: number, r: number) {
+export default function permutations(n: number, r: number): number {
 	return factorial(n) / factorial(n - r);
 }
