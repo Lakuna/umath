@@ -19,7 +19,7 @@ export interface Vector2Like extends VectorLike {
  * @returns A 2x1 vector-like object.
  */
 export const createVector2Like = () => {
-	return new Float32Array(2) as unknown as Vector2Like;
+	return new Float32Array(2) as Float32Array & Vector2Like;
 };
 
 /**

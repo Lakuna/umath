@@ -22,7 +22,7 @@ export interface Vector3Like extends VectorLike {
  * @returns A 3x1 vector-like object.
  */
 export const createVector3Like = () => {
-	return new Float32Array(3) as unknown as Vector3Like;
+	return new Float32Array(3) as Float32Array & Vector3Like;
 };
 
 /**

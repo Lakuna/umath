@@ -67,7 +67,7 @@ export interface Matrix4Like extends MatrixLike {
  * @returns A 4x4 matrix-like object.
  */
 export const createMatrix4Like = () => {
-	return new Float32Array(16) as unknown as Matrix4Like;
+	return new Float32Array(16) as Float32Array & Matrix4Like;
 };
 
 /**

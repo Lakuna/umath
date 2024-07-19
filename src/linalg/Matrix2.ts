@@ -27,7 +27,7 @@ export interface Matrix2Like extends MatrixLike {
  * @returns A 2x2 matrix-like object.
  */
 export const createMatrix2Like = () => {
-	return new Float32Array(4) as unknown as Matrix2Like;
+	return new Float32Array(4) as Float32Array & Matrix2Like;
 };
 
 /**

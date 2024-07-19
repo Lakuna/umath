@@ -23,7 +23,7 @@ export interface Vector4Like extends VectorLike {
  * @returns A 4x1 vector-like object.
  */
 export const createVector4Like = () => {
-	return new Float32Array(4) as unknown as Vector4Like;
+	return new Float32Array(4) as Float32Array & Vector4Like;
 };
 
 /**

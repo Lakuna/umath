@@ -51,7 +51,7 @@ export interface DualQuaternionLike extends Record<number, number> {
  * @returns A dual quaternion-like object.
  */
 export const createDualQuaternionLike = () => {
-	return new Float32Array(8) as unknown as DualQuaternionLike;
+	return new Float32Array(8) as Float32Array & DualQuaternionLike;
 };
 
 /**
