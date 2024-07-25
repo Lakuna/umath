@@ -1988,7 +1988,7 @@ export default class Matrix4
 	 */
 	public static fromTranslation<T extends Matrix4Like>(
 		vector: Vector3Like,
-		out = new Matrix4() as unknown as T
+		out = new Matrix4() as Matrix4 & T
 	): T {
 		return fromTranslation(vector, out);
 	}
@@ -2002,7 +2002,7 @@ export default class Matrix4
 	 */
 	public static fromScaling<T extends Matrix4Like>(
 		vector: Vector3Like,
-		out = new Matrix4() as unknown as T
+		out = new Matrix4() as Matrix4 & T
 	): T {
 		return fromScaling(vector, out);
 	}
@@ -2018,7 +2018,7 @@ export default class Matrix4
 	public static fromRotation<T extends Matrix4Like>(
 		r: number,
 		axis: Vector3Like,
-		out = new Matrix4() as unknown as T
+		out = new Matrix4() as Matrix4 & T
 	): T {
 		return fromRotation(r, axis, out);
 	}
@@ -2032,7 +2032,7 @@ export default class Matrix4
 	 */
 	public static fromXRotation<T extends Matrix4Like>(
 		r: number,
-		out = new Matrix4() as unknown as T
+		out = new Matrix4() as Matrix4 & T
 	): T {
 		return fromXRotation(r, out);
 	}
@@ -2046,7 +2046,7 @@ export default class Matrix4
 	 */
 	public static fromYRotation<T extends Matrix4Like>(
 		r: number,
-		out = new Matrix4() as unknown as T
+		out = new Matrix4() as Matrix4 & T
 	): T {
 		return fromYRotation(r, out);
 	}
@@ -2060,7 +2060,7 @@ export default class Matrix4
 	 */
 	public static fromZRotation<T extends Matrix4Like>(
 		r: number,
-		out = new Matrix4() as unknown as T
+		out = new Matrix4() as Matrix4 & T
 	): T {
 		return fromZRotation(r, out);
 	}
@@ -2077,7 +2077,7 @@ export default class Matrix4
 	public static fromRotationTranslation<T extends Matrix4Like>(
 		rotation: QuaternionLike,
 		translation: Vector3Like,
-		out = new Matrix4() as unknown as T
+		out = new Matrix4() as Matrix4 & T
 	): T {
 		return fromRotationTranslation(rotation, translation, out);
 	}
@@ -2096,7 +2096,7 @@ export default class Matrix4
 		rotation: QuaternionLike,
 		translation: Vector3Like,
 		scaling: Vector3Like,
-		out = new Matrix4() as unknown as T
+		out = new Matrix4() as Matrix4 & T
 	): T {
 		return fromRotationTranslationScale(rotation, translation, scaling, out);
 	}
@@ -2117,7 +2117,7 @@ export default class Matrix4
 		translation: Vector3Like,
 		scaling: Vector3Like,
 		origin: Vector3Like,
-		out = new Matrix4() as unknown as T
+		out = new Matrix4() as Matrix4 & T
 	): T {
 		return fromRotationTranslationScaleOrigin(
 			rotation,
@@ -2139,7 +2139,7 @@ export default class Matrix4
 	 */
 	public static fromDualQuaternion<T extends Matrix4Like>(
 		quaternion: DualQuaternionLike,
-		out = new Matrix4() as unknown as T
+		out = new Matrix4() as Matrix4 & T
 	): T {
 		return fromDualQuaternion(quaternion, out);
 	}
@@ -2164,7 +2164,7 @@ export default class Matrix4
 		top: number,
 		near: number,
 		far: number,
-		out = new Matrix4() as unknown as T
+		out = new Matrix4() as Matrix4 & T
 	): T {
 		return frustum(left, right, bottom, top, near, far, out);
 	}
@@ -2185,7 +2185,7 @@ export default class Matrix4
 		aspect: number,
 		near: number,
 		far: number,
-		out = new Matrix4() as unknown as T
+		out = new Matrix4() as Matrix4 & T
 	): T {
 		return perspective(fov, aspect, near, far, out);
 	}
@@ -2205,7 +2205,7 @@ export default class Matrix4
 		fov: FieldOfView,
 		near: number,
 		far: number,
-		out = new Matrix4() as unknown as T
+		out = new Matrix4() as Matrix4 & T
 	): T {
 		return perspectiveFromFieldOfView(fov, near, far, out);
 	}
@@ -2230,7 +2230,7 @@ export default class Matrix4
 		top: number,
 		near: number,
 		far: number,
-		out = new Matrix4() as unknown as T
+		out = new Matrix4() as Matrix4 & T
 	): T {
 		return ortho(left, right, bottom, top, near, far, out);
 	}
@@ -2248,7 +2248,7 @@ export default class Matrix4
 		eye: Vector3Like,
 		center: Vector3Like,
 		up: Vector3Like = [0, 1, 0],
-		out = new Matrix4() as unknown as T
+		out = new Matrix4() as Matrix4 & T
 	): T {
 		return lookAt(eye, center, up, out);
 	}
@@ -2266,7 +2266,7 @@ export default class Matrix4
 		eye: Vector3Like,
 		target: Vector3Like,
 		up: Vector3Like = [0, 1, 0],
-		out = new Matrix4() as unknown as T
+		out = new Matrix4() as Matrix4 & T
 	): T {
 		return targetTo(eye, target, up, out);
 	}
@@ -2309,7 +2309,7 @@ export default class Matrix4
 		c3r1: number,
 		c3r2: number,
 		c3r3: number,
-		out = new Matrix4() as unknown as T
+		out = new Matrix4() as Matrix4 & T
 	): T {
 		return fromValues(
 			c0r0,
@@ -2429,7 +2429,7 @@ export default class Matrix4
 	 */
 	public add<T extends Matrix4Like>(
 		matrix: Matrix4Like,
-		out = new Matrix4() as unknown as T
+		out = new Matrix4() as Matrix4 & T
 	): T {
 		return add(this, matrix, out);
 	}
@@ -2440,9 +2440,7 @@ export default class Matrix4
 	 * @returns The adjugate of this matrix.
 	 * @see [Adjugate matrix](https://en.wikipedia.org/wiki/Adjugate_matrix)
 	 */
-	public adjoint<T extends Matrix4Like>(
-		out = new Matrix4() as unknown as T
-	): T {
+	public adjoint<T extends Matrix4Like>(out = new Matrix4() as Matrix4 & T): T {
 		return adjoint(this, out);
 	}
 
@@ -2451,7 +2449,7 @@ export default class Matrix4
 	 * @param out - The matrix to store the result in.
 	 * @returns The copy.
 	 */
-	public clone<T extends Matrix4Like>(out = new Matrix4() as unknown as T): T {
+	public clone<T extends Matrix4Like>(out = new Matrix4() as Matrix4 & T): T {
 		return copy(this, out);
 	}
 
@@ -2481,7 +2479,7 @@ export default class Matrix4
 	 */
 	public multiply<T extends Matrix4Like>(
 		matrix: Matrix4Like,
-		out = new Matrix4() as unknown as T
+		out = new Matrix4() as Matrix4 & T
 	): T {
 		return multiply(this, matrix, out);
 	}
@@ -2495,7 +2493,7 @@ export default class Matrix4
 	 */
 	public multiplyScalar<T extends Matrix4Like>(
 		scalar: number,
-		out = new Matrix4() as unknown as T
+		out = new Matrix4() as Matrix4 & T
 	): T {
 		return multiplyScalar(this, scalar, out);
 	}
@@ -2512,7 +2510,7 @@ export default class Matrix4
 	public multiplyScalarAndAdd<T extends Matrix4Like>(
 		matrix: Matrix4Like,
 		scalar: number,
-		out = new Matrix4() as unknown as T
+		out = new Matrix4() as Matrix4 & T
 	): T {
 		return multiplyScalarAndAdd(this, matrix, scalar, out);
 	}
@@ -2526,7 +2524,7 @@ export default class Matrix4
 	 */
 	public subtract<T extends Matrix4Like>(
 		matrix: Matrix4Like,
-		out = new Matrix4() as unknown as T
+		out = new Matrix4() as Matrix4 & T
 	): T {
 		return subtract(this, matrix, out);
 	}
@@ -2538,7 +2536,7 @@ export default class Matrix4
 	 * @see [Transpose](https://en.wikipedia.org/wiki/Transpose)
 	 */
 	public transpose<T extends Matrix4Like>(
-		out = new Matrix4() as unknown as T
+		out = new Matrix4() as Matrix4 & T
 	): T {
 		return transpose(this, out);
 	}
@@ -2566,7 +2564,7 @@ export default class Matrix4
 	 * @returns The inverted matrix.
 	 * @see [Invertible matrix](https://en.wikipedia.org/wiki/Invertible_matrix)
 	 */
-	public invert<T extends Matrix4Like>(out = new Matrix4() as unknown as T): T {
+	public invert<T extends Matrix4Like>(out = new Matrix4() as Matrix4 & T): T {
 		return invert(this, out);
 	}
 
@@ -2579,7 +2577,7 @@ export default class Matrix4
 	 */
 	public scale<T extends Matrix4Like>(
 		vector: Vector3Like,
-		out = new Matrix4() as unknown as T
+		out = new Matrix4() as Matrix4 & T
 	): T {
 		return scale(this, vector, out);
 	}
@@ -2593,7 +2591,7 @@ export default class Matrix4
 	 */
 	public translate<T extends Matrix4Like>(
 		vector: Vector3Like,
-		out = new Matrix4() as unknown as T
+		out = new Matrix4() as Matrix4 & T
 	): T {
 		return translate(this, vector, out);
 	}
@@ -2609,7 +2607,7 @@ export default class Matrix4
 	public rotate<T extends Matrix4Like>(
 		r: number,
 		axis: Vector3Like,
-		out = new Matrix4() as unknown as T
+		out = new Matrix4() as Matrix4 & T
 	): T {
 		return rotate(this, r, axis, out);
 	}
@@ -2623,7 +2621,7 @@ export default class Matrix4
 	 */
 	public rotateX<T extends Matrix4Like>(
 		r: number,
-		out = new Matrix4() as unknown as T
+		out = new Matrix4() as Matrix4 & T
 	): T {
 		return rotateX(this, r, out);
 	}
@@ -2637,7 +2635,7 @@ export default class Matrix4
 	 */
 	public rotateY<T extends Matrix4Like>(
 		r: number,
-		out = new Matrix4() as unknown as T
+		out = new Matrix4() as Matrix4 & T
 	): T {
 		return rotateY(this, r, out);
 	}
@@ -2651,7 +2649,7 @@ export default class Matrix4
 	 */
 	public rotateZ<T extends Matrix4Like>(
 		r: number,
-		out = new Matrix4() as unknown as T
+		out = new Matrix4() as Matrix4 & T
 	): T {
 		return rotateZ(this, r, out);
 	}
@@ -2663,7 +2661,7 @@ export default class Matrix4
 	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
 	 */
 	public getTranslation<T extends Vector3Like>(
-		out = new Vector3() as unknown as T
+		out = new Vector3() as Vector3 & T
 	): T {
 		return getTranslation(this, out);
 	}
@@ -2677,7 +2675,7 @@ export default class Matrix4
 	 */
 	public setTranslation<T extends Matrix4Like>(
 		translation: Vector3Like,
-		out = new Matrix4() as unknown as T
+		out = new Matrix4() as Matrix4 & T
 	): T {
 		return setTranslation(this, translation, out);
 	}
@@ -2689,7 +2687,7 @@ export default class Matrix4
 	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
 	 */
 	public getScaling<T extends Vector3Like>(
-		out = new Vector3() as unknown as T
+		out = new Vector3() as Vector3 & T
 	): T {
 		return getScaling(this, out);
 	}
@@ -2701,7 +2699,7 @@ export default class Matrix4
 	 * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
 	 */
 	public getRotation<T extends QuaternionLike>(
-		out = new Quaternion() as unknown as T
+		out = new Quaternion() as Quaternion & T
 	): T {
 		return getRotation(this, out);
 	}

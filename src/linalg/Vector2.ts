@@ -569,7 +569,7 @@ export default class Vector2
 	public static fromValues<T extends Vector2Like>(
 		x: number,
 		y: number,
-		out = new Vector2() as unknown as T
+		out = new Vector2() as Vector2 & T
 	): T {
 		return fromValues(x, y, out);
 	}
@@ -614,7 +614,7 @@ export default class Vector2
 	 */
 	public add<T extends Vector2Like>(
 		vector: Vector2Like,
-		out = new Vector2() as unknown as T
+		out = new Vector2() as Vector2 & T
 	): T {
 		return add(this, vector, out);
 	}
@@ -624,7 +624,7 @@ export default class Vector2
 	 * @param out - The vector to store the result in.
 	 * @returns The copy.
 	 */
-	public clone<T extends Vector2Like>(out = new Vector2() as unknown as T): T {
+	public clone<T extends Vector2Like>(out = new Vector2() as Vector2 & T): T {
 		return copy(this, out);
 	}
 
@@ -645,7 +645,7 @@ export default class Vector2
 	 */
 	public multiply<T extends Vector2Like>(
 		vector: Vector2Like,
-		out = new Vector2() as unknown as T
+		out = new Vector2() as Vector2 & T
 	): T {
 		return multiply(this, vector, out);
 	}
@@ -658,7 +658,7 @@ export default class Vector2
 	 */
 	public divide<T extends Vector2Like>(
 		vector: Vector2Like,
-		out = new Vector2() as unknown as T
+		out = new Vector2() as Vector2 & T
 	): T {
 		return divide(this, vector, out);
 	}
@@ -671,7 +671,7 @@ export default class Vector2
 	 */
 	public subtract<T extends Vector2Like>(
 		vector: Vector2Like,
-		out = new Vector2() as unknown as T
+		out = new Vector2() as Vector2 & T
 	): T {
 		return subtract(this, vector, out);
 	}
@@ -681,7 +681,7 @@ export default class Vector2
 	 * @param out - The vector to store the result in.
 	 * @returns The rounded vector.
 	 */
-	public ceil<T extends Vector2Like>(out = new Vector2() as unknown as T): T {
+	public ceil<T extends Vector2Like>(out = new Vector2() as Vector2 & T): T {
 		return ceil(this, out);
 	}
 
@@ -690,7 +690,7 @@ export default class Vector2
 	 * @param out - The vector to store the result in.
 	 * @returns The rounded vector.
 	 */
-	public floor<T extends Vector2Like>(out = new Vector2() as unknown as T): T {
+	public floor<T extends Vector2Like>(out = new Vector2() as Vector2 & T): T {
 		return floor(this, out);
 	}
 
@@ -699,7 +699,7 @@ export default class Vector2
 	 * @param out - The vector to store the result in.
 	 * @returns The rounded vector.
 	 */
-	public round<T extends Vector2Like>(out = new Vector2() as unknown as T): T {
+	public round<T extends Vector2Like>(out = new Vector2() as Vector2 & T): T {
 		return round(this, out);
 	}
 
@@ -711,7 +711,7 @@ export default class Vector2
 	 */
 	public min<T extends Vector2Like>(
 		vector: Vector2Like,
-		out = new Vector2() as unknown as T
+		out = new Vector2() as Vector2 & T
 	): T {
 		return min(this, vector, out);
 	}
@@ -724,7 +724,7 @@ export default class Vector2
 	 */
 	public max<T extends Vector2Like>(
 		vector: Vector2Like,
-		out = new Vector2() as unknown as T
+		out = new Vector2() as Vector2 & T
 	): T {
 		return max(this, vector, out);
 	}
@@ -737,7 +737,7 @@ export default class Vector2
 	 */
 	public scale<T extends Vector2Like>(
 		scalar: number,
-		out = new Vector2() as unknown as T
+		out = new Vector2() as Vector2 & T
 	): T {
 		return scale(this, scalar, out);
 	}
@@ -752,7 +752,7 @@ export default class Vector2
 	public scaleAndAdd<T extends Vector2Like>(
 		vector: Vector2Like,
 		scalar: number,
-		out = new Vector2() as unknown as T
+		out = new Vector2() as Vector2 & T
 	): T {
 		return scaleAndAdd(this, vector, scalar, out);
 	}
@@ -792,7 +792,7 @@ export default class Vector2
 	 * @param out - The vector to store the result in.
 	 * @returns The negated vector.
 	 */
-	public negate<T extends Vector2Like>(out = new Vector2() as unknown as T): T {
+	public negate<T extends Vector2Like>(out = new Vector2() as Vector2 & T): T {
 		return negate(this, out);
 	}
 
@@ -801,7 +801,7 @@ export default class Vector2
 	 * @param out - The vector to store the result in.
 	 * @returns The inverted vector.
 	 */
-	public invert<T extends Vector2Like>(out = new Vector2() as unknown as T): T {
+	public invert<T extends Vector2Like>(out = new Vector2() as Vector2 & T): T {
 		return invert(this, out);
 	}
 
@@ -812,7 +812,7 @@ export default class Vector2
 	 * @see [Unit vector](https://en.wikipedia.org/wiki/Unit_vector)
 	 */
 	public normalize<T extends Vector2Like>(
-		out = new Vector2() as unknown as T
+		out = new Vector2() as Vector2 & T
 	): T {
 		return normalize(this, out);
 	}
@@ -836,7 +836,7 @@ export default class Vector2
 	 */
 	public cross<T extends Vector3Like>(
 		vector: Vector2Like,
-		out = new Vector3() as unknown as T
+		out = new Vector3() as Vector3 & T
 	): T {
 		return cross(this, vector, out);
 	}
@@ -852,7 +852,7 @@ export default class Vector2
 	public lerp<T extends Vector2Like>(
 		vector: Vector2Like,
 		t: number,
-		out = new Vector2() as unknown as T
+		out = new Vector2() as Vector2 & T
 	): T {
 		return lerp(this, vector, t, out);
 	}
@@ -875,7 +875,7 @@ export default class Vector2
 	 */
 	public transformMatrix2<T extends Vector2Like>(
 		matrix: Matrix2Like,
-		out = new Vector2() as unknown as T
+		out = new Vector2() as Vector2 & T
 	): T {
 		return transformMatrix2(this, matrix, out);
 	}
@@ -889,7 +889,7 @@ export default class Vector2
 	 */
 	public transformMatrix3<T extends Vector2Like>(
 		matrix: Matrix3Like,
-		out = new Vector2() as unknown as T
+		out = new Vector2() as Vector2 & T
 	): T {
 		return transformMatrix3(this, matrix, out);
 	}
@@ -903,7 +903,7 @@ export default class Vector2
 	 */
 	public transformMatrix4<T extends Vector2Like>(
 		matrix: Matrix4Like,
-		out = new Vector2() as unknown as T
+		out = new Vector2() as Vector2 & T
 	): T {
 		return transformMatrix4(this, matrix, out);
 	}
@@ -918,7 +918,7 @@ export default class Vector2
 	public rotate<T extends Vector2Like>(
 		origin: Vector2Like,
 		radians: number,
-		out = new Vector2() as unknown as T
+		out = new Vector2() as Vector2 & T
 	): T {
 		return rotate(this, origin, radians, out);
 	}

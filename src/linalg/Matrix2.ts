@@ -425,7 +425,7 @@ export default class Matrix2
 	 */
 	public static fromRotation<T extends Matrix2Like>(
 		r: number,
-		out = new Matrix2() as unknown as T
+		out = new Matrix2() as Matrix2 & T
 	): T {
 		return fromRotation(r, out);
 	}
@@ -439,7 +439,7 @@ export default class Matrix2
 	 */
 	public static fromScaling<T extends Matrix2Like>(
 		vector: Vector2Like,
-		out = new Matrix2() as unknown as T
+		out = new Matrix2() as Matrix2 & T
 	): T {
 		return fromScaling(vector, out);
 	}
@@ -458,7 +458,7 @@ export default class Matrix2
 		c0r1: number,
 		c1r0: number,
 		c1r1: number,
-		out = new Matrix2() as unknown as T
+		out = new Matrix2() as Matrix2 & T
 	): T {
 		return fromValues(c0r0, c0r1, c1r0, c1r1, out);
 	}
@@ -522,7 +522,7 @@ export default class Matrix2
 	 */
 	public add<T extends Matrix2Like>(
 		matrix: Matrix2Like,
-		out = new Matrix2() as unknown as T
+		out = new Matrix2() as Matrix2 & T
 	): T {
 		return add(this, matrix, out);
 	}
@@ -533,9 +533,7 @@ export default class Matrix2
 	 * @returns The adjugate of this matrix.
 	 * @see [Adjugate matrix](https://en.wikipedia.org/wiki/Adjugate_matrix)
 	 */
-	public adjoint<T extends Matrix2Like>(
-		out = new Matrix2() as unknown as T
-	): T {
+	public adjoint<T extends Matrix2Like>(out = new Matrix2() as Matrix2 & T): T {
 		return adjoint(this, out);
 	}
 
@@ -544,7 +542,7 @@ export default class Matrix2
 	 * @param out - The matrix to store the result in.
 	 * @returns The copy.
 	 */
-	public clone<T extends Matrix2Like>(out = new Matrix2() as unknown as T): T {
+	public clone<T extends Matrix2Like>(out = new Matrix2() as Matrix2 & T): T {
 		return copy(this, out);
 	}
 
@@ -574,7 +572,7 @@ export default class Matrix2
 	 */
 	public multiply<T extends Matrix2Like>(
 		matrix: Matrix2Like,
-		out = new Matrix2() as unknown as T
+		out = new Matrix2() as Matrix2 & T
 	): T {
 		return multiply(this, matrix, out);
 	}
@@ -588,7 +586,7 @@ export default class Matrix2
 	 */
 	public multiplyScalar<T extends Matrix2Like>(
 		scalar: number,
-		out = new Matrix2() as unknown as T
+		out = new Matrix2() as Matrix2 & T
 	): T {
 		return multiplyScalar(this, scalar, out);
 	}
@@ -605,7 +603,7 @@ export default class Matrix2
 	public multiplyScalarAndAdd<T extends Matrix2Like>(
 		matrix: Matrix2Like,
 		scalar: number,
-		out = new Matrix2() as unknown as T
+		out = new Matrix2() as Matrix2 & T
 	): T {
 		return multiplyScalarAndAdd(this, matrix, scalar, out);
 	}
@@ -619,7 +617,7 @@ export default class Matrix2
 	 */
 	public subtract<T extends Matrix2Like>(
 		matrix: Matrix2Like,
-		out = new Matrix2() as unknown as T
+		out = new Matrix2() as Matrix2 & T
 	): T {
 		return subtract(this, matrix, out);
 	}
@@ -631,7 +629,7 @@ export default class Matrix2
 	 * @see [Transpose](https://en.wikipedia.org/wiki/Transpose)
 	 */
 	public transpose<T extends Matrix2Like>(
-		out = new Matrix2() as unknown as T
+		out = new Matrix2() as Matrix2 & T
 	): T {
 		return transpose(this, out);
 	}
@@ -659,7 +657,7 @@ export default class Matrix2
 	 * @returns The inverted matrix.
 	 * @see [Invertible matrix](https://en.wikipedia.org/wiki/Invertible_matrix)
 	 */
-	public invert<T extends Matrix2Like>(out = new Matrix2() as unknown as T): T {
+	public invert<T extends Matrix2Like>(out = new Matrix2() as Matrix2 & T): T {
 		return invert(this, out);
 	}
 
@@ -672,7 +670,7 @@ export default class Matrix2
 	 */
 	public rotate<T extends Matrix2Like>(
 		r: number,
-		out = new Matrix2() as unknown as T
+		out = new Matrix2() as Matrix2 & T
 	): T {
 		return rotate(this, r, out);
 	}
@@ -686,7 +684,7 @@ export default class Matrix2
 	 */
 	public scale<T extends Matrix2Like>(
 		vector: Vector2Like,
-		out = new Matrix2() as unknown as T
+		out = new Matrix2() as Matrix2 & T
 	): T {
 		return scale(this, vector, out);
 	}
