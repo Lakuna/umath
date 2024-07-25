@@ -882,7 +882,7 @@ export default class DualQuaternion
 	 * @param out - The dual quaternion to store the result in.
 	 * @returns A new dual quaternion.
 	 */
-	public static fromValues<T extends DualQuaternionLike>(
+	public static fromValues<T extends DualQuaternionLike = DualQuaternion>(
 		x1: number,
 		y1: number,
 		z1: number,
@@ -891,7 +891,7 @@ export default class DualQuaternion
 		y2: number,
 		z2: number,
 		w2: number,
-		out = new DualQuaternion() as DualQuaternion & T
+		out: T = new DualQuaternion() as DualQuaternion & T
 	): T {
 		return fromValues(x1, y1, z1, w1, x2, y2, z2, w2, out);
 	}
@@ -903,10 +903,12 @@ export default class DualQuaternion
 	 * @param out - The dual quaternion to store the result in.
 	 * @returns The dual quaternion.
 	 */
-	public static fromRotationTranslation<T extends DualQuaternionLike>(
+	public static fromRotationTranslation<
+		T extends DualQuaternionLike = DualQuaternion
+	>(
 		q: QuaternionLike,
 		t: Vector3Like,
-		out = new DualQuaternion() as DualQuaternion & T
+		out: T = new DualQuaternion() as DualQuaternion & T
 	): T {
 		return fromRotationTranslation(q, t, out);
 	}
@@ -917,9 +919,9 @@ export default class DualQuaternion
 	 * @param out - The dual quaternion to store the result in.
 	 * @returns The dual quaternion.
 	 */
-	public static fromTranslation<T extends DualQuaternionLike>(
+	public static fromTranslation<T extends DualQuaternionLike = DualQuaternion>(
 		t: Vector3Like,
-		out = new DualQuaternion() as DualQuaternion & T
+		out: T = new DualQuaternion() as DualQuaternion & T
 	): T {
 		return fromTranslation(t, out);
 	}
@@ -930,9 +932,9 @@ export default class DualQuaternion
 	 * @param out - The dual quaternion to store the result in.
 	 * @returns The dual quaternion.
 	 */
-	public static fromRotation<T extends DualQuaternionLike>(
+	public static fromRotation<T extends DualQuaternionLike = DualQuaternion>(
 		q: QuaternionLike,
-		out = new DualQuaternion() as DualQuaternion & T
+		out: T = new DualQuaternion() as DualQuaternion & T
 	): T {
 		return fromRotation(q, out);
 	}
@@ -943,9 +945,9 @@ export default class DualQuaternion
 	 * @param out - The dual quaternion to store the result in.
 	 * @returns The dual quaternion.
 	 */
-	public static fromMatrix4<T extends DualQuaternionLike>(
+	public static fromMatrix4<T extends DualQuaternionLike = DualQuaternion>(
 		matrix: Matrix4Like,
-		out = new DualQuaternion() as DualQuaternion & T
+		out: T = new DualQuaternion() as DualQuaternion & T
 	): T {
 		return fromMatrix4(matrix, out);
 	}
@@ -997,8 +999,8 @@ export default class DualQuaternion
 	 * @param out - The dual quaternion to store the result in.
 	 * @returns The copy.
 	 */
-	public clone<T extends DualQuaternionLike>(
-		out = new DualQuaternion() as DualQuaternion & T
+	public clone<T extends DualQuaternionLike = DualQuaternion>(
+		out: T = new DualQuaternion() as DualQuaternion & T
 	): T {
 		return copy(this, out);
 	}
@@ -1016,8 +1018,8 @@ export default class DualQuaternion
 	 * @param out - The quaternion to store the result in.
 	 * @returns The real part.
 	 */
-	public getReal<T extends QuaternionLike>(
-		out = new Quaternion() as Quaternion & T
+	public getReal<T extends QuaternionLike = Quaternion>(
+		out: T = new Quaternion() as Quaternion & T
 	): T {
 		return xetReal(this, out);
 	}
@@ -1035,8 +1037,8 @@ export default class DualQuaternion
 	 * @param out - The quaternion to store the result in.
 	 * @returns The dual part.
 	 */
-	public getDual<T extends QuaternionLike>(
-		out = new Quaternion() as Quaternion & T
+	public getDual<T extends QuaternionLike = Quaternion>(
+		out: T = new Quaternion() as Quaternion & T
 	): T {
 		return getDual(this, out);
 	}
@@ -1054,8 +1056,8 @@ export default class DualQuaternion
 	 * @param out - The vector to store the result in.
 	 * @returns The translation.
 	 */
-	public getTranslation<T extends Vector3Like>(
-		out = new Vector3() as Vector3 & T
+	public getTranslation<T extends Vector3Like = Vector3>(
+		out: T = new Vector3() as Vector3 & T
 	): T {
 		return getTranslation(this, out);
 	}
@@ -1066,9 +1068,9 @@ export default class DualQuaternion
 	 * @param out - The dual quaternion to store the result in.
 	 * @returns The translated dual quaternion.
 	 */
-	public translate<T extends DualQuaternionLike>(
+	public translate<T extends DualQuaternionLike = DualQuaternion>(
 		v: Vector3Like,
-		out = new DualQuaternion() as DualQuaternion & T
+		out: T = new DualQuaternion() as DualQuaternion & T
 	): T {
 		return translate(this, v, out);
 	}
@@ -1079,9 +1081,9 @@ export default class DualQuaternion
 	 * @param out - The dual quaternion to store the result in.
 	 * @returns The rotated dual quaternion.
 	 */
-	public rotateX<T extends DualQuaternionLike>(
+	public rotateX<T extends DualQuaternionLike = DualQuaternion>(
 		r: number,
-		out = new DualQuaternion() as DualQuaternion & T
+		out: T = new DualQuaternion() as DualQuaternion & T
 	): T {
 		return rotateX(this, r, out);
 	}
@@ -1092,9 +1094,9 @@ export default class DualQuaternion
 	 * @param out - The dual quaternion to store the result in.
 	 * @returns The rotated dual quaternion.
 	 */
-	public rotateY<T extends DualQuaternionLike>(
+	public rotateY<T extends DualQuaternionLike = DualQuaternion>(
 		r: number,
-		out = new DualQuaternion() as DualQuaternion & T
+		out: T = new DualQuaternion() as DualQuaternion & T
 	): T {
 		return rotateY(this, r, out);
 	}
@@ -1105,9 +1107,9 @@ export default class DualQuaternion
 	 * @param out - The dual quaternion to store the result in.
 	 * @returns The rotated dual quaternion.
 	 */
-	public rotateZ<T extends DualQuaternionLike>(
+	public rotateZ<T extends DualQuaternionLike = DualQuaternion>(
 		r: number,
-		out = new DualQuaternion() as DualQuaternion & T
+		out: T = new DualQuaternion() as DualQuaternion & T
 	): T {
 		return rotateZ(this, r, out);
 	}
@@ -1119,10 +1121,9 @@ export default class DualQuaternion
 	 * @returns The rotated dual quaternion.
 	 * @see [Quaternion](https://en.wikipedia.org/wiki/Quaternion)
 	 */
-	public rotateByQuaternionAppend<T extends DualQuaternionLike>(
-		q: QuaternionLike,
-		out = new DualQuaternion() as DualQuaternion & T
-	): T {
+	public rotateByQuaternionAppend<
+		T extends DualQuaternionLike = DualQuaternion
+	>(q: QuaternionLike, out: T = new DualQuaternion() as DualQuaternion & T): T {
 		return rotateByQuaternionAppend(this, q, out);
 	}
 
@@ -1133,10 +1134,9 @@ export default class DualQuaternion
 	 * @returns The rotated dual quaternion.
 	 * @see [Quaternion](https://en.wikipedia.org/wiki/Quaternion)
 	 */
-	public rotateByQuaternionPrepend<T extends DualQuaternionLike>(
-		q: QuaternionLike,
-		out = new DualQuaternion() as DualQuaternion & T
-	): T {
+	public rotateByQuaternionPrepend<
+		T extends DualQuaternionLike = DualQuaternion
+	>(q: QuaternionLike, out: T = new DualQuaternion() as DualQuaternion & T): T {
 		return rotateByQuaternionPrepend(q, this, out);
 	}
 
@@ -1147,10 +1147,10 @@ export default class DualQuaternion
 	 * @param out - The dual quaternion to store the result in.
 	 * @returns A normalized dual quaternion.
 	 */
-	public rotateAroundAxis<T extends DualQuaternionLike>(
+	public rotateAroundAxis<T extends DualQuaternionLike = DualQuaternion>(
 		axis: Vector3Like,
 		r: number,
-		out = new DualQuaternion() as DualQuaternion & T
+		out: T = new DualQuaternion() as DualQuaternion & T
 	): T {
 		return rotateAroundAxis(this, axis, r, out);
 	}
@@ -1161,9 +1161,9 @@ export default class DualQuaternion
 	 * @param out - The dual quaternion to store the result in.
 	 * @returns The sum.
 	 */
-	public add<T extends DualQuaternionLike>(
+	public add<T extends DualQuaternionLike = DualQuaternion>(
 		dq: DualQuaternionLike,
-		out = new DualQuaternion() as DualQuaternion & T
+		out: T = new DualQuaternion() as DualQuaternion & T
 	): T {
 		return add(this, dq, out);
 	}
@@ -1174,9 +1174,9 @@ export default class DualQuaternion
 	 * @param out - The dual quaternion to store the result in.
 	 * @returns The product.
 	 */
-	public multiply<T extends DualQuaternionLike>(
+	public multiply<T extends DualQuaternionLike = DualQuaternion>(
 		dq: DualQuaternionLike,
-		out = new DualQuaternion() as DualQuaternion & T
+		out: T = new DualQuaternion() as DualQuaternion & T
 	): T {
 		return multiply(this, dq, out);
 	}
@@ -1187,9 +1187,9 @@ export default class DualQuaternion
 	 * @param out - The dual quaternion to store the result in.
 	 * @returns The product.
 	 */
-	public scale<T extends DualQuaternionLike>(
+	public scale<T extends DualQuaternionLike = DualQuaternion>(
 		s: number,
-		out = new DualQuaternion() as DualQuaternion & T
+		out: T = new DualQuaternion() as DualQuaternion & T
 	): T {
 		return scale(this, s, out);
 	}
@@ -1211,10 +1211,10 @@ export default class DualQuaternion
 	 * @param out - The dual quaternion to store the result in.
 	 * @returns The interpolated value.
 	 */
-	public lerp<T extends DualQuaternionLike>(
+	public lerp<T extends DualQuaternionLike = DualQuaternion>(
 		dq: DualQuaternionLike,
 		t: number,
-		out = new DualQuaternion() as DualQuaternion & T
+		out: T = new DualQuaternion() as DualQuaternion & T
 	): T {
 		return lerp(this, dq, t, out);
 	}
@@ -1224,8 +1224,8 @@ export default class DualQuaternion
 	 * @param out - The dual quaternion to store the result in.
 	 * @returns The inverse.
 	 */
-	public invert<T extends DualQuaternionLike>(
-		out = new DualQuaternion() as DualQuaternion & T
+	public invert<T extends DualQuaternionLike = DualQuaternion>(
+		out: T = new DualQuaternion() as DualQuaternion & T
 	): T {
 		return invert(this, out);
 	}
@@ -1235,8 +1235,8 @@ export default class DualQuaternion
 	 * @param out - The dual quaternion to store the result in.
 	 * @returns The conjugate.
 	 */
-	public conjugate<T extends DualQuaternionLike>(
-		out = new DualQuaternion() as DualQuaternion & T
+	public conjugate<T extends DualQuaternionLike = DualQuaternion>(
+		out: T = new DualQuaternion() as DualQuaternion & T
 	): T {
 		return conjugate(this, out);
 	}
@@ -1256,8 +1256,8 @@ export default class DualQuaternion
 	 * @param out - The dual quaternion to store the result in.
 	 * @returns The normalized dual quaternion.
 	 */
-	public normalize<T extends DualQuaternionLike>(
-		out = new DualQuaternion() as DualQuaternion & T
+	public normalize<T extends DualQuaternionLike = DualQuaternion>(
+		out: T = new DualQuaternion() as DualQuaternion & T
 	): T {
 		return normalize(this, out);
 	}

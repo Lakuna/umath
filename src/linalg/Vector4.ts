@@ -605,12 +605,12 @@ export default class Vector4
 	 * @param out - The vector to store the result in.
 	 * @returns A new vector.
 	 */
-	public static fromValues<T extends Vector4Like>(
+	public static fromValues<T extends Vector4Like = Vector4>(
 		x: number,
 		y: number,
 		z: number,
 		w: number,
-		out = new Vector4() as Vector4 & T
+		out: T = new Vector4() as Vector4 & T
 	): T {
 		return fromValues(x, y, z, w, out);
 	}
@@ -659,9 +659,9 @@ export default class Vector4
 	 * @param out - The vector to store the result in.
 	 * @returns The sum of the vectors.
 	 */
-	public add<T extends Vector4Like>(
+	public add<T extends Vector4Like = Vector4>(
 		vector: Vector4Like,
-		out = new Vector4() as Vector4 & T
+		out: T = new Vector4() as Vector4 & T
 	): T {
 		return add(this, vector, out);
 	}
@@ -671,7 +671,9 @@ export default class Vector4
 	 * @param out - The vector to store the result in.
 	 * @returns The copy.
 	 */
-	public clone<T extends Vector4Like>(out = new Vector4() as Vector4 & T): T {
+	public clone<T extends Vector4Like = Vector4>(
+		out: T = new Vector4() as Vector4 & T
+	): T {
 		return copy(this, out);
 	}
 
@@ -690,9 +692,9 @@ export default class Vector4
 	 * @param out - The vector to store the result in.
 	 * @returns The product of the vectors.
 	 */
-	public multiply<T extends Vector4Like>(
+	public multiply<T extends Vector4Like = Vector4>(
 		vector: Vector4Like,
-		out = new Vector4() as Vector4 & T
+		out: T = new Vector4() as Vector4 & T
 	): T {
 		return multiply(this, vector, out);
 	}
@@ -703,9 +705,9 @@ export default class Vector4
 	 * @param out - The vector to store the result in.
 	 * @returns The quotient of the vectors.
 	 */
-	public divide<T extends Vector4Like>(
+	public divide<T extends Vector4Like = Vector4>(
 		vector: Vector4Like,
-		out = new Vector4() as Vector4 & T
+		out: T = new Vector4() as Vector4 & T
 	): T {
 		return divide(this, vector, out);
 	}
@@ -716,9 +718,9 @@ export default class Vector4
 	 * @param out - The vector to store the result in.
 	 * @returns The difference between the vectors.
 	 */
-	public subtract<T extends Vector4Like>(
+	public subtract<T extends Vector4Like = Vector4>(
 		vector: Vector4Like,
-		out = new Vector4() as Vector4 & T
+		out: T = new Vector4() as Vector4 & T
 	): T {
 		return subtract(this, vector, out);
 	}
@@ -728,7 +730,9 @@ export default class Vector4
 	 * @param out - The vector to store the result in.
 	 * @returns The rounded vector.
 	 */
-	public ceil<T extends Vector4Like>(out = new Vector4() as Vector4 & T): T {
+	public ceil<T extends Vector4Like = Vector4>(
+		out: T = new Vector4() as Vector4 & T
+	): T {
 		return ceil(this, out);
 	}
 
@@ -737,7 +741,9 @@ export default class Vector4
 	 * @param out - The vector to store the result in.
 	 * @returns The rounded vector.
 	 */
-	public floor<T extends Vector4Like>(out = new Vector4() as Vector4 & T): T {
+	public floor<T extends Vector4Like = Vector4>(
+		out: T = new Vector4() as Vector4 & T
+	): T {
 		return floor(this, out);
 	}
 
@@ -746,7 +752,9 @@ export default class Vector4
 	 * @param out - The vector to store the result in.
 	 * @returns The rounded vector.
 	 */
-	public round<T extends Vector4Like>(out = new Vector4() as Vector4 & T): T {
+	public round<T extends Vector4Like = Vector4>(
+		out: T = new Vector4() as Vector4 & T
+	): T {
 		return round(this, out);
 	}
 
@@ -756,9 +764,9 @@ export default class Vector4
 	 * @param out - The vector to store the result in.
 	 * @returns The minimum.
 	 */
-	public min<T extends Vector4Like>(
+	public min<T extends Vector4Like = Vector4>(
 		vector: Vector4Like,
-		out = new Vector4() as Vector4 & T
+		out: T = new Vector4() as Vector4 & T
 	): T {
 		return min(this, vector, out);
 	}
@@ -769,9 +777,9 @@ export default class Vector4
 	 * @param out - The vector to store the result in.
 	 * @returns The maximum.
 	 */
-	public max<T extends Vector4Like>(
+	public max<T extends Vector4Like = Vector4>(
 		vector: Vector4Like,
-		out = new Vector4() as Vector4 & T
+		out: T = new Vector4() as Vector4 & T
 	): T {
 		return max(this, vector, out);
 	}
@@ -782,9 +790,9 @@ export default class Vector4
 	 * @param out - The vector to store the result in.
 	 * @returns The scaled vector.
 	 */
-	public scale<T extends Vector4Like>(
+	public scale<T extends Vector4Like = Vector4>(
 		scalar: number,
-		out = new Vector4() as Vector4 & T
+		out: T = new Vector4() as Vector4 & T
 	): T {
 		return scale(this, scalar, out);
 	}
@@ -796,10 +804,10 @@ export default class Vector4
 	 * @param out - The vector to store the result in.
 	 * @returns The sum.
 	 */
-	public scaleAndAdd<T extends Vector4Like>(
+	public scaleAndAdd<T extends Vector4Like = Vector4>(
 		vector: Vector4Like,
 		scalar: number,
-		out = new Vector4() as Vector4 & T
+		out: T = new Vector4() as Vector4 & T
 	): T {
 		return scaleAndAdd(this, vector, scalar, out);
 	}
@@ -839,7 +847,9 @@ export default class Vector4
 	 * @param out - The vector to store the result in.
 	 * @returns The negated vector.
 	 */
-	public negate<T extends Vector4Like>(out = new Vector4() as Vector4 & T): T {
+	public negate<T extends Vector4Like = Vector4>(
+		out: T = new Vector4() as Vector4 & T
+	): T {
 		return negate(this, out);
 	}
 
@@ -848,7 +858,9 @@ export default class Vector4
 	 * @param out - The vector to store the result in.
 	 * @returns The inverted vector.
 	 */
-	public invert<T extends Vector4Like>(out = new Vector4() as Vector4 & T): T {
+	public invert<T extends Vector4Like = Vector4>(
+		out: T = new Vector4() as Vector4 & T
+	): T {
 		return invert(this, out);
 	}
 
@@ -858,8 +870,8 @@ export default class Vector4
 	 * @returns The normalized vector.
 	 * @see [Unit vector](https://en.wikipedia.org/wiki/Unit_vector)
 	 */
-	public normalize<T extends Vector4Like>(
-		out = new Vector4() as Vector4 & T
+	public normalize<T extends Vector4Like = Vector4>(
+		out: T = new Vector4() as Vector4 & T
 	): T {
 		return normalize(this, out);
 	}
@@ -882,10 +894,10 @@ export default class Vector4
 	 * @returns The cross product.
 	 * @see [Cross product](https://en.wikipedia.org/wiki/Cross_product)
 	 */
-	public cross<T extends Vector4Like>(
+	public cross<T extends Vector4Like = Vector4>(
 		a: Vector4Like,
 		b: Vector4Like,
-		out = new Vector4() as Vector4 & T
+		out: T = new Vector4() as Vector4 & T
 	): T {
 		return cross(this, a, b, out);
 	}
@@ -898,10 +910,10 @@ export default class Vector4
 	 * @returns The interpolated vector.
 	 * @see [Linear interpolation](https://en.wikipedia.org/wiki/Linear_interpolation)
 	 */
-	public lerp<T extends Vector4Like>(
+	public lerp<T extends Vector4Like = Vector4>(
 		vector: Vector4Like,
 		t: number,
-		out = new Vector4() as Vector4 & T
+		out: T = new Vector4() as Vector4 & T
 	): T {
 		return lerp(this, vector, t, out);
 	}
@@ -922,9 +934,9 @@ export default class Vector4
 	 * @returns The transformed vector.
 	 * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
 	 */
-	public transformMatrix4<T extends Vector4Like>(
+	public transformMatrix4<T extends Vector4Like = Vector4>(
 		matrix: Matrix4Like,
-		out = new Vector4() as Vector4 & T
+		out: T = new Vector4() as Vector4 & T
 	): T {
 		return transformMatrix4(this, matrix, out);
 	}
@@ -944,9 +956,9 @@ export default class Vector4
 	 * @returns The transformed vector.
 	 * @see [Quaternion](https://en.wikipedia.org/wiki/Quaternion)
 	 */
-	public transformQuaternion<T extends Vector4Like>(
+	public transformQuaternion<T extends Vector4Like = Vector4>(
 		quaternion: QuaternionLike,
-		out = new Vector4() as Vector4 & T
+		out: T = new Vector4() as Vector4 & T
 	): T {
 		return transformQuaternion(this, quaternion, out);
 	}

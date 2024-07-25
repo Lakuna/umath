@@ -589,9 +589,9 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 * @returns The quaternion.
 	 * @see [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix)
 	 */
-	public static fromMatrix3<T extends QuaternionLike>(
+	public static fromMatrix3<T extends QuaternionLike = Quaternion>(
 		matrix: Matrix3Like,
-		out = new Quaternion() as Quaternion & T
+		out: T = new Quaternion() as Quaternion & T
 	): T {
 		return fromMatrix3(matrix, out);
 	}
@@ -605,11 +605,11 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 * @returns The quaternion.
 	 * @see [Euler angles](https://en.wikipedia.org/wiki/Euler_angles)
 	 */
-	public static fromEuler<T extends QuaternionLike>(
+	public static fromEuler<T extends QuaternionLike = Quaternion>(
 		x: number,
 		y: number,
 		z: number,
-		out = new Quaternion() as Quaternion & T
+		out: T = new Quaternion() as Quaternion & T
 	): T {
 		return fromEuler(x, y, z, out);
 	}
@@ -623,12 +623,12 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 * @param out - The quaternion to store the result in.
 	 * @returns A new quaternion.
 	 */
-	public static fromValues<T extends QuaternionLike>(
+	public static fromValues<T extends QuaternionLike = Quaternion>(
 		x: number,
 		y: number,
 		z: number,
 		w: number,
-		out = new Quaternion() as Quaternion & T
+		out: T = new Quaternion() as Quaternion & T
 	): T {
 		return fromValues(x, y, z, w, out);
 	}
@@ -641,11 +641,11 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 * @param out - The quaternion to store the result in.
 	 * @returns The quaternion.
 	 */
-	public static fromAxes<T extends QuaternionLike>(
+	public static fromAxes<T extends QuaternionLike = Quaternion>(
 		view: Vector3Like,
 		right: Vector3Like,
 		up: Vector3Like,
-		out = new Quaternion() as Quaternion & T
+		out: T = new Quaternion() as Quaternion & T
 	): T {
 		return fromAxes(view, right, up, out);
 	}
@@ -712,9 +712,9 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 * @param out - The quaternion to store the result in.
 	 * @returns The product.
 	 */
-	public multiply<T extends QuaternionLike>(
+	public multiply<T extends QuaternionLike = Quaternion>(
 		quaternion: QuaternionLike,
-		out = new Quaternion() as Quaternion & T
+		out: T = new Quaternion() as Quaternion & T
 	): T {
 		return multiply(this, quaternion, out);
 	}
@@ -725,9 +725,9 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 * @param out - The quaternion to store the result in.
 	 * @returns The rotated quaternion.
 	 */
-	public rotateX<T extends QuaternionLike>(
+	public rotateX<T extends QuaternionLike = Quaternion>(
 		r: number,
-		out = new Quaternion() as Quaternion & T
+		out: T = new Quaternion() as Quaternion & T
 	): T {
 		return rotateX(this, r, out);
 	}
@@ -738,9 +738,9 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 * @param out - The quaternion to store the result in.
 	 * @returns The rotated quaternion.
 	 */
-	public rotateY<T extends QuaternionLike>(
+	public rotateY<T extends QuaternionLike = Quaternion>(
 		r: number,
-		out = new Quaternion() as Quaternion & T
+		out: T = new Quaternion() as Quaternion & T
 	): T {
 		return rotateY(this, r, out);
 	}
@@ -751,9 +751,9 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 * @param out - The quaternion to store the result in.
 	 * @returns The rotated quaternion.
 	 */
-	public rotateZ<T extends QuaternionLike>(
+	public rotateZ<T extends QuaternionLike = Quaternion>(
 		r: number,
-		out = new Quaternion() as Quaternion & T
+		out: T = new Quaternion() as Quaternion & T
 	): T {
 		return rotateZ(this, r, out);
 	}
@@ -763,8 +763,8 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 * @param out - The quaternion to store the result in.
 	 * @returns The quaternion.
 	 */
-	public calculateW<T extends QuaternionLike>(
-		out = new Quaternion() as Quaternion & T
+	public calculateW<T extends QuaternionLike = Quaternion>(
+		out: T = new Quaternion() as Quaternion & T
 	): T {
 		return calculateW(this, out);
 	}
@@ -774,8 +774,8 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 * @param out - The quaternion to store the result in.
 	 * @returns The exponential.
 	 */
-	public exp<T extends QuaternionLike>(
-		out = new Quaternion() as Quaternion & T
+	public exp<T extends QuaternionLike = Quaternion>(
+		out: T = new Quaternion() as Quaternion & T
 	): T {
 		return exp(this, out);
 	}
@@ -785,8 +785,8 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 * @param out - The quaternion to store the result in.
 	 * @returns The natural logarithm.
 	 */
-	public ln<T extends QuaternionLike>(
-		out = new Quaternion() as Quaternion & T
+	public ln<T extends QuaternionLike = Quaternion>(
+		out: T = new Quaternion() as Quaternion & T
 	): T {
 		return ln(this, out);
 	}
@@ -797,9 +797,9 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 * @param out - The quaternion to store the result in.
 	 * @returns The power.
 	 */
-	public pow<T extends QuaternionLike>(
+	public pow<T extends QuaternionLike = Quaternion>(
 		scalar: number,
-		out = new Quaternion() as Quaternion & T
+		out: T = new Quaternion() as Quaternion & T
 	): T {
 		return pow(this, scalar, out);
 	}
@@ -812,10 +812,10 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 * @returns The interpolated quaternion.
 	 * @see [Slerp](https://en.wikipedia.org/wiki/Slerp)
 	 */
-	public slerp<T extends QuaternionLike>(
+	public slerp<T extends QuaternionLike = Quaternion>(
 		quaternion: QuaternionLike,
 		t: number,
-		out = new Quaternion() as Quaternion & T
+		out: T = new Quaternion() as Quaternion & T
 	): T {
 		return slerp(this, quaternion, t, out);
 	}
@@ -833,8 +833,8 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 * @param out - The quaternion to store the result in.
 	 * @returns The inverse.
 	 */
-	public invert<T extends QuaternionLike>(
-		out = new Quaternion() as Quaternion & T
+	public invert<T extends QuaternionLike = Quaternion>(
+		out: T = new Quaternion() as Quaternion & T
 	): T {
 		return invert(this, out);
 	}
@@ -844,8 +844,8 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 * @param out - The quaternion to store the result in.
 	 * @returns The conjugate.
 	 */
-	public conjugate<T extends QuaternionLike>(
-		out = new Quaternion() as Quaternion & T
+	public conjugate<T extends QuaternionLike = Quaternion>(
+		out: T = new Quaternion() as Quaternion & T
 	): T {
 		return conjugate(this, out);
 	}
@@ -855,8 +855,8 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 * @param out - The quaternion to store the result in.
 	 * @returns The copy.
 	 */
-	public clone<T extends QuaternionLike>(
-		out = new Quaternion() as Quaternion & T
+	public clone<T extends QuaternionLike = Quaternion>(
+		out: T = new Quaternion() as Quaternion & T
 	): T {
 		return copy(this, out);
 	}
@@ -876,9 +876,9 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 * @param out - The quaternion to store the result in.
 	 * @returns The sum of the quaternions.
 	 */
-	public add<T extends QuaternionLike>(
+	public add<T extends QuaternionLike = Quaternion>(
 		quaternion: QuaternionLike,
-		out = new Quaternion() as Quaternion & T
+		out: T = new Quaternion() as Quaternion & T
 	): T {
 		return add(this, quaternion, out);
 	}
@@ -889,9 +889,9 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 * @param out - The quaternion to store the result in.
 	 * @returns The scaled quaternion.
 	 */
-	public scale<T extends QuaternionLike>(
+	public scale<T extends QuaternionLike = Quaternion>(
 		scalar: number,
-		out = new Quaternion() as Quaternion & T
+		out: T = new Quaternion() as Quaternion & T
 	): T {
 		return scale(this, scalar, out);
 	}
@@ -912,10 +912,10 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 * @param out - The quaternion to store the result in.
 	 * @returns The interpolated quaternion.
 	 */
-	public lerp<T extends QuaternionLike>(
+	public lerp<T extends QuaternionLike = Quaternion>(
 		quaternion: QuaternionLike,
 		t: number,
-		out = new Quaternion() as Quaternion & T
+		out: T = new Quaternion() as Quaternion & T
 	): T {
 		return lerp(this, quaternion, t, out);
 	}
@@ -935,8 +935,8 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 * @param out - The quaternion to store the result in.
 	 * @returns The normalized quaternion.
 	 */
-	public normalize<T extends QuaternionLike>(
-		out = new Quaternion() as Quaternion & T
+	public normalize<T extends QuaternionLike = Quaternion>(
+		out: T = new Quaternion() as Quaternion & T
 	): T {
 		return normalize(this, out);
 	}
@@ -969,12 +969,12 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 * @returns The interpolated value.
 	 * @see [Slerp](https://en.wikipedia.org/wiki/Slerp)
 	 */
-	public sqlerp<T extends QuaternionLike>(
+	public sqlerp<T extends QuaternionLike = Quaternion>(
 		a: QuaternionLike,
 		b: QuaternionLike,
 		quaternion: QuaternionLike,
 		t: number,
-		out = new Quaternion() as Quaternion & T
+		out: T = new Quaternion() as Quaternion & T
 	): T {
 		return sqlerp(this, a, b, quaternion, t, out);
 	}
