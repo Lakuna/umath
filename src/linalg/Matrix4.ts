@@ -567,7 +567,7 @@ export const frustum = <T extends Matrix4Like>(
  * Create a perspective projection matrix with the given bounds.
  * @param fov - The vertical field of view in radians.
  * @param aspect - The aspect ratio (typically the width of the viewport divided by its height).
- * @param near - The near bound of the frustum.
+ * @param near - The near bound of the frustum. Must be strictly positive.
  * @param far - The far bound of the frustum.
  * @param out - The matrix to store the result in.
  * @returns The perspective projection matrix.
@@ -601,12 +601,12 @@ export const perspective = <T extends Matrix4Like>(
 	if (far === Infinity) {
 		out[10] = -1;
 		out[14] = -2 * near;
-	} else {
-		const nf = 1 / (near - far);
-		out[10] = (far + near) * nf;
-		out[14] = 2 * far * near * nf;
+		return out;
 	}
 
+	const nf = 1 / (near - far);
+	out[10] = (far + near) * nf;
+	out[14] = 2 * far * near * nf;
 	return out;
 };
 
@@ -1388,25 +1388,25 @@ export const transpose = <T extends Matrix4Like>(
 		out[12] = a03;
 		out[13] = a13;
 		out[14] = a23;
-	} else {
-		out[0] = matrix[0];
-		out[1] = matrix[4];
-		out[2] = matrix[8];
-		out[3] = matrix[12];
-		out[4] = matrix[1];
-		out[5] = matrix[5];
-		out[6] = matrix[9];
-		out[7] = matrix[13];
-		out[8] = matrix[2];
-		out[9] = matrix[6];
-		out[10] = matrix[10];
-		out[11] = matrix[14];
-		out[12] = matrix[3];
-		out[13] = matrix[7];
-		out[14] = matrix[11];
-		out[15] = matrix[15];
+		return out;
 	}
 
+	out[0] = matrix[0];
+	out[1] = matrix[4];
+	out[2] = matrix[8];
+	out[3] = matrix[12];
+	out[4] = matrix[1];
+	out[5] = matrix[5];
+	out[6] = matrix[9];
+	out[7] = matrix[13];
+	out[8] = matrix[2];
+	out[9] = matrix[6];
+	out[10] = matrix[10];
+	out[11] = matrix[14];
+	out[12] = matrix[3];
+	out[13] = matrix[7];
+	out[14] = matrix[11];
+	out[15] = matrix[15];
 	return out;
 };
 

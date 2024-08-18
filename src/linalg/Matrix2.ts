@@ -295,12 +295,13 @@ export const transpose = <T extends Matrix2Like>(
 		const a1 = matrix[1];
 		out[1] = matrix[2];
 		out[2] = a1;
-	} else {
-		out[0] = matrix[0];
-		out[1] = matrix[2];
-		out[2] = matrix[1];
-		out[3] = matrix[3];
+		return out;
 	}
+
+	out[0] = matrix[0];
+	out[1] = matrix[2];
+	out[2] = matrix[1];
+	out[3] = matrix[3];
 	return out;
 };
 

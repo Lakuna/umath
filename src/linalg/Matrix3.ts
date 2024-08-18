@@ -605,17 +605,18 @@ export const transpose = <T extends Matrix3Like>(
 		out[5] = matrix[7];
 		out[6] = a02;
 		out[7] = a12;
-	} else {
-		out[0] = matrix[0];
-		out[1] = matrix[3];
-		out[2] = matrix[6];
-		out[3] = matrix[1];
-		out[4] = matrix[4];
-		out[5] = matrix[7];
-		out[6] = matrix[2];
-		out[7] = matrix[5];
-		out[8] = matrix[8];
+		return out;
 	}
+
+	out[0] = matrix[0];
+	out[1] = matrix[3];
+	out[2] = matrix[6];
+	out[3] = matrix[1];
+	out[4] = matrix[4];
+	out[5] = matrix[7];
+	out[6] = matrix[2];
+	out[7] = matrix[5];
+	out[8] = matrix[8];
 	return out;
 };
 

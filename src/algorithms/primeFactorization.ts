@@ -12,9 +12,10 @@ export default function primeFactorization(n: number): number[] {
 		if (m % divisor === 0) {
 			out.push(divisor);
 			m /= divisor;
-		} else {
-			divisor++;
+			continue;
 		}
+
+		divisor++;
 	}
 
 	return out;
