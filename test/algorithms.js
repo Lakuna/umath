@@ -1,8 +1,8 @@
-import { describe, it } from "mocha";
+import { deepEqual, equal, ok } from "node:assert/strict";
+import { describe, it } from "node:test";
 import combinations from "../dist/algorithms/combinations.js";
 import degreesToRadians from "../dist/algorithms/degreesToRadians.js";
 import epsilon from "../dist/utility/epsilon.js";
-import { expect } from "chai";
 import factorial from "../dist/algorithms/factorial.js";
 import fibonacci from "../dist/algorithms/fibonacci.js";
 import greatestCommonDivisor from "../dist/algorithms/greatestCommonDivisor.js";
@@ -13,61 +13,62 @@ import primeFactorization from "../dist/algorithms/primeFactorization.js";
 import radiansToDegrees from "../dist/algorithms/radiansToDegrees.js";
 import summation from "../dist/algorithms/summation.js";
 
-describe("combinations", () => {
-	it("should return $nCr(1,1)=1$", () => {
-		expect(combinations(1, 1)).to.equal(1);
+const approximatelyEqual = (actual, expected, delta) => {
+	ok(Math.abs(actual - expected) < delta);
+};
+
+void describe("combinations", () => {
+	void it("should return $nCr(1,1)=1$", () => {
+		equal(combinations(1, 1), 1);
 	});
 
-	it("should return $nCr(2,1)=2$", () => {
-		expect(combinations(2, 1)).to.equal(2);
+	void it("should return $nCr(2,1)=2$", () => {
+		equal(combinations(2, 1), 2);
 	});
 
-	it("should return $nCr(10,5)=252$", () => {
-		expect(combinations(10, 5)).to.equal(252);
+	void it("should return $nCr(10,5)=252$", () => {
+		equal(combinations(10, 5), 252);
 	});
 
-	it("should return $nCr(10,10)=1$", () => {
-		expect(combinations(10, 10)).to.equal(1);
-	});
-});
-
-describe("degreesToRadians", () => {
-	it("should return $0°=0rad$", () => {
-		expect(degreesToRadians(0)).to.be.approximately(0, epsilon);
-	});
-
-	it("should return $180°=πrad$", () => {
-		expect(degreesToRadians(180)).to.be.approximately(Math.PI, epsilon);
-	});
-
-	it("should return $100°=5π/9rad$", () => {
-		expect(degreesToRadians(100)).to.be.approximately(
-			(5 * Math.PI) / 9,
-			epsilon
-		);
+	void it("should return $nCr(10,10)=1$", () => {
+		equal(combinations(10, 10), 1);
 	});
 });
 
-describe("factorial", () => {
-	it("should return $0!=1$", () => {
-		expect(factorial(0)).to.equal(1);
+void describe("degreesToRadians", () => {
+	void it("should return $0°=0rad$", () => {
+		approximatelyEqual(degreesToRadians(0), 0, epsilon);
 	});
 
-	it("should return $1!=1$", () => {
-		expect(factorial(1)).to.equal(1);
+	void it("should return $180°=πrad$", () => {
+		approximatelyEqual(degreesToRadians(180), Math.PI, epsilon);
 	});
 
-	it("should return $3!=6$", () => {
-		expect(factorial(3)).to.equal(6);
-	});
-
-	it("should return $10!=3628800$", () => {
-		expect(factorial(10)).to.equal(3628800);
+	void it("should return $100°=5π/9rad$", () => {
+		approximatelyEqual(degreesToRadians(100), (5 * Math.PI) / 9, epsilon);
 	});
 });
 
-describe("fibonacci", () => {
-	it("should start with $[0,1,1,2,3,5,8,13,21,34,55,89,144,233]$", () => {
+void describe("factorial", () => {
+	void it("should return $0!=1$", () => {
+		equal(factorial(0), 1);
+	});
+
+	void it("should return $1!=1$", () => {
+		equal(factorial(1), 1);
+	});
+
+	void it("should return $3!=6$", () => {
+		equal(factorial(3), 6);
+	});
+
+	void it("should return $10!=3628800$", () => {
+		equal(factorial(10), 3628800);
+	});
+});
+
+void describe("fibonacci", () => {
+	void it("should start with $[0,1,1,2,3,5,8,13,21,34,55,89,144,233]$", () => {
 		const generator = fibonacci();
 
 		const out = [];
@@ -75,144 +76,153 @@ describe("fibonacci", () => {
 			out.push(generator.next().value);
 		}
 
-		expect(out).to.have.ordered.members([
-			0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233
-		]);
+		deepEqual(out, [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233]);
 	});
 });
 
-describe("greatestCommonDivisor", () => {
-	it("should return $gcd(1,1)=1$", () => {
-		expect(greatestCommonDivisor(1, 1)).to.equal(1);
+void describe("greatestCommonDivisor", () => {
+	void it("should return $gcd(1,1)=1$", () => {
+		equal(greatestCommonDivisor(1, 1), 1);
 	});
 
-	it("should return $gcd(10,5)=5$", () => {
-		expect(greatestCommonDivisor(10, 5)).to.equal(5);
+	void it("should return $gcd(10,5)=5$", () => {
+		equal(greatestCommonDivisor(10, 5), 5);
 	});
 
-	it("should return $gcd(5,10)=5$", () => {
-		expect(greatestCommonDivisor(5, 10)).to.equal(5);
+	void it("should return $gcd(5,10)=5$", () => {
+		equal(greatestCommonDivisor(5, 10), 5);
 	});
 
-	it("should return $gcd(14,21)=7$", () => {
-		expect(greatestCommonDivisor(14, 21)).to.equal(7);
+	void it("should return $gcd(14,21)=7$", () => {
+		equal(greatestCommonDivisor(14, 21), 7);
 	});
 
-	it("should return $gcd(21,14)=7$", () => {
-		expect(greatestCommonDivisor(21, 14)).to.equal(7);
+	void it("should return $gcd(21,14)=7$", () => {
+		equal(greatestCommonDivisor(21, 14), 7);
 	});
 });
 
-describe("hypergeometricPmf", () => {
-	it("should return $px(1,1,1,1)=1$", () => {
-		expect(hypergeometricPmf(1, 1, 1, 1)).to.be.approximately(1, epsilon);
+void describe("hypergeometricPmf", () => {
+	void it("should return $px(1,1,1,1)=1$", () => {
+		approximatelyEqual(hypergeometricPmf(1, 1, 1, 1), 1, epsilon);
 	});
 
-	it("should return $px(4,3,2,1)=1/2$", () => {
-		expect(hypergeometricPmf(4, 3, 2, 1)).to.be.approximately(1 / 2, epsilon);
+	void it("should return $px(4,3,2,1)=1/2$", () => {
+		approximatelyEqual(hypergeometricPmf(4, 3, 2, 1), 1 / 2, epsilon);
 	});
 
-	it("should return $px(8,4,2,1)=4/7$", () => {
-		expect(hypergeometricPmf(8, 4, 2, 1)).to.be.approximately(4 / 7, epsilon);
+	void it("should return $px(8,4,2,1)=4/7$", () => {
+		approximatelyEqual(hypergeometricPmf(8, 4, 2, 1), 4 / 7, epsilon);
 	});
 
-	it("should return $px(60,4,7,1)=163982/487635$", () => {
-		expect(hypergeometricPmf(60, 4, 7, 1)).to.be.approximately(
+	void it("should return $px(60,4,7,1)=163982/487635$", () => {
+		approximatelyEqual(
+			hypergeometricPmf(60, 4, 7, 1),
 			163982 / 487635,
 			epsilon
 		);
 	});
 });
 
-describe("isPrime", () => {
-	it("should return `isPrime(0) = false`", () => {
-		expect(isPrime(0)).to.equal(false);
+void describe("isPrime", () => {
+	void it("should return `isPrime(0) = false`", () => {
+		ok(!isPrime(0));
 	});
 
-	it("should return `isPrime(1) = false`", () => {
-		expect(isPrime(1)).to.equal(false);
+	void it("should return `isPrime(1) = false`", () => {
+		ok(!isPrime(1));
 	});
 
-	it("should return `isPrime(2) = true`", () => {
-		expect(isPrime(2)).to.equal(true);
+	void it("should return `isPrime(2) = true`", () => {
+		ok(isPrime(2));
 	});
 
-	it("should return `isPrime(3) = true`", () => {
-		expect(isPrime(3)).to.equal(true);
+	void it("should return `isPrime(3) = true`", () => {
+		ok(isPrime(3));
 	});
 
-	it("should return `isPrime(4) = false`", () => {
-		expect(isPrime(4)).to.equal(false);
+	void it("should return `isPrime(4) = false`", () => {
+		ok(!isPrime(4));
 	});
 
-	it("should return `isPrime(67280421310721) = true`", () => {
-		expect(isPrime(67280421310721)).to.equal(true);
-	});
-});
-
-describe("permutations", () => {
-	it("should return $nPr(1,1)=1$", () => {
-		expect(permutations(1, 1)).to.equal(1);
+	void it("should return `isPrime(67280421310721) = true`", () => {
+		ok(isPrime(67280421310721));
 	});
 
-	it("should return $nPr(2,1)=2$", () => {
-		expect(permutations(2, 1)).to.equal(2);
-	});
-
-	it("should return $nPr(10,5)=30240$", () => {
-		expect(permutations(10, 5)).to.equal(30240);
+	void it("should return `isPrime(67280421310722) = false`", () => {
+		ok(!isPrime(67280421310722));
 	});
 });
 
-describe("primeFactorization", () => {
-	it("should return `primeFactorization(2) = [2]`", () => {
-		expect(primeFactorization(2)).to.have.members([2]);
+void describe("permutations", () => {
+	void it("should return $nPr(1,1)=1$", () => {
+		equal(permutations(1, 1), 1);
 	});
 
-	it("should return `primeFactorization(10) = [2, 5]`", () => {
-		expect(primeFactorization(10)).to.have.members([2, 5]);
+	void it("should return $nPr(2,1)=2$", () => {
+		equal(permutations(2, 1), 2);
 	});
 
-	it("should return `primeFactorization(100) = [2, 2, 5, 5]`", () => {
-		expect(primeFactorization(100)).to.have.members([2, 2, 5, 5]);
-	});
-
-	it("should return `primeFactorization(256) = [2, 2, 2, 2, 2, 2, 2, 2]`", () => {
-		expect(primeFactorization(256)).to.have.members([2, 2, 2, 2, 2, 2, 2, 2]);
-	});
-
-	it("should return `primeFactorization(499999) = [31, 127, 127]`", () => {
-		expect(primeFactorization(499999)).to.have.members([31, 127, 127]);
+	void it("should return $nPr(10,5)=30240$", () => {
+		equal(permutations(10, 5), 30240);
 	});
 });
 
-describe("radiansToDegrees", () => {
-	it("should return $0rad=0°$", () => {
-		expect(radiansToDegrees(0)).to.be.approximately(0, epsilon);
+void describe("primeFactorization", () => {
+	void it("should return `primeFactorization(2) = [2]`", () => {
+		deepEqual(primeFactorization(2), [2]);
 	});
 
-	it("should return $πrad=180°$", () => {
-		expect(radiansToDegrees(Math.PI)).to.be.approximately(180, epsilon);
+	void it("should return `primeFactorization(10) = [2, 5]`", () => {
+		deepEqual(primeFactorization(10), [2, 5]);
 	});
 
-	it("should return $5π/9rad=100°$", () => {
-		expect(radiansToDegrees((5 * Math.PI) / 9)).to.be.approximately(
-			100,
-			epsilon
+	void it("should return `primeFactorization(100) = [2, 2, 5, 5]`", () => {
+		deepEqual(primeFactorization(100), [2, 2, 5, 5]);
+	});
+
+	void it("should return `primeFactorization(256) = [2, 2, 2, 2, 2, 2, 2, 2]`", () => {
+		deepEqual(primeFactorization(256), [2, 2, 2, 2, 2, 2, 2, 2]);
+	});
+
+	void it("should return `primeFactorization(499999) = [31, 127, 127]`", () => {
+		deepEqual(primeFactorization(499999), [31, 127, 127]);
+	});
+});
+
+void describe("radiansToDegrees", () => {
+	void it("should return $0rad=0°$", () => {
+		approximatelyEqual(radiansToDegrees(0), 0, epsilon);
+	});
+
+	void it("should return $πrad=180°$", () => {
+		approximatelyEqual(radiansToDegrees(Math.PI), 180, epsilon);
+	});
+
+	void it("should return $5π/9rad=100°$", () => {
+		approximatelyEqual(radiansToDegrees((5 * Math.PI) / 9), 100, epsilon);
+	});
+});
+
+void describe("summation", () => {
+	void it("should return `summation(1, 4, (i) => i) = 10`", () => {
+		equal(
+			summation(1, 4, (i) => i),
+			10
 		);
 	});
-});
 
-describe("summation", () => {
-	it("should return `summation(1, 4, (i) => i) = 10`", () => {
-		expect(summation(1, 4, (i) => i)).to.equal(10);
+	void it("should return `summation(1, 100, (i) => i) = 5050`", () => {
+		equal(
+			summation(1, 100, (i) => i),
+			5050
+		);
 	});
 
-	it("should return `summation(1, 100, (i) => i) = 5050`", () => {
-		expect(summation(1, 100, (i) => i)).to.equal(5050);
-	});
-
-	it("should return `summation(1, 4, (i) => i * i) = 30`", () => {
-		expect(summation(1, 4, (i) => i * i)).to.equal(30);
+	void it("should return `summation(1, 4, (i) => i * i) = 30`", () => {
+		equal(
+			summation(1, 4, (i) => i * i),
+			30
+		);
 	});
 });
