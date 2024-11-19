@@ -24,7 +24,7 @@ jobs:
       - name: Test
         run: npm run test --if-present
       - name: Build Documentation
-        run: npm run doc
+        run: npm run doc --if-present
       - name: Upload Package Artifact
         uses: actions/upload-artifact@v4
         with:
