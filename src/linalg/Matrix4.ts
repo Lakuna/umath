@@ -173,7 +173,7 @@ export const fromRotation = <T extends Matrix4Like>(
 	let y = axis[1];
 	let z = axis[2];
 
-	let len = Math.hypot(x, y, z);
+	let len = Math.sqrt(x * x + y * y + z * z);
 	if (len === 0) {
 		throw new MagnitudeError();
 	}
@@ -736,7 +736,7 @@ export const lookAt = <T extends Matrix4Like>(
 	let z0 = eyex - centerx;
 	let z1 = eyey - centery;
 	let z2 = eyez - centerz;
-	let len = 1 / Math.hypot(z0, z1, z2);
+	let len = 1 / Math.sqrt(z0 * z0 + z1 * z1 + z2 * z2);
 	z0 *= len;
 	z1 *= len;
 	z2 *= len;
@@ -744,7 +744,7 @@ export const lookAt = <T extends Matrix4Like>(
 	let x0 = upy * z2 - upz * z1;
 	let x1 = upz * z0 - upx * z2;
 	let x2 = upx * z1 - upy * z0;
-	len = Math.hypot(x0, x1, x2);
+	len = Math.sqrt(x0 * x0 + x1 * x1 + x2 * x2);
 	if (len > 0) {
 		len = 1 / len;
 		x0 *= len;
@@ -759,7 +759,7 @@ export const lookAt = <T extends Matrix4Like>(
 	let y0 = z1 * x2 - z2 * x1;
 	let y1 = z2 * x0 - z0 * x2;
 	let y2 = z0 * x1 - z1 * x0;
-	len = Math.hypot(y0, y1, y2);
+	len = Math.sqrt(y0 * y0 + y1 * y1 + y2 * y2);
 	if (len > 0) {
 		len = 1 / len;
 		y0 *= len;
@@ -1174,23 +1174,40 @@ export const copy = <T extends Matrix4Like>(matrix: Matrix4Like, out: T): T => {
  * @see [Matrix norm](https://en.wikipedia.org/wiki/Matrix_norm)
  */
 export const frob = (matrix: Matrix4Like): number => {
-	return Math.hypot(
-		matrix[0],
-		matrix[1],
-		matrix[2],
-		matrix[3],
-		matrix[4],
-		matrix[5],
-		matrix[6],
-		matrix[7],
-		matrix[8],
-		matrix[9],
-		matrix[10],
-		matrix[11],
-		matrix[12],
-		matrix[13],
-		matrix[14],
-		matrix[15]
+	const a00 = matrix[0];
+	const a01 = matrix[1];
+	const a02 = matrix[2];
+	const a03 = matrix[3];
+	const a10 = matrix[4];
+	const a11 = matrix[5];
+	const a12 = matrix[6];
+	const a13 = matrix[7];
+	const a20 = matrix[8];
+	const a21 = matrix[9];
+	const a22 = matrix[10];
+	const a23 = matrix[11];
+	const a30 = matrix[12];
+	const a31 = matrix[13];
+	const a32 = matrix[14];
+	const a33 = matrix[15];
+
+	return Math.sqrt(
+		a00 * a00 +
+			a01 * a01 +
+			a02 * a02 +
+			a03 * a03 +
+			a10 * a10 +
+			a11 * a11 +
+			a12 * a12 +
+			a13 * a13 +
+			a20 * a20 +
+			a21 * a21 +
+			a22 * a22 +
+			a23 * a23 +
+			a30 * a30 +
+			a31 * a31 +
+			a32 * a32 +
+			a33 * a33
 	);
 };
 
@@ -1629,7 +1646,7 @@ export const rotate = <T extends Matrix4Like>(
 	let y = axis[1];
 	let z = axis[2];
 
-	let len = Math.hypot(x, y, z);
+	let len = Math.sqrt(x * x + y * y + z * z);
 	if (len < epsilon) {
 		return out;
 	}
@@ -1901,9 +1918,9 @@ export const getScaling = <T extends Vector3Like>(
 	const m32 = matrix[9];
 	const m33 = matrix[10];
 
-	out[0] = Math.hypot(m11, m12, m13);
-	out[1] = Math.hypot(m21, m22, m23);
-	out[2] = Math.hypot(m31, m32, m33);
+	out[0] = Math.sqrt(m11 * m11 + m12 * m12 + m13 * m13);
+	out[1] = Math.sqrt(m21 * m21 + m22 * m22 + m23 * m23);
+	out[2] = Math.sqrt(m31 * m31 + m32 * m32 + m33 * m33);
 	return out;
 };
 

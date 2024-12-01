@@ -312,7 +312,7 @@ export const distance = (a: Vector4Like, b: Vector4Like): number => {
 	const y = a[1] - b[1];
 	const z = a[2] - b[2];
 	const w = a[3] - b[3];
-	return Math.hypot(x, y, z, w);
+	return Math.sqrt(x * x + y * y + z * z + w * w);
 };
 
 /**
@@ -340,7 +340,7 @@ export const getMagnitude = (vector: Vector4Like): number => {
 	const y = vector[1];
 	const z = vector[2];
 	const w = vector[3];
-	return Math.hypot(x, y, z, w);
+	return Math.sqrt(x * x + y * y + z * z + w * w);
 };
 
 /**

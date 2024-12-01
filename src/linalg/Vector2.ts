@@ -270,7 +270,7 @@ export const scaleAndAdd = <T extends Vector2Like>(
 export const distance = (a: Vector2Like, b: Vector2Like): number => {
 	const x = b[0] - a[0];
 	const y = b[1] - a[1];
-	return Math.hypot(x, y);
+	return Math.sqrt(x * x + y * y);
 };
 
 /**
@@ -294,7 +294,7 @@ export const squaredDistance = (a: Vector2Like, b: Vector2Like): number => {
 export const getMagnitude = (vector: Vector2Like): number => {
 	const x = vector[0];
 	const y = vector[1];
-	return Math.hypot(x, y);
+	return Math.sqrt(x * x + y * y);
 };
 
 /**

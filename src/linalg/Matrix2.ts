@@ -184,7 +184,11 @@ export const copy = <T extends Matrix2Like>(matrix: Matrix2Like, out: T): T => {
  * @see [Matrix norm](https://en.wikipedia.org/wiki/Matrix_norm)
  */
 export const frob = (matrix: Matrix2Like): number => {
-	return Math.hypot(matrix[0], matrix[1], matrix[2], matrix[3]);
+	const a0 = matrix[0];
+	const a1 = matrix[1];
+	const a2 = matrix[2];
+	const a3 = matrix[3];
+	return Math.sqrt(a0 * a0 + a1 * a1 + a2 * a2 + a3 * a3);
 };
 
 /**

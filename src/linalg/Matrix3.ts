@@ -448,16 +448,26 @@ export const copy = <T extends Matrix3Like>(matrix: Matrix3Like, out: T): T => {
  * @see [Matrix norm](https://en.wikipedia.org/wiki/Matrix_norm)
  */
 export const frob = (matrix: Matrix3Like): number => {
-	return Math.hypot(
-		matrix[0],
-		matrix[1],
-		matrix[2],
-		matrix[3],
-		matrix[4],
-		matrix[5],
-		matrix[6],
-		matrix[7],
-		matrix[8]
+	const a00 = matrix[0];
+	const a01 = matrix[1];
+	const a02 = matrix[2];
+	const a10 = matrix[3];
+	const a11 = matrix[4];
+	const a12 = matrix[5];
+	const a20 = matrix[6];
+	const a21 = matrix[7];
+	const a22 = matrix[8];
+
+	return Math.sqrt(
+		a00 * a00 +
+			a01 * a01 +
+			a02 * a02 +
+			a10 * a10 +
+			a11 * a11 +
+			a12 * a12 +
+			a20 * a20 +
+			a21 * a21 +
+			a22 * a22
 	);
 };
 

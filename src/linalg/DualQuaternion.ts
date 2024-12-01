@@ -537,14 +537,17 @@ export const rotateAroundAxis = <T extends DualQuaternionLike>(
 		return copy(dualQuaternion, out);
 	}
 
-	const axisLength = Math.hypot(axis[0], axis[1], axis[2]);
+	const ax = axis[0];
+	const ay = axis[1];
+	const az = axis[2];
+	const axisLength = Math.sqrt(ax * ax + ay * ay + az * az);
 
 	const r = radians * 0.5;
 
 	const s = Math.sin(r);
-	const bx = (s * axis[0]) / axisLength;
-	const by = (s * axis[1]) / axisLength;
-	const bz = (s * axis[2]) / axisLength;
+	const bx = (s * ax) / axisLength;
+	const by = (s * ay) / axisLength;
+	const bz = (s * az) / axisLength;
 	const bw = Math.cos(r);
 
 	let x = dualQuaternion[0];
