@@ -42,3 +42,5 @@ const c = multiply(a, b, [0, 0, 0, 0]);
 ```
 
 You can compare the performance of the raw functions versus the convenience classes on jsPerf.app [here](https://jsperf.app/qubahu/2).
+
+The majority of the algorithms used in the linear algebra API are adapted from [glMatrix](https://github.com/toji/gl-matrix/).
