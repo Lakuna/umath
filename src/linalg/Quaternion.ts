@@ -617,7 +617,6 @@ export const getAxisAngle = <T extends AxisAngle>(
 	const r = Math.acos(quaternion[3]) * 2;
 	const s = Math.sin(r / 2);
 
-	// TODO: Does importing `vector3FromValues` make a circular dependency?
 	if (s > epsilon) {
 		vector3FromValues(
 			quaternion[0] / s,
