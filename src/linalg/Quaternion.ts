@@ -1059,7 +1059,7 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 		x: number,
 		out: T = new Quaternion() as Quaternion & T
 	): T {
-		return fromEuler(x, y, z, out);
+		return fromEuler(z, y, x, out);
 	}
 
 	/**
