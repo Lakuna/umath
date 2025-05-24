@@ -250,7 +250,7 @@ export const fromMatrix3 = <T extends QuaternionLike>(
 const ratio = Math.PI / 360;
 
 /**
- * Create a quaternion from equivalent x-y'-z" (intrinsic) Tait-Bryan angles
+ * Create a quaternion from equivalent x-y'-z" (intrinsic) Tait-Bryan angles.
  * @param x - The X angle in degrees.
  * @param y - The Y angle in degrees.
  * @param z - The Z angle in degrees.
@@ -291,7 +291,7 @@ export const fromEulerXyz = <T extends QuaternionLike>(
 };
 
 /**
- * Create a quaternion from equivalent x-z'-y" (intrinsic) Tait-Bryan angles
+ * Create a quaternion from equivalent x-z'-y" (intrinsic) Tait-Bryan angles.
  * @param x - The X angle in degrees.
  * @param z - The Z angle in degrees.
  * @param y - The Y angle in degrees.
@@ -332,7 +332,7 @@ export const fromEulerXzy = <T extends QuaternionLike>(
 };
 
 /**
- * Create a quaternion from equivalent y-x'-z" (intrinsic) Tait-Bryan angles
+ * Create a quaternion from equivalent y-x'-z" (intrinsic) Tait-Bryan angles.
  * @param y - The Y angle in degrees.
  * @param x - The X angle in degrees.
  * @param z - The Z angle in degrees.
@@ -373,7 +373,7 @@ export const fromEulerYxz = <T extends QuaternionLike>(
 };
 
 /**
- * Create a quaternion from equivalent y-z'-x" (intrinsic) Tait-Bryan angles
+ * Create a quaternion from equivalent y-z'-x" (intrinsic) Tait-Bryan angles.
  * @param y - The Y angle in degrees.
  * @param z - The Z angle in degrees.
  * @param x - The X angle in degrees.
@@ -414,7 +414,7 @@ export const fromEulerYzx = <T extends QuaternionLike>(
 };
 
 /**
- * Create a quaternion from equivalent z-x'-y" (intrinsic) Tait-Bryan angles
+ * Create a quaternion from equivalent z-x'-y" (intrinsic) Tait-Bryan angles.
  * @param z - The Z angle in degrees.
  * @param x - The X angle in degrees.
  * @param y - The Y angle in degrees.
@@ -455,7 +455,7 @@ export const fromEulerZxy = <T extends QuaternionLike>(
 };
 
 /**
- * Create a quaternion from equivalent z-y'-x" (intrinsic) Tait-Bryan angles
+ * Create a quaternion from equivalent z-y'-x" (intrinsic) Tait-Bryan angles.
  * @param z - The Z angle (yaw) in degrees.
  * @param y - The Y angle (pitch) in degrees.
  * @param x - The X angle (roll) in degrees.
@@ -496,7 +496,7 @@ export const fromEulerZyx = <T extends QuaternionLike>(
 };
 
 /**
- * Create a quaternion from equivalent z-y'-x" (intrinsic) Tait-Bryan angles
+ * Create a quaternion from equivalent z-y'-x" (intrinsic) Tait-Bryan angles.
  * @param z - The Z angle (roll) in degrees.
  * @param y - The Y angle (pitch) in degrees.
  * @param x - The X angle (yaw) in degrees.
@@ -1045,18 +1045,18 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	}
 
 	/**
-	 * Create a quaternion from equivalent x-y-z Tait-Bryan angles
-	 * @param x - The x angle.
-	 * @param y - The y angle.
-	 * @param z - The z angle.
+	 * Create a quaternion from equivalent z-y'-x" (intrinsic) Tait-Bryan angles.
+	 * @param z - The z (roll) angle.
+	 * @param y - The y (pitch) angle.
+	 * @param x - The x (yaw) angle.
 	 * @param out - The quaternion to store the result in.
 	 * @returns The quaternion.
 	 * @see {@link https://en.wikipedia.org/wiki/Euler_angles | Euler angles}
 	 */
 	public static fromEuler<T extends QuaternionLike = Quaternion>(
-		x: number,
-		y: number,
 		z: number,
+		y: number,
+		x: number,
 		out: T = new Quaternion() as Quaternion & T
 	): T {
 		return fromEuler(x, y, z, out);
