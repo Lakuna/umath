@@ -5,14 +5,27 @@ import epsilon from "../dist/utility/epsilon.js";
 import { notEqual } from "node:assert";
 
 const approximatelyEqual = (actual, expected, delta = epsilon) => {
+	if (actual === expected) {
+		return;
+	}
+
 	ok(typeof actual === "number");
 	ok(typeof expected === "number");
+
 	ok(Math.abs(actual - expected) < delta);
 };
 
 const approximatelyEqualIterable = (actual, expected, delta = epsilon) => {
+	if (actual === expected) {
+		return;
+	}
+
+	ok(typeof actual === "object");
+	ok(typeof expected === "object");
+
 	ok(Symbol.iterator in actual);
 	ok(Symbol.iterator in expected);
+
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 	equal(actual.length, expected.length);
 
@@ -24,10 +37,15 @@ const approximatelyEqualIterable = (actual, expected, delta = epsilon) => {
 };
 
 const approximatelyEqualObject = (actual, expected, delta = epsilon) => {
+	if (actual === expected) {
+		return;
+	}
+
 	ok(typeof actual === "object");
 	ok(typeof expected === "object");
 
-	if (actual === expected) {
+	if (Symbol.iterator in actual) {
+		approximatelyEqualIterable(actual, expected, delta);
 		return;
 	}
 
@@ -60,7 +78,7 @@ const approximatelyEqualObject = (actual, expected, delta = epsilon) => {
 };
 
 void describe("getAxisAngle", () => {
-	void it("should return `inn = out", () => {
+	void it("should return `inn = out`", () => {
 		const inn = { angle: Math.PI / 4, axis: [0, 1, 1] };
 		const q = setAxisAngle(inn, []);
 		const out = getAxisAngle(q, { angle: 0, axis: [] });

@@ -14,8 +14,13 @@ import radiansToDegrees from "../dist/algorithms/radiansToDegrees.js";
 import summation from "../dist/algorithms/summation.js";
 
 const approximatelyEqual = (actual, expected, delta = epsilon) => {
+	if (actual === expected) {
+		return;
+	}
+
 	ok(typeof actual === "number");
 	ok(typeof expected === "number");
+
 	ok(Math.abs(actual - expected) < delta);
 };
 
