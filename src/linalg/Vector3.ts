@@ -138,6 +138,21 @@ export const subtract = <T extends Vector3Like>(
 ): T => fromValues(a[0] - b[0], a[1] - b[1], a[2] - b[2], out);
 
 /**
+ * Absolutize the components of a vector.
+ * @param vector - The vector.
+ * @param out - The vector to store the result in.
+ * @returns The absolutized vector.
+ * @public
+ */
+export const abs = <T extends Vector3Like>(vector: Vector3Like, out: T): T =>
+	fromValues(
+		Math.abs(vector[0]),
+		Math.abs(vector[1]),
+		Math.abs(vector[2]),
+		out
+	);
+
+/**
  * Round up the components of a vector.
  * @param vector - The vector.
  * @param out - The vector to store the result in.
@@ -886,6 +901,17 @@ export default class Vector3
 		out: T = new Vector3() as Vector3 & T
 	): T {
 		return subtract(this, vector, out);
+	}
+
+	/**
+	 * Absolutize the components of this vector.
+	 * @param out - The vector to store the result in.
+	 * @returns The absolutized vector.
+	 */
+	public abs<T extends Vector3Like = Vector3>(
+		out: T = new Vector3() as Vector3 & T
+	): T {
+		return abs(this, out);
 	}
 
 	/**
