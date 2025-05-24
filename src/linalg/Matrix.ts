@@ -1,11 +1,15 @@
 import type { Matrix4Like } from "./Matrix4.js";
 
-/** An object that could be interpreted as a matrix. */
+/**
+ * An object that could be interpreted as a matrix.
+ * @public
+ */
 export type MatrixLike = Record<number, number>;
 
 /**
  * A rectangular array of numbers, arranged in rows and columns.
- * @see [Matrix](https://en.wikipedia.org/wiki/Matrix_(mathematics))
+ * @see {@link https://en.wikipedia.org/wiki/Matrix_(mathematics) | Matrix}
+ * @public
  */
 export default interface Matrix extends MatrixLike {
 	/** The number of rows in this matrix. */
@@ -16,7 +20,7 @@ export default interface Matrix extends MatrixLike {
 
 	/**
 	 * Get the Frobenius norm of this matrix.
-	 * @see [Matrix norm](https://en.wikipedia.org/wiki/Matrix_norm)
+	 * @see {@link https://en.wikipedia.org/wiki/Matrix_norm | Matrix norm}
 	 */
 	get frob(): number;
 
@@ -24,7 +28,7 @@ export default interface Matrix extends MatrixLike {
 	 * Add two matrices of the same size.
 	 * @param matrix - The other matrix.
 	 * @returns The sum of the matrices.
-	 * @see [Matrix addition](https://en.wikipedia.org/wiki/Matrix_addition)
+	 * @see {@link https://en.wikipedia.org/wiki/Matrix_addition | Matrix addition}
 	 */
 	add(matrix: Matrix4Like): MatrixLike;
 
@@ -59,7 +63,7 @@ export default interface Matrix extends MatrixLike {
 	 * Multiply this matrix by another.
 	 * @param matrix - The other matrix.
 	 * @returns The product of the matrices.
-	 * @see [Matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication)
+	 * @see {@link https://en.wikipedia.org/wiki/Matrix_multiplication | Matrix multiplication}
 	 */
 	multiply(matrix: Matrix4Like): MatrixLike;
 
@@ -67,7 +71,7 @@ export default interface Matrix extends MatrixLike {
 	 * Multiply this matrix by a scalar value.
 	 * @param scalar - The scalar value.
 	 * @returns The product of the matrix and the scalar value.
-	 * @see [Matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication)
+	 * @see {@link https://en.wikipedia.org/wiki/Matrix_multiplication | Matrix multiplication}
 	 */
 	multiplyScalar(scalar: number): MatrixLike;
 
@@ -76,8 +80,8 @@ export default interface Matrix extends MatrixLike {
 	 * @param matrix - The other matrix.
 	 * @param scalar - The scalar.
 	 * @returns The sum.
-	 * @see [Matrix addition](https://en.wikipedia.org/wiki/Matrix_addition)
-	 * @see [Matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication)
+	 * @see {@link https://en.wikipedia.org/wiki/Matrix_addition | Matrix addition}
+	 * @see {@link https://en.wikipedia.org/wiki/Matrix_multiplication | Matrix multiplication}
 	 */
 	multiplyScalarAndAdd(matrix: Matrix4Like, scalar: number): MatrixLike;
 
@@ -85,14 +89,14 @@ export default interface Matrix extends MatrixLike {
 	 * Subtract another matrix from this one.
 	 * @param matrix - The other matrix.
 	 * @returns The difference between the matrices.
-	 * @see [Matrix addition](https://en.wikipedia.org/wiki/Matrix_addition)
+	 * @see {@link https://en.wikipedia.org/wiki/Matrix_addition | Matrix addition}
 	 */
 	subtract(matrix: Matrix4Like): MatrixLike;
 
 	/**
 	 * Transpose this matrix.
 	 * @returns The transpose of this matrix.
-	 * @see [Transpose](https://en.wikipedia.org/wiki/Transpose)
+	 * @see {@link https://en.wikipedia.org/wiki/Transpose | Transpose}
 	 */
 	transpose(): MatrixLike;
 }

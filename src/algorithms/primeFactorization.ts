@@ -2,7 +2,8 @@
  * Factor a number into a list of prime numbers.
  * @param n - The number to factor.
  * @returns A list of prime number factors of the number.
- * @see [Integer factorization](https://en.wikipedia.org/wiki/Integer_factorization)
+ * @see {@link https://en.wikipedia.org/wiki/Integer_factorization | Integer factorization}
+ * @public
  */
 export default function primeFactorization(n: number): number[] {
 	let m = n;

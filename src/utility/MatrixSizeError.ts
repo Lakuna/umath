@@ -1,4 +1,7 @@
-/** An error resulting from trying to use a matrix that is the wrong size. */
+/**
+ * An error resulting from trying to use a matrix that is the wrong size.
+ * @public
+ */
 export default class PartialMatrixError extends Error {
 	/**
 	 * Create an error resulting from trying to use a matrix that is the wrong size.

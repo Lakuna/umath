@@ -1,11 +1,15 @@
 import type { Vector4Like } from "./Vector4.js";
 
-/** An object that could be interpreted as a vector. */
+/**
+ * An object that could be interpreted as a vector.
+ * @public
+ */
 export type VectorLike = Record<number, number>;
 
 /**
  * A quantity with magnitude and direction.
- * @see [Wikipedia](https://en.wikipedia.org/wiki/Euclidean_vector)
+ * @see {@link https://en.wikipedia.org/wiki/Euclidean_vector | Euclidean vector}
+ * @public
  */
 export default interface Vector extends VectorLike {
 	/**
@@ -145,7 +149,7 @@ export default interface Vector extends VectorLike {
 	/**
 	 * Normalize this vector.
 	 * @returns The normalized vector.
-	 * @see [Unit vector](https://en.wikipedia.org/wiki/Unit_vector)
+	 * @see {@link https://en.wikipedia.org/wiki/Unit_vector | Unit vector}
 	 */
 	normalize(): VectorLike;
 
@@ -153,7 +157,7 @@ export default interface Vector extends VectorLike {
 	 * Calculate the dot product of this and another vector.
 	 * @param vector - The other vector.
 	 * @returns The dot product.
-	 * @see [Dot product](https://en.wikipedia.org/wiki/Dot_product)
+	 * @see {@link https://en.wikipedia.org/wiki/Dot_product | Dot product}
 	 */
 	dot(vector: Vector4Like): number;
 

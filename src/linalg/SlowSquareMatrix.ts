@@ -5,7 +5,8 @@ import type SquareMatrix from "./SquareMatrix.js";
 
 /**
  * A variable-size matrix with the same number of rows and columns.
- * @see [Square matrix](https://en.wikipedia.org/wiki/Square_matrix)
+ * @see {@link https://en.wikipedia.org/wiki/Square_matrix | Square matrix}
+ * @public
  */
 export default class SlowSquareMatrix
 	extends SlowMatrix
@@ -14,7 +15,7 @@ export default class SlowSquareMatrix
 	/**
 	 * Create a variable-size matrix with the same number of rows and columns from the given columns.
 	 * @param cols - The columns in the matrix.
-	 * @see [Square matrix](https://en.wikipedia.org/wiki/Square_matrix)
+	 * @see {@link https://en.wikipedia.org/wiki/Square_matrix | Square matrix}
 	 */
 	public constructor(...cols: number[][]) {
 		super(...cols);
@@ -30,7 +31,7 @@ export default class SlowSquareMatrix
 
 	/**
 	 * Get the determinant of this matrix.
-	 * @see [Determinant](https://en.wikipedia.org/wiki/Determinant)
+	 * @see {@link https://en.wikipedia.org/wiki/Determinant | Determinant}
 	 */
 	public get determinant(): number {
 		if (this.length < 1) {
@@ -56,7 +57,7 @@ export default class SlowSquareMatrix
 	/**
 	 * Calculate the adjugate of this matrix.
 	 * @returns The adjugate of this matrix.
-	 * @see [Adjugate matrix](https://en.wikipedia.org/wiki/Adjugate_matrix)
+	 * @see {@link https://en.wikipedia.org/wiki/Adjugate_matrix | Adjugate matrix}
 	 */
 	public adjoint(): SlowSquareMatrix {
 		return this.cofactor().transpose();
@@ -84,7 +85,7 @@ export default class SlowSquareMatrix
 	/**
 	 * Calculate the cofactor of this matrix.
 	 * @returns The cofactor.
-	 * @see [Minor](https://en.wikipedia.org/wiki/Minor_(linear_algebra))
+	 * @see {@link https://en.wikipedia.org/wiki/Minor_(linear_algebra) | Minor}
 	 */
 	public cofactor(): SlowSquareMatrix {
 		const out: number[][] = [];
@@ -102,7 +103,7 @@ export default class SlowSquareMatrix
 	/**
 	 * Reset this matrix to identity.
 	 * @returns This matrix.
-	 * @see [Identity matrix](https://en.wikipedia.org/wiki/Identity_matrix)
+	 * @see {@link https://en.wikipedia.org/wiki/Identity_matrix | Identity matrix}
 	 */
 	public identity(): this {
 		for (let i = 0; i < this.width; i++) {
@@ -117,7 +118,7 @@ export default class SlowSquareMatrix
 	/**
 	 * Invert this matrix.
 	 * @returns The inverted matrix.
-	 * @see [Invertible matrix](https://en.wikipedia.org/wiki/Invertible_matrix)
+	 * @see {@link https://en.wikipedia.org/wiki/Invertible_matrix | Invertible matrix}
 	 */
 	public invert(): SlowSquareMatrix {
 		const dim = this.width;
@@ -188,7 +189,7 @@ export default class SlowSquareMatrix
 	 * @param row - The row to remove.
 	 * @param col - The column to remove.
 	 * @returns The minor.
-	 * @see [Minor](https://en.wikipedia.org/wiki/Minor_(linear_algebra))
+	 * @see {@link https://en.wikipedia.org/wiki/Minor_(linear_algebra) | Minor}
 	 */
 	public minor(row: number, col: number): number {
 		return this.submatrix(row, col).determinant;
@@ -228,7 +229,7 @@ export default class SlowSquareMatrix
 	/**
 	 * Transpose this matrix.
 	 * @returns The transpose of this matrix.
-	 * @see [Transpose](https://en.wikipedia.org/wiki/Transpose)
+	 * @see {@link https://en.wikipedia.org/wiki/Transpose | Transpose}
 	 */
 	public override transpose(): SlowSquareMatrix {
 		const cols: number[][] = [];

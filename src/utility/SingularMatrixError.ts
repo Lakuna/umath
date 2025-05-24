@@ -1,6 +1,7 @@
 /**
  * An error resulting from trying to invert a singular matrix.
- * @see [Invertible matrix](https://en.wikipedia.org/wiki/Invertible_matrix)
+ * @see {@link https://en.wikipedia.org/wiki/Invertible_matrix | Invertible matrix}
+ * @public
  */
 export default class SingularMatrixError extends Error {
 	/**

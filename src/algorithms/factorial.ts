@@ -2,7 +2,8 @@
  * Calculate the factorial of a number.
  * @param n - The number.
  * @returns The factorial.
- * @see [Factorial](https://en.wikipedia.org/wiki/Factorial)
+ * @see {@link https://en.wikipedia.org/wiki/Factorial | Factorial}
+ * @public
  */
 export default function factorial(n: number): number {
 	if (n < 0) {
@@ -14,5 +15,6 @@ export default function factorial(n: number): number {
 	for (let i = 2; i <= n; i++) {
 		out *= i;
 	}
+
 	return out;
 }

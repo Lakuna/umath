@@ -1,4 +1,7 @@
-/** An error resulting from using a vector that is too small or too large. */
+/**
+ * An error resulting from using a vector that is too small or too large.
+ * @public
+ */
 export default class MagnitudeError extends Error {
 	/**
 	 * Create an error resulting from using a vector that is too small or too large.

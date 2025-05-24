@@ -5,7 +5,8 @@ import epsilon from "../utility/epsilon.js";
 
 /**
  * A variable-size matrix.
- * @see [Matrix](https://en.wikipedia.org/wiki/Matrix_(mathematics))
+ * @see {@link https://en.wikipedia.org/wiki/Matrix_(mathematics) | Matrix}
+ * @public
  */
 export default class SlowMatrix extends Float32Array implements Matrix {
 	/**
@@ -41,7 +42,7 @@ export default class SlowMatrix extends Float32Array implements Matrix {
 
 	/**
 	 * Get the Frobenius norm of this matrix.
-	 * @see [Matrix norm](https://en.wikipedia.org/wiki/Matrix_norm)
+	 * @see {@link https://en.wikipedia.org/wiki/Matrix_norm | Matrix norm}
 	 */
 	public get frob(): number {
 		return Math.hypot(...this);
@@ -51,7 +52,7 @@ export default class SlowMatrix extends Float32Array implements Matrix {
 	 * Add two matrices of the same size.
 	 * @param matrix - The other matrix.
 	 * @returns The sum of the matrices.
-	 * @see [Matrix addition](https://en.wikipedia.org/wiki/Matrix_addition)
+	 * @see {@link https://en.wikipedia.org/wiki/Matrix_addition | Matrix addition}
 	 */
 	public add(matrix: MatrixLike): SlowMatrix {
 		const matrixWidth = "width" in matrix ? (matrix.width as number) : 1;
@@ -170,7 +171,7 @@ export default class SlowMatrix extends Float32Array implements Matrix {
 	 * Multiply this matrix by another.
 	 * @param matrix - The other matrix.
 	 * @returns The product of the matrices.
-	 * @see [Matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication)
+	 * @see {@link https://en.wikipedia.org/wiki/Matrix_multiplication | Matrix multiplication}
 	 */
 	public multiply(matrix: MatrixLike): SlowMatrix {
 		const matrixWidth = "width" in matrix ? (matrix.width as number) : 1;
@@ -206,7 +207,7 @@ export default class SlowMatrix extends Float32Array implements Matrix {
 	 * Multiply this matrix by a scalar value.
 	 * @param scalar - The scalar value.
 	 * @returns The product of the matrix and the scalar value.
-	 * @see [Matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication)
+	 * @see {@link https://en.wikipedia.org/wiki/Matrix_multiplication | Matrix multiplication}
 	 */
 	public multiplyScalar(scalar: number): SlowMatrix {
 		const out = this.clone();
@@ -226,8 +227,8 @@ export default class SlowMatrix extends Float32Array implements Matrix {
 	 * @param matrix - The other matrix.
 	 * @param scalar - The scalar.
 	 * @returns The sum.
-	 * @see [Matrix addition](https://en.wikipedia.org/wiki/Matrix_addition)
-	 * @see [Matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication)
+	 * @see {@link https://en.wikipedia.org/wiki/Matrix_addition | Matrix addition}
+	 * @see {@link https://en.wikipedia.org/wiki/Matrix_multiplication | Matrix multiplication}
 	 */
 	public multiplyScalarAndAdd(matrix: MatrixLike, scalar: number): SlowMatrix {
 		if (!("multiplyScalar" in matrix)) {
@@ -242,7 +243,7 @@ export default class SlowMatrix extends Float32Array implements Matrix {
 	 * Subtract another matrix from this one.
 	 * @param matrix - The other matrix.
 	 * @returns The difference between the matrices.
-	 * @see [Matrix addition](https://en.wikipedia.org/wiki/Matrix_addition)
+	 * @see {@link https://en.wikipedia.org/wiki/Matrix_addition | Matrix addition}
 	 */
 	public subtract(matrix: MatrixLike): SlowMatrix {
 		const matrixWidth = "width" in matrix ? (matrix.width as number) : 1;
@@ -269,7 +270,7 @@ export default class SlowMatrix extends Float32Array implements Matrix {
 	/**
 	 * Transpose this matrix.
 	 * @returns The transpose of this matrix.
-	 * @see [Transpose](https://en.wikipedia.org/wiki/Transpose)
+	 * @see {@link https://en.wikipedia.org/wiki/Transpose | Transpose}
 	 */
 	public transpose(): SlowMatrix {
 		const cols: number[][] = [];

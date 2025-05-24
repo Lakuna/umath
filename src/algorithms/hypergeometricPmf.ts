@@ -6,8 +6,9 @@ import combinations from "./combinations.js";
  * @param K - The number of objects with the desired feature in the finite population.
  * @param n - The number of draws without replacement.
  * @param k - The desired number of successes.
- * @see [Hypergeometric distribution](https://en.wikipedia.org/wiki/Hypergeometric_distribution)
- * @see [Probability mass function](https://en.wikipedia.org/wiki/Probability_mass_function)
+ * @see {@link https://en.wikipedia.org/wiki/Hypergeometric_distribution | Hypergeometric distribution}
+ * @see {@link https://en.wikipedia.org/wiki/Probability_mass_function | Probability mass function}
+ * @public
  */
 export default function hypergeometricPmf(
 	N: number,

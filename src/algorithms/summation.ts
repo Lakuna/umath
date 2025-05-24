@@ -4,7 +4,8 @@
  * @param max - The upper bound (inclusive) of the index of summation.
  * @param term - The function used to generate each term.
  * @returns The sum.
- * @see [Summation](https://en.wikipedia.org/wiki/Summation)
+ * @see {@link https://en.wikipedia.org/wiki/Summation | Summation}
+ * @public
  */
 export default function summation(
 	min: number,

@@ -1,25 +1,32 @@
 import {
 	type Matrix4Like,
-	getRotation as getMatrix4Rotation,
-	getTranslation as getMatrix4Translation
+	getScaling as matrix4GetScaling
 } from "./Matrix4.js";
 import Quaternion, {
 	type QuaternionLike,
-	createQuaternionLike,
 	rotateX as quaternionRotateX,
 	rotateY as quaternionRotateY,
 	rotateZ as quaternionRotateZ
 } from "./Quaternion.js";
-import Vector3, { type Vector3Like, createVector3Like } from "./Vector3.js";
+import Vector3, {
+	type Vector3Like,
+	createVector3Like,
+	fromValues as vector3FromValues
+} from "./Vector3.js";
 import {
-	dot,
-	getMagnitude,
-	getSquaredMagnitude,
-	copy as xetReal
+	copy as vector4Copy,
+	dot as vector4Dot,
+	fromValues as vector4FromValues,
+	getMagnitude as vector4GetMagnitude,
+	getSquaredMagnitude as vector4GetSquaredMagnitude
 } from "./Vector4.js";
+import approxRelative from "../algorithms/approxRelative.js";
 import epsilon from "../utility/epsilon.js";
 
-/** A complex number that is commonly used to describe transformations. */
+/**
+ * A complex number that is commonly used to describe transformations.
+ * @public
+ */
 export interface DualQuaternionLike extends Record<number, number> {
 	/** The first real component of this dual quaternion. */
 	0: number;
@@ -49,8 +56,10 @@ export interface DualQuaternionLike extends Record<number, number> {
 /**
  * Create a dual quaternion-like object.
  * @returns A dual quaternion-like object.
+ * @public
  */
-export const createDualQuaternionLike = () => {
+export const createDualQuaternionLike = (): Float32Array &
+	DualQuaternionLike => {
 	return new Float32Array(8) as Float32Array & DualQuaternionLike;
 };
 
@@ -66,6 +75,7 @@ export const createDualQuaternionLike = () => {
  * @param w2 - The fourth dual component.
  * @param out - The dual quaternion to store the result in.
  * @returns A new dual quaternion.
+ * @public
  */
 export const fromValues = <T extends DualQuaternionLike>(
 	x1: number,
@@ -94,28 +104,31 @@ export const fromValues = <T extends DualQuaternionLike>(
  * @param dualQuaternion - The dual quaternion to copy.
  * @param out - The dual quaternion to store the result in.
  * @returns The copy.
+ * @public
  */
 export const copy = <T extends DualQuaternionLike>(
 	dualQuaternion: DualQuaternionLike,
 	out: T
-): T => {
-	out[0] = dualQuaternion[0];
-	out[1] = dualQuaternion[1];
-	out[2] = dualQuaternion[2];
-	out[3] = dualQuaternion[3];
-	out[4] = dualQuaternion[4];
-	out[5] = dualQuaternion[5];
-	out[6] = dualQuaternion[6];
-	out[7] = dualQuaternion[7];
-	return out;
-};
+): T =>
+	fromValues(
+		dualQuaternion[0],
+		dualQuaternion[1],
+		dualQuaternion[2],
+		dualQuaternion[3],
+		dualQuaternion[4],
+		dualQuaternion[5],
+		dualQuaternion[6],
+		dualQuaternion[7],
+		out
+	);
 
 /**
- * Create a dual quaternion from the given quaternion and translation.
- * @param quaternion - The quaternion.
- * @param translation - The translation.
+ * Create a dual quaternion from the given rotation and translation.
+ * @param quaternion - The rotation quaternion.
+ * @param translation - The translation vector.
  * @param out - The dual quaternion to store the result in.
  * @returns The dual quaternion.
+ * @public
  */
 export const fromRotationTranslation = <T extends DualQuaternionLike>(
 	quaternion: QuaternionLike,
@@ -127,80 +140,148 @@ export const fromRotationTranslation = <T extends DualQuaternionLike>(
 	const z = quaternion[2];
 	const w = quaternion[3];
 
-	const ax = translation[0] * 0.5;
-	const ay = translation[1] * 0.5;
-	const az = translation[2] * 0.5;
+	const ax = translation[0] / 2;
+	const ay = translation[1] / 2;
+	const az = translation[2] / 2;
 
-	out[0] = x;
-	out[1] = y;
-	out[2] = z;
-	out[3] = w;
-	out[4] = ax * w + ay * z - az * y;
-	out[5] = ay * w + az * x - ax * z;
-	out[6] = az * w + ax * y - ay * x;
-	out[7] = -ax * x - ay * y - az * z;
-	return out;
+	return fromValues(
+		x,
+		y,
+		z,
+		w,
+		ax * w + ay * z - az * y,
+		ay * w + az * x - ax * z,
+		az * w + ax * y - ay * x,
+		-ax * x - ay * y - az * z,
+		out
+	);
 };
 
 /**
  * Create a dual quaternion from the given translation.
- * @param translation - The translation.
+ * @param translation - The translation vector.
  * @param out - The dual quaternion to store the result in.
  * @returns The dual quaternion.
+ * @public
  */
 export const fromTranslation = <T extends DualQuaternionLike>(
 	translation: Vector3Like,
 	out: T
-): T => {
-	out[0] = 0;
-	out[1] = 0;
-	out[2] = 0;
-	out[3] = 1;
-	out[4] = translation[0] * 0.5;
-	out[5] = translation[1] * 0.5;
-	out[6] = translation[2] * 0.5;
-	out[7] = 0;
-	return out;
-};
+): T =>
+	fromValues(
+		0,
+		0,
+		0,
+		1,
+		translation[0] / 2,
+		translation[1] / 2,
+		translation[2] / 2,
+		0,
+		out
+	);
 
 /**
- * Create a dual quaternion from the given quaternion.
- * @param quaternion - The quaternion.
+ * Create a dual quaternion from the given rotation.
+ * @param quaternion - The rotation quaternion.
  * @param out - The dual quaternion to store the result in.
  * @returns The dual quaternion.
+ * @public
  */
 export const fromRotation = <T extends DualQuaternionLike>(
 	quaternion: QuaternionLike,
 	out: T
-): T => {
-	out[0] = quaternion[0];
-	out[1] = quaternion[1];
-	out[2] = quaternion[2];
-	out[3] = quaternion[3];
-	out[4] = 0;
-	out[5] = 0;
-	out[6] = 0;
-	out[7] = 0;
-	return out;
-};
+): T =>
+	fromValues(
+		quaternion[0],
+		quaternion[1],
+		quaternion[2],
+		quaternion[3],
+		0,
+		0,
+		0,
+		0,
+		out
+	);
 
 // Used to store intermediary values for some functions.
-const rotation = createQuaternionLike();
-const translation = createVector3Like();
+const iv3 = createVector3Like();
 
 /**
- * Create a dual quaternion from the given four-by-four matrix.
+ * Create a dual quaternion from the given four-by-four matrix. Equivalent to (but faster than) `fromRotationTranslation(getRotation(matrix, createQuaternionLike()), getTranslation(matrix, createVector3Like()), out)`.
  * @param matrix - The matrix.
  * @param out - The dual quaternion to store the result in.
  * @returns The dual quaternion.
+ * @public
  */
 export const fromMatrix4 = <T extends DualQuaternionLike>(
 	matrix: Matrix4Like,
 	out: T
 ): T => {
-	return fromRotationTranslation(
-		getMatrix4Rotation(matrix, rotation),
-		getMatrix4Translation(matrix, translation),
+	matrix4GetScaling(matrix, iv3);
+
+	const is1 = 1 / iv3[0];
+	const is2 = 1 / iv3[1];
+	const is3 = 1 / iv3[2];
+
+	const sm11 = matrix[0] * is1;
+	const sm12 = matrix[1] * is2;
+	const sm13 = matrix[2] * is3;
+	const sm21 = matrix[4] * is1;
+	const sm22 = matrix[5] * is2;
+	const sm23 = matrix[6] * is3;
+	const sm31 = matrix[8] * is1;
+	const sm32 = matrix[9] * is2;
+	const sm33 = matrix[10] * is3;
+
+	const trace = sm11 + sm22 + sm33;
+
+	// eslint-disable-next-line init-declarations
+	let x;
+	// eslint-disable-next-line init-declarations
+	let y;
+	// eslint-disable-next-line init-declarations
+	let z;
+	// eslint-disable-next-line init-declarations
+	let w;
+	if (trace > 0) {
+		const s = Math.sqrt(trace + 1) * 2;
+		x = (sm23 - sm32) / s;
+		y = (sm31 - sm13) / s;
+		z = (sm12 - sm21) / s;
+		w = 0.25 * s;
+	} else if (sm11 > sm22 && sm11 > sm33) {
+		const s = Math.sqrt(1 + sm11 - sm22 - sm33) * 2;
+		x = 0.25 * s;
+		y = (sm12 + sm21) / s;
+		z = (sm31 + sm13) / s;
+		w = (sm23 - sm32) / s;
+	} else if (sm22 > sm33) {
+		const s = Math.sqrt(1 + sm22 - sm11 - sm33) * 2;
+		x = (sm12 + sm21) / s;
+		y = 0.25 * s;
+		z = (sm23 + sm32) / s;
+		w = (sm31 - sm13) / s;
+	} else {
+		const s = Math.sqrt(1 + sm33 - sm11 - sm22) * 2;
+		x = (sm31 + sm13) / s;
+		y = (sm23 + sm32) / s;
+		z = 0.25 * s;
+		w = (sm12 - sm21) / s;
+	}
+
+	const ax = matrix[12] / 2;
+	const ay = matrix[13] / 2;
+	const az = matrix[14] / 2;
+
+	return fromValues(
+		x,
+		y,
+		z,
+		w,
+		ax * w + ay * z - az * y,
+		ay * w + az * x - ax * z,
+		az * w + ax * y - ay * x,
+		-ax * x - ay * y - az * z,
 		out
 	);
 };
@@ -209,41 +290,60 @@ export const fromMatrix4 = <T extends DualQuaternionLike>(
  * Set a dual quaternion to the identity dual quaternion.
  * @param out - The dual quaternion to store the result in.
  * @returns The identity dual quaternion.
+ * @public
  */
-export const identity = <T extends DualQuaternionLike>(out: T): T => {
-	out[0] = 0;
-	out[1] = 0;
-	out[2] = 0;
-	out[3] = 1;
-	out[4] = 0;
-	out[5] = 0;
-	out[6] = 0;
-	out[7] = 0;
-	return out;
-};
+export const identity = <T extends DualQuaternionLike>(out: T): T =>
+	fromValues(0, 0, 0, 1, 0, 0, 0, 0, out);
+
+/**
+ * Get the real part of a dual quaternion.
+ * @param dualQuaternion - The dual quaternion.
+ * @param out - The quaternion to store the result in.
+ * @returns The real part.
+ * @public
+ */
+export const getReal: <T extends QuaternionLike>(
+	dualQuaternion: DualQuaternionLike,
+	out: T
+) => T = vector4Copy;
 
 /**
  * Get the dual part of a dual quaternion.
  * @param dualQuaternion - The dual quaternion.
  * @param out - The quaternion to store the result in.
  * @returns The dual part.
+ * @public
  */
 export const getDual = <T extends QuaternionLike>(
 	dualQuaternion: DualQuaternionLike,
 	out: T
-): T => {
-	out[0] = dualQuaternion[4];
-	out[1] = dualQuaternion[5];
-	out[2] = dualQuaternion[6];
-	out[3] = dualQuaternion[7];
-	return out;
-};
+): T =>
+	vector4FromValues(
+		dualQuaternion[4],
+		dualQuaternion[5],
+		dualQuaternion[6],
+		dualQuaternion[7],
+		out
+	);
+
+/**
+ * Set the real part of a dual quaternion.
+ * @param quaternion - The quaternion to set as the real part.
+ * @param out - The dual quaternion to store the result in.
+ * @returns The dual quaternion.
+ * @public
+ */
+export const setReal: <T extends DualQuaternionLike>(
+	quaternion: QuaternionLike,
+	out: T
+) => T = vector4Copy;
 
 /**
  * Set the dual part of a dual quaternion.
  * @param quaternion - The quaternion to set as the dual part.
  * @param out - The dual quaternion to store the result in.
  * @returns The dual quaternion.
+ * @public
  */
 export const setDual = <T extends DualQuaternionLike>(
 	quaternion: QuaternionLike,
@@ -260,7 +360,8 @@ export const setDual = <T extends DualQuaternionLike>(
  * Get the translation of a normalized dual quaternion.
  * @param dualQuaternion - The dual quaternion.
  * @param out - The vector to store the result in.
- * @returns The translation.
+ * @returns The translation vector.
+ * @public
  */
 export const getTranslation = <T extends Vector3Like>(
 	dualQuaternion: DualQuaternionLike,
@@ -275,10 +376,12 @@ export const getTranslation = <T extends Vector3Like>(
 	const bz = -dualQuaternion[2];
 	const bw = dualQuaternion[3];
 
-	out[0] = (ax * bw + aw * bx + ay * bz - az * by) * 2;
-	out[1] = (ay * bw + aw * by + az * bx - ax * bz) * 2;
-	out[2] = (az * bw + aw * bz + ax * by - ay * bx) * 2;
-	return out;
+	return vector3FromValues(
+		(ax * bw + aw * bx + ay * bz - az * by) * 2,
+		(ay * bw + aw * by + az * bx - ax * bz) * 2,
+		(az * bw + aw * bz + ax * by - ay * bx) * 2,
+		out
+	);
 };
 
 /**
@@ -287,6 +390,7 @@ export const getTranslation = <T extends Vector3Like>(
  * @param vector - The vector.
  * @param out - The dual quaternion to store the result in.
  * @returns The translated dual quaternion.
+ * @public
  */
 export const translate = <T extends DualQuaternionLike>(
 	dualQuaternion: DualQuaternionLike,
@@ -298,24 +402,26 @@ export const translate = <T extends DualQuaternionLike>(
 	const az1 = dualQuaternion[2];
 	const aw1 = dualQuaternion[3];
 
-	const bx1 = vector[0] * 0.5;
-	const by1 = vector[1] * 0.5;
-	const bz1 = vector[2] * 0.5;
+	const bx1 = vector[0] / 2;
+	const by1 = vector[1] / 2;
+	const bz1 = vector[2] / 2;
 
 	const ax2 = dualQuaternion[4];
 	const ay2 = dualQuaternion[5];
 	const az2 = dualQuaternion[6];
 	const aw2 = dualQuaternion[7];
 
-	out[0] = ax1;
-	out[1] = ay1;
-	out[2] = az1;
-	out[3] = aw1;
-	out[4] = aw1 * bx1 + ay1 * bz1 - az1 * by1 + ax2;
-	out[5] = aw1 * by1 + az1 * bx1 - ax1 * bz1 + ay2;
-	out[6] = aw1 * bz1 + ax1 * by1 - ay1 * bx1 + az2;
-	out[7] = -ax1 * bx1 - ay1 * by1 - az1 * bz1 + aw2;
-	return out;
+	return fromValues(
+		ax1,
+		ay1,
+		az1,
+		aw1,
+		aw1 * bx1 + ay1 * bz1 - az1 * by1 + ax2,
+		aw1 * by1 + az1 * bx1 - ax1 * bz1 + ay2,
+		aw1 * bz1 + ax1 * by1 - ay1 * bx1 + az2,
+		-ax1 * bx1 - ay1 * by1 - az1 * bz1 + aw2,
+		out
+	);
 };
 
 /**
@@ -324,6 +430,7 @@ export const translate = <T extends DualQuaternionLike>(
  * @param radians - The angle to rotate by in radians.
  * @param out - The dual quaternion to store the result in.
  * @returns The rotated dual quaternion.
+ * @public
  */
 export const rotateX = <T extends DualQuaternionLike>(
 	dualQuaternion: DualQuaternionLike,
@@ -365,6 +472,7 @@ export const rotateX = <T extends DualQuaternionLike>(
  * @param radians - The angle to rotate by in radians.
  * @param out - The dual quaternion to store the result in.
  * @returns The rotated dual quaternion.
+ * @public
  */
 export const rotateY = <T extends DualQuaternionLike>(
 	dualQuaternion: DualQuaternionLike,
@@ -406,6 +514,7 @@ export const rotateY = <T extends DualQuaternionLike>(
  * @param radians - The angle to rotate by in radians.
  * @param out - The dual quaternion to store the result in.
  * @returns The rotated dual quaternion.
+ * @public
  */
 export const rotateZ = <T extends DualQuaternionLike>(
 	dualQuaternion: DualQuaternionLike,
@@ -442,11 +551,12 @@ export const rotateZ = <T extends DualQuaternionLike>(
 };
 
 /**
- * Multiply a dual quaternion by a quaternion.
- * @param dualQuaternion - The dual quaternion.
- * @param quaternion - The quaternion.
+ * Rotate a dual quaternion by a quaternion (using the quaternion as the multiplicand).
+ * @param dualQuaternion - The dual quaternion to rotate.
+ * @param quaternion - The quaternion to rotate by.
  * @param out - The dual quaternion to store the result in.
  * @returns The rotated dual quaternion.
+ * @public
  */
 export const rotateByQuaternionAppend = <T extends DualQuaternionLike>(
 	dualQuaternion: DualQuaternionLike,
@@ -481,11 +591,12 @@ export const rotateByQuaternionAppend = <T extends DualQuaternionLike>(
 };
 
 /**
- * Multiply a quaternion by a dual quaternion.
- * @param quaternion - The quaternion.
- * @param dualQuaternion - The dual quaternion.
+ * Rotate a dual quaternion by a quaternion (using the quaternion as the multiplier).
+ * @param quaternion - The quaternion to rotate by.
+ * @param dualQuaternion - The dual quaternion to rotate.
  * @param out - The dual quaternion to store the result in.
  * @returns The rotated dual quaternion.
+ * @public
  */
 export const rotateByQuaternionPrepend = <T extends DualQuaternionLike>(
 	quaternion: QuaternionLike,
@@ -526,6 +637,7 @@ export const rotateByQuaternionPrepend = <T extends DualQuaternionLike>(
  * @param radians - The angle of the rotation in radians.
  * @param out - The dual quaternion to store the result in.
  * @returns A normalized dual quaternion.
+ * @public
  */
 export const rotateAroundAxis = <T extends DualQuaternionLike>(
 	dualQuaternion: DualQuaternionLike,
@@ -533,16 +645,17 @@ export const rotateAroundAxis = <T extends DualQuaternionLike>(
 	radians: number,
 	out: T
 ): T => {
-	if (Math.abs(radians) < 0) {
+	// Negligible rotation.
+	if (Math.abs(radians) < epsilon) {
 		return copy(dualQuaternion, out);
 	}
 
 	const ax = axis[0];
 	const ay = axis[1];
 	const az = axis[2];
-	const axisLength = Math.sqrt(ax * ax + ay * ay + az * az);
+	const axisLength = Math.sqrt(ax * ax + ay * ay + az * az); // `Math.hypot` is slower.
 
-	const r = radians * 0.5;
+	const r = radians / 2;
 
 	const s = Math.sin(r);
 	const bx = (s * ax) / axisLength;
@@ -578,22 +691,24 @@ export const rotateAroundAxis = <T extends DualQuaternionLike>(
  * @param b - The addend.
  * @param out - The dual quaternion to store the result in.
  * @returns The sum.
+ * @public
  */
 export const add = <T extends DualQuaternionLike>(
 	a: DualQuaternionLike,
 	b: DualQuaternionLike,
 	out: T
-): T => {
-	out[0] = a[0] + b[0];
-	out[1] = a[1] + b[1];
-	out[2] = a[2] + b[2];
-	out[3] = a[3] + b[3];
-	out[4] = a[4] + b[4];
-	out[5] = a[5] + b[5];
-	out[6] = a[6] + b[6];
-	out[7] = a[7] + b[7];
-	return out;
-};
+): T =>
+	fromValues(
+		a[0] + b[0],
+		a[1] + b[1],
+		a[2] + b[2],
+		a[3] + b[3],
+		a[4] + b[4],
+		a[5] + b[5],
+		a[6] + b[6],
+		a[7] + b[7],
+		out
+	);
 
 /**
  * Multiply two dual quaternions.
@@ -601,6 +716,7 @@ export const add = <T extends DualQuaternionLike>(
  * @param b - The multiplicand.
  * @param out - The dual quaternion to store the result in.
  * @returns The product.
+ * @public
  */
 export const multiply = <T extends DualQuaternionLike>(
 	a: DualQuaternionLike,
@@ -627,79 +743,91 @@ export const multiply = <T extends DualQuaternionLike>(
 	const bz1 = b[6];
 	const bw1 = b[7];
 
-	out[0] = ax0 * bw0 + aw0 * bx0 + ay0 * bz0 - az0 * by0;
-	out[1] = ay0 * bw0 + aw0 * by0 + az0 * bx0 - ax0 * bz0;
-	out[2] = az0 * bw0 + aw0 * bz0 + ax0 * by0 - ay0 * bx0;
-	out[3] = aw0 * bw0 - ax0 * bx0 - ay0 * by0 - az0 * bz0;
-	out[4] =
+	return fromValues(
+		ax0 * bw0 + aw0 * bx0 + ay0 * bz0 - az0 * by0,
+		ay0 * bw0 + aw0 * by0 + az0 * bx0 - ax0 * bz0,
+		az0 * bw0 + aw0 * bz0 + ax0 * by0 - ay0 * bx0,
+		aw0 * bw0 - ax0 * bx0 - ay0 * by0 - az0 * bz0,
 		ax0 * bw1 +
-		aw0 * bx1 +
-		ay0 * bz1 -
-		az0 * by1 +
-		ax1 * bw0 +
-		aw1 * bx0 +
-		ay1 * bz0 -
-		az1 * by0;
-	out[5] =
+			aw0 * bx1 +
+			ay0 * bz1 -
+			az0 * by1 +
+			ax1 * bw0 +
+			aw1 * bx0 +
+			ay1 * bz0 -
+			az1 * by0,
 		ay0 * bw1 +
-		aw0 * by1 +
-		az0 * bx1 -
-		ax0 * bz1 +
-		ay1 * bw0 +
-		aw1 * by0 +
-		az1 * bx0 -
-		ax1 * bz0;
-	out[6] =
+			aw0 * by1 +
+			az0 * bx1 -
+			ax0 * bz1 +
+			ay1 * bw0 +
+			aw1 * by0 +
+			az1 * bx0 -
+			ax1 * bz0,
 		az0 * bw1 +
-		aw0 * bz1 +
-		ax0 * by1 -
-		ay0 * bx1 +
-		az1 * bw0 +
-		aw1 * bz0 +
-		ax1 * by0 -
-		ay1 * bx0;
-	out[7] =
+			aw0 * bz1 +
+			ax0 * by1 -
+			ay0 * bx1 +
+			az1 * bw0 +
+			aw1 * bz0 +
+			ax1 * by0 -
+			ay1 * bx0,
 		aw0 * bw1 -
-		ax0 * bx1 -
-		ay0 * by1 -
-		az0 * bz1 +
-		aw1 * bw0 -
-		ax1 * bx0 -
-		ay1 * by0 -
-		az1 * bz0;
-	return out;
+			ax0 * bx1 -
+			ay0 * by1 -
+			az0 * bz1 +
+			aw1 * bw0 -
+			ax1 * bx0 -
+			ay1 * by0 -
+			az1 * bz0,
+		out
+	);
 };
 
 /**
  * Multiply a dual quaternion by a scalar.
- * @param dualQuaternion - The multiplicand.
- * @param scalar - The multiplier.
+ * @param dualQuaternion - The multiplicand (dual quaternion).
+ * @param scalar - The multiplier (scalar) to scale the dual quaternion by.
  * @param out - The dual quaternion to store the result in.
- * @returns The sum.
+ * @returns The product.
+ * @public
  */
 export const scale = <T extends DualQuaternionLike>(
 	dualQuaternion: DualQuaternionLike,
 	scalar: number,
 	out: T
-): T => {
-	out[0] = dualQuaternion[0] * scalar;
-	out[1] = dualQuaternion[1] * scalar;
-	out[2] = dualQuaternion[2] * scalar;
-	out[3] = dualQuaternion[3] * scalar;
-	out[4] = dualQuaternion[4] * scalar;
-	out[5] = dualQuaternion[5] * scalar;
-	out[6] = dualQuaternion[6] * scalar;
-	out[7] = dualQuaternion[7] * scalar;
-	return out;
-};
+): T =>
+	fromValues(
+		dualQuaternion[0] * scalar,
+		dualQuaternion[1] * scalar,
+		dualQuaternion[2] * scalar,
+		dualQuaternion[3] * scalar,
+		dualQuaternion[4] * scalar,
+		dualQuaternion[5] * scalar,
+		dualQuaternion[6] * scalar,
+		dualQuaternion[7] * scalar,
+		out
+	);
+
+/**
+ * Calculate the dot product of two dual quaternions.
+ * @param a - The multiplier.
+ * @param b - The multiplicand.
+ * @returns The dot product.
+ * @see {@link https://en.wikipedia.org/wiki/Dot_product | Dot product}
+ * @public
+ */
+export const dot: (a: DualQuaternionLike, b: DualQuaternionLike) => number =
+	vector4Dot;
 
 /**
  * Perform a linear interpolation between two dual quaternions.
  * @param a - The first dual quaternion.
  * @param b - The second dual quaternion.
  * @param t - The interpolation amount in `[0,1]`.
- * @param out - The dual quaternion to store the result in.
+ * @param out - The dual quaternion to store the result in. Will not always be normalized (most noticeable when `t === 0.5`).
  * @returns The interpolated value.
+ * @public
  */
 export const lerp = <T extends DualQuaternionLike>(
 	a: DualQuaternionLike,
@@ -708,24 +836,46 @@ export const lerp = <T extends DualQuaternionLike>(
 	out: T
 ): T => {
 	const mt = 1 - t;
-	const it = dot(a, b) < epsilon ? -t : t;
+	const it = dot(a, b) < 0 ? -t : t;
 
-	out[0] = a[0] * mt + b[0] * it;
-	out[1] = a[1] * mt + b[1] * it;
-	out[2] = a[2] * mt + b[2] * it;
-	out[3] = a[3] * mt + b[3] * it;
-	out[4] = a[4] * mt + b[4] * it;
-	out[5] = a[5] * mt + b[5] * it;
-	out[6] = a[6] * mt + b[6] * it;
-	out[7] = a[7] * mt + b[7] * it;
-	return out;
+	return fromValues(
+		a[0] * mt + b[0] * it,
+		a[1] * mt + b[1] * it,
+		a[2] * mt + b[2] * it,
+		a[3] * mt + b[3] * it,
+		a[4] * mt + b[4] * it,
+		a[5] * mt + b[5] * it,
+		a[6] * mt + b[6] * it,
+		a[7] * mt + b[7] * it,
+		out
+	);
 };
+
+/**
+ * Calculate the magnitude (length) of a dual quaternion.
+ * @param dualQuaternion - The dual quaternion.
+ * @returns The magnitude.
+ * @public
+ */
+export const getMagnitude: (dualQuaternion: DualQuaternionLike) => number =
+	vector4GetMagnitude;
+
+/**
+ * Calculate the squared magnitude (length) of a dual quaternion.
+ * @param dualQuaternion - The dual quaternion.
+ * @returns The squared magnitude.
+ * @public
+ */
+export const getSquaredMagnitude: (
+	dualQuaternion: DualQuaternionLike
+) => number = vector4GetSquaredMagnitude;
 
 /**
  * Calculate the inverse of a dual quaternion. If the dual quaternion is normalized, the conjugate is equivalent and faster to calculate.
  * @param dualQuaternion - The dual quaternion.
  * @param out - The dual quaternion to store the result in.
  * @returns The inverse.
+ * @public
  */
 export const invert = <T extends DualQuaternionLike>(
 	dualQuaternion: DualQuaternionLike,
@@ -733,15 +883,17 @@ export const invert = <T extends DualQuaternionLike>(
 ): T => {
 	const sqm = getSquaredMagnitude(dualQuaternion);
 
-	out[0] = -dualQuaternion[0] / sqm;
-	out[1] = -dualQuaternion[1] / sqm;
-	out[2] = -dualQuaternion[2] / sqm;
-	out[3] = dualQuaternion[3] / sqm;
-	out[4] = -dualQuaternion[4] / sqm;
-	out[5] = -dualQuaternion[5] / sqm;
-	out[6] = -dualQuaternion[6] / sqm;
-	out[7] = dualQuaternion[7] / sqm;
-	return out;
+	return fromValues(
+		-dualQuaternion[0] / sqm,
+		-dualQuaternion[1] / sqm,
+		-dualQuaternion[2] / sqm,
+		dualQuaternion[3] / sqm,
+		-dualQuaternion[4] / sqm,
+		-dualQuaternion[5] / sqm,
+		-dualQuaternion[6] / sqm,
+		dualQuaternion[7] / sqm,
+		out
+	);
 };
 
 /**
@@ -749,57 +901,64 @@ export const invert = <T extends DualQuaternionLike>(
  * @param dualQuaternion - The dual quaternion.
  * @param out - The dual quaternion to store the result in.
  * @returns The conjugate.
+ * @public
  */
 export const conjugate = <T extends DualQuaternionLike>(
 	dualQuaternion: DualQuaternionLike,
 	out: T
-): T => {
-	out[0] = -dualQuaternion[0];
-	out[1] = -dualQuaternion[1];
-	out[2] = -dualQuaternion[2];
-	out[3] = dualQuaternion[3];
-	out[4] = -dualQuaternion[4];
-	out[5] = -dualQuaternion[5];
-	out[6] = -dualQuaternion[6];
-	out[7] = dualQuaternion[7];
-	return out;
-};
+): T =>
+	fromValues(
+		-dualQuaternion[0],
+		-dualQuaternion[1],
+		-dualQuaternion[2],
+		dualQuaternion[3],
+		-dualQuaternion[4],
+		-dualQuaternion[5],
+		-dualQuaternion[6],
+		dualQuaternion[7],
+		out
+	);
 
 /**
  * Normalize a dual quaternion.
  * @param dualQuaternion - The dual quaternion.
  * @param out - The dual quaternion to store the result in.
  * @returns The normalized dual quaternion.
+ * @public
  */
 export const normalize = <T extends DualQuaternionLike>(
 	dualQuaternion: DualQuaternionLike,
 	out: T
 ): T => {
 	let magnitude = getSquaredMagnitude(dualQuaternion);
-	if (magnitude > 0) {
-		magnitude = Math.sqrt(magnitude);
-
-		const a0 = dualQuaternion[0] / magnitude;
-		const a1 = dualQuaternion[1] / magnitude;
-		const a2 = dualQuaternion[2] / magnitude;
-		const a3 = dualQuaternion[3] / magnitude;
-		const b0 = dualQuaternion[4];
-		const b1 = dualQuaternion[5];
-		const b2 = dualQuaternion[6];
-		const b3 = dualQuaternion[7];
-
-		const aDotB = a0 * b0 + a1 * b1 + a2 * b2 + a3 * b3;
-
-		out[0] = a0;
-		out[1] = a1;
-		out[2] = a2;
-		out[3] = a3;
-		out[4] = (b0 - a0 * aDotB) / magnitude;
-		out[5] = (b1 - a1 * aDotB) / magnitude;
-		out[6] = (b2 - a2 * aDotB) / magnitude;
-		out[7] = (b3 - a3 * aDotB) / magnitude;
+	if (magnitude <= 0) {
+		return out;
 	}
-	return out;
+
+	magnitude = Math.sqrt(magnitude);
+
+	const a0 = dualQuaternion[0] / magnitude;
+	const a1 = dualQuaternion[1] / magnitude;
+	const a2 = dualQuaternion[2] / magnitude;
+	const a3 = dualQuaternion[3] / magnitude;
+	const b0 = dualQuaternion[4];
+	const b1 = dualQuaternion[5];
+	const b2 = dualQuaternion[6];
+	const b3 = dualQuaternion[7];
+
+	const aDotB = a0 * b0 + a1 * b1 + a2 * b2 + a3 * b3;
+
+	return fromValues(
+		a0,
+		a1,
+		a2,
+		a3,
+		(b0 - a0 * aDotB) / magnitude,
+		(b1 - a1 * aDotB) / magnitude,
+		(b2 - a2 * aDotB) / magnitude,
+		(b3 - a3 * aDotB) / magnitude,
+		out
+	);
 };
 
 /**
@@ -807,66 +966,42 @@ export const normalize = <T extends DualQuaternionLike>(
  * @param a - The first dual quaternion.
  * @param b - The second dual quaternion.
  * @returns Whether or not the dual quaternions are equivalent.
+ * @public
  */
 export const exactEquals = (
 	a: DualQuaternionLike,
 	b: DualQuaternionLike
-): boolean => {
-	return (
-		a[0] === b[0] &&
-		a[1] === b[1] &&
-		a[2] === b[2] &&
-		a[3] === b[3] &&
-		a[4] === b[4] &&
-		a[5] === b[5] &&
-		a[6] === b[6] &&
-		a[7] === b[7]
-	);
-};
+): boolean =>
+	a[0] === b[0] &&
+	a[1] === b[1] &&
+	a[2] === b[2] &&
+	a[3] === b[3] &&
+	a[4] === b[4] &&
+	a[5] === b[5] &&
+	a[6] === b[6] &&
+	a[7] === b[7];
 
 /**
  * Determine whether or not two dual quaternions are roughly equivalent.
  * @param a - The first dual quaternion.
  * @param b - The second dual quaternion.
  * @returns Whether or not the dual quaternions are equivalent.
+ * @public
  */
-export const equals = (
-	a: DualQuaternionLike,
-	b: DualQuaternionLike
-): boolean => {
-	const a0 = a[0];
-	const a1 = a[1];
-	const a2 = a[2];
-	const a3 = a[3];
-	const a4 = a[4];
-	const a5 = a[5];
-	const a6 = a[6];
-	const a7 = a[7];
-
-	const b0 = b[0];
-	const b1 = b[1];
-	const b2 = b[2];
-	const b3 = b[3];
-	const b4 = b[4];
-	const b5 = b[5];
-	const b6 = b[6];
-	const b7 = b[7];
-
-	return (
-		Math.abs(a0 - b0) <= epsilon * Math.max(1, Math.abs(a0), Math.abs(b0)) &&
-		Math.abs(a1 - b1) <= epsilon * Math.max(1, Math.abs(a1), Math.abs(b1)) &&
-		Math.abs(a2 - b2) <= epsilon * Math.max(1, Math.abs(a2), Math.abs(b2)) &&
-		Math.abs(a3 - b3) <= epsilon * Math.max(1, Math.abs(a3), Math.abs(b3)) &&
-		Math.abs(a4 - b4) <= epsilon * Math.max(1, Math.abs(a4), Math.abs(b4)) &&
-		Math.abs(a5 - b5) <= epsilon * Math.max(1, Math.abs(a5), Math.abs(b5)) &&
-		Math.abs(a6 - b6) <= epsilon * Math.max(1, Math.abs(a6), Math.abs(b6)) &&
-		Math.abs(a7 - b7) <= epsilon * Math.max(1, Math.abs(a7), Math.abs(b7))
-	);
-};
+export const equals = (a: DualQuaternionLike, b: DualQuaternionLike): boolean =>
+	approxRelative(a[0], b[0]) &&
+	approxRelative(a[1], b[1]) &&
+	approxRelative(a[2], b[2]) &&
+	approxRelative(a[3], b[3]) &&
+	approxRelative(a[4], b[4]) &&
+	approxRelative(a[5], b[5]) &&
+	approxRelative(a[6], b[6]) &&
+	approxRelative(a[7], b[7]);
 
 /**
  * A complex number that is commonly used to describe transformations.
- * @see [Dual quaternion](https://en.wikipedia.org/wiki/Dual_quaternion)
+ * @see {@link https://en.wikipedia.org/wiki/Dual_quaternion | Dual quaternion}
+ * @public
  */
 export default class DualQuaternion
 	extends Float32Array
@@ -900,9 +1035,9 @@ export default class DualQuaternion
 	}
 
 	/**
-	 * Create a dual quaternion from the given quaternion and translation.
-	 * @param q - The quaternion.
-	 * @param t - The translation.
+	 * Create a dual quaternion from the given rotation and translation.
+	 * @param q - The rotation quaternion.
+	 * @param t - The translation vector.
 	 * @param out - The dual quaternion to store the result in.
 	 * @returns The dual quaternion.
 	 */
@@ -918,7 +1053,7 @@ export default class DualQuaternion
 
 	/**
 	 * Create a dual quaternion from the given translation.
-	 * @param t - The translation.
+	 * @param t - The translation vector.
 	 * @param out - The dual quaternion to store the result in.
 	 * @returns The dual quaternion.
 	 */
@@ -930,8 +1065,8 @@ export default class DualQuaternion
 	}
 
 	/**
-	 * Create a dual quaternion from the given quaternion.
-	 * @param q - The quaternion.
+	 * Create a dual quaternion from the given rotation.
+	 * @param q - The rotation quaternion.
 	 * @param out - The dual quaternion to store the result in.
 	 * @returns The dual quaternion.
 	 */
@@ -957,7 +1092,7 @@ export default class DualQuaternion
 
 	/**
 	 * Create an identity dual quaternion.
-	 * @see [Dual quaternion](https://en.wikipedia.org/wiki/Dual_quaternion)
+	 * @see {@link https://en.wikipedia.org/wiki/Dual_quaternion | Dual quaternion}
 	 */
 	public constructor() {
 		super(8);
@@ -1024,7 +1159,7 @@ export default class DualQuaternion
 	public getReal<T extends QuaternionLike = Quaternion>(
 		out: T = new Quaternion() as Quaternion & T
 	): T {
-		return xetReal(this, out);
+		return getReal(this, out);
 	}
 
 	/**
@@ -1032,7 +1167,7 @@ export default class DualQuaternion
 	 * @param q - The quaternion.
 	 */
 	public setReal(q: QuaternionLike): void {
-		xetReal(q, this);
+		setReal(q, this);
 	}
 
 	/**
@@ -1118,11 +1253,11 @@ export default class DualQuaternion
 	}
 
 	/**
-	 * Multiply this dual quaternion by a quaternion.
+	 * Rotate this dual quaternion by a quaternion (using the quaternion as the multiplicand).
 	 * @param q - The quaternion.
 	 * @param out - The dual quaternion to store the result in.
 	 * @returns The rotated dual quaternion.
-	 * @see [Quaternion](https://en.wikipedia.org/wiki/Quaternion)
+	 * @see {@link https://en.wikipedia.org/wiki/Quaternion | Quaternion}
 	 */
 	public rotateByQuaternionAppend<
 		T extends DualQuaternionLike = DualQuaternion
@@ -1131,11 +1266,11 @@ export default class DualQuaternion
 	}
 
 	/**
-	 * Multiply a quaternion by this dual quaternion.
+	 * Rotate this dual quaternion by a quaternion (using the quaternion as the multiplier).
 	 * @param q - The quaternion.
 	 * @param out - The dual quaternion to store the result in.
 	 * @returns The rotated dual quaternion.
-	 * @see [Quaternion](https://en.wikipedia.org/wiki/Quaternion)
+	 * @see {@link https://en.wikipedia.org/wiki/Quaternion | Quaternion}
 	 */
 	public rotateByQuaternionPrepend<
 		T extends DualQuaternionLike = DualQuaternion
@@ -1201,7 +1336,7 @@ export default class DualQuaternion
 	 * Calculate the dot product of this and another dual quaternion.
 	 * @param dq - The other dual quaternion.
 	 * @returns The dot product.
-	 * @see [Dot product](https://en.wikipedia.org/wiki/Dot_product)
+	 * @see {@link https://en.wikipedia.org/wiki/Dot_product | Dot product}
 	 */
 	public dot(dq: DualQuaternionLike): number {
 		return dot(this, dq);

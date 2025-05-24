@@ -2,7 +2,8 @@
  * Returns whether or not a number is prime.
  * @param n - The number.
  * @returns Whether or not the number is prime.
- * @see [Prime number](https://en.wikipedia.org/wiki/Prime_number)
+ * @see {@link https://en.wikipedia.org/wiki/Prime_number | Prime number}
+ * @public
  */
 export default function isPrime(n: number): boolean {
 	// Negatives, zero, and one can't be prime.

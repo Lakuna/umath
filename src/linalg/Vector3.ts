@@ -1,11 +1,13 @@
-import Quaternion, { type QuaternionLike } from "./Quaternion.js";
 import type { default as Vector, VectorLike } from "./Vector.js";
 import type { Matrix3Like } from "./Matrix3.js";
 import type { Matrix4Like } from "./Matrix4.js";
-import epsilon from "../utility/epsilon.js";
-import { normalize as normalizeVector4 } from "./Vector4.js";
+import type { QuaternionLike } from "./Quaternion.js";
+import approxRelative from "../algorithms/approxRelative.js";
 
-/** A quantity with magnitude and direction in three dimensions. */
+/**
+ * A quantity with magnitude and direction in three dimensions.
+ * @public
+ */
 export interface Vector3Like extends VectorLike {
 	/** The first component of this vector. */
 	0: number;
@@ -20,8 +22,9 @@ export interface Vector3Like extends VectorLike {
 /**
  * Creates a 3x1 vector-like object.
  * @returns A 3x1 vector-like object.
+ * @public
  */
-export const createVector3Like = () => {
+export const createVector3Like = (): Float32Array & Vector3Like => {
 	return new Float32Array(3) as Float32Array & Vector3Like;
 };
 
@@ -32,6 +35,7 @@ export const createVector3Like = () => {
  * @param z - The third component.
  * @param out - The vector to store the result in.
  * @returns A new vector.
+ * @public
  */
 export const fromValues = <T extends Vector3Like>(
 	x: number,
@@ -50,32 +54,22 @@ export const fromValues = <T extends Vector3Like>(
  * @param a - The first vector.
  * @param b - The second vector.
  * @returns Whether or not the vectors are equivalent.
+ * @public
  */
-export const equals = (a: Vector3Like, b: Vector3Like): boolean => {
-	const a0 = a[0];
-	const a1 = a[1];
-	const a2 = a[2];
-
-	const b0 = b[0];
-	const b1 = b[1];
-	const b2 = b[2];
-
-	return (
-		Math.abs(a0 - b0) <= epsilon * Math.max(1, Math.abs(a0), Math.abs(b0)) &&
-		Math.abs(a1 - b1) <= epsilon * Math.max(1, Math.abs(a1), Math.abs(b1)) &&
-		Math.abs(a2 - b2) <= epsilon * Math.max(1, Math.abs(a2), Math.abs(b2))
-	);
-};
+export const equals = (a: Vector3Like, b: Vector3Like): boolean =>
+	approxRelative(a[0], b[0]) &&
+	approxRelative(a[1], b[1]) &&
+	approxRelative(a[2], b[2]);
 
 /**
  * Determine whether two vectors are exactly equivalent.
  * @param a - The first vector.
  * @param b - The second vector.
  * @returns Whether the vectors are equivalent.
+ * @public
  */
-export const exactEquals = (a: Vector3Like, b: Vector3Like): boolean => {
-	return a[0] === b[0] && a[1] === b[1] && a[2] === b[2];
-};
+export const exactEquals = (a: Vector3Like, b: Vector3Like): boolean =>
+	a[0] === b[0] && a[1] === b[1] && a[2] === b[2];
 
 /**
  * Add two vectors.
@@ -83,30 +77,23 @@ export const exactEquals = (a: Vector3Like, b: Vector3Like): boolean => {
  * @param b - The addend.
  * @param out - The vector to store the result in.
  * @returns The sum.
+ * @public
  */
 export const add = <T extends Vector3Like>(
 	a: Vector3Like,
 	b: Vector3Like,
 	out: T
-): T => {
-	out[0] = a[0] + b[0];
-	out[1] = a[1] + b[1];
-	out[2] = a[2] + b[2];
-	return out;
-};
+): T => fromValues(a[0] + b[0], a[1] + b[1], a[2] + b[2], out);
 
 /**
  * Copy the values from one vector to another.
  * @param vector - The vector to copy.
  * @param out - The vector to store the result in.
  * @returns The copy.
+ * @public
  */
-export const copy = <T extends Vector3Like>(vector: Vector3Like, out: T): T => {
-	out[0] = vector[0];
-	out[1] = vector[1];
-	out[2] = vector[2];
-	return out;
-};
+export const copy = <T extends Vector3Like>(vector: Vector3Like, out: T): T =>
+	fromValues(vector[0], vector[1], vector[2], out);
 
 /**
  * Multiply two vectors.
@@ -114,17 +101,13 @@ export const copy = <T extends Vector3Like>(vector: Vector3Like, out: T): T => {
  * @param b - The multiplicand.
  * @param out - The vector to store the result in.
  * @returns The product.
+ * @public
  */
 export const multiply = <T extends Vector3Like>(
 	a: Vector3Like,
 	b: Vector3Like,
 	out: T
-): T => {
-	out[0] = a[0] * b[0];
-	out[1] = a[1] * b[1];
-	out[2] = a[2] * b[2];
-	return out;
-};
+): T => fromValues(a[0] * b[0], a[1] * b[1], a[2] * b[2], out);
 
 /**
  * Divide two vectors.
@@ -132,17 +115,13 @@ export const multiply = <T extends Vector3Like>(
  * @param b - The divisor.
  * @param out - The vector to store the result in.
  * @returns The quotient.
+ * @public
  */
 export const divide = <T extends Vector3Like>(
 	a: Vector3Like,
 	b: Vector3Like,
 	out: T
-): T => {
-	out[0] = a[0] / b[0];
-	out[1] = a[1] / b[1];
-	out[2] = a[2] / b[2];
-	return out;
-};
+): T => fromValues(a[0] / b[0], a[1] / b[1], a[2] / b[2], out);
 
 /**
  * Subtract two vectors.
@@ -150,62 +129,58 @@ export const divide = <T extends Vector3Like>(
  * @param b - The subtrahend.
  * @param out - The vector to store the result in.
  * @returns The difference.
+ * @public
  */
 export const subtract = <T extends Vector3Like>(
 	a: Vector3Like,
 	b: Vector3Like,
 	out: T
-): T => {
-	out[0] = a[0] - b[0];
-	out[1] = a[1] - b[1];
-	out[2] = a[2] - b[2];
-	return out;
-};
+): T => fromValues(a[0] - b[0], a[1] - b[1], a[2] - b[2], out);
 
 /**
  * Round up the components of a vector.
  * @param vector - The vector.
  * @param out - The vector to store the result in.
  * @returns The rounded vector.
+ * @public
  */
-export const ceil = <T extends Vector3Like>(vector: Vector3Like, out: T): T => {
-	out[0] = Math.ceil(vector[0]);
-	out[1] = Math.ceil(vector[1]);
-	out[2] = Math.ceil(vector[2]);
-	return out;
-};
+export const ceil = <T extends Vector3Like>(vector: Vector3Like, out: T): T =>
+	fromValues(
+		Math.ceil(vector[0]),
+		Math.ceil(vector[1]),
+		Math.ceil(vector[2]),
+		out
+	);
 
 /**
  * Round down the components of a vector.
  * @param vector - The vector.
  * @param out - The vector to store the result in.
  * @returns The rounded vector.
+ * @public
  */
-export const floor = <T extends Vector3Like>(
-	vector: Vector3Like,
-	out: T
-): T => {
-	out[0] = Math.floor(vector[0]);
-	out[1] = Math.floor(vector[1]);
-	out[2] = Math.floor(vector[2]);
-	return out;
-};
+export const floor = <T extends Vector3Like>(vector: Vector3Like, out: T): T =>
+	fromValues(
+		Math.floor(vector[0]),
+		Math.floor(vector[1]),
+		Math.floor(vector[2]),
+		out
+	);
 
 /**
  * Round the components of a vector.
  * @param vector - The vector.
  * @param out - The vector to store the result in.
  * @returns The rounded vector.
+ * @public
  */
-export const round = <T extends Vector3Like>(
-	vector: Vector3Like,
-	out: T
-): T => {
-	out[0] = Math.round(vector[0]);
-	out[1] = Math.round(vector[1]);
-	out[2] = Math.round(vector[2]);
-	return out;
-};
+export const round = <T extends Vector3Like>(vector: Vector3Like, out: T): T =>
+	fromValues(
+		Math.round(vector[0]),
+		Math.round(vector[1]),
+		Math.round(vector[2]),
+		out
+	);
 
 /**
  * Return the minimum of two vectors.
@@ -213,17 +188,19 @@ export const round = <T extends Vector3Like>(
  * @param b - The second vector.
  * @param out - The vector to store the result in.
  * @returns The minimum.
+ * @public
  */
 export const min = <T extends Vector3Like>(
 	a: Vector3Like,
 	b: Vector3Like,
 	out: T
-): T => {
-	out[0] = Math.min(a[0], b[0]);
-	out[1] = Math.min(a[1], b[1]);
-	out[2] = Math.min(a[2], b[2]);
-	return out;
-};
+): T =>
+	fromValues(
+		Math.min(a[0], b[0]),
+		Math.min(a[1], b[1]),
+		Math.min(a[2], b[2]),
+		out
+	);
 
 /**
  * Return the maximum of two vectors.
@@ -231,17 +208,19 @@ export const min = <T extends Vector3Like>(
  * @param b - The second vector.
  * @param out - The vector to store the result in.
  * @returns The maximum.
+ * @public
  */
 export const max = <T extends Vector3Like>(
 	a: Vector3Like,
 	b: Vector3Like,
 	out: T
-): T => {
-	out[0] = Math.max(a[0], b[0]);
-	out[1] = Math.max(a[1], b[1]);
-	out[2] = Math.max(a[2], b[2]);
-	return out;
-};
+): T =>
+	fromValues(
+		Math.max(a[0], b[0]),
+		Math.max(a[1], b[1]),
+		Math.max(a[2], b[2]),
+		out
+	);
 
 /**
  * Scale a vector by a scalar.
@@ -249,17 +228,14 @@ export const max = <T extends Vector3Like>(
  * @param scalar - The multiplicand.
  * @param out - The vector to store the result in.
  * @returns The product.
+ * @public
  */
 export const scale = <T extends Vector3Like>(
 	vector: Vector3Like,
 	scalar: number,
 	out: T
-): T => {
-	out[0] = vector[0] * scalar;
-	out[1] = vector[1] * scalar;
-	out[2] = vector[2] * scalar;
-	return out;
-};
+): T =>
+	fromValues(vector[0] * scalar, vector[1] * scalar, vector[2] * scalar, out);
 
 /**
  * Add two vectors after scaling the second by a scalar.
@@ -268,31 +244,34 @@ export const scale = <T extends Vector3Like>(
  * @param scalar - The multiplicand.
  * @param out - The vector to store the result in.
  * @returns The sum.
+ * @public
  */
 export const scaleAndAdd = <T extends Vector3Like>(
 	a: Vector3Like,
 	b: Vector3Like,
 	scalar: number,
 	out: T
-): T => {
-	out[0] = a[0] + b[0] * scalar;
-	out[1] = a[1] + b[1] * scalar;
-	out[2] = a[2] + b[2] * scalar;
-	return out;
-};
+): T =>
+	fromValues(
+		a[0] + b[0] * scalar,
+		a[1] + b[1] * scalar,
+		a[2] + b[2] * scalar,
+		out
+	);
 
 /**
  * Calculate the Euclidean distance between two vectors.
  * @param a - The first vector.
  * @param b - The second vector.
  * @returns The distance.
- * @see [Euclidean distance](https://en.wikipedia.org/wiki/Euclidean_distance)
+ * @see {@link https://en.wikipedia.org/wiki/Euclidean_distance | Euclidean distance}
+ * @public
  */
 export const distance = (a: Vector3Like, b: Vector3Like): number => {
 	const x = b[0] - a[0];
 	const y = b[1] - a[1];
 	const z = b[2] - a[2];
-	return Math.sqrt(x * x + y * y + z * z);
+	return Math.sqrt(x * x + y * y + z * z); // `Math.hypot` is slower.
 };
 
 /**
@@ -300,7 +279,8 @@ export const distance = (a: Vector3Like, b: Vector3Like): number => {
  * @param a - The first vector.
  * @param b - The second vector.
  * @returns The squared distance.
- * @see [Euclidean distance](https://en.wikipedia.org/wiki/Euclidean_distance)
+ * @see {@link https://en.wikipedia.org/wiki/Euclidean_distance | Euclidean distance}
+ * @public
  */
 export const squaredDistance = (a: Vector3Like, b: Vector3Like): number => {
 	const x = b[0] - a[0];
@@ -313,18 +293,20 @@ export const squaredDistance = (a: Vector3Like, b: Vector3Like): number => {
  * Calculate the magnitude (length) of a vector.
  * @param vector - The vector.
  * @returns The magnitude.
+ * @public
  */
 export const getMagnitude = (vector: Vector3Like): number => {
 	const x = vector[0];
 	const y = vector[1];
 	const z = vector[2];
-	return Math.sqrt(x * x + y * y + z * z);
+	return Math.sqrt(x * x + y * y + z * z); // `Math.hypot` is slower.
 };
 
 /**
  * Calculate the squared magnitude (length) of a vector.
  * @param vector - The vector.
  * @returns The squared magnitude.
+ * @public
  */
 export const getSquaredMagnitude = (vector: Vector3Like): number => {
 	const x = vector[0];
@@ -338,39 +320,28 @@ export const getSquaredMagnitude = (vector: Vector3Like): number => {
  * @param vector - The vector.
  * @param out - The vector to store the result in.
  * @returns The negated vector.
+ * @public
  */
-export const negate = <T extends Vector3Like>(
-	vector: Vector3Like,
-	out: T
-): T => {
-	out[0] = -vector[0];
-	out[1] = -vector[1];
-	out[2] = -vector[2];
-	return out;
-};
+export const negate = <T extends Vector3Like>(vector: Vector3Like, out: T): T =>
+	fromValues(-vector[0], -vector[1], -vector[2], out);
 
 /**
  * Calculate the multiplicative inverse of the components of a vector.
  * @param vector - The vector.
  * @param out - The vector to store the result in.
  * @returns The inverted vector.
+ * @public
  */
-export const invert = <T extends Vector3Like>(
-	vector: Vector3Like,
-	out: T
-): T => {
-	out[0] = 1 / vector[0];
-	out[1] = 1 / vector[1];
-	out[2] = 1 / vector[2];
-	return out;
-};
+export const invert = <T extends Vector3Like>(vector: Vector3Like, out: T): T =>
+	fromValues(1 / vector[0], 1 / vector[1], 1 / vector[2], out);
 
 /**
  * Normalize a vector.
  * @param vector - The vector.
  * @param out - The vector to store the result in.
  * @returns The normalized vector.
- * @see [Unit vector](https://en.wikipedia.org/wiki/Unit_vector)
+ * @see {@link https://en.wikipedia.org/wiki/Unit_vector | Unit vector}
+ * @public
  */
 export const normalize = <T extends Vector3Like>(
 	vector: Vector3Like,
@@ -385,10 +356,7 @@ export const normalize = <T extends Vector3Like>(
 		len = 1 / Math.sqrt(len);
 	}
 
-	out[0] = x * len;
-	out[1] = y * len;
-	out[2] = z * len;
-	return out;
+	return fromValues(x * len, y * len, z * len, out);
 };
 
 /**
@@ -396,11 +364,11 @@ export const normalize = <T extends Vector3Like>(
  * @param a - The multiplier.
  * @param b - The multiplicand.
  * @returns The dot product.
- * @see [Dot product](https://en.wikipedia.org/wiki/Dot_product)
+ * @see {@link https://en.wikipedia.org/wiki/Dot_product | Dot product}
+ * @public
  */
-export const dot = (a: Vector3Like, b: Vector3Like): number => {
-	return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
-};
+export const dot = (a: Vector3Like, b: Vector3Like): number =>
+	a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
 
 /**
  * Calculate the cross product of two vectors.
@@ -408,7 +376,8 @@ export const dot = (a: Vector3Like, b: Vector3Like): number => {
  * @param b - The mutliplicand.
  * @param out - The vector to store the result in.
  * @returns The cross product.
- * @see [Cross product](https://en.wikipedia.org/wiki/Cross_product)
+ * @see {@link https://en.wikipedia.org/wiki/Cross_product | Cross product}
+ * @public
  */
 export const cross = <T extends Vector3Like>(
 	a: Vector3Like,
@@ -423,10 +392,12 @@ export const cross = <T extends Vector3Like>(
 	const by = b[1];
 	const bz = b[2];
 
-	out[0] = ay * bz - az * by;
-	out[1] = az * bx - ax * bz;
-	out[2] = ax * by - ay * bx;
-	return out;
+	return fromValues(
+		ay * bz - az * by,
+		az * bx - ax * bz,
+		ax * by - ay * bx,
+		out
+	);
 };
 
 /**
@@ -436,7 +407,8 @@ export const cross = <T extends Vector3Like>(
  * @param t - The interpolation amount (in `[0,1]`).
  * @param out - The vector to store the result in.
  * @returns The interpolated vector.
- * @see [Linear interpolation](https://en.wikipedia.org/wiki/Linear_interpolation)
+ * @see {@link https://en.wikipedia.org/wiki/Linear_interpolation | Linear interpolation}
+ * @public
  */
 export const lerp = <T extends Vector3Like>(
 	a: Vector3Like,
@@ -448,10 +420,42 @@ export const lerp = <T extends Vector3Like>(
 	const ay = a[1];
 	const az = a[2];
 
-	out[0] = ax + t * (b[0] - ax);
-	out[1] = ay + t * (b[1] - ay);
-	out[2] = az + t * (b[2] - az);
-	return out;
+	return fromValues(
+		ax + t * (b[0] - ax),
+		ay + t * (b[1] - ay),
+		az + t * (b[2] - az),
+		out
+	);
+};
+
+/**
+ * Perform a spherical linear interpolation between two vectors.
+ * @param a - The first vector.
+ * @param b - The second vector.
+ * @param t - The interpolation amount (in `[0,1]`).
+ * @param out - The vector to store the result in.
+ * @returns The interpolated vector.
+ * @see {@link https://en.wikipedia.org/wiki/Slerp | Slerp}
+ * @public
+ */
+export const slerp = <T extends Vector3Like>(
+	a: Vector3Like,
+	b: Vector3Like,
+	t: number,
+	out: T
+): T => {
+	const angle = Math.acos(Math.min(Math.max(dot(a, b), -1), 1));
+	const s = Math.sin(angle);
+
+	const ratioA = Math.sin((1 - t) * angle) / s;
+	const ratioB = Math.sin(t * angle) / s;
+
+	return fromValues(
+		ratioA * a[0] + ratioB * b[0],
+		ratioA * a[1] + ratioB * b[1],
+		ratioA * a[2] + ratioB * b[2],
+		out
+	);
 };
 
 /**
@@ -459,16 +463,19 @@ export const lerp = <T extends Vector3Like>(
  * @param magnitude - The magnitude.
  * @param out - The vector to store the result in.
  * @returns This vector.
+ * @public
  */
 export const random = <T extends Vector3Like>(magnitude: number, out: T): T => {
 	const r = Math.random() * 2 * Math.PI;
 	const z = Math.random() * 2 - 1;
 	const zScale = Math.sqrt(1 - z * z) * magnitude;
 
-	out[0] = Math.cos(r) * zScale;
-	out[1] = Math.sin(r) * zScale;
-	out[2] = z * magnitude;
-	return out;
+	return fromValues(
+		Math.cos(r) * zScale,
+		Math.sin(r) * zScale,
+		z * magnitude,
+		out
+	);
 };
 
 /**
@@ -477,7 +484,8 @@ export const random = <T extends Vector3Like>(magnitude: number, out: T): T => {
  * @param matrix - The matrix (multiplicand).
  * @param out - The vector to store the result in.
  * @returns The transformed vector.
- * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
+ * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
+ * @public
  */
 export const transformMatrix3 = <T extends Vector3Like>(
 	vector: Vector3Like,
@@ -488,10 +496,12 @@ export const transformMatrix3 = <T extends Vector3Like>(
 	const y = vector[1];
 	const z = vector[2];
 
-	out[0] = x * matrix[0] + y * matrix[3] + z * matrix[6];
-	out[1] = x * matrix[1] + y * matrix[4] + z * matrix[7];
-	out[2] = x * matrix[2] + y * matrix[5] + z * matrix[8];
-	return out;
+	return fromValues(
+		x * matrix[0] + y * matrix[3] + z * matrix[6],
+		x * matrix[1] + y * matrix[4] + z * matrix[7],
+		x * matrix[2] + y * matrix[5] + z * matrix[8],
+		out
+	);
 };
 
 /**
@@ -500,7 +510,8 @@ export const transformMatrix3 = <T extends Vector3Like>(
  * @param matrix - The matrix (multiplicand).
  * @param out - The vector to store the result in.
  * @returns The transformed vector.
- * @see [Transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix)
+ * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
+ * @public
  */
 export const transformMatrix4 = <T extends Vector3Like>(
 	vector: Vector3Like,
@@ -510,13 +521,14 @@ export const transformMatrix4 = <T extends Vector3Like>(
 	const x = vector[0];
 	const y = vector[1];
 	const z = vector[2];
-
 	const w = matrix[3] * x + matrix[7] * y + matrix[11] * z + matrix[15] || 1;
 
-	out[0] = (matrix[0] * x + matrix[4] * y + matrix[8] * z + matrix[12]) / w;
-	out[1] = (matrix[1] * x + matrix[5] * y + matrix[9] * z + matrix[13]) / w;
-	out[2] = (matrix[2] * x + matrix[6] * y + matrix[10] * z + matrix[14]) / w;
-	return out;
+	return fromValues(
+		(matrix[0] * x + matrix[4] * y + matrix[8] * z + matrix[12]) / w,
+		(matrix[1] * x + matrix[5] * y + matrix[9] * z + matrix[13]) / w,
+		(matrix[2] * x + matrix[6] * y + matrix[10] * z + matrix[14]) / w,
+		out
+	);
 };
 
 /**
@@ -526,6 +538,7 @@ export const transformMatrix4 = <T extends Vector3Like>(
  * @param r - The angle of rotation in radians.
  * @param out - The vector to store the result in.
  * @returns The rotated vector.
+ * @public
  */
 export const rotateX = <T extends Vector3Like>(
 	vector: Vector3Like,
@@ -533,17 +546,16 @@ export const rotateX = <T extends Vector3Like>(
 	r: number,
 	out: T
 ): T => {
-	const p0 = vector[0] - origin[0];
-	const p1 = vector[1] - origin[1];
-	const p2 = vector[2] - origin[2];
+	const o1 = origin[1];
+	const o2 = origin[2];
 
-	const r1 = p1 * Math.cos(r) - p2 * Math.sin(r);
-	const r2 = p1 * Math.sin(r) + p2 * Math.cos(r);
+	const p1 = vector[1] - o1;
+	const p2 = vector[2] - o2;
 
-	out[0] = p0 + origin[0];
-	out[1] = r1 + origin[1];
-	out[2] = r2 + origin[2];
-	return out;
+	const c = Math.cos(r);
+	const s = Math.sin(r);
+
+	return fromValues(vector[0], p1 * c - p2 * s + o1, p1 * s + p2 * c + o2, out);
 };
 
 /**
@@ -553,6 +565,7 @@ export const rotateX = <T extends Vector3Like>(
  * @param r - The angle of rotation in radians.
  * @param out - The vector to store the result in.
  * @returns The rotated vector.
+ * @public
  */
 export const rotateY = <T extends Vector3Like>(
 	vector: Vector3Like,
@@ -560,17 +573,16 @@ export const rotateY = <T extends Vector3Like>(
 	r: number,
 	out: T
 ): T => {
-	const p0 = vector[0] - origin[0];
-	const p1 = vector[1] - origin[1];
-	const p2 = vector[2] - origin[2];
+	const o0 = origin[0];
+	const o2 = origin[2];
 
-	const r0 = p2 * Math.sin(r) + p0 * Math.cos(r);
-	const r2 = p2 * Math.cos(r) - p0 * Math.sin(r);
+	const p0 = vector[0] - o0;
+	const p2 = vector[2] - o2;
 
-	out[0] = r0 + origin[0];
-	out[1] = p1 + origin[1];
-	out[2] = r2 + origin[2];
-	return out;
+	const c = Math.cos(r);
+	const s = Math.sin(r);
+
+	return fromValues(p2 * s + p0 * c + o0, vector[1], p2 * c - p0 * s + o2, out);
 };
 
 /**
@@ -580,6 +592,7 @@ export const rotateY = <T extends Vector3Like>(
  * @param r - The angle of rotation in radians.
  * @param out - The vector to store the result in.
  * @returns The rotated vector.
+ * @public
  */
 export const rotateZ = <T extends Vector3Like>(
 	vector: Vector3Like,
@@ -587,17 +600,16 @@ export const rotateZ = <T extends Vector3Like>(
 	r: number,
 	out: T
 ): T => {
-	const p0 = vector[0] - origin[0];
-	const p1 = vector[1] - origin[1];
-	const p2 = vector[2] - origin[2];
+	const o0 = origin[0];
+	const o1 = origin[1];
 
-	const r0 = p0 * Math.cos(r) - p1 * Math.sin(r);
-	const r1 = p0 * Math.sin(r) + p1 * Math.cos(r);
+	const p0 = vector[0] - o0;
+	const p1 = vector[1] - o1;
 
-	out[0] = r0 + origin[0];
-	out[1] = r1 + origin[1];
-	out[2] = p2 + origin[2];
-	return out;
+	const c = Math.cos(r);
+	const s = Math.sin(r);
+
+	return fromValues(p0 * c - p1 * s + o0, p0 * s + p1 * c + o1, vector[2], out);
 };
 
 /**
@@ -605,6 +617,7 @@ export const rotateZ = <T extends Vector3Like>(
  * @param a - The first vector.
  * @param b - The second vector.
  * @returns The angular distance from the first vector to the second.
+ * @public
  */
 export const angle = (a: Vector3Like, b: Vector3Like): number => {
 	const ax = a[0];
@@ -615,27 +628,22 @@ export const angle = (a: Vector3Like, b: Vector3Like): number => {
 	const by = b[1];
 	const bz = b[2];
 
-	const mag1 = Math.sqrt(ax * ax + ay * ay + az * az);
-	const mag2 = Math.sqrt(bx * bx + by * by + bz * bz);
+	// `Math.hypot` is slower.
+	const mag =
+		Math.sqrt(ax * ax + ay * ay + az * az) *
+		Math.sqrt(bx * bx + by * by + bz * bz);
 
-	const mag = mag1 * mag2;
-
-	const cosine = mag && dot(a, b) / mag;
-
-	return Math.acos(Math.min(Math.max(cosine, -1), 1));
+	return Math.acos(Math.min(Math.max(mag && dot(a, b) / mag, -1), 1));
 };
 
 /**
  * Set a vector to the zero vector.
  * @param out - The vector to store the result in.
  * @returns This vector.
+ * @public
  */
-export const zero = <T extends Vector3Like>(out: T): T => {
-	out[0] = 0;
-	out[1] = 0;
-	out[2] = 0;
-	return out;
-};
+export const zero = <T extends Vector3Like>(out: T): T =>
+	fromValues(0, 0, 0, out);
 
 /**
  * Perform a Hermite interpolation with two control points between two vectors.
@@ -646,7 +654,8 @@ export const zero = <T extends Vector3Like>(out: T): T => {
  * @param t - The interpolation amount in the range `[0,1]`.
  * @param out - The vector to store the result in.
  * @returns The interpolated vector.
- * @see [Hermite interpolation](https://en.wikipedia.org/wiki/Hermite_interpolation)
+ * @see {@link https://en.wikipedia.org/wiki/Hermite_interpolation | Hermite interpolation}
+ * @public
  */
 export const hermite = <T extends Vector3Like>(
 	a: Vector3Like,
@@ -656,17 +665,19 @@ export const hermite = <T extends Vector3Like>(
 	t: number,
 	out: T
 ): T => {
-	const factorTimes2 = t * t;
+	const t2 = t * t;
 
-	const factor1 = factorTimes2 * (2 * t - 3) + 1;
-	const factor2 = factorTimes2 * (t - 2) + t;
-	const factor3 = factorTimes2 * (t - 1);
-	const factor4 = factorTimes2 * (3 - 2 * t);
+	const f1 = t2 * (2 * t - 3) + 1;
+	const f2 = t2 * (t - 2) + t;
+	const f3 = t2 * (t - 1);
+	const f4 = t2 * (3 - 2 * t);
 
-	out[0] = a[0] * factor1 + b[0] * factor2 + c[0] * factor3 + d[0] * factor4;
-	out[1] = a[1] * factor1 + b[1] * factor2 + c[1] * factor3 + d[1] * factor4;
-	out[2] = a[2] * factor1 + b[2] * factor2 + c[2] * factor3 + d[2] * factor4;
-	return out;
+	return fromValues(
+		a[0] * f1 + b[0] * f2 + c[0] * f3 + d[0] * f4,
+		a[1] * f1 + b[1] * f2 + c[1] * f3 + d[1] * f4,
+		a[2] * f1 + b[2] * f2 + c[2] * f3 + d[2] * f4,
+		out
+	);
 };
 
 /**
@@ -678,7 +689,8 @@ export const hermite = <T extends Vector3Like>(
  * @param t - The interpolation amount in the range `[0,1]`.
  * @param out - The vector to store the result in.
  * @returns The interpolated vector.
- * @see [Bézier curve](https://en.wikipedia.org/wiki/B%C3%A9zier_curve)
+ * @see {@link https://en.wikipedia.org/wiki/B%C3%A9zier_curve | Bézier curve}
+ * @public
  */
 export const bezier = <T extends Vector3Like>(
 	a: Vector3Like,
@@ -688,19 +700,21 @@ export const bezier = <T extends Vector3Like>(
 	t: number,
 	out: T
 ): T => {
-	const inverseFactor = 1 - t;
-	const inverseFactorTimesTwo = inverseFactor * inverseFactor;
-	const factorSq = t * t;
+	const invf = 1 - t;
+	const invf2 = invf * invf;
+	const sqf = t * t;
 
-	const factor1 = inverseFactorTimesTwo * inverseFactor;
-	const factor2 = 3 * t * inverseFactorTimesTwo;
-	const factor3 = 3 * factorSq * inverseFactor;
-	const factor4 = factorSq * t;
+	const f1 = invf2 * invf;
+	const f2 = 3 * t * invf2;
+	const f3 = 3 * sqf * invf;
+	const f4 = sqf * t;
 
-	out[0] = a[0] * factor1 + b[0] * factor2 + c[0] * factor3 + d[0] * factor4;
-	out[1] = a[1] * factor1 + b[1] * factor2 + c[1] * factor3 + d[1] * factor4;
-	out[2] = a[2] * factor1 + b[2] * factor2 + c[2] * factor3 + d[2] * factor4;
-	return out;
+	return fromValues(
+		a[0] * f1 + b[0] * f2 + c[0] * f3 + d[0] * f4,
+		a[1] * f1 + b[1] * f2 + c[1] * f3 + d[1] * f4,
+		a[2] * f1 + b[2] * f2 + c[2] * f3 + d[2] * f4,
+		out
+	);
 };
 
 /**
@@ -709,7 +723,8 @@ export const bezier = <T extends Vector3Like>(
  * @param quaternion - The quaternion.
  * @param out - The vector to store the result in.
  * @returns The transformed vector.
- * @see [Quaternion](https://en.wikipedia.org/wiki/Quaternion)
+ * @see {@link https://en.wikipedia.org/wiki/Quaternion | Quaternion}
+ * @public
  */
 export const transformQuaternion = <T extends Vector3Like>(
 	vector: Vector3Like,
@@ -719,7 +734,7 @@ export const transformQuaternion = <T extends Vector3Like>(
 	const qx = quaternion[0];
 	const qy = quaternion[1];
 	const qz = quaternion[2];
-	const qw = quaternion[3];
+	const qw2 = quaternion[3] * 2;
 
 	const x = vector[0];
 	const y = vector[1];
@@ -729,80 +744,21 @@ export const transformQuaternion = <T extends Vector3Like>(
 	let uvy = qz * x - qx * z;
 	let uvz = qx * y - qy * x;
 
-	let uuvx = qy * uvz - qz * uvy;
-	let uuvy = qz * uvx - qx * uvz;
-	let uuvz = qx * uvy - qy * uvx;
+	const uuvx = (qy * uvz - qz * uvy) * 2;
+	const uuvy = (qz * uvx - qx * uvz) * 2;
+	const uuvz = (qx * uvy - qy * uvx) * 2;
 
-	const w2 = qw * 2;
-	uvx *= w2;
-	uvy *= w2;
-	uvz *= w2;
+	uvx *= qw2;
+	uvy *= qw2;
+	uvz *= qw2;
 
-	uuvx *= 2;
-	uuvy *= 2;
-	uuvz *= 2;
-
-	out[0] = x + uvx + uuvx;
-	out[1] = y + uvy + uuvy;
-	out[2] = z + uvz + uuvz;
-	return out;
-};
-
-// The unit three-dimensional vector that represents the X-axis.
-const xAxis = fromValues(1, 0, 0, createVector3Like());
-
-// The unit three-dimensional vector that represents the Y-axis.
-const yAxis = fromValues(0, 1, 0, createVector3Like());
-
-// Used to store intermediary values for some functions.
-const intermediary = createVector3Like();
-
-/**
- * Create a quaternion that represents the shortest rotation from one unit vector to another.
- * @param a - The first vector.
- * @param b - The second vector.
- * @param out - The quaternion to store the result in.
- * @returns The quaternion.
- */
-export const rotationTo = <T extends QuaternionLike>(
-	a: Vector3Like,
-	b: Vector3Like,
-	out: T
-): T => {
-	const dp = dot(a, b);
-
-	if (dp < epsilon - 1) {
-		cross(xAxis, a, intermediary);
-		if (getMagnitude(intermediary) < epsilon) {
-			cross(yAxis, a, intermediary);
-		}
-		normalize(intermediary, intermediary);
-		out[0] = intermediary[0];
-		out[1] = intermediary[1];
-		out[2] = intermediary[2];
-		out[3] = 0;
-		return out;
-	}
-
-	if (dp > 1 - epsilon) {
-		out[0] = 0;
-		out[1] = 0;
-		out[2] = 0;
-		out[3] = 1;
-		return out;
-	}
-
-	cross(a, b, intermediary);
-	out[0] = intermediary[0];
-	out[1] = intermediary[1];
-	out[2] = intermediary[2];
-	out[3] = 1 + dp;
-	return normalizeVector4(out, out);
+	return fromValues(x + uvx + uuvx, y + uvy + uuvy, z + uvz + uuvz, out);
 };
 
 /**
  * A quantity with magnitude and direction in three dimensions.
- * @see [Euclidean vector](https://en.wikipedia.org/wiki/Euclidean_vector)
+ * @see {@link https://en.wikipedia.org/wiki/Euclidean_vector | Euclidean vector}
+ * @public
  */
 export default class Vector3
 	extends Float32Array
@@ -827,7 +783,7 @@ export default class Vector3
 
 	/**
 	 * Create a three-dimensional zero vector.
-	 * @see [Euclidean vector](https://en.wikipedia.org/wiki/Euclidean_vector)
+	 * @see {@link https://en.wikipedia.org/wiki/Euclidean_vector | Euclidean vector}
 	 */
 	public constructor() {
 		super(3);
@@ -1023,7 +979,7 @@ export default class Vector3
 	 * Calculate the Euclidean distance between this vector and another.
 	 * @param vector - The other vector.
 	 * @returns The distance.
-	 * @see [Euclidean distance](https://en.wikipedia.org/wiki/Euclidean_distance)
+	 * @see {@link https://en.wikipedia.org/wiki/Euclidean_distance | Euclidean distance}
 	 */
 	public distance(vector: Vector3Like): number {
 		return distance(this, vector);
@@ -1033,7 +989,7 @@ export default class Vector3
 	 * Calculate the squared Euclidean distance between this vector and another.
 	 * @param vector - The other vector.
 	 * @returns The squared distance.
-	 * @see [Euclidean distance](https://en.wikipedia.org/wiki/Euclidean_distance)
+	 * @see {@link https://en.wikipedia.org/wiki/Euclidean_distance | Euclidean distance}
 	 */
 	public squaredDistance(vector: Vector3Like): number {
 		return squaredDistance(this, vector);
@@ -1075,7 +1031,7 @@ export default class Vector3
 	 * Normalize this vector.
 	 * @param out - The vector to store the result in.
 	 * @returns The normalized vector.
-	 * @see [Unit vector](https://en.wikipedia.org/wiki/Unit_vector)
+	 * @see {@link https://en.wikipedia.org/wiki/Unit_vector | Unit vector}
 	 */
 	public normalize<T extends Vector3Like = Vector3>(
 		out: T = new Vector3() as Vector3 & T
@@ -1087,7 +1043,7 @@ export default class Vector3
 	 * Calculate the dot product of this and another vector.
 	 * @param vector - The other vector.
 	 * @returns The dot product.
-	 * @see [Dot product](https://en.wikipedia.org/wiki/Dot_product)
+	 * @see {@link https://en.wikipedia.org/wiki/Dot_product | Dot product}
 	 */
 	public dot(vector: Vector3Like): number {
 		return dot(this, vector);
@@ -1098,7 +1054,7 @@ export default class Vector3
 	 * @param vector - The other vector.
 	 * @param out - The vector to store the result in.
 	 * @returns The cross product.
-	 * @see [Cross product](https://en.wikipedia.org/wiki/Cross_product)
+	 * @see {@link https://en.wikipedia.org/wiki/Cross_product | Cross product}
 	 */
 	public cross<T extends Vector3Like = Vector3>(
 		vector: Vector3Like,
@@ -1113,7 +1069,7 @@ export default class Vector3
 	 * @param t - The interpolation amount (in `[0,1]`).
 	 * @param out - The vector to store the result in.
 	 * @returns The interpolated vector.
-	 * @see [Linear interpolation](https://en.wikipedia.org/wiki/Linear_interpolation)
+	 * @see {@link https://en.wikipedia.org/wiki/Linear_interpolation | Linear interpolation}
 	 */
 	public lerp<T extends Vector3Like = Vector3>(
 		vector: Vector3Like,
@@ -1228,7 +1184,7 @@ export default class Vector3
 	 * @param t - The interpolation amount in the range `[0,1]`.
 	 * @param out - The vector to store the result in.
 	 * @returns The interpolated vector.
-	 * @see [Hermite interpolation](https://en.wikipedia.org/wiki/Hermite_interpolation)
+	 * @see {@link https://en.wikipedia.org/wiki/Hermite_interpolation | Hermite interpolation}
 	 */
 	public hermite<T extends Vector3Like = Vector3>(
 		a: Vector3Like,
@@ -1248,7 +1204,7 @@ export default class Vector3
 	 * @param t - The interpolation amount in the range `[0,1]`.
 	 * @param out - The vector to store the result in.
 	 * @returns The interpolated vector.
-	 * @see [Bézier curve](https://en.wikipedia.org/wiki/B%C3%A9zier_curve)
+	 * @see {@link https://en.wikipedia.org/wiki/B%C3%A9zier_curve | Bézier curve}
 	 */
 	public bezier<T extends Vector3Like = Vector3>(
 		a: Vector3Like,
@@ -1265,25 +1221,12 @@ export default class Vector3
 	 * @param quaternion - The quaternion.
 	 * @param out - The vector to store the result in.
 	 * @returns The transformed vector.
-	 * @see [Quaternion](https://en.wikipedia.org/wiki/Quaternion)
+	 * @see {@link https://en.wikipedia.org/wiki/Quaternion | Quaternion}
 	 */
 	public transformQuaternion<T extends Vector3Like = Vector3>(
 		quaternion: QuaternionLike,
 		out: T = new Vector3() as Vector3 & T
 	): T {
 		return transformQuaternion(this, quaternion, out);
-	}
-
-	/**
-	 * Create a quaternion that represents the shortest rotation from this unit vector to another.
-	 * @param vector - The other vector.
-	 * @param out - The quaternion to store the result in.
-	 * @returns The quaternion.
-	 */
-	public rotationTo<T extends QuaternionLike = Quaternion>(
-		vector: Vector3Like,
-		out: T = new Quaternion() as Quaternion & T
-	): T {
-		return rotationTo(this, vector, out);
 	}
 }

@@ -13,7 +13,9 @@ import primeFactorization from "../dist/algorithms/primeFactorization.js";
 import radiansToDegrees from "../dist/algorithms/radiansToDegrees.js";
 import summation from "../dist/algorithms/summation.js";
 
-const approximatelyEqual = (actual, expected, delta) => {
+const approximatelyEqual = (actual, expected, delta = epsilon) => {
+	ok(typeof actual === "number");
+	ok(typeof expected === "number");
 	ok(Math.abs(actual - expected) < delta);
 };
 
@@ -37,15 +39,15 @@ void describe("combinations", () => {
 
 void describe("degreesToRadians", () => {
 	void it("should return $0°=0rad$", () => {
-		approximatelyEqual(degreesToRadians(0), 0, epsilon);
+		approximatelyEqual(degreesToRadians(0), 0);
 	});
 
 	void it("should return $180°=πrad$", () => {
-		approximatelyEqual(degreesToRadians(180), Math.PI, epsilon);
+		approximatelyEqual(degreesToRadians(180), Math.PI);
 	});
 
 	void it("should return $100°=5π/9rad$", () => {
-		approximatelyEqual(degreesToRadians(100), (5 * Math.PI) / 9, epsilon);
+		approximatelyEqual(degreesToRadians(100), (5 * Math.PI) / 9);
 	});
 });
 
@@ -104,23 +106,19 @@ void describe("greatestCommonDivisor", () => {
 
 void describe("hypergeometricPmf", () => {
 	void it("should return $px(1,1,1,1)=1$", () => {
-		approximatelyEqual(hypergeometricPmf(1, 1, 1, 1), 1, epsilon);
+		approximatelyEqual(hypergeometricPmf(1, 1, 1, 1), 1);
 	});
 
 	void it("should return $px(4,3,2,1)=1/2$", () => {
-		approximatelyEqual(hypergeometricPmf(4, 3, 2, 1), 1 / 2, epsilon);
+		approximatelyEqual(hypergeometricPmf(4, 3, 2, 1), 1 / 2);
 	});
 
 	void it("should return $px(8,4,2,1)=4/7$", () => {
-		approximatelyEqual(hypergeometricPmf(8, 4, 2, 1), 4 / 7, epsilon);
+		approximatelyEqual(hypergeometricPmf(8, 4, 2, 1), 4 / 7);
 	});
 
 	void it("should return $px(60,4,7,1)=163982/487635$", () => {
-		approximatelyEqual(
-			hypergeometricPmf(60, 4, 7, 1),
-			163982 / 487635,
-			epsilon
-		);
+		approximatelyEqual(hypergeometricPmf(60, 4, 7, 1), 163982 / 487635);
 	});
 });
 
@@ -192,15 +190,15 @@ void describe("primeFactorization", () => {
 
 void describe("radiansToDegrees", () => {
 	void it("should return $0rad=0°$", () => {
-		approximatelyEqual(radiansToDegrees(0), 0, epsilon);
+		approximatelyEqual(radiansToDegrees(0), 0);
 	});
 
 	void it("should return $πrad=180°$", () => {
-		approximatelyEqual(radiansToDegrees(Math.PI), 180, epsilon);
+		approximatelyEqual(radiansToDegrees(Math.PI), 180);
 	});
 
 	void it("should return $5π/9rad=100°$", () => {
-		approximatelyEqual(radiansToDegrees((5 * Math.PI) / 9), 100, epsilon);
+		approximatelyEqual(radiansToDegrees((5 * Math.PI) / 9), 100);
 	});
 });
 

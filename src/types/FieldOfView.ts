@@ -1,4 +1,7 @@
-/** A field of view. */
+/**
+ * A field of view.
+ * @public
+ */
 export default interface FieldOfView {
 	/** The angle to the top of the field of view in degrees. */
 	upDegrees: number;

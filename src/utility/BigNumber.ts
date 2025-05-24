@@ -1,6 +1,9 @@
 import greatestCommonDivisor from "../algorithms/greatestCommonDivisor.js";
 
-/** A number with no maximum precise size. */
+/**
+ * A number with no maximum precise size.
+ * @public
+ */
 export default class BigNumber {
 	/**
 	 * Create a number.
@@ -30,7 +33,7 @@ export default class BigNumber {
 	 * Simplify this fraction.
 	 * @internal
 	 */
-	private simplify() {
+	private simplify(): void {
 		// Switch signs such that only the dividend can be negative.
 		if (this.divisor < 0) {
 			this.dividend = -this.dividend;
@@ -128,7 +131,7 @@ export default class BigNumber {
 	 * Convert this number to a string.
 	 * @returns A string representation of this number.
 	 */
-	public toString() {
+	public toString(): string {
 		return `${this.dividend.toLocaleString()}/${this.divisor.toLocaleString()}`;
 	}
 }

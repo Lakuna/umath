@@ -1,4 +1,7 @@
-/** An error resulting from creating a matrix that isn't a perfect rectangle. */
+/**
+ * An error resulting from creating a matrix that isn't a perfect rectangle.
+ * @public
+ */
 export default class PartialMatrixError extends Error {
 	/**
 	 * Create an error resulting from creating a matrix that isn't a perfect rectangle.
