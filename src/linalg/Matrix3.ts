@@ -175,6 +175,46 @@ export const fromQuaternion = <T extends Matrix3Like>(
 };
 
 /**
+ * Create a transformation matrix that represents a rotation by the given z-y'-x" (intrinsic) Tait-Bryan angles.
+ * @param z - The z (roll) angle.
+ * @param y - The y (pitch) angle.
+ * @param x - The x (yaw) angle.
+ * @param out - The matrix to store the result in.
+ * @returns The transformation matrix.
+ * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
+ * @public
+ */
+export const fromEuler = <T extends Matrix3Like>(
+	z: number,
+	y: number,
+	x: number,
+	out: T
+): T => {
+	const cz = Math.cos(z);
+	const sz = Math.sin(z);
+	const sy = Math.sin(y);
+	const cy = Math.cos(y);
+	const sx = Math.sin(x);
+	const cx = Math.cos(x);
+
+	const sysz = sy * sz;
+	const cysz = cy * sz;
+
+	return fromValues(
+		cz * cx,
+		sysz * cx - cy * sx,
+		cysz * cx + sy * sx,
+		cz * sx,
+		sysz * sx + cy * cx,
+		cysz * sx - sy * cx,
+		-sz,
+		sy * cz,
+		cy * cz,
+		out
+	);
+};
+
+/**
  * Calculate a three-by-three normal (inverse transpose) matrix from a four-by-four matrix.
  * @param matrix - The four-by-four matrix.
  * @param out - The matrix to store the result in.
@@ -849,6 +889,25 @@ export default class Matrix3
 		out: T = new Matrix3() as Matrix3 & T
 	): T {
 		return fromQuaternion(quaternion, out);
+	}
+
+	/**
+	 * Create a transformation matrix that represents a rotation by the given z-y'-x" (intrinsic) Tait-Bryan angles.
+	 * @param z - The z (roll) angle.
+	 * @param y - The y (pitch) angle.
+	 * @param x - The x (yaw) angle.
+	 * @param out - The matrix to store the result in.
+	 * @returns The transformation matrix.
+	 * @see {@link https://en.wikipedia.org/wiki/Quaternion | Quaternion}
+	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
+	 */
+	public static fromEuler<T extends Matrix3Like = Matrix3>(
+		z: number,
+		y: number,
+		x: number,
+		out: T = new Matrix3() as Matrix3 & T
+	): T {
+		return fromEuler(z, y, x, out);
 	}
 
 	/**
