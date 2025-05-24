@@ -3,7 +3,7 @@ import {
 	createMatrix3Like,
 	fromValues as matrix3FromValues
 } from "./Matrix3.js";
-import {
+import Vector3, {
 	type Vector3Like,
 	createVector3Like,
 	cross as vector3Cross,
@@ -26,6 +26,7 @@ import {
 } from "./Vector4.js";
 import type AxisAngle from "../types/AxisAngle.js";
 import epsilon from "../utility/epsilon.js";
+import radiansToDegrees from "../algorithms/radiansToDegrees.js";
 
 /**
  * A complex number that is commonly used to describe rotations.
@@ -511,6 +512,50 @@ export const fromEuler: <T extends QuaternionLike>(
 	x: number,
 	out: T
 ) => T = fromEulerZyx;
+
+// Used in `toEuler`.
+const halfEpsilon = 0.5 - epsilon;
+const doubleRatio = 360 / Math.PI;
+
+/**
+ * Convert a quaternion to equivalent z-y'-x" (intrinsic) Tait-Bryan angles.
+ * @param quaternion - The quaternion.
+ * @param out - The vector in which to store the Tait-Bryan angles.
+ * @returns The Tait-Bryan angles in degrees in roll (z), pitch (y'), yaw (x") order.
+ * @public
+ */
+export const toEuler = <T extends Vector3Like>(
+	quaternion: QuaternionLike,
+	out: T
+): T => {
+	const x = quaternion[0];
+	const y = quaternion[1];
+	const z = quaternion[2];
+	const w = quaternion[3];
+
+	const y2 = y * y;
+	const z2 = z * z;
+	const w2 = w * w;
+
+	const test = x * w - y * z;
+
+	const heu = halfEpsilon * (x * x + y2 + z2 + w2);
+
+	if (test > heu) {
+		return vector3FromValues(90, Math.atan2(y, x) * doubleRatio, 0, out);
+	}
+
+	if (test < -heu) {
+		return vector3FromValues(-90, Math.atan2(y, x) * doubleRatio, 0, out);
+	}
+
+	return vector3FromValues(
+		radiansToDegrees(Math.asin(2 * (x * z - w * y))),
+		radiansToDegrees(Math.atan2(2 * (x * w + y * z), 1 - 2 * (z2 + w2))),
+		radiansToDegrees(Math.atan2(2 * (x * y + z * w), 1 - 2 * (y2 + z2))),
+		out
+	);
+};
 
 // Stores intermediary values for some functions.
 const im3 = createMatrix3Like();
@@ -1440,5 +1485,16 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 		out: T = new Quaternion() as Quaternion & T
 	): T {
 		return sqlerp(this, a, b, quaternion, t, out);
+	}
+
+	/**
+	 * Convert this quaternion to equivalent z-y'-x" (intrinsic) Tait-Bryan angles.
+	 * @param out - The vector in which to store the Tait-Bryan angles.
+	 * @returns The Tait-Bryan angles in degrees in roll (z), pitch (y'), yaw (x") order.
+	 */
+	public toEuler<T extends Vector3Like = Vector3>(
+		out: T = new Vector3() as Vector3 & T
+	): T {
+		return toEuler(this, out);
 	}
 }
