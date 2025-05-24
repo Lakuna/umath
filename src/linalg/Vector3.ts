@@ -733,12 +733,13 @@ export const bezier = <T extends Vector3Like>(
 };
 
 /**
- * Transform a vector by a quaternion.
+ * Transform a vector by a unit quaternion.
  * @param vector - The vector.
- * @param quaternion - The quaternion.
+ * @param quaternion - The unit quaternion.
  * @param out - The vector to store the result in.
  * @returns The transformed vector.
  * @see {@link https://en.wikipedia.org/wiki/Quaternion | Quaternion}
+ * @see {@link https://raw.org/proof/vector-rotation-using-quaternions/ | Fast Vector Rotation using Quaternions}
  * @public
  */
 export const transformQuaternion = <T extends Vector3Like>(
@@ -746,28 +747,25 @@ export const transformQuaternion = <T extends Vector3Like>(
 	quaternion: QuaternionLike,
 	out: T
 ): T => {
-	const qx = quaternion[0];
-	const qy = quaternion[1];
-	const qz = quaternion[2];
-	const qw2 = quaternion[3] * 2;
-
 	const x = vector[0];
 	const y = vector[1];
 	const z = vector[2];
 
-	let uvx = qy * z - qz * y;
-	let uvy = qz * x - qx * z;
-	let uvz = qx * y - qy * x;
+	const qx = quaternion[0];
+	const qy = quaternion[1];
+	const qz = quaternion[2];
+	const qw = quaternion[3];
 
-	const uuvx = (qy * uvz - qz * uvy) * 2;
-	const uuvy = (qz * uvx - qx * uvz) * 2;
-	const uuvz = (qx * uvy - qy * uvx) * 2;
+	const tx = (qy * z - qz * y) * 2;
+	const ty = (qz * x - qx * z) * 2;
+	const tz = (qx * y - qy * x) * 2;
 
-	uvx *= qw2;
-	uvy *= qw2;
-	uvz *= qw2;
-
-	return fromValues(x + uvx + uuvx, y + uvy + uuvy, z + uvz + uuvz, out);
+	return fromValues(
+		x + qw * tx + qy * tz - qz * ty,
+		y + qw * ty + qz * tx - qx * tz,
+		z + qw * tz + qx * ty - qy * tx,
+		out
+	);
 };
 
 /**

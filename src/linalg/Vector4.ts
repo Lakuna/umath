@@ -552,12 +552,13 @@ export const zero = <T extends Vector4Like>(out: T): T =>
 	fromValues(0, 0, 0, 0, out);
 
 /**
- * Transform a vector by a quaternion.
+ * Transform a vector by a unit quaternion.
  * @param vector - The vector.
- * @param quaternion - The quaternion.
+ * @param quaternion - The unit quaternion.
  * @param out - The vector to store the result in.
  * @returns The transformed vector.
  * @see {@link https://en.wikipedia.org/wiki/Quaternion | Quaternion}
+ * @see {@link https://raw.org/proof/vector-rotation-using-quaternions/ | Fast Vector Rotation using Quaternions}
  * @public
  */
 export const transformQuaternion = <T extends Vector4Like>(
@@ -574,15 +575,14 @@ export const transformQuaternion = <T extends Vector4Like>(
 	const qz = quaternion[2];
 	const qw = quaternion[3];
 
-	const ix = qw * x + qy * z - qz * y;
-	const iy = qw * y + qz * x - qx * z;
-	const iz = qw * z + qx * y - qy * x;
-	const iw = -qx * x - qy * y - qz * z;
+	const tx = (qy * z - qz * y) * 2;
+	const ty = (qz * x - qx * z) * 2;
+	const tz = (qx * y - qy * x) * 2;
 
 	return fromValues(
-		ix * qw + iw * -qx + iy * -qz - iz * -qy,
-		iy * qw + iw * -qy + iz * -qx - ix * -qz,
-		iz * qw + iw * -qz + ix * -qy - iy * -qx,
+		x + qw * tx + qy * tz - qz * ty,
+		y + qw * ty + qz * tx - qx * tz,
+		z + qw * tz + qx * ty - qy * tx,
 		vector[3],
 		out
 	);
