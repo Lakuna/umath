@@ -639,27 +639,32 @@ export const frustum = <T extends Matrix4Like>(
 ): T => {
 	const rl = 1 / (right - left);
 	const tb = 1 / (top - bottom);
-	const nf = 1 / (near - far);
 
-	return fromValues(
-		near * 2 * rl,
-		0,
-		0,
-		0,
-		0,
-		near * 2 * tb,
-		0,
-		0,
-		(right + left) * rl,
-		(top + bottom) * tb,
-		(far + near) * nf,
-		-1,
-		0,
-		0,
-		far * near * 2 * nf,
-		0,
-		out
-	);
+	out[0] = near * 2 * rl;
+	out[1] = 0;
+	out[2] = 0;
+	out[3] = 0;
+	out[4] = 0;
+	out[5] = near * 2 * tb;
+	out[6] = 0;
+	out[7] = 0;
+	out[8] = (right + left) * rl;
+	out[9] = (top + bottom) * tb;
+	out[11] = -1;
+	out[12] = 0;
+	out[13] = 0;
+	out[15] = 0;
+
+	if (far === Infinity) {
+		out[10] = -1;
+		out[14] = -2 * near;
+		return out;
+	}
+
+	const nf = 1 / (near - far);
+	out[10] = (far + near) * nf;
+	out[14] = 2 * far * near * nf;
+	return out;
 };
 
 /**
