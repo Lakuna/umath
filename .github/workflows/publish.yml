@@ -44,7 +44,8 @@ jobs:
 
   publish-npm:
     name: Publish to npm
-    permissions: {}
+    permissions:
+      id-token: write
     needs: build
     runs-on: ubuntu-latest
     steps:
