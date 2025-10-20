@@ -972,9 +972,9 @@ export const invert = <T extends QuaternionLike>(
 	const aDotA = a0 * a0 + a1 * a1 + a2 * a2 + a3 * a3;
 	const invDot = aDotA ? 1 / aDotA : 0;
 
-	return aDotA === 0
-		? fromValues(0, 0, 0, 0, out)
-		: fromValues(-a0 * invDot, -a1 * invDot, -a2 * invDot, a3 * invDot, out);
+	return aDotA === 0 ?
+			fromValues(0, 0, 0, 0, out)
+		:	fromValues(-a0 * invDot, -a1 * invDot, -a2 * invDot, a3 * invDot, out);
 };
 
 /**

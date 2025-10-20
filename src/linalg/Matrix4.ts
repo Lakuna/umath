@@ -597,19 +597,19 @@ export const fromDualQuaternion = <T extends Matrix4Like>(
 	const magnitude = bx * bx + by * by + bz * bz + bw * bw;
 	return fromRotationTranslation(
 		quaternion,
-		magnitude > 0
-			? vector3FromValues(
-					((ax * bw + aw * bx + ay * bz - az * by) * 2) / magnitude,
-					((ay * bw + aw * by + az * bx - ax * bz) * 2) / magnitude,
-					((az * bw + aw * bz + ax * by - ay * bx) * 2) / magnitude,
-					iv3
-				)
-			: vector3FromValues(
-					(ax * bw + aw * bx + ay * bz - az * by) * 2,
-					(ay * bw + aw * by + az * bx - ax * bz) * 2,
-					(az * bw + aw * bz + ax * by - ay * bx) * 2,
-					iv3
-				),
+		magnitude > 0 ?
+			vector3FromValues(
+				((ax * bw + aw * bx + ay * bz - az * by) * 2) / magnitude,
+				((ay * bw + aw * by + az * bx - ax * bz) * 2) / magnitude,
+				((az * bw + aw * bz + ax * by - ay * bx) * 2) / magnitude,
+				iv3
+			)
+		:	vector3FromValues(
+				(ax * bw + aw * bx + ay * bz - az * by) * 2,
+				(ay * bw + aw * by + az * bx - ax * bz) * 2,
+				(az * bw + aw * bz + ax * by - ay * bx) * 2,
+				iv3
+			),
 		out
 	);
 };
