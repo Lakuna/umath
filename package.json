@@ -1,6 +1,6 @@
 {
 	"name": "@lakuna/umath",
-	"version": "1.4.2",
+	"version": "1.4.3",
 	"description": "A lightweight math library.",
 	"keywords": [
 		"math"
@@ -36,18 +36,18 @@
 		"beautify": "prettier . --write"
 	},
 	"devDependencies": {
-		"@eslint/js": "^9.38.0",
+		"@eslint/js": "^9.39.1",
 		"@types/eslint": "^9.6.1",
 		"@types/eslint-config-prettier": "^6.11.3",
-		"@types/node": "^24.9.0",
-		"eslint": "^9.38.0",
+		"@types/node": "^24.10.1",
+		"eslint": "^9.39.1",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-prettier": "^5.5.4",
-		"eslint-plugin-tsdoc": "^0.4.0",
+		"eslint-plugin-tsdoc": "^0.5.0",
 		"prettier": "^3.6.2",
 		"typedoc": "^0.28.14",
 		"typescript": "^5.9.3",
-		"typescript-eslint": "^8.46.2"
+		"typescript-eslint": "^8.47.0"
 	},
 	"exports": {
 		".": "./dist/index.js",
