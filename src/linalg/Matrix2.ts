@@ -386,7 +386,6 @@ export default class Matrix2
 	/**
 	 * Create a transformation matrix that represents a scaling by the given vector.
 	 * @param vector - The scaling vector.
-	 * @param out - The matrix to store the result in.
 	 * @returns The transformation matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */

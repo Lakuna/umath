@@ -1400,7 +1400,6 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 
 	/**
 	 * Convert this quaternion to equivalent z-y'-x" (intrinsic) Tait-Bryan angles.
-	 * @param out - The vector in which to store the Tait-Bryan angles.
 	 * @returns The Tait-Bryan angles in degrees in roll (z), pitch (y'), yaw (x") order.
 	 */
 	public toEuler(): Vector3 {
