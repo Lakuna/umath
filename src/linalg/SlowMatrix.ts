@@ -1,7 +1,29 @@
 import type { default as Matrix, MatrixLike } from "./Matrix.js";
 import MatrixSizeError from "../utility/MatrixSizeError.js";
 import PartialMatrixError from "../utility/PartialMatrixError.js";
-import epsilon from "../utility/epsilon.js";
+import approx from "../algorithms/approx.js";
+
+/**
+ * A matrix with size information.
+ * @internal
+ */
+interface SizedMatrixLike extends MatrixLike {
+	/** The width (number of columns) of the matrix. */
+	width: number;
+
+	/** The height (number of rows) of the matrix. */
+	height: number;
+}
+
+/**
+ * Determine whether the given `MatrixLike` has size information.
+ * @internal
+ */
+const isSized = (matrix: MatrixLike): matrix is SizedMatrixLike =>
+	"width" in matrix &&
+	typeof matrix.width === "number" &&
+	"height" in matrix &&
+	typeof matrix.height === "number";
 
 /**
  * A variable-size matrix.
@@ -15,16 +37,9 @@ export default class SlowMatrix extends Float32Array implements Matrix {
 	 */
 	public constructor(...cols: number[][]) {
 		super(cols.flat());
-		this.width = cols.length;
-		const firstColumn = cols[0];
-		if (typeof firstColumn === "undefined") {
-			throw new PartialMatrixError();
-		}
-		this.height = this.width && firstColumn.length;
 
-		if (this.width < 1 || this.height < 1) {
-			throw new MatrixSizeError();
-		}
+		this.width = cols.length;
+		this.height = cols[0]?.length ?? 0;
 
 		// Ensure that every column is the same height.
 		for (let i = 0; i < this.width; i++) {
@@ -55,21 +70,19 @@ export default class SlowMatrix extends Float32Array implements Matrix {
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_addition | Matrix addition}
 	 */
 	public add(matrix: MatrixLike): SlowMatrix {
-		const matrixWidth = "width" in matrix ? (matrix.width as number) : 1;
-		const matrixHeight = "height" in matrix ? (matrix.height as number) : 1;
-		if (this.width !== matrixWidth || this.height !== matrixHeight) {
+		if (
+			!isSized(matrix) ||
+			this.width !== matrix.width ||
+			this.height !== matrix.height
+		) {
 			throw new MatrixSizeError();
 		}
 
 		const cols: number[][] = [];
 		for (let x = 0; x < this.width; x++) {
 			for (let y = 0; y < this.height; y++) {
-				const a = this[x * this.height + y];
-				const b = matrix[x * matrixHeight + y];
-				if (typeof a === "undefined" || typeof b === "undefined") {
-					throw new PartialMatrixError();
-				}
-				(cols[x] ??= [])[y] = a + b;
+				const i = x * this.height + y;
+				(cols[x] ??= [])[y] = (this[i] ?? 0) + (matrix[i] ?? 0);
 			}
 		}
 
@@ -84,11 +97,7 @@ export default class SlowMatrix extends Float32Array implements Matrix {
 		const cols: number[][] = [];
 		for (let x = 0; x < this.width; x++) {
 			for (let y = 0; y < this.height; y++) {
-				const a = this[x * this.height + y];
-				if (typeof a === "undefined") {
-					throw new PartialMatrixError();
-				}
-				(cols[x] ??= [])[y] = a;
+				(cols[x] ??= [])[y] = this[x * this.height + y] ?? 0;
 			}
 		}
 
@@ -101,20 +110,16 @@ export default class SlowMatrix extends Float32Array implements Matrix {
 	 * @returns This matrix.
 	 */
 	public copy(matrix: MatrixLike): this {
-		const matrixWidth = "width" in matrix ? (matrix.width as number) : 1;
-		const matrixHeight = "height" in matrix ? (matrix.height as number) : 1;
-		if (this.width !== matrixWidth || this.height !== matrixHeight) {
+		if (
+			!isSized(matrix) ||
+			this.width !== matrix.width ||
+			this.height !== matrix.height
+		) {
 			throw new MatrixSizeError();
 		}
 
-		for (let x = 0; x < this.width; x++) {
-			for (let y = 0; y < this.height; y++) {
-				const a = matrix[x * this.height + y];
-				if (typeof a === "undefined") {
-					throw new PartialMatrixError();
-				}
-				this[x * this.width + y] = a;
-			}
+		for (let i = 0; i < matrix.width * matrix.height; i++) {
+			this[i] = matrix[i] ?? 0;
 		}
 
 		return this;
@@ -126,19 +131,16 @@ export default class SlowMatrix extends Float32Array implements Matrix {
 	 * @returns Whether or not the matrices are equivalent.
 	 */
 	public equals(matrix: MatrixLike): boolean {
-		const matrixWidth = "width" in matrix ? (matrix.width as number) : 1;
-		const matrixHeight = "height" in matrix ? (matrix.height as number) : 1;
-		if (this.width !== matrixWidth || this.height !== matrixHeight) {
+		if (
+			!isSized(matrix) ||
+			this.width !== matrix.width ||
+			this.height !== matrix.height
+		) {
 			return false;
 		}
 
 		for (let i = 0; i < this.length; i++) {
-			const a = this[i];
-			const b = matrix[i];
-			if (typeof a === "undefined" || typeof b === "undefined") {
-				throw new PartialMatrixError();
-			}
-			if (Math.abs(a - b) > epsilon) {
+			if (approx(this[i] ?? 0, matrix[i] ?? 0)) {
 				return false;
 			}
 		}
@@ -152,9 +154,11 @@ export default class SlowMatrix extends Float32Array implements Matrix {
 	 * @returns Whether the matrices are equivalent.
 	 */
 	public exactEquals(matrix: MatrixLike): boolean {
-		const matrixWidth = "width" in matrix ? (matrix.width as number) : 1;
-		const matrixHeight = "height" in matrix ? (matrix.height as number) : 1;
-		if (this.width !== matrixWidth || this.height !== matrixHeight) {
+		if (
+			!isSized(matrix) ||
+			this.width !== matrix.width ||
+			this.height !== matrix.height
+		) {
 			return false;
 		}
 
@@ -174,28 +178,24 @@ export default class SlowMatrix extends Float32Array implements Matrix {
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_multiplication | Matrix multiplication}
 	 */
 	public multiply(matrix: MatrixLike): SlowMatrix {
-		const matrixWidth = "width" in matrix ? (matrix.width as number) : 1;
-		const matrixHeight = "height" in matrix ? (matrix.height as number) : 1;
-		if (this.width !== matrixHeight) {
+		if (!isSized(matrix) || this.width !== matrix.height) {
 			throw new MatrixSizeError();
 		}
 
 		const n = this.height;
 		const m = this.width;
-		const p = matrixWidth;
+		const p = matrix.width;
 
 		const out: number[][] = [];
 		for (let i = 0; i < n; i++) {
 			for (let j = 0; j < p; j++) {
 				let sum = 0;
 				for (let k = 0; k < m; k++) {
-					const a = this[k * this.height + i];
-					const b = matrix[j * matrixHeight + k];
-					if (typeof a === "undefined" || typeof b === "undefined") {
-						throw new PartialMatrixError();
-					}
-					sum += a * b;
+					sum +=
+						(this[k * this.height + i] ?? 0) *
+						(matrix[j * matrix.height + k] ?? 0);
 				}
+
 				(out[j] ??= [])[i] = sum;
 			}
 		}
@@ -212,11 +212,7 @@ export default class SlowMatrix extends Float32Array implements Matrix {
 	public multiplyScalar(scalar: number): SlowMatrix {
 		const out = this.clone();
 		for (let i = 0; i < out.length; i++) {
-			const a = out[i];
-			if (typeof a === "undefined") {
-				throw new PartialMatrixError();
-			}
-			out[i] = a * scalar;
+			out[i] = (out[i] ?? 0) * scalar;
 		}
 
 		return out;
@@ -231,12 +227,23 @@ export default class SlowMatrix extends Float32Array implements Matrix {
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_multiplication | Matrix multiplication}
 	 */
 	public multiplyScalarAndAdd(matrix: MatrixLike, scalar: number): SlowMatrix {
-		if (!("multiplyScalar" in matrix)) {
-			throw new Error();
+		if (
+			!isSized(matrix) ||
+			this.width !== matrix.width ||
+			this.height !== matrix.height
+		) {
+			throw new MatrixSizeError();
 		}
-		return this.add(
-			(matrix.multiplyScalar as (scalar: number) => SlowMatrix)(scalar)
-		);
+
+		const scaled: SizedMatrixLike = {
+			height: matrix.height,
+			width: matrix.width
+		};
+		for (let i = 0; i < matrix.width * matrix.height; i++) {
+			scaled[i] = (matrix[i] ?? 0) * scalar;
+		}
+
+		return this.add(scaled);
 	}
 
 	/**
@@ -246,21 +253,19 @@ export default class SlowMatrix extends Float32Array implements Matrix {
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_addition | Matrix addition}
 	 */
 	public subtract(matrix: MatrixLike): SlowMatrix {
-		const matrixWidth = "width" in matrix ? (matrix.width as number) : 1;
-		const matrixHeight = "height" in matrix ? (matrix.height as number) : 1;
-		if (this.width !== matrixWidth || this.height !== matrixHeight) {
+		if (
+			!isSized(matrix) ||
+			this.width !== matrix.width ||
+			this.height !== matrix.height
+		) {
 			throw new MatrixSizeError();
 		}
 
 		const cols: number[][] = [];
 		for (let x = 0; x < this.width; x++) {
 			for (let y = 0; y < this.height; y++) {
-				const a = this[x * this.height + y];
-				const b = matrix[x * matrixHeight + y];
-				if (typeof a === "undefined" || typeof b === "undefined") {
-					throw new PartialMatrixError();
-				}
-				(cols[x] ??= [])[y] = a - b;
+				const i = x * this.height + y;
+				(cols[x] ??= [])[y] = (this[i] ?? 0) - (matrix[i] ?? 0);
 			}
 		}
 
@@ -276,11 +281,7 @@ export default class SlowMatrix extends Float32Array implements Matrix {
 		const cols: number[][] = [];
 		for (let x = 0; x < this.width; x++) {
 			for (let y = 0; y < this.height; y++) {
-				const a = this[x * this.height + y];
-				if (typeof a === "undefined") {
-					throw new PartialMatrixError();
-				}
-				(cols[y] ??= [])[x] = a;
+				(cols[y] ??= [])[x] = this[x * this.height + y] ?? 0;
 			}
 		}
 

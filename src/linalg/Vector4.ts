@@ -322,13 +322,8 @@ export const scaleAndAdd = <T extends Vector4Like>(
  * @see {@link https://en.wikipedia.org/wiki/Euclidean_distance | Euclidean distance}
  * @public
  */
-export const distance = (a: Vector4Like, b: Vector4Like): number => {
-	const x = a[0] - b[0];
-	const y = a[1] - b[1];
-	const z = a[2] - b[2];
-	const w = a[3] - b[3];
-	return Math.sqrt(x * x + y * y + z * z + w * w); // `Math.hypot` is slower.
-};
+export const distance = (a: Vector4Like, b: Vector4Like): number =>
+	Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2], a[3] - b[3]);
 
 /**
  * Calculate the squared Euclidean distance between two vectors.
@@ -352,13 +347,8 @@ export const squaredDistance = (a: Vector4Like, b: Vector4Like): number => {
  * @returns The magnitude.
  * @public
  */
-export const getMagnitude = (vector: Vector4Like): number => {
-	const x = vector[0];
-	const y = vector[1];
-	const z = vector[2];
-	const w = vector[3];
-	return Math.sqrt(x * x + y * y + z * z + w * w); // `Math.hypot` is slower.
-};
+export const getMagnitude = (vector: Vector4Like): number =>
+	Math.hypot(vector[0], vector[1], vector[2], vector[3]);
 
 /**
  * Calculate the squared magnitude (length) of a vector.
@@ -627,14 +617,13 @@ export default class Vector4
 	 * @param out - The vector to store the result in.
 	 * @returns A new vector.
 	 */
-	public static fromValues<T extends Vector4Like = Vector4>(
+	public static fromValues(
 		x: number,
 		y: number,
 		z: number,
-		w: number,
-		out: T = new Vector4() as Vector4 & T
-	): T {
-		return fromValues(x, y, z, w, out);
+		w: number
+	): Vector4 {
+		return fromValues(x, y, z, w, new Vector4());
 	}
 
 	/**
@@ -681,11 +670,8 @@ export default class Vector4
 	 * @param out - The vector to store the result in.
 	 * @returns The sum of the vectors.
 	 */
-	public add<T extends Vector4Like = Vector4>(
-		vector: Vector4Like,
-		out: T = new Vector4() as Vector4 & T
-	): T {
-		return add(this, vector, out);
+	public add(vector: Vector4Like): Vector4 {
+		return add(this, vector, new Vector4());
 	}
 
 	/**
@@ -693,10 +679,8 @@ export default class Vector4
 	 * @param out - The vector to store the result in.
 	 * @returns The copy.
 	 */
-	public clone<T extends Vector4Like = Vector4>(
-		out: T = new Vector4() as Vector4 & T
-	): T {
-		return copy(this, out);
+	public clone(): Vector4 {
+		return copy(this, new Vector4());
 	}
 
 	/**
@@ -714,11 +698,8 @@ export default class Vector4
 	 * @param out - The vector to store the result in.
 	 * @returns The product of the vectors.
 	 */
-	public multiply<T extends Vector4Like = Vector4>(
-		vector: Vector4Like,
-		out: T = new Vector4() as Vector4 & T
-	): T {
-		return multiply(this, vector, out);
+	public multiply(vector: Vector4Like): Vector4 {
+		return multiply(this, vector, new Vector4());
 	}
 
 	/**
@@ -727,11 +708,8 @@ export default class Vector4
 	 * @param out - The vector to store the result in.
 	 * @returns The quotient of the vectors.
 	 */
-	public divide<T extends Vector4Like = Vector4>(
-		vector: Vector4Like,
-		out: T = new Vector4() as Vector4 & T
-	): T {
-		return divide(this, vector, out);
+	public divide(vector: Vector4Like): Vector4 {
+		return divide(this, vector, new Vector4());
 	}
 
 	/**
@@ -740,11 +718,8 @@ export default class Vector4
 	 * @param out - The vector to store the result in.
 	 * @returns The difference between the vectors.
 	 */
-	public subtract<T extends Vector4Like = Vector4>(
-		vector: Vector4Like,
-		out: T = new Vector4() as Vector4 & T
-	): T {
-		return subtract(this, vector, out);
+	public subtract(vector: Vector4Like): Vector4 {
+		return subtract(this, vector, new Vector4());
 	}
 
 	/**
@@ -752,10 +727,8 @@ export default class Vector4
 	 * @param out - The vector to store the result in.
 	 * @returns The absolutized vector.
 	 */
-	public abs<T extends Vector4Like = Vector4>(
-		out: T = new Vector4() as Vector4 & T
-	): T {
-		return abs(this, out);
+	public abs(): Vector4 {
+		return abs(this, new Vector4());
 	}
 
 	/**
@@ -763,10 +736,8 @@ export default class Vector4
 	 * @param out - The vector to store the result in.
 	 * @returns The rounded vector.
 	 */
-	public ceil<T extends Vector4Like = Vector4>(
-		out: T = new Vector4() as Vector4 & T
-	): T {
-		return ceil(this, out);
+	public ceil(): Vector4 {
+		return ceil(this, new Vector4());
 	}
 
 	/**
@@ -774,10 +745,8 @@ export default class Vector4
 	 * @param out - The vector to store the result in.
 	 * @returns The rounded vector.
 	 */
-	public floor<T extends Vector4Like = Vector4>(
-		out: T = new Vector4() as Vector4 & T
-	): T {
-		return floor(this, out);
+	public floor(): Vector4 {
+		return floor(this, new Vector4());
 	}
 
 	/**
@@ -785,10 +754,8 @@ export default class Vector4
 	 * @param out - The vector to store the result in.
 	 * @returns The rounded vector.
 	 */
-	public round<T extends Vector4Like = Vector4>(
-		out: T = new Vector4() as Vector4 & T
-	): T {
-		return round(this, out);
+	public round(): Vector4 {
+		return round(this, new Vector4());
 	}
 
 	/**
@@ -797,11 +764,8 @@ export default class Vector4
 	 * @param out - The vector to store the result in.
 	 * @returns The minimum.
 	 */
-	public min<T extends Vector4Like = Vector4>(
-		vector: Vector4Like,
-		out: T = new Vector4() as Vector4 & T
-	): T {
-		return min(this, vector, out);
+	public min(vector: Vector4Like): Vector4 {
+		return min(this, vector, new Vector4());
 	}
 
 	/**
@@ -810,11 +774,8 @@ export default class Vector4
 	 * @param out - The vector to store the result in.
 	 * @returns The maximum.
 	 */
-	public max<T extends Vector4Like = Vector4>(
-		vector: Vector4Like,
-		out: T = new Vector4() as Vector4 & T
-	): T {
-		return max(this, vector, out);
+	public max(vector: Vector4Like): Vector4 {
+		return max(this, vector, new Vector4());
 	}
 
 	/**
@@ -823,11 +784,8 @@ export default class Vector4
 	 * @param out - The vector to store the result in.
 	 * @returns The power (result of the exponentiation).
 	 */
-	public pow<T extends Vector4Like = Vector4>(
-		scalar: number,
-		out: T = new Vector4() as Vector4 & T
-	): T {
-		return pow(this, scalar, out);
+	public pow(scalar: number): Vector4 {
+		return pow(this, scalar, new Vector4());
 	}
 
 	/**
@@ -836,11 +794,8 @@ export default class Vector4
 	 * @param out - The vector to store the result in.
 	 * @returns The scaled vector.
 	 */
-	public scale<T extends Vector4Like = Vector4>(
-		scalar: number,
-		out: T = new Vector4() as Vector4 & T
-	): T {
-		return scale(this, scalar, out);
+	public scale(scalar: number): Vector4 {
+		return scale(this, scalar, new Vector4());
 	}
 
 	/**
@@ -850,12 +805,8 @@ export default class Vector4
 	 * @param out - The vector to store the result in.
 	 * @returns The sum.
 	 */
-	public scaleAndAdd<T extends Vector4Like = Vector4>(
-		vector: Vector4Like,
-		scalar: number,
-		out: T = new Vector4() as Vector4 & T
-	): T {
-		return scaleAndAdd(this, vector, scalar, out);
+	public scaleAndAdd(vector: Vector4Like, scalar: number): Vector4 {
+		return scaleAndAdd(this, vector, scalar, new Vector4());
 	}
 
 	/**
@@ -893,10 +844,8 @@ export default class Vector4
 	 * @param out - The vector to store the result in.
 	 * @returns The negated vector.
 	 */
-	public negate<T extends Vector4Like = Vector4>(
-		out: T = new Vector4() as Vector4 & T
-	): T {
-		return negate(this, out);
+	public negate(): Vector4 {
+		return negate(this, new Vector4());
 	}
 
 	/**
@@ -904,10 +853,8 @@ export default class Vector4
 	 * @param out - The vector to store the result in.
 	 * @returns The inverted vector.
 	 */
-	public invert<T extends Vector4Like = Vector4>(
-		out: T = new Vector4() as Vector4 & T
-	): T {
-		return invert(this, out);
+	public invert(): Vector4 {
+		return invert(this, new Vector4());
 	}
 
 	/**
@@ -916,10 +863,8 @@ export default class Vector4
 	 * @returns The normalized vector.
 	 * @see {@link https://en.wikipedia.org/wiki/Unit_vector | Unit vector}
 	 */
-	public normalize<T extends Vector4Like = Vector4>(
-		out: T = new Vector4() as Vector4 & T
-	): T {
-		return normalize(this, out);
+	public normalize(): Vector4 {
+		return normalize(this, new Vector4());
 	}
 
 	/**
@@ -940,12 +885,8 @@ export default class Vector4
 	 * @returns The cross product.
 	 * @see {@link https://en.wikipedia.org/wiki/Cross_product | Cross product}
 	 */
-	public cross<T extends Vector4Like = Vector4>(
-		a: Vector4Like,
-		b: Vector4Like,
-		out: T = new Vector4() as Vector4 & T
-	): T {
-		return cross(this, a, b, out);
+	public cross(a: Vector4Like, b: Vector4Like): Vector4 {
+		return cross(this, a, b, new Vector4());
 	}
 
 	/**
@@ -956,12 +897,8 @@ export default class Vector4
 	 * @returns The interpolated vector.
 	 * @see {@link https://en.wikipedia.org/wiki/Linear_interpolation | Linear interpolation}
 	 */
-	public lerp<T extends Vector4Like = Vector4>(
-		vector: Vector4Like,
-		t: number,
-		out: T = new Vector4() as Vector4 & T
-	): T {
-		return lerp(this, vector, t, out);
+	public lerp(vector: Vector4Like, t: number): Vector4 {
+		return lerp(this, vector, t, new Vector4());
 	}
 
 	/**
@@ -980,11 +917,8 @@ export default class Vector4
 	 * @returns The transformed vector.
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
-	public transformMatrix4<T extends Vector4Like = Vector4>(
-		matrix: Matrix4Like,
-		out: T = new Vector4() as Vector4 & T
-	): T {
-		return transformMatrix4(this, matrix, out);
+	public transformMatrix4(matrix: Matrix4Like): Vector4 {
+		return transformMatrix4(this, matrix, new Vector4());
 	}
 
 	/**
@@ -1002,10 +936,7 @@ export default class Vector4
 	 * @returns The transformed vector.
 	 * @see {@link https://en.wikipedia.org/wiki/Quaternion | Quaternion}
 	 */
-	public transformQuaternion<T extends Vector4Like = Vector4>(
-		quaternion: QuaternionLike,
-		out: T = new Vector4() as Vector4 & T
-	): T {
-		return transformQuaternion(this, quaternion, out);
+	public transformQuaternion(quaternion: QuaternionLike): Vector4 {
+		return transformQuaternion(this, quaternion, new Vector4());
 	}
 }

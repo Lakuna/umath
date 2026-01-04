@@ -1,3 +1,7 @@
+// TypeDoc-specific tag that gives a name to this module.
+// eslint-disable-next-line tsdoc/syntax
+/** @module . */
+
 // Algorithms
 export { default as approx } from "./algorithms/approx.js";
 export { default as approxRelative } from "./algorithms/approxRelative.js";
@@ -28,6 +32,7 @@ export {
 } from "./linalg/Quaternion.js";
 export { default as SlowMatrix } from "./linalg/SlowMatrix.js";
 export { default as SlowSquareMatrix } from "./linalg/SlowSquareMatrix.js";
+export { default as SlowVector } from "./linalg/SlowVector.js";
 export type { default as SquareMatrix } from "./linalg/SquareMatrix.js";
 export type { VectorLike, default as Vector } from "./linalg/Vector.js";
 export { type Vector2Like, default as Vector2 } from "./linalg/Vector2.js";
@@ -40,8 +45,10 @@ export type { default as FieldOfView } from "./types/FieldOfView.js";
 
 // Utility
 export { default as BigNumber } from "./utility/BigNumber.js";
+export { default as createAxisAngleLike } from "./utility/createAxisAngleLike.js";
 export { default as epsilon } from "./utility/epsilon.js";
 export { default as MagnitudeError } from "./utility/MagnitudeError.js";
 export { default as MatrixSizeError } from "./utility/MatrixSizeError.js";
 export { default as PartialMatrixError } from "./utility/PartialMatrixError.js";
 export { default as SingularMatrixError } from "./utility/SingularMatrixError.js";
+export { default as VectorSizeError } from "./utility/VectorSizeError.js";

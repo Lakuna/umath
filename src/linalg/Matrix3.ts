@@ -444,30 +444,18 @@ export const copy = <T extends Matrix3Like>(matrix: Matrix3Like, out: T): T =>
  * @see {@link https://en.wikipedia.org/wiki/Matrix_norm | Matrix norm}
  * @public
  */
-export const frob = (matrix: Matrix3Like): number => {
-	const a00 = matrix[0];
-	const a01 = matrix[1];
-	const a02 = matrix[2];
-	const a10 = matrix[3];
-	const a11 = matrix[4];
-	const a12 = matrix[5];
-	const a20 = matrix[6];
-	const a21 = matrix[7];
-	const a22 = matrix[8];
-
-	// `Math.hypot` is slower.
-	return Math.sqrt(
-		a00 * a00 +
-			a01 * a01 +
-			a02 * a02 +
-			a10 * a10 +
-			a11 * a11 +
-			a12 * a12 +
-			a20 * a20 +
-			a21 * a21 +
-			a22 * a22
+export const frob = (matrix: Matrix3Like): number =>
+	Math.hypot(
+		matrix[0],
+		matrix[1],
+		matrix[2],
+		matrix[3],
+		matrix[4],
+		matrix[5],
+		matrix[6],
+		matrix[7],
+		matrix[8]
 	);
-};
 
 /**
  * Multiply two matrices.
@@ -841,11 +829,8 @@ export default class Matrix3
 	 * @returns The transformation matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
 	 */
-	public static fromRotation<T extends Matrix3Like = Matrix3>(
-		r: number,
-		out: T = new Matrix3() as Matrix3 & T
-	): T {
-		return fromRotation(r, out);
+	public static fromRotation(r: number): Matrix3 {
+		return fromRotation(r, new Matrix3());
 	}
 
 	/**
@@ -855,11 +840,8 @@ export default class Matrix3
 	 * @returns The transformation matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
-	public static fromScaling<T extends Matrix3Like = Matrix3>(
-		vector: Vector2Like,
-		out: T = new Matrix3() as Matrix3 & T
-	): T {
-		return fromScaling(vector, out);
+	public static fromScaling(vector: Vector2Like): Matrix3 {
+		return fromScaling(vector, new Matrix3());
 	}
 
 	/**
@@ -869,11 +851,8 @@ export default class Matrix3
 	 * @returns The transformation matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
-	public static fromTranslation<T extends Matrix3Like = Matrix3>(
-		vector: Vector2Like,
-		out: T = new Matrix3() as Matrix3 & T
-	): T {
-		return fromTranslation(vector, out);
+	public static fromTranslation(vector: Vector2Like): Matrix3 {
+		return fromTranslation(vector, new Matrix3());
 	}
 
 	/**
@@ -884,11 +863,8 @@ export default class Matrix3
 	 * @see {@link https://en.wikipedia.org/wiki/Quaternion | Quaternion}
 	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
 	 */
-	public static fromQuaternion<T extends Matrix3Like = Matrix3>(
-		quaternion: QuaternionLike,
-		out: T = new Matrix3() as Matrix3 & T
-	): T {
-		return fromQuaternion(quaternion, out);
+	public static fromQuaternion(quaternion: QuaternionLike): Matrix3 {
+		return fromQuaternion(quaternion, new Matrix3());
 	}
 
 	/**
@@ -901,13 +877,8 @@ export default class Matrix3
 	 * @see {@link https://en.wikipedia.org/wiki/Quaternion | Quaternion}
 	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
 	 */
-	public static fromEuler<T extends Matrix3Like = Matrix3>(
-		z: number,
-		y: number,
-		x: number,
-		out: T = new Matrix3() as Matrix3 & T
-	): T {
-		return fromEuler(z, y, x, out);
+	public static fromEuler(z: number, y: number, x: number): Matrix3 {
+		return fromEuler(z, y, x, new Matrix3());
 	}
 
 	/**
@@ -917,11 +888,8 @@ export default class Matrix3
 	 * @returns The normal matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Normal_matrix | Normal matrix}
 	 */
-	public static normalFromMatrix4<T extends Matrix3Like = Matrix3>(
-		matrix: Matrix4Like,
-		out: T = new Matrix3() as Matrix3 & T
-	): T {
-		return normalFromMatrix4(matrix, out);
+	public static normalFromMatrix4(matrix: Matrix4Like): Matrix3 {
+		return normalFromMatrix4(matrix, new Matrix3());
 	}
 
 	/**
@@ -933,12 +901,8 @@ export default class Matrix3
 	 * @see {@link https://en.wikipedia.org/wiki/Camera_matrix | Camera matrix}
 	 * @see {@link https://en.wikipedia.org/wiki/3D_projection | 3D projection}
 	 */
-	public static projection<T extends Matrix3Like = Matrix3>(
-		width: number,
-		height: number,
-		out: T = new Matrix3() as Matrix3 & T
-	): T {
-		return projection(width, height, out);
+	public static projection(width: number, height: number): Matrix3 {
+		return projection(width, height, new Matrix3());
 	}
 
 	/**
@@ -947,11 +911,8 @@ export default class Matrix3
 	 * @param out - The matrix to store the result in.
 	 * @returns The three-by-three matrix.
 	 */
-	public static fromMatrix4<T extends Matrix3Like = Matrix3>(
-		matrix: Matrix4Like,
-		out: T = new Matrix3() as Matrix3 & T
-	): T {
-		return fromMatrix4(matrix, out);
+	public static fromMatrix4(matrix: Matrix4Like): Matrix3 {
+		return fromMatrix4(matrix, new Matrix3());
 	}
 
 	/**
@@ -968,7 +929,7 @@ export default class Matrix3
 	 * @param out - The matrix to store the result in.
 	 * @returns The matrix.
 	 */
-	public static fromValues<T extends Matrix3Like = Matrix3>(
+	public static fromValues(
 		c0r0: number,
 		c0r1: number,
 		c0r2: number,
@@ -977,9 +938,8 @@ export default class Matrix3
 		c1r2: number,
 		c2r0: number,
 		c2r1: number,
-		c2r2: number,
-		out: T = new Matrix3() as Matrix3 & T
-	): T {
+		c2r2: number
+	): Matrix3 {
 		return fromValues(
 			c0r0,
 			c0r1,
@@ -990,7 +950,7 @@ export default class Matrix3
 			c2r0,
 			c2r1,
 			c2r2,
-			out
+			new Matrix3()
 		);
 	}
 
@@ -1067,11 +1027,8 @@ export default class Matrix3
 	 * @returns The sum of the matrices.
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_addition | Matrix addition}
 	 */
-	public add<T extends Matrix3Like = Matrix3>(
-		matrix: Matrix3Like,
-		out: T = new Matrix3() as Matrix3 & T
-	): T {
-		return add(this, matrix, out);
+	public add(matrix: Matrix3Like): Matrix3 {
+		return add(this, matrix, new Matrix3());
 	}
 
 	/**
@@ -1080,10 +1037,8 @@ export default class Matrix3
 	 * @returns The adjugate of this matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Adjugate_matrix | Adjugate matrix}
 	 */
-	public adjoint<T extends Matrix3Like = Matrix3>(
-		out: T = new Matrix3() as Matrix3 & T
-	): T {
-		return adjoint(this, out);
+	public adjoint(): Matrix3 {
+		return adjoint(this, new Matrix3());
 	}
 
 	/**
@@ -1091,10 +1046,8 @@ export default class Matrix3
 	 * @param out - The matrix to store the result in.
 	 * @returns The copy.
 	 */
-	public clone<T extends Matrix3Like = Matrix3>(
-		out: T = new Matrix3() as Matrix3 & T
-	): T {
-		return copy(this, out);
+	public clone(): Matrix3 {
+		return copy(this, new Matrix3());
 	}
 
 	/**
@@ -1121,11 +1074,8 @@ export default class Matrix3
 	 * @returns The product of the matrices.
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_multiplication | Matrix multiplication}
 	 */
-	public multiply<T extends Matrix3Like = Matrix3>(
-		matrix: Matrix3Like,
-		out: T = new Matrix3() as Matrix3 & T
-	): T {
-		return multiply(this, matrix, out);
+	public multiply(matrix: Matrix3Like): Matrix3 {
+		return multiply(this, matrix, new Matrix3());
 	}
 
 	/**
@@ -1135,11 +1085,8 @@ export default class Matrix3
 	 * @returns The product of the matrix and the scalar value.
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_multiplication | Matrix multiplication}
 	 */
-	public multiplyScalar<T extends Matrix3Like = Matrix3>(
-		scalar: number,
-		out: T = new Matrix3() as Matrix3 & T
-	): T {
-		return multiplyScalar(this, scalar, out);
+	public multiplyScalar(scalar: number): Matrix3 {
+		return multiplyScalar(this, scalar, new Matrix3());
 	}
 
 	/**
@@ -1151,12 +1098,8 @@ export default class Matrix3
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_addition | Matrix addition}
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_multiplication | Matrix multiplication}
 	 */
-	public multiplyScalarAndAdd<T extends Matrix3Like = Matrix3>(
-		matrix: Matrix3Like,
-		scalar: number,
-		out: T = new Matrix3() as Matrix3 & T
-	): T {
-		return multiplyScalarAndAdd(this, matrix, scalar, out);
+	public multiplyScalarAndAdd(matrix: Matrix3Like, scalar: number): Matrix3 {
+		return multiplyScalarAndAdd(this, matrix, scalar, new Matrix3());
 	}
 
 	/**
@@ -1166,11 +1109,8 @@ export default class Matrix3
 	 * @returns The difference between the matrices.
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_addition | Matrix addition}
 	 */
-	public subtract<T extends Matrix3Like = Matrix3>(
-		matrix: Matrix3Like,
-		out: T = new Matrix3() as Matrix3 & T
-	): T {
-		return subtract(this, matrix, out);
+	public subtract(matrix: Matrix3Like): Matrix3 {
+		return subtract(this, matrix, new Matrix3());
 	}
 
 	/**
@@ -1179,10 +1119,8 @@ export default class Matrix3
 	 * @returns The transpose of this matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Transpose | Transpose}
 	 */
-	public transpose<T extends Matrix3Like = Matrix3>(
-		out: T = new Matrix3() as Matrix3 & T
-	): T {
-		return transpose(this, out);
+	public transpose(): Matrix3 {
+		return transpose(this, new Matrix3());
 	}
 
 	/**
@@ -1208,10 +1146,8 @@ export default class Matrix3
 	 * @returns The inverted matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Invertible_matrix | Invertible matrix}
 	 */
-	public invert<T extends Matrix3Like = Matrix3>(
-		out: T = new Matrix3() as Matrix3 & T
-	): T {
-		return invert(this, out);
+	public invert(): Matrix3 {
+		return invert(this, new Matrix3());
 	}
 
 	/**
@@ -1221,11 +1157,8 @@ export default class Matrix3
 	 * @returns The rotated matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
 	 */
-	public rotate<T extends Matrix3Like = Matrix3>(
-		r: number,
-		out: T = new Matrix3() as Matrix3 & T
-	): T {
-		return rotate(this, r, out);
+	public rotate(r: number): Matrix3 {
+		return rotate(this, r, new Matrix3());
 	}
 
 	/**
@@ -1235,11 +1168,8 @@ export default class Matrix3
 	 * @returns The scaled matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
-	public scale<T extends Matrix3Like = Matrix3>(
-		vector: Vector2Like,
-		out: T = new Matrix3() as Matrix3 & T
-	): T {
-		return scale(this, vector, out);
+	public scale(vector: Vector2Like): Matrix3 {
+		return scale(this, vector, new Matrix3());
 	}
 
 	/**
@@ -1249,10 +1179,7 @@ export default class Matrix3
 	 * @returns The translated matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
-	public translate<T extends Matrix3Like = Matrix3>(
-		vector: Vector2Like,
-		out: T = new Matrix3() as Matrix3 & T
-	): T {
-		return translate(this, vector, out);
+	public translate(vector: Vector2Like): Matrix3 {
+		return translate(this, vector, new Matrix3());
 	}
 }

@@ -1,5 +1,3 @@
-import type { Vector4Like } from "./Vector4.js";
-
 /**
  * An object that could be interpreted as a vector.
  * @public
@@ -17,21 +15,21 @@ export default interface Vector extends VectorLike {
 	 * @param vector - The other vector.
 	 * @returns Whether the vectors are equivalent.
 	 */
-	equals(vector: Vector4Like): boolean;
+	equals(vector: VectorLike): boolean;
 
 	/**
 	 * Determine whether this vector is exactly equivalent to another.
 	 * @param vector - The other vector.
 	 * @returns Whether the vectors are equivalent.
 	 */
-	exactEquals(vector: Vector4Like): boolean;
+	exactEquals(vector: VectorLike): boolean;
 
 	/**
 	 * Add two vectors of the same size.
 	 * @param vector - The other vector.
 	 * @returns The sum of the vectors.
 	 */
-	add(vector: Vector4Like): VectorLike;
+	add(vector: VectorLike): VectorLike;
 
 	/**
 	 * Create a copy of this vector.
@@ -44,28 +42,28 @@ export default interface Vector extends VectorLike {
 	 * @param vector - The vector to copy.
 	 * @returns This vector.
 	 */
-	copy(vector: Vector4Like): this;
+	copy(vector: VectorLike): this;
 
 	/**
 	 * Multiply this vector by another.
 	 * @param vector - The other vector.
 	 * @returns The product of the vectors.
 	 */
-	multiply(vector: Vector4Like): VectorLike;
+	multiply(vector: VectorLike): VectorLike;
 
 	/**
 	 * Divide this vector by another.
 	 * @param vector - The other vector.
 	 * @returns The quotient of the vectors.
 	 */
-	divide(vector: Vector4Like): VectorLike;
+	divide(vector: VectorLike): VectorLike;
 
 	/**
 	 * Subtract another vector from this one.
 	 * @param vector - The other vector.
 	 * @returns The difference between the vectors.
 	 */
-	subtract(vector: Vector4Like): VectorLike;
+	subtract(vector: VectorLike): VectorLike;
 
 	/**
 	 * Round up the components of this vector.
@@ -90,14 +88,14 @@ export default interface Vector extends VectorLike {
 	 * @param vector - The other vector.
 	 * @returns The minimum.
 	 */
-	min(vector: Vector4Like): VectorLike;
+	min(vector: VectorLike): VectorLike;
 
 	/**
 	 * Return the maximum of this and another vector.
 	 * @param vector - The other vector.
 	 * @returns The maximum.
 	 */
-	max(vector: Vector4Like): VectorLike;
+	max(vector: VectorLike): VectorLike;
 
 	/**
 	 * Raise each component of this vector to the given power.
@@ -119,21 +117,21 @@ export default interface Vector extends VectorLike {
 	 * @param scalar - The scalar.
 	 * @returns The sum.
 	 */
-	scaleAndAdd(vector: Vector4Like, scalar: number): VectorLike;
+	scaleAndAdd(vector: VectorLike, scalar: number): VectorLike;
 
 	/**
 	 * Calculate the Euclidean distance between this vector and another.
 	 * @param vector - The other vector.
 	 * @returns The distance.
 	 */
-	distance(vector: Vector4Like): number;
+	distance(vector: VectorLike): number;
 
 	/**
 	 * Calculate the squared Euclidean distance between this vector and another.
 	 * @param vector - The other vector.
 	 * @returns The squared distance.
 	 */
-	squaredDistance(vector: Vector4Like): number;
+	squaredDistance(vector: VectorLike): number;
 
 	/** Get the magnitude (length) of this vector. */
 	get magnitude(): number;
@@ -166,7 +164,7 @@ export default interface Vector extends VectorLike {
 	 * @returns The dot product.
 	 * @see {@link https://en.wikipedia.org/wiki/Dot_product | Dot product}
 	 */
-	dot(vector: Vector4Like): number;
+	dot(vector: VectorLike): number;
 
 	/**
 	 * Perform a linear interpolation between this and another vector.
@@ -174,7 +172,7 @@ export default interface Vector extends VectorLike {
 	 * @param t - The interpolation amount (in `[0,1]`).
 	 * @returns The interpolated vector.
 	 */
-	lerp(vector: Vector4Like, t: number): VectorLike;
+	lerp(vector: VectorLike, t: number): VectorLike;
 
 	/**
 	 * Set this vector to a random value with the given magnitude.
