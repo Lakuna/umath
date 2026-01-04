@@ -202,6 +202,20 @@ export const max = <T extends Vector2Like>(
 ): T => fromValues(Math.max(a[0], b[0]), Math.max(a[1], b[1]), out);
 
 /**
+ * Raise each component of a vector to the given power.
+ * @param vector - The base.
+ * @param scalar - The exponent (power) to raise each component to.
+ * @param out - The vector to store the result in.
+ * @returns The power (result of the exponentiation).
+ * @public
+ */
+export const pow = <T extends Vector2Like>(
+	vector: Vector2Like,
+	scalar: number,
+	out: T
+): T => fromValues(vector[0] ** scalar, vector[1] ** scalar, out);
+
+/**
  * Multiply a vector by a scalar.
  * @param vector - The multiplier.
  * @param scalar - The multiplicand.
@@ -708,6 +722,19 @@ export default class Vector2
 		out: T = new Vector2() as Vector2 & T
 	): T {
 		return max(this, vector, out);
+	}
+
+	/**
+	 * Raise each component of this vector to the given power.
+	 * @param scalar - The exponent (power) to raise each component to.
+	 * @param out - The vector to store the result in.
+	 * @returns The power (result of the exponentiation).
+	 */
+	public pow<T extends Vector2Like = Vector2>(
+		scalar: number,
+		out: T = new Vector2() as Vector2 & T
+	): T {
+		return pow(this, scalar, out);
 	}
 
 	/**

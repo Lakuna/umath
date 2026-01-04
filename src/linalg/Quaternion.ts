@@ -172,7 +172,7 @@ export const lerp: <T extends QuaternionLike>(
  * @public
  */
 export const normalize: <T extends QuaternionLike>(
-	vector: QuaternionLike,
+	quaternion: QuaternionLike,
 	out: T
 ) => T = vector4Normalize;
 
@@ -185,7 +185,7 @@ export const normalize: <T extends QuaternionLike>(
  * @public
  */
 export const scale: <T extends QuaternionLike>(
-	vector: QuaternionLike,
+	quaternion: QuaternionLike,
 	scalar: number,
 	out: T
 ) => T = vector4Scale;

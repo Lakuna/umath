@@ -23,7 +23,7 @@ export default class SlowSquareMatrix
 		// Ensure that every column is the same height and that the height is equal to the width.
 		for (let i = 0; i < this.width; i++) {
 			const col = cols[i];
-			if (typeof col === "undefined" || col.length !== this.height) {
+			if (col?.length !== this.height) {
 				throw new MatrixSizeError();
 			}
 		}

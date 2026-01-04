@@ -1000,7 +1000,7 @@ export const lookAt = <T extends Matrix4Like>(
 /**
  * Create a matrix that makes something look at something else.
  * @param eye - The position of the viewer.
- * @param center - The point that the viewer is looking at.
+ * @param target - The point that the viewer is looking at.
  * @param up - The local up direction.
  * @param out - The matrix to store the result in.
  * @returns The transformation matrix.

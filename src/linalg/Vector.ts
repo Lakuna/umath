@@ -100,6 +100,13 @@ export default interface Vector extends VectorLike {
 	max(vector: Vector4Like): VectorLike;
 
 	/**
+	 * Raise each component of this vector to the given power.
+	 * @param exponent - The exponent (power) to raise each component to.
+	 * @returns The power (result of the exponentiation).
+	 */
+	pow(exponent: number): VectorLike;
+
+	/**
 	 * Scale this vector by a scalar.
 	 * @param scalar - The scalar.
 	 * @returns The scaled vector.

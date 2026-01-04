@@ -250,6 +250,27 @@ export const max = <T extends Vector4Like>(
 	);
 
 /**
+ * Raise each component of a vector to the given power.
+ * @param vector - The base.
+ * @param scalar - The exponent (power) to raise each component to.
+ * @param out - The vector to store the result in.
+ * @returns The power (result of the exponentiation).
+ * @public
+ */
+export const pow = <T extends Vector4Like>(
+	vector: Vector4Like,
+	scalar: number,
+	out: T
+): T =>
+	fromValues(
+		vector[0] ** scalar,
+		vector[1] ** scalar,
+		vector[2] ** scalar,
+		vector[3] ** scalar,
+		out
+	);
+
+/**
  * Scale a vector by a scalar.
  * @param vector - The multiplier.
  * @param scalar - The multiplicand.
@@ -794,6 +815,19 @@ export default class Vector4
 		out: T = new Vector4() as Vector4 & T
 	): T {
 		return max(this, vector, out);
+	}
+
+	/**
+	 * Raise each component of this vector to the given power.
+	 * @param scalar - The exponent (power) to raise each component to.
+	 * @param out - The vector to store the result in.
+	 * @returns The power (result of the exponentiation).
+	 */
+	public pow<T extends Vector4Like = Vector4>(
+		scalar: number,
+		out: T = new Vector4() as Vector4 & T
+	): T {
+		return pow(this, scalar, out);
 	}
 
 	/**
