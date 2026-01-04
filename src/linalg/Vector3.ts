@@ -782,7 +782,6 @@ export default class Vector3
 	 * @param x - The first component.
 	 * @param y - The second component.
 	 * @param z - The third component.
-	 * @param out - The vector to store the result in.
 	 * @returns A new vector.
 	 */
 	public static fromValues(x: number, y: number, z: number): Vector3 {
@@ -827,7 +826,6 @@ export default class Vector3
 	/**
 	 * Add two vectors of the same size.
 	 * @param vector - The other vector.
-	 * @param out - The vector to store the result in.
 	 * @returns The sum of the vectors.
 	 */
 	public add(vector: Vector3Like): Vector3 {
@@ -836,7 +834,6 @@ export default class Vector3
 
 	/**
 	 * Copy the values from this vector to another one.
-	 * @param out - The vector to store the result in.
 	 * @returns The copy.
 	 */
 	public clone(): Vector3 {
@@ -855,7 +852,6 @@ export default class Vector3
 	/**
 	 * Multiply this vector by another.
 	 * @param vector - The other vector.
-	 * @param out - The vector to store the result in.
 	 * @returns The product of the vectors.
 	 */
 	public multiply(vector: Vector3Like): Vector3 {
@@ -865,7 +861,6 @@ export default class Vector3
 	/**
 	 * Divide this vector by another.
 	 * @param vector - The other vector.
-	 * @param out - The vector to store the result in.
 	 * @returns The quotient of the vectors.
 	 */
 	public divide(vector: Vector3Like): Vector3 {
@@ -875,7 +870,6 @@ export default class Vector3
 	/**
 	 * Subtract another vector from this one.
 	 * @param vector - The other vector.
-	 * @param out - The vector to store the result in.
 	 * @returns The difference between the vectors.
 	 */
 	public subtract(vector: Vector3Like): Vector3 {
@@ -884,7 +878,6 @@ export default class Vector3
 
 	/**
 	 * Absolutize the components of this vector.
-	 * @param out - The vector to store the result in.
 	 * @returns The absolutized vector.
 	 */
 	public abs(): Vector3 {
@@ -893,7 +886,6 @@ export default class Vector3
 
 	/**
 	 * Round up the components of this vector.
-	 * @param out - The vector to store the result in.
 	 * @returns The rounded vector.
 	 */
 	public ceil(): Vector3 {
@@ -902,7 +894,6 @@ export default class Vector3
 
 	/**
 	 * Round down the components of this vector.
-	 * @param out - The vector to store the result in.
 	 * @returns The rounded vector.
 	 */
 	public floor(): Vector3 {
@@ -911,7 +902,6 @@ export default class Vector3
 
 	/**
 	 * Round the components of this vector.
-	 * @param out - The vector to store the result in.
 	 * @returns The rounded vector.
 	 */
 	public round(): Vector3 {
@@ -921,7 +911,6 @@ export default class Vector3
 	/**
 	 * Return the minimum of this and another vector.
 	 * @param vector - The other vector.
-	 * @param out - The vector to store the result in.
 	 * @returns The minimum.
 	 */
 	public min(vector: Vector3Like): Vector3 {
@@ -931,7 +920,6 @@ export default class Vector3
 	/**
 	 * Return the maximum of this and another vector.
 	 * @param vector - The other vector.
-	 * @param out - The vector to store the result in.
 	 * @returns The maximum.
 	 */
 	public max(vector: Vector3Like): Vector3 {
@@ -941,7 +929,6 @@ export default class Vector3
 	/**
 	 * Raise each component of this vector to the given power.
 	 * @param scalar - The exponent (power) to raise each component to.
-	 * @param out - The vector to store the result in.
 	 * @returns The power (result of the exponentiation).
 	 */
 	public pow(scalar: number): Vector3 {
@@ -951,7 +938,6 @@ export default class Vector3
 	/**
 	 * Scale this vector by a scalar.
 	 * @param scalar - The scalar.
-	 * @param out - The vector to store the result in.
 	 * @returns The scaled vector.
 	 */
 	public scale(scalar: number): Vector3 {
@@ -962,7 +948,6 @@ export default class Vector3
 	 * Add another vector to this one after scaling the other by a scalar.
 	 * @param vector - The other vector.
 	 * @param scalar - The scalar.
-	 * @param out - The vector to store the result in.
 	 * @returns The sum.
 	 */
 	public scaleAndAdd(vector: Vector3Like, scalar: number): Vector3 {
@@ -989,19 +974,26 @@ export default class Vector3
 		return squaredDistance(this, vector);
 	}
 
-	/** Get the magnitude (length) of this vector. */
+	/** The magnitude (length) of this vector. */
 	public get magnitude(): number {
 		return getMagnitude(this);
 	}
 
-	/** Get the squared magnitude (length) of this vector. */
+	public set magnitude(value: number) {
+		scale(normalize(this, this), value, this);
+	}
+
+	/** The squared magnitude (length) of this vector. */
 	public get squaredMagnitude(): number {
 		return getSquaredMagnitude(this);
 	}
 
+	public set squaredMagnitude(value: number) {
+		this.magnitude = Math.sqrt(value);
+	}
+
 	/**
 	 * Negate this vector.
-	 * @param out - The vector to store the result in.
 	 * @returns The negated vector.
 	 */
 	public negate(): Vector3 {
@@ -1010,7 +1002,6 @@ export default class Vector3
 
 	/**
 	 * Calculate the multiplicative inverse of the components of this vector.
-	 * @param out - The vector to store the result in.
 	 * @returns The inverted vector.
 	 */
 	public invert(): Vector3 {
@@ -1019,7 +1010,6 @@ export default class Vector3
 
 	/**
 	 * Normalize this vector.
-	 * @param out - The vector to store the result in.
 	 * @returns The normalized vector.
 	 * @see {@link https://en.wikipedia.org/wiki/Unit_vector | Unit vector}
 	 */
@@ -1040,7 +1030,6 @@ export default class Vector3
 	/**
 	 * Calculate the cross product of this and another vector.
 	 * @param vector - The other vector.
-	 * @param out - The vector to store the result in.
 	 * @returns The cross product.
 	 * @see {@link https://en.wikipedia.org/wiki/Cross_product | Cross product}
 	 */
@@ -1052,7 +1041,6 @@ export default class Vector3
 	 * Perform a linear interpolation between this and another vector.
 	 * @param vector - The other vector.
 	 * @param t - The interpolation amount (in `[0,1]`).
-	 * @param out - The vector to store the result in.
 	 * @returns The interpolated vector.
 	 * @see {@link https://en.wikipedia.org/wiki/Linear_interpolation | Linear interpolation}
 	 */
@@ -1072,7 +1060,6 @@ export default class Vector3
 	/**
 	 * Transform this vector by a three-by-three matrix.
 	 * @param matrix - The matrix.
-	 * @param out - The vector to store the result in.
 	 * @returns The transformed vector.
 	 */
 	public transformMatrix3(matrix: Matrix3Like): Vector3 {
@@ -1082,7 +1069,6 @@ export default class Vector3
 	/**
 	 * Transform this vector by a four-by-four matrix.
 	 * @param matrix - The matrix.
-	 * @param out - The vector to store the result in.
 	 * @returns The transformed vector.
 	 */
 	public transformMatrix4(matrix: Matrix4Like): Vector3 {
@@ -1093,7 +1079,6 @@ export default class Vector3
 	 * Rotate this vector around the X-axis.
 	 * @param origin - The origin of the rotation.
 	 * @param r - The angle of rotation in radians.
-	 * @param out - The vector to store the result in.
 	 * @returns The rotated vector.
 	 */
 	public rotateX(origin: Vector3Like, r: number): Vector3 {
@@ -1104,7 +1089,6 @@ export default class Vector3
 	 * Rotate this vector around the Y-axis.
 	 * @param origin - The origin of the rotation.
 	 * @param r - The angle of rotation in radians.
-	 * @param out - The vector to store the result in.
 	 * @returns The rotated vector.
 	 */
 	public rotateY(origin: Vector3Like, r: number): Vector3 {
@@ -1115,7 +1099,6 @@ export default class Vector3
 	 * Rotate this vector around the Z-axis.
 	 * @param origin - The origin of the rotation.
 	 * @param r - The angle of rotation in radians.
-	 * @param out - The vector to store the result in.
 	 * @returns The rotated vector.
 	 */
 	public rotateZ(origin: Vector3Like, r: number): Vector3 {
@@ -1145,7 +1128,6 @@ export default class Vector3
 	 * @param b - The second control point.
 	 * @param end - The other vector.
 	 * @param t - The interpolation amount in the range `[0,1]`.
-	 * @param out - The vector to store the result in.
 	 * @returns The interpolated vector.
 	 * @see {@link https://en.wikipedia.org/wiki/Hermite_interpolation | Hermite interpolation}
 	 */
@@ -1164,7 +1146,6 @@ export default class Vector3
 	 * @param b - The second control point.
 	 * @param end - The other vector.
 	 * @param t - The interpolation amount in the range `[0,1]`.
-	 * @param out - The vector to store the result in.
 	 * @returns The interpolated vector.
 	 * @see {@link https://en.wikipedia.org/wiki/B%C3%A9zier_curve | Bézier curve}
 	 */
@@ -1180,7 +1161,6 @@ export default class Vector3
 	/**
 	 * Transform this vector by a quaternion.
 	 * @param quaternion - The quaternion.
-	 * @param out - The vector to store the result in.
 	 * @returns The transformed vector.
 	 * @see {@link https://en.wikipedia.org/wiki/Quaternion | Quaternion}
 	 */

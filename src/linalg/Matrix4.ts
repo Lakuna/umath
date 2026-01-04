@@ -2085,7 +2085,6 @@ export default class Matrix4
 	/**
 	 * Create a transformation matrix that represents a translation by the given vector.
 	 * @param vector - The translation vector.
-	 * @param out - The matrix to store the result in.
 	 * @returns The transformation matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
@@ -2096,7 +2095,6 @@ export default class Matrix4
 	/**
 	 * Create a transformation matrix that represents a scaling by the given vector.
 	 * @param vector - The scaling vector.
-	 * @param out - The matrix to store the result in.
 	 * @returns The transformation matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
@@ -2108,7 +2106,6 @@ export default class Matrix4
 	 * Create a transformation matrix that represents a rotation by the given angle around the Z-axis.
 	 * @param r - The angle in radians.
 	 * @param axis - The axis to rotate around.
-	 * @param out - The matrix to store the result in.
 	 * @returns The transformation matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
 	 */
@@ -2119,7 +2116,6 @@ export default class Matrix4
 	/**
 	 * Create a transformation matrix that represents a rotation by the given angle around the X-axis.
 	 * @param r - The angle in radians.
-	 * @param out - The matrix to store the result in.
 	 * @returns The transformation matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
 	 */
@@ -2130,7 +2126,6 @@ export default class Matrix4
 	/**
 	 * Create a transformation matrix that represents a rotation by the given angle around the Y-axis.
 	 * @param r - The angle in radians.
-	 * @param out - The matrix to store the result in.
 	 * @returns The transformation matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
 	 */
@@ -2141,7 +2136,6 @@ export default class Matrix4
 	/**
 	 * Create a transformation matrix that represents a rotation by the given angle around the Z-axis.
 	 * @param r - The angle in radians.
-	 * @param out - The matrix to store the result in.
 	 * @returns The transformation matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
 	 */
@@ -2153,7 +2147,6 @@ export default class Matrix4
 	 * Create a transformation matrix from the given rotation and translation.
 	 * @param rotation - The rotation quaternion.
 	 * @param translation - The translation vector.
-	 * @param out - The matrix to store the result in.
 	 * @returns The transformation matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
@@ -2170,7 +2163,6 @@ export default class Matrix4
 	 * @param rotation - The rotation quaternion.
 	 * @param translation - The translation vector.
 	 * @param scaling - The scaling vector.
-	 * @param out - The matrix to store the result in.
 	 * @returns The transformation matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
@@ -2194,7 +2186,6 @@ export default class Matrix4
 	 * @param translation - The translation vector.
 	 * @param scaling - The scaling vector.
 	 * @param origin - The origin vector.
-	 * @param out - The matrix to store the result in.
 	 * @returns The transformation matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
@@ -2217,7 +2208,6 @@ export default class Matrix4
 	/**
 	 * Create a transformation matrix from a dual quaternion.
 	 * @param quaternion - The dual quaternion.
-	 * @param out - The matrix to store the result in.
 	 * @returns The transformation matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Dual_quaternion | Dual quaternion}
 	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
@@ -2230,7 +2220,6 @@ export default class Matrix4
 	/**
 	 * Create a transformation matrix from a quaternion.
 	 * @param quaternion - The quaternion.
-	 * @param out - The matrix to store the result in.
 	 * @returns The transformation matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
@@ -2247,7 +2236,6 @@ export default class Matrix4
 	 * @param top - The top bound of the frustum.
 	 * @param near - The near bound of the frustum.
 	 * @param far - The far bound of the frustum.
-	 * @param out - The matrix to store the result in.
 	 * @returns The frustum matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Camera_matrix | Camera matrix}
 	 * @see {@link https://en.wikipedia.org/wiki/3D_projection | 3D projection}
@@ -2269,7 +2257,6 @@ export default class Matrix4
 	 * @param aspect - The aspect ratio (typically the width of the viewport divided by its height).
 	 * @param near - The near bound of the frustum.
 	 * @param far - The far bound of the frustum.
-	 * @param out - The matrix to store the result in.
 	 * @returns The perspective projection matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Camera_matrix | Camera matrix}
 	 * @see {@link https://en.wikipedia.org/wiki/3D_projection | 3D projection}
@@ -2289,7 +2276,6 @@ export default class Matrix4
 	 * @param aspect - The aspect ratio (typically the width of the viewport divided by its height).
 	 * @param near - The near bound of the frustum.
 	 * @param far - The far bound of the frustum.
-	 * @param out - The matrix to store the result in.
 	 * @returns The perspective projection matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Camera_matrix | Camera matrix}
 	 * @see {@link https://en.wikipedia.org/wiki/3D_projection | 3D projection}
@@ -2308,7 +2294,6 @@ export default class Matrix4
 	 * @param fov - The field of view.
 	 * @param near - The near bound of the frustum.
 	 * @param far - The far bound of the frustum.
-	 * @param out - The matrix to store the result in.
 	 * @returns The perspective projection matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Camera_matrix | Camera matrix}
 	 * @see {@link https://en.wikipedia.org/wiki/3D_projection | 3D projection}
@@ -2330,7 +2315,6 @@ export default class Matrix4
 	 * @param top - The top bound of the frustum.
 	 * @param near - The near bound of the frustum.
 	 * @param far - The far bound of the frustum.
-	 * @param out - The matrix to store the result in.
 	 * @returns The frustum matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Camera_matrix | Camera matrix}
 	 * @see {@link https://en.wikipedia.org/wiki/3D_projection | 3D projection}
@@ -2354,7 +2338,6 @@ export default class Matrix4
 	 * @param top - The top bound of the frustum.
 	 * @param near - The near bound of the frustum.
 	 * @param far - The far bound of the frustum.
-	 * @param out - The matrix to store the result in.
 	 * @returns The frustum matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Camera_matrix | Camera matrix}
 	 * @see {@link https://en.wikipedia.org/wiki/3D_projection | 3D projection}
@@ -2375,7 +2358,6 @@ export default class Matrix4
 	 * @param eye - The position of the viewer.
 	 * @param center - The point that the viewer is looking at.
 	 * @param up - The local up direction.
-	 * @param out - The matrix to store the result in.
 	 * @returns The look-at matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
@@ -2392,7 +2374,6 @@ export default class Matrix4
 	 * @param eye - The position of the viewer.
 	 * @param target - The point that the viewer is looking at.
 	 * @param up - The local up direction.
-	 * @param out - The matrix to store the result in.
 	 * @returns The transformation matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
@@ -2422,7 +2403,6 @@ export default class Matrix4
 	 * @param c3r1 - The value in the fourth column and second row.
 	 * @param c3r2 - The value in the fourth column and third row.
 	 * @param c3r3 - The value in the fourth column and fourth row.
-	 * @param out - The matrix to store the result in.
 	 * @returns The matrix.
 	 */
 	public static fromValues(
@@ -2555,7 +2535,6 @@ export default class Matrix4
 	/**
 	 * Add two matrices of the same size.
 	 * @param matrix - The other matrix.
-	 * @param out - The matrix to store the result in.
 	 * @returns The sum of the matrices.
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_addition | Matrix addition}
 	 */
@@ -2565,7 +2544,6 @@ export default class Matrix4
 
 	/**
 	 * Calculate the adjugate of this matrix.
-	 * @param out - The matrix to store the result in.
 	 * @returns The adjugate of this matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Adjugate_matrix | Adjugate matrix}
 	 */
@@ -2575,7 +2553,6 @@ export default class Matrix4
 
 	/**
 	 * Copy the values from this matrix to another one.
-	 * @param out - The matrix to store the result in.
 	 * @returns The copy.
 	 */
 	public clone(): Matrix4 {
@@ -2602,7 +2579,6 @@ export default class Matrix4
 	/**
 	 * Multiply this matrix by another.
 	 * @param matrix - The other matrix.
-	 * @param out - The matrix to store the result in.
 	 * @returns The product of the matrices.
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_multiplication | Matrix multiplication}
 	 */
@@ -2613,7 +2589,6 @@ export default class Matrix4
 	/**
 	 * Multiply this matrix by a scalar value.
 	 * @param scalar - The scalar value.
-	 * @param out - The matrix to store the result in.
 	 * @returns The product of the matrix and the scalar value.
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_multiplication | Matrix multiplication}
 	 */
@@ -2625,7 +2600,6 @@ export default class Matrix4
 	 * Add this matrix to another after multiplying the other by a scalar.
 	 * @param matrix - The other matrix.
 	 * @param scalar - The scalar.
-	 * @param out - The matrix to store the result in.
 	 * @returns The sum.
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_addition | Matrix addition}
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_multiplication | Matrix multiplication}
@@ -2637,7 +2611,6 @@ export default class Matrix4
 	/**
 	 * Subtract another matrix from this one.
 	 * @param matrix - The other matrix.
-	 * @param out - The matrix to store the result in.
 	 * @returns The difference between the matrices.
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_addition | Matrix addition}
 	 */
@@ -2647,7 +2620,6 @@ export default class Matrix4
 
 	/**
 	 * Transpose this matrix.
-	 * @param out - The matrix to store the result in.
 	 * @returns The transpose of this matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Transpose | Transpose}
 	 */
@@ -2674,7 +2646,6 @@ export default class Matrix4
 
 	/**
 	 * Invert this matrix.
-	 * @param out - The matrix to store the result in.
 	 * @returns The inverted matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Invertible_matrix | Invertible matrix}
 	 */
@@ -2685,7 +2656,6 @@ export default class Matrix4
 	/**
 	 * Scale this matrix by the given vector.
 	 * @param vector - The scaling vector.
-	 * @param out - The matrix to store the result in.
 	 * @returns The scaled matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
@@ -2696,7 +2666,6 @@ export default class Matrix4
 	/**
 	 * Translate this matrix by the given vector.
 	 * @param vector - The translation vector.
-	 * @param out - The matrix to store the result in.
 	 * @returns The translated matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
@@ -2708,7 +2677,6 @@ export default class Matrix4
 	 * Rotate this matrix by the given angle around the given axis.
 	 * @param r - The angle in radians.
 	 * @param axis - The axis.
-	 * @param out - The matrix to store the result in.
 	 * @returns The rotated matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
 	 */
@@ -2719,7 +2687,6 @@ export default class Matrix4
 	/**
 	 * Rotate this matrix by the given angle around the X-axis.
 	 * @param r - The angle in radians.
-	 * @param out - The matrix to store the result in.
 	 * @returns The rotated matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
 	 */
@@ -2730,7 +2697,6 @@ export default class Matrix4
 	/**
 	 * Rotate this matrix by the given angle around the Y-axis.
 	 * @param r - The angle in radians.
-	 * @param out - The matrix to store the result in.
 	 * @returns The rotated matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
 	 */
@@ -2741,7 +2707,6 @@ export default class Matrix4
 	/**
 	 * Rotate this matrix by the given angle around the Z-axis.
 	 * @param r - The angle in radians.
-	 * @param out - The matrix to store the result in.
 	 * @returns The rotated matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
 	 */
@@ -2751,7 +2716,6 @@ export default class Matrix4
 
 	/**
 	 * Get the translation vector component of this transformation matrix.
-	 * @param out - The vector to store the result in.
 	 * @returns The translation.
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
@@ -2762,7 +2726,6 @@ export default class Matrix4
 	/**
 	 * Set the translation vector component of this transformation matrix.
 	 * @param translation - The translation vector.
-	 * @param out - The matrix to store the result in.
 	 * @returns The transformation matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
@@ -2772,7 +2735,6 @@ export default class Matrix4
 
 	/**
 	 * Get the scaling vector component of this transformation matrix.
-	 * @param out - The vector to store the result in.
 	 * @returns The scaling.
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
@@ -2782,7 +2744,6 @@ export default class Matrix4
 
 	/**
 	 * Get the scaling vector component of this transformation matrix.
-	 * @param out - The quaternion to store the result in.
 	 * @returns The rotation.
 	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
 	 */

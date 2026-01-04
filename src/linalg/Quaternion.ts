@@ -1078,7 +1078,6 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	/**
 	 * Create a quaternion from a three-by-three rotation matrix.
 	 * @param matrix - The matrix.
-	 * @param out - The quaternion to store the result in.
 	 * @returns The quaternion.
 	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
 	 */
@@ -1091,7 +1090,6 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 * @param z - The z (roll) angle.
 	 * @param y - The y (pitch) angle.
 	 * @param x - The x (yaw) angle.
-	 * @param out - The quaternion to store the result in.
 	 * @returns The quaternion.
 	 * @see {@link https://en.wikipedia.org/wiki/Euler_angles | Euler angles}
 	 */
@@ -1105,7 +1103,6 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 * @param y - The second component.
 	 * @param z - The third component.
 	 * @param w - The fourth component.
-	 * @param out - The quaternion to store the result in.
 	 * @returns A new quaternion.
 	 */
 	public static fromValues(
@@ -1122,7 +1119,6 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 * @param view - The vector representing the viewing direction.
 	 * @param right - The vector representing the local "right" direction.
 	 * @param up - The vector representing the local "up" direction.
-	 * @param out - The quaternion to store the result in.
 	 * @returns The quaternion.
 	 */
 	public static fromAxes(
@@ -1137,7 +1133,6 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 * Create a unit quaternion that represents the shortest rotation from one unit vector to another.
 	 * @param a - The first unit vector.
 	 * @param b - The second unit vector.
-	 * @param out - The quaternion to store the result in.
 	 * @returns The unit quaternion.
 	 */
 	public static fromRotationTo(a: Vector3Like, b: Vector3Like): Quaternion {
@@ -1173,20 +1168,11 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 		return identity(this);
 	}
 
-	/**
-	 * Get the axis and angle that represent this quaternion.
-	 * @param out - The axis and angle to store the result in.
-	 * @returns The axis and angle.
-	 */
+	/** The axis and angle that represent this quaternion. */
 	public get axisAngle(): ReturnType<typeof createAxisAngleLike> {
 		return getAxisAngle(this, createAxisAngleLike());
 	}
 
-	/**
-	 * Set the axis and angle that represent this quaternion.
-	 * @param axisAngle - The axis and angle.
-	 * @returns This quaternion.
-	 */
 	public set axisAngle(value: AxisAngle) {
 		setAxisAngle(value, this);
 	}
@@ -1203,7 +1189,6 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	/**
 	 * Multiply this and another quaternion.
 	 * @param quaternion - The other quaternion.
-	 * @param out - The quaternion to store the result in.
 	 * @returns The product.
 	 */
 	public multiply(quaternion: QuaternionLike): Quaternion {
@@ -1213,7 +1198,6 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	/**
 	 * Rotate this quaternion by the given angle around the X-axis.
 	 * @param r - The angle in radians.
-	 * @param out - The quaternion to store the result in.
 	 * @returns The rotated quaternion.
 	 */
 	public rotateX(r: number): Quaternion {
@@ -1223,7 +1207,6 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	/**
 	 * Rotate this quaternion by the given angle around the Y-axis.
 	 * @param r - The angle in radians.
-	 * @param out - The quaternion to store the result in.
 	 * @returns The rotated quaternion.
 	 */
 	public rotateY(r: number): Quaternion {
@@ -1233,7 +1216,6 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	/**
 	 * Rotate this quaternion by the given angle around the Z-axis.
 	 * @param r - The angle in radians.
-	 * @param out - The quaternion to store the result in.
 	 * @returns The rotated quaternion.
 	 */
 	public rotateZ(r: number): Quaternion {
@@ -1242,7 +1224,6 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 
 	/**
 	 * Calculate the fourth component of this unit quaternion from the first three, ignoring the existing fourth component.
-	 * @param out - The quaternion to store the result in.
 	 * @returns The quaternion.
 	 */
 	public calculateW(): Quaternion {
@@ -1251,7 +1232,6 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 
 	/**
 	 * Calculate the exponential of this unit quaternion.
-	 * @param out - The quaternion to store the result in.
 	 * @returns The exponential.
 	 */
 	public exp(): Quaternion {
@@ -1260,7 +1240,6 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 
 	/**
 	 * Calculate the natural logarithm of this unit quaternion.
-	 * @param out - The quaternion to store the result in.
 	 * @returns The natural logarithm.
 	 */
 	public ln(): Quaternion {
@@ -1270,7 +1249,6 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	/**
 	 * Calculate a power of this unit quaternion.
 	 * @param scalar - The amount to scale the quaternion by.
-	 * @param out - The quaternion to store the result in.
 	 * @returns The power.
 	 */
 	public pow(scalar: number): Quaternion {
@@ -1281,7 +1259,6 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 * Perform a spherical linear interpolation between this and another quaternion.
 	 * @param quaternion - The other quaternion.
 	 * @param t - The interpolation amount in `[0,1]`.
-	 * @param out - The quaternion to store the result in.
 	 * @returns The interpolated quaternion.
 	 * @see {@link https://en.wikipedia.org/wiki/Slerp | Slerp}
 	 */
@@ -1299,7 +1276,6 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 
 	/**
 	 * Calculate the inverse of this quaternion. If the quaternion is normalized, the conjugate is the same but faster to calculate.
-	 * @param out - The quaternion to store the result in.
 	 * @returns The inverse.
 	 */
 	public invert(): Quaternion {
@@ -1308,7 +1284,6 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 
 	/**
 	 * Calculate the conjugate of this quaternion. If the quaternion is normalized, this is the same as the inverse but faster to calculate.
-	 * @param out - The quaternion to store the result in.
 	 * @returns The conjugate.
 	 */
 	public conjugate(): Quaternion {
@@ -1317,7 +1292,6 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 
 	/**
 	 * Copy the values from this quaternion to another one.
-	 * @param out - The quaternion to store the result in.
 	 * @returns The copy.
 	 */
 	public clone(): Quaternion {
@@ -1336,7 +1310,6 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	/**
 	 * Add two quaternions of the same size.
 	 * @param quaternion - The other quaternion.
-	 * @param out - The quaternion to store the result in.
 	 * @returns The sum of the quaternions.
 	 */
 	public add(quaternion: QuaternionLike): Quaternion {
@@ -1346,7 +1319,6 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	/**
 	 * Scale this quaternion by a scalar.
 	 * @param scalar - The scalar.
-	 * @param out - The quaternion to store the result in.
 	 * @returns The scaled quaternion.
 	 */
 	public scale(scalar: number): Quaternion {
@@ -1366,7 +1338,6 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 * Perform a linear interpolation between this and another quaternion.
 	 * @param quaternion - The other quaternion.
 	 * @param t - The interpolation amount (in `[0,1]`).
-	 * @param out - The quaternion to store the result in.
 	 * @returns The interpolated quaternion.
 	 */
 	public lerp(quaternion: QuaternionLike, t: number): Quaternion {
@@ -1385,7 +1356,6 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 
 	/**
 	 * Normalize this quaternion.
-	 * @param out - The quaternion to store the result in.
 	 * @returns The normalized quaternion.
 	 */
 	public normalize(): Quaternion {
@@ -1416,7 +1386,6 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 * @param b - The second control point.
 	 * @param quaternion - The other quaternion.
 	 * @param t - The interpolation amount in `[0,1]`.
-	 * @param out - The quaternion to store the result in.
 	 * @returns The interpolated value.
 	 * @see {@link https://en.wikipedia.org/wiki/Slerp | Slerp}
 	 */

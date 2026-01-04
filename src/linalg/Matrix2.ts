@@ -376,7 +376,6 @@ export default class Matrix2
 	/**
 	 * Create a transformation matrix that represents a rotation by the given angle around the Z-axis.
 	 * @param r - The angle in radians.
-	 * @param out - The matrix to store the result in.
 	 * @returns The transformation matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
 	 */
@@ -401,7 +400,6 @@ export default class Matrix2
 	 * @param c0r1 - The value in the first column and second row.
 	 * @param c1r0 - The value in the second column and first row.
 	 * @param c1r1 - The value in the second column and second row.
-	 * @param out - The matrix to store the result in.
 	 * @returns The matrix.
 	 */
 	public static fromValues(
@@ -466,7 +464,6 @@ export default class Matrix2
 	/**
 	 * Add another matrix to this one.
 	 * @param matrix - The other matrix.
-	 * @param out - The matrix to store the result in.
 	 * @returns The sum of the matrices.
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_addition | Matrix addition}
 	 */
@@ -476,7 +473,6 @@ export default class Matrix2
 
 	/**
 	 * Calculate the adjugate of this matrix.
-	 * @param out - The matrix to store the result in.
 	 * @returns The adjugate of this matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Adjugate_matrix | Adjugate matrix}
 	 */
@@ -486,7 +482,6 @@ export default class Matrix2
 
 	/**
 	 * Copy the values from this matrix to another one.
-	 * @param out - The matrix to store the result in.
 	 * @returns The copy.
 	 */
 	public clone(): Matrix2 {
@@ -513,7 +508,6 @@ export default class Matrix2
 	/**
 	 * Multiply this matrix by another.
 	 * @param matrix - The other matrix.
-	 * @param out - The matrix to store the result in.
 	 * @returns The product of the matrices.
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_multiplication | Matrix multiplication}
 	 * @public
@@ -525,7 +519,6 @@ export default class Matrix2
 	/**
 	 * Multiply this matrix by a scalar value.
 	 * @param scalar - The scalar value.
-	 * @param out - The matrix to store the result in.
 	 * @returns The product of the matrix and the scalar value.
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_multiplication | Matrix multiplication}
 	 */
@@ -537,7 +530,6 @@ export default class Matrix2
 	 * Add this matrix to another after multiplying the other by a scalar.
 	 * @param matrix - The other matrix.
 	 * @param scalar - The scalar.
-	 * @param out - The matrix to store the result in.
 	 * @returns The sum.
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_addition | Matrix addition}
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_multiplication | Matrix multiplication}
@@ -549,7 +541,6 @@ export default class Matrix2
 	/**
 	 * Subtract another matrix from this one.
 	 * @param matrix - The other matrix.
-	 * @param out - The matrix to store the result in.
 	 * @returns The difference between the matrices.
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_addition | Matrix addition}
 	 */
@@ -559,7 +550,6 @@ export default class Matrix2
 
 	/**
 	 * Transpose this matrix.
-	 * @param out - The matrix to store the result in.
 	 * @returns The transpose of this matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Transpose | Transpose}
 	 */
@@ -586,7 +576,6 @@ export default class Matrix2
 
 	/**
 	 * Invert this matrix.
-	 * @param out - The matrix to store the result in.
 	 * @returns The inverted matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Invertible_matrix | Invertible matrix}
 	 */
@@ -597,7 +586,6 @@ export default class Matrix2
 	/**
 	 * Rotate this matrix by the given angle.
 	 * @param r - The angle in radians.
-	 * @param out - The matrix to store the result in.
 	 * @returns The rotated matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
 	 */
@@ -608,7 +596,6 @@ export default class Matrix2
 	/**
 	 * Scale this matrix by the given vector.
 	 * @param vector - The scaling vector.
-	 * @param out - The matrix to store the result in.
 	 * @returns The scaled matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */

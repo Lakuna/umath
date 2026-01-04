@@ -1017,7 +1017,6 @@ export default class DualQuaternion
 	 * @param y2 - The second dual component.
 	 * @param z2 - The third dual component.
 	 * @param w2 - The fourth dual component.
-	 * @param out - The dual quaternion to store the result in.
 	 * @returns A new dual quaternion.
 	 */
 	public static fromValues(
@@ -1037,7 +1036,6 @@ export default class DualQuaternion
 	 * Create a dual quaternion from the given rotation and translation.
 	 * @param q - The rotation quaternion.
 	 * @param t - The translation vector.
-	 * @param out - The dual quaternion to store the result in.
 	 * @returns The dual quaternion.
 	 */
 	public static fromRotationTranslation(
@@ -1050,7 +1048,6 @@ export default class DualQuaternion
 	/**
 	 * Create a dual quaternion from the given translation.
 	 * @param t - The translation vector.
-	 * @param out - The dual quaternion to store the result in.
 	 * @returns The dual quaternion.
 	 */
 	public static fromTranslation(t: Vector3Like): DualQuaternion {
@@ -1060,7 +1057,6 @@ export default class DualQuaternion
 	/**
 	 * Create a dual quaternion from the given rotation.
 	 * @param q - The rotation quaternion.
-	 * @param out - The dual quaternion to store the result in.
 	 * @returns The dual quaternion.
 	 */
 	public static fromRotation(q: QuaternionLike): DualQuaternion {
@@ -1070,7 +1066,6 @@ export default class DualQuaternion
 	/**
 	 * Create a dual quaternion from the given four-by-four matrix.
 	 * @param matrix - The matrix.
-	 * @param out - The dual quaternion to store the result in.
 	 * @returns The dual quaternion.
 	 */
 	public static fromMatrix4(matrix: Matrix4Like): DualQuaternion {
@@ -1121,7 +1116,6 @@ export default class DualQuaternion
 
 	/**
 	 * Copy the values from this dual quaternion to another one.
-	 * @param out - The dual quaternion to store the result in.
 	 * @returns The copy.
 	 */
 	public clone(): DualQuaternion {
@@ -1138,7 +1132,6 @@ export default class DualQuaternion
 
 	/**
 	 * Get the real part of this dual quaternion.
-	 * @param out - The quaternion to store the result in.
 	 * @returns The real part.
 	 */
 	public getReal(): Quaternion {
@@ -1155,7 +1148,6 @@ export default class DualQuaternion
 
 	/**
 	 * Get the dual part of this dual quaternion.
-	 * @param out - The quaternion to store the result in.
 	 * @returns The dual part.
 	 */
 	public getDual(): Quaternion {
@@ -1172,7 +1164,6 @@ export default class DualQuaternion
 
 	/**
 	 * Get the translation of this normalized dual quaternion.
-	 * @param out - The vector to store the result in.
 	 * @returns The translation.
 	 */
 	public getTranslation(): Vector3 {
@@ -1182,7 +1173,6 @@ export default class DualQuaternion
 	/**
 	 * Translate this dual quaternion by the given vector.
 	 * @param v - The vector.
-	 * @param out - The dual quaternion to store the result in.
 	 * @returns The translated dual quaternion.
 	 */
 	public translate(v: Vector3Like): DualQuaternion {
@@ -1192,7 +1182,6 @@ export default class DualQuaternion
 	/**
 	 * Rotate this dual quaternion around the X-axis.
 	 * @param r - The angle to rotate by in radians.
-	 * @param out - The dual quaternion to store the result in.
 	 * @returns The rotated dual quaternion.
 	 */
 	public rotateX(r: number): DualQuaternion {
@@ -1202,7 +1191,6 @@ export default class DualQuaternion
 	/**
 	 * Rotate this dual quaternion around the Y-axis.
 	 * @param r - The angle to rotate by in radians.
-	 * @param out - The dual quaternion to store the result in.
 	 * @returns The rotated dual quaternion.
 	 */
 	public rotateY(r: number): DualQuaternion {
@@ -1212,7 +1200,6 @@ export default class DualQuaternion
 	/**
 	 * Rotate this dual quaternion around the Z-axis.
 	 * @param r - The angle to rotate by in radians.
-	 * @param out - The dual quaternion to store the result in.
 	 * @returns The rotated dual quaternion.
 	 */
 	public rotateZ(r: number): DualQuaternion {
@@ -1222,7 +1209,6 @@ export default class DualQuaternion
 	/**
 	 * Rotate this dual quaternion by a quaternion (using the quaternion as the multiplicand).
 	 * @param q - The quaternion.
-	 * @param out - The dual quaternion to store the result in.
 	 * @returns The rotated dual quaternion.
 	 * @see {@link https://en.wikipedia.org/wiki/Quaternion | Quaternion}
 	 */
@@ -1233,7 +1219,6 @@ export default class DualQuaternion
 	/**
 	 * Rotate this dual quaternion by a quaternion (using the quaternion as the multiplier).
 	 * @param q - The quaternion.
-	 * @param out - The dual quaternion to store the result in.
 	 * @returns The rotated dual quaternion.
 	 * @see {@link https://en.wikipedia.org/wiki/Quaternion | Quaternion}
 	 */
@@ -1245,7 +1230,6 @@ export default class DualQuaternion
 	 * Rotate this dual quaternion around an axis.
 	 * @param axis - The axis.
 	 * @param r - The angle of the rotation in radians.
-	 * @param out - The dual quaternion to store the result in.
 	 * @returns A normalized dual quaternion.
 	 */
 	public rotateAroundAxis(axis: Vector3Like, r: number): DualQuaternion {
@@ -1255,7 +1239,6 @@ export default class DualQuaternion
 	/**
 	 * Add another dual quaternion to this one.
 	 * @param dq - The other dual quaternion.
-	 * @param out - The dual quaternion to store the result in.
 	 * @returns The sum.
 	 */
 	public add(dq: DualQuaternionLike): DualQuaternion {
@@ -1265,7 +1248,6 @@ export default class DualQuaternion
 	/**
 	 * Multiply this dual quaternion by another one.
 	 * @param dq - The other dual quaternion.
-	 * @param out - The dual quaternion to store the result in.
 	 * @returns The product.
 	 */
 	public multiply(dq: DualQuaternionLike): DualQuaternion {
@@ -1275,7 +1257,6 @@ export default class DualQuaternion
 	/**
 	 * Multiply this dual quaternion by a scalar.
 	 * @param s - The scalar.
-	 * @param out - The dual quaternion to store the result in.
 	 * @returns The product.
 	 */
 	public scale(s: number): DualQuaternion {
@@ -1296,7 +1277,6 @@ export default class DualQuaternion
 	 * Perform a linear interpolation between this and another dual quaternion.
 	 * @param dq - The other dual quaternion.
 	 * @param t - The interpolation amount in `[0,1]`.
-	 * @param out - The dual quaternion to store the result in.
 	 * @returns The interpolated value.
 	 */
 	public lerp(dq: DualQuaternionLike, t: number): DualQuaternion {
@@ -1305,7 +1285,6 @@ export default class DualQuaternion
 
 	/**
 	 * Calculate the inverse of this dual quaternion. If this dual quaternion is normalized, the conjugate is equivalent and faster to calculate.
-	 * @param out - The dual quaternion to store the result in.
 	 * @returns The inverse.
 	 */
 	public invert(): DualQuaternion {
@@ -1314,7 +1293,6 @@ export default class DualQuaternion
 
 	/**
 	 * Calculate the conjugate of this dual quaternion. If this dual quaternion is normalized, this is equivalent to its inverse and faster to calculate.
-	 * @param out - The dual quaternion to store the result in.
 	 * @returns The conjugate.
 	 */
 	public conjugate(): DualQuaternion {
@@ -1333,7 +1311,6 @@ export default class DualQuaternion
 
 	/**
 	 * Normalize this dual quaternion.
-	 * @param out - The dual quaternion to store the result in.
 	 * @returns The normalized dual quaternion.
 	 */
 	public normalize(): DualQuaternion {

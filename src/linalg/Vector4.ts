@@ -614,7 +614,6 @@ export default class Vector4
 	 * @param y - The second component.
 	 * @param z - The third component.
 	 * @param w - The fourth component.
-	 * @param out - The vector to store the result in.
 	 * @returns A new vector.
 	 */
 	public static fromValues(
@@ -667,7 +666,6 @@ export default class Vector4
 	/**
 	 * Add two vectors of the same size.
 	 * @param vector - The other vector.
-	 * @param out - The vector to store the result in.
 	 * @returns The sum of the vectors.
 	 */
 	public add(vector: Vector4Like): Vector4 {
@@ -676,7 +674,6 @@ export default class Vector4
 
 	/**
 	 * Copy the values from this vector to another one.
-	 * @param out - The vector to store the result in.
 	 * @returns The copy.
 	 */
 	public clone(): Vector4 {
@@ -695,7 +692,6 @@ export default class Vector4
 	/**
 	 * Multiply this vector by another.
 	 * @param vector - The other vector.
-	 * @param out - The vector to store the result in.
 	 * @returns The product of the vectors.
 	 */
 	public multiply(vector: Vector4Like): Vector4 {
@@ -705,7 +701,6 @@ export default class Vector4
 	/**
 	 * Divide this vector by another.
 	 * @param vector - The other vector.
-	 * @param out - The vector to store the result in.
 	 * @returns The quotient of the vectors.
 	 */
 	public divide(vector: Vector4Like): Vector4 {
@@ -715,7 +710,6 @@ export default class Vector4
 	/**
 	 * Subtract another vector from this one.
 	 * @param vector - The other vector.
-	 * @param out - The vector to store the result in.
 	 * @returns The difference between the vectors.
 	 */
 	public subtract(vector: Vector4Like): Vector4 {
@@ -724,7 +718,6 @@ export default class Vector4
 
 	/**
 	 * Absolutize the components of this vector.
-	 * @param out - The vector to store the result in.
 	 * @returns The absolutized vector.
 	 */
 	public abs(): Vector4 {
@@ -733,7 +726,6 @@ export default class Vector4
 
 	/**
 	 * Round up the components of this vector.
-	 * @param out - The vector to store the result in.
 	 * @returns The rounded vector.
 	 */
 	public ceil(): Vector4 {
@@ -742,7 +734,6 @@ export default class Vector4
 
 	/**
 	 * Round down the components of this vector.
-	 * @param out - The vector to store the result in.
 	 * @returns The rounded vector.
 	 */
 	public floor(): Vector4 {
@@ -751,7 +742,6 @@ export default class Vector4
 
 	/**
 	 * Round the components of this vector.
-	 * @param out - The vector to store the result in.
 	 * @returns The rounded vector.
 	 */
 	public round(): Vector4 {
@@ -761,7 +751,6 @@ export default class Vector4
 	/**
 	 * Return the minimum of this and another vector.
 	 * @param vector - The other vector.
-	 * @param out - The vector to store the result in.
 	 * @returns The minimum.
 	 */
 	public min(vector: Vector4Like): Vector4 {
@@ -771,7 +760,6 @@ export default class Vector4
 	/**
 	 * Return the maximum of this and another vector.
 	 * @param vector - The other vector.
-	 * @param out - The vector to store the result in.
 	 * @returns The maximum.
 	 */
 	public max(vector: Vector4Like): Vector4 {
@@ -781,7 +769,6 @@ export default class Vector4
 	/**
 	 * Raise each component of this vector to the given power.
 	 * @param scalar - The exponent (power) to raise each component to.
-	 * @param out - The vector to store the result in.
 	 * @returns The power (result of the exponentiation).
 	 */
 	public pow(scalar: number): Vector4 {
@@ -791,7 +778,6 @@ export default class Vector4
 	/**
 	 * Scale this vector by a scalar.
 	 * @param scalar - The scalar.
-	 * @param out - The vector to store the result in.
 	 * @returns The scaled vector.
 	 */
 	public scale(scalar: number): Vector4 {
@@ -802,7 +788,6 @@ export default class Vector4
 	 * Add another vector to this one after scaling the other by a scalar.
 	 * @param vector - The other vector.
 	 * @param scalar - The scalar.
-	 * @param out - The vector to store the result in.
 	 * @returns The sum.
 	 */
 	public scaleAndAdd(vector: Vector4Like, scalar: number): Vector4 {
@@ -829,19 +814,26 @@ export default class Vector4
 		return squaredDistance(this, vector);
 	}
 
-	/** Get the magnitude (length) of this vector. */
+	/** The magnitude (length) of this vector. */
 	public get magnitude(): number {
 		return getMagnitude(this);
 	}
 
-	/** Get the squared magnitude (length) of this vector. */
+	public set magnitude(value: number) {
+		scale(normalize(this, this), value, this);
+	}
+
+	/** The squared magnitude (length) of this vector. */
 	public get squaredMagnitude(): number {
 		return getSquaredMagnitude(this);
 	}
 
+	public set squaredMagnitude(value: number) {
+		this.magnitude = Math.sqrt(value);
+	}
+
 	/**
 	 * Negate this vector.
-	 * @param out - The vector to store the result in.
 	 * @returns The negated vector.
 	 */
 	public negate(): Vector4 {
@@ -850,7 +842,6 @@ export default class Vector4
 
 	/**
 	 * Calculate the multiplicative inverse of the components of this vector.
-	 * @param out - The vector to store the result in.
 	 * @returns The inverted vector.
 	 */
 	public invert(): Vector4 {
@@ -859,7 +850,6 @@ export default class Vector4
 
 	/**
 	 * Normalize this vector.
-	 * @param out - The vector to store the result in.
 	 * @returns The normalized vector.
 	 * @see {@link https://en.wikipedia.org/wiki/Unit_vector | Unit vector}
 	 */
@@ -881,7 +871,6 @@ export default class Vector4
 	 * Calculate the cross product of this and two other vectors in a four-dimensional space.
 	 * @param a - One other vector.
 	 * @param b - The other other vector.
-	 * @param out - The vector to store the result in.
 	 * @returns The cross product.
 	 * @see {@link https://en.wikipedia.org/wiki/Cross_product | Cross product}
 	 */
@@ -893,7 +882,6 @@ export default class Vector4
 	 * Perform a linear interpolation between this and another vector.
 	 * @param vector - The other vector.
 	 * @param t - The interpolation amount (in `[0,1]`).
-	 * @param out - The vector to store the result in.
 	 * @returns The interpolated vector.
 	 * @see {@link https://en.wikipedia.org/wiki/Linear_interpolation | Linear interpolation}
 	 */
@@ -913,7 +901,6 @@ export default class Vector4
 	/**
 	 * Transform this vector by a four-by-four matrix.
 	 * @param matrix - The matrix.
-	 * @param out - The vector to store the result in.
 	 * @returns The transformed vector.
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
@@ -932,7 +919,6 @@ export default class Vector4
 	/**
 	 * Transform this vector by a quaternion.
 	 * @param quaternion - The quaternion.
-	 * @param out - The vector to store the result in.
 	 * @returns The transformed vector.
 	 * @see {@link https://en.wikipedia.org/wiki/Quaternion | Quaternion}
 	 */

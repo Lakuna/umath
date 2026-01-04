@@ -825,7 +825,6 @@ export default class Matrix3
 	/**
 	 * Create a transformation matrix that represents a rotation by the given angle around the Z-axis.
 	 * @param r - The angle in radians.
-	 * @param out - The matrix to store the result in.
 	 * @returns The transformation matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
 	 */
@@ -836,7 +835,6 @@ export default class Matrix3
 	/**
 	 * Create a transformation matrix that represents a scaling by the given vector.
 	 * @param vector - The scaling vector.
-	 * @param out - The matrix to store the result in.
 	 * @returns The transformation matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
@@ -847,7 +845,6 @@ export default class Matrix3
 	/**
 	 * Create a transformation matrix that represents a translation by the given vector.
 	 * @param vector - The translation vector.
-	 * @param out - The matrix to store the result in.
 	 * @returns The transformation matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
@@ -858,7 +855,6 @@ export default class Matrix3
 	/**
 	 * Create a transformation matrix that represents a rotation by the given quaternion.
 	 * @param quaternion - The quaternion.
-	 * @param out - The matrix to store the result in.
 	 * @returns The transformation matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Quaternion | Quaternion}
 	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
@@ -872,7 +868,6 @@ export default class Matrix3
 	 * @param z - The z (roll) angle.
 	 * @param y - The y (pitch) angle.
 	 * @param x - The x (yaw) angle.
-	 * @param out - The matrix to store the result in.
 	 * @returns The transformation matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Quaternion | Quaternion}
 	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
@@ -884,7 +879,6 @@ export default class Matrix3
 	/**
 	 * Calculate a three-by-three normal (inverse transpose) matrix from a four-by-four matrix.
 	 * @param matrix - The four-by-four matrix.
-	 * @param out - The matrix to store the result in.
 	 * @returns The normal matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Normal_matrix | Normal matrix}
 	 */
@@ -896,7 +890,6 @@ export default class Matrix3
 	 * Generate a two-dimensional projection matrix with the given bounds.
 	 * @param width - The width of the projection.
 	 * @param height - The height of the projection.
-	 * @param out - The matrix to store the result in.
 	 * @returns The projection matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Camera_matrix | Camera matrix}
 	 * @see {@link https://en.wikipedia.org/wiki/3D_projection | 3D projection}
@@ -908,7 +901,6 @@ export default class Matrix3
 	/**
 	 * Create a three-by-three matrix from the upper-left corner of a four-by-four matrix.
 	 * @param matrix - The four-by-four matrix.
-	 * @param out - The matrix to store the result in.
 	 * @returns The three-by-three matrix.
 	 */
 	public static fromMatrix4(matrix: Matrix4Like): Matrix3 {
@@ -926,7 +918,6 @@ export default class Matrix3
 	 * @param c2r0 - The value in the third column and first row.
 	 * @param c2r1 - The value in the third column and second row.
 	 * @param c2r2 - The value in the third column and third row.
-	 * @param out - The matrix to store the result in.
 	 * @returns The matrix.
 	 */
 	public static fromValues(
@@ -1023,7 +1014,6 @@ export default class Matrix3
 	/**
 	 * Add two matrices of the same size.
 	 * @param matrix - The other matrix.
-	 * @param out - The matrix to store the result in.
 	 * @returns The sum of the matrices.
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_addition | Matrix addition}
 	 */
@@ -1033,7 +1023,6 @@ export default class Matrix3
 
 	/**
 	 * Calculate the adjugate of this matrix.
-	 * @param out - The matrix to store the result in.
 	 * @returns The adjugate of this matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Adjugate_matrix | Adjugate matrix}
 	 */
@@ -1043,7 +1032,6 @@ export default class Matrix3
 
 	/**
 	 * Copy the values from this matrix to another one.
-	 * @param out - The matrix to store the result in.
 	 * @returns The copy.
 	 */
 	public clone(): Matrix3 {
@@ -1070,7 +1058,6 @@ export default class Matrix3
 	/**
 	 * Multiply this matrix by another.
 	 * @param matrix - The other matrix.
-	 * @param out - The matrix to store the result in.
 	 * @returns The product of the matrices.
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_multiplication | Matrix multiplication}
 	 */
@@ -1081,7 +1068,6 @@ export default class Matrix3
 	/**
 	 * Multiply this matrix by a scalar value.
 	 * @param scalar - The scalar value.
-	 * @param out - The matrix to store the result in.
 	 * @returns The product of the matrix and the scalar value.
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_multiplication | Matrix multiplication}
 	 */
@@ -1093,7 +1079,6 @@ export default class Matrix3
 	 * Add this matrix to another after multiplying the other by a scalar.
 	 * @param matrix - The other matrix.
 	 * @param scalar - The scalar.
-	 * @param out - The matrix to store the result in.
 	 * @returns The sum.
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_addition | Matrix addition}
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_multiplication | Matrix multiplication}
@@ -1105,7 +1090,6 @@ export default class Matrix3
 	/**
 	 * Subtract another matrix from this one.
 	 * @param matrix - The other matrix.
-	 * @param out - The matrix to store the result in.
 	 * @returns The difference between the matrices.
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_addition | Matrix addition}
 	 */
@@ -1115,7 +1099,6 @@ export default class Matrix3
 
 	/**
 	 * Transpose this matrix.
-	 * @param out - The matrix to store the result in.
 	 * @returns The transpose of this matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Transpose | Transpose}
 	 */
@@ -1142,7 +1125,6 @@ export default class Matrix3
 
 	/**
 	 * Invert this matrix.
-	 * @param out - The matrix to store the result in.
 	 * @returns The inverted matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Invertible_matrix | Invertible matrix}
 	 */
@@ -1153,7 +1135,6 @@ export default class Matrix3
 	/**
 	 * Rotate this matrix by the given angle around the Z-axis.
 	 * @param r - The angle in radians.
-	 * @param out - The matrix to store the result in.
 	 * @returns The rotated matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
 	 */
@@ -1164,7 +1145,6 @@ export default class Matrix3
 	/**
 	 * Scale this matrix by the given vector.
 	 * @param vector - The scaling vector.
-	 * @param out - The matrix to store the result in.
 	 * @returns The scaled matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
@@ -1175,7 +1155,6 @@ export default class Matrix3
 	/**
 	 * Translate this matrix by the given vector.
 	 * @param vector - The translation vector.
-	 * @param out - The matrix to store the result in.
 	 * @returns The translated matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
