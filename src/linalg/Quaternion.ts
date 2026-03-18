@@ -1,15 +1,20 @@
+import type AxisAngle from "../types/AxisAngle.js";
+
+import radiansToDegrees from "../algorithms/radiansToDegrees.js";
+import createAxisAngleLike from "../utility/createAxisAngleLike.js";
+import epsilon from "../utility/epsilon.js";
 import {
-	type Matrix3Like,
 	createMatrix3Like,
-	fromValues as matrix3FromValues
+	fromValues as matrix3FromValues,
+	type Matrix3Like
 } from "./Matrix3.js";
 import Vector3, {
-	type Vector3Like,
 	createVector3Like,
 	cross as vector3Cross,
 	dot as vector3Dot,
 	fromValues as vector3FromValues,
 	getMagnitude as vector3GetMagnitude,
+	type Vector3Like,
 	normalize as vector3Normalize
 } from "./Vector3.js";
 import {
@@ -24,10 +29,6 @@ import {
 	normalize as vector4Normalize,
 	scale as vector4Scale
 } from "./Vector4.js";
-import type AxisAngle from "../types/AxisAngle.js";
-import createAxisAngleLike from "../utility/createAxisAngleLike.js";
-import epsilon from "../utility/epsilon.js";
-import radiansToDegrees from "../algorithms/radiansToDegrees.js";
 
 /**
  * A complex number that is commonly used to describe rotations.
@@ -36,15 +37,19 @@ import radiansToDegrees from "../algorithms/radiansToDegrees.js";
  */
 export interface QuaternionLike extends Record<number, number> {
 	/** The first component of this quaternion. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	0: number;
 
 	/** The second component of this quaternion. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	1: number;
 
 	/** The third component of this quaternion. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	2: number;
 
 	/** The fourth component of this quaternion. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	3: number;
 }
 
@@ -53,9 +58,9 @@ export interface QuaternionLike extends Record<number, number> {
  * @returns A quaternion-like object.
  * @public
  */
-export const createQuaternionLike = (): Float32Array & QuaternionLike => {
-	return new Float32Array(4) as Float32Array & QuaternionLike;
-};
+export const createQuaternionLike = (): Float32Array & QuaternionLike =>
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
+	new Float32Array(4) as Float32Array & QuaternionLike;
 
 /**
  * Create a quaternion with the given values.
@@ -223,28 +228,37 @@ export const fromMatrix3 = <T extends QuaternionLike>(
 	if (m4 > m0) {
 		i = 1;
 	}
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
 	if (m8 > matrix[(i * 3 + i) as 0 | 4]) {
 		i = 2;
 	}
-	const j = ((i + 1) % 3) as 1 | 2 | 0;
-	const k = ((i + 2) % 3) as 2 | 0 | 1;
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
+	const j = ((i + 1) % 3) as 0 | 1 | 2;
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
+	const k = ((i + 2) % 3) as 0 | 1 | 2;
 
 	let fRoot: number = Math.sqrt(
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
 		matrix[(i * 3 + i) as 0 | 4 | 7] -
-			matrix[(j * 3 + j) as 4 | 7 | 0] -
-			matrix[(k * 3 + k) as 7 | 0 | 4] +
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
+			matrix[(j * 3 + j) as 0 | 4 | 7] -
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
+			matrix[(k * 3 + k) as 0 | 4 | 7] +
 			1
 	);
 	out[i] = fRoot / 2;
 	fRoot = 0.5 / fRoot;
 	out[3] =
-		(matrix[(j * 3 + k) as 5 | 6 | 1] - matrix[(k * 3 + j) as 7 | 2 | 3]) *
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
+		(matrix[(j * 3 + k) as 1 | 5 | 6] - matrix[(k * 3 + j) as 2 | 3 | 7]) *
 		fRoot;
 	out[j] =
-		(matrix[(j * 3 + i) as 3 | 7 | 2] + matrix[(i * 3 + j) as 1 | 5 | 6]) *
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
+		(matrix[(j * 3 + i) as 2 | 3 | 7] + matrix[(i * 3 + j) as 1 | 5 | 6]) *
 		fRoot;
 	out[k] =
-		(matrix[(k * 3 + i) as 6 | 1 | 5] + matrix[(i * 3 + k) as 2 | 3 | 7]) *
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
+		(matrix[(k * 3 + i) as 1 | 5 | 6] + matrix[(i * 3 + k) as 2 | 3 | 7]) *
 		fRoot;
 	return out;
 };
@@ -906,9 +920,9 @@ export const slerp = <T extends QuaternionLike>(
 		bw = -bw;
 	}
 
-	// eslint-disable-next-line init-declarations
+	// eslint-disable-next-line @typescript-eslint/init-declarations
 	let scale0;
-	// eslint-disable-next-line init-declarations
+	// eslint-disable-next-line @typescript-eslint/init-declarations
 	let scale1;
 	if (1 - cosom > epsilon) {
 		const omega = Math.acos(cosom);
@@ -1075,14 +1089,63 @@ export const fromRotationTo = <T extends QuaternionLike>(
  * @public
  */
 export default class Quaternion extends Float32Array implements QuaternionLike {
+	/** The first component of this quaternion. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 0: number;
+
+	/** The second component of this quaternion. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 1: number;
+
+	/** The third component of this quaternion. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 2: number;
+
+	/** The fourth component of this quaternion. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 3: number;
+
+	/** The axis and angle that represent this quaternion. */
+	public get axisAngle(): ReturnType<typeof createAxisAngleLike> {
+		return getAxisAngle(this, createAxisAngleLike());
+	}
+
+	public set axisAngle(value: AxisAngle) {
+		setAxisAngle(value, this);
+	}
+
+	/** Get the magnitude (length) of this quaternion. */
+	public get magnitude(): number {
+		return getMagnitude(this);
+	}
+
+	/** Get the squared magnitude (length) of this quaternion. */
+	public get squaredMagnitude(): number {
+		return getSquaredMagnitude(this);
+	}
+
 	/**
-	 * Create a quaternion from a three-by-three rotation matrix.
-	 * @param matrix - The matrix.
-	 * @returns The quaternion.
-	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
+	 * Create an identity quaternion.
+	 * @see {@link https://en.wikipedia.org/wiki/Quaternion | Quaternion}
 	 */
-	public static fromMatrix3(matrix: Matrix3Like): Quaternion {
-		return fromMatrix3(matrix, new Quaternion());
+	public constructor() {
+		super(4);
+		this[3] = 1;
+	}
+
+	/**
+	 * Create a quaternion with values corresponding to the given orthonormal set of vectors.
+	 * @param view - The vector representing the viewing direction.
+	 * @param right - The vector representing the local "right" direction.
+	 * @param up - The vector representing the local "up" direction.
+	 * @returns The quaternion.
+	 */
+	public static fromAxes(
+		view: Vector3Like,
+		right: Vector3Like,
+		up: Vector3Like
+	): Quaternion {
+		return fromAxes(view, right, up, new Quaternion());
 	}
 
 	/**
@@ -1095,6 +1158,26 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 */
 	public static fromEuler(z: number, y: number, x: number): Quaternion {
 		return fromEuler(z, y, x, new Quaternion());
+	}
+
+	/**
+	 * Create a quaternion from a three-by-three rotation matrix.
+	 * @param matrix - The matrix.
+	 * @returns The quaternion.
+	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
+	 */
+	public static fromMatrix3(matrix: Matrix3Like): Quaternion {
+		return fromMatrix3(matrix, new Quaternion());
+	}
+
+	/**
+	 * Create a unit quaternion that represents the shortest rotation from one unit vector to another.
+	 * @param a - The first unit vector.
+	 * @param b - The second unit vector.
+	 * @returns The unit quaternion.
+	 */
+	public static fromRotationTo(a: Vector3Like, b: Vector3Like): Quaternion {
+		return fromRotationTo(a, b, new Quaternion());
 	}
 
 	/**
@@ -1115,66 +1198,80 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	}
 
 	/**
-	 * Create a quaternion with values corresponding to the given orthonormal set of vectors.
-	 * @param view - The vector representing the viewing direction.
-	 * @param right - The vector representing the local "right" direction.
-	 * @param up - The vector representing the local "up" direction.
+	 * Add two quaternions of the same size.
+	 * @param quaternion - The other quaternion.
+	 * @returns The sum of the quaternions.
+	 */
+	public add(quaternion: QuaternionLike): Quaternion {
+		return add(this, quaternion, new Quaternion());
+	}
+
+	/**
+	 * Calculate the fourth component of this unit quaternion from the first three, ignoring the existing fourth component.
 	 * @returns The quaternion.
 	 */
-	public static fromAxes(
-		view: Vector3Like,
-		right: Vector3Like,
-		up: Vector3Like
-	): Quaternion {
-		return fromAxes(view, right, up, new Quaternion());
+	public calculateW(): Quaternion {
+		return calculateW(this, new Quaternion());
 	}
 
 	/**
-	 * Create a unit quaternion that represents the shortest rotation from one unit vector to another.
-	 * @param a - The first unit vector.
-	 * @param b - The second unit vector.
-	 * @returns The unit quaternion.
+	 * Copy the values from this quaternion to another one.
+	 * @returns The copy.
 	 */
-	public static fromRotationTo(a: Vector3Like, b: Vector3Like): Quaternion {
-		return fromRotationTo(a, b, new Quaternion());
+	public clone(): Quaternion {
+		return copy(this, new Quaternion());
 	}
 
 	/**
-	 * Create an identity quaternion.
-	 * @see {@link https://en.wikipedia.org/wiki/Quaternion | Quaternion}
+	 * Calculate the conjugate of this quaternion. If the quaternion is normalized, this is the same as the inverse but faster to calculate.
+	 * @returns The conjugate.
 	 */
-	public constructor() {
-		super(4);
-		this[3] = 1;
+	public conjugate(): Quaternion {
+		return conjugate(this, new Quaternion());
 	}
 
-	/** The first component of this quaternion. */
-	public 0: number;
-
-	/** The second component of this quaternion. */
-	public 1: number;
-
-	/** The third component of this quaternion. */
-	public 2: number;
-
-	/** The fourth component of this quaternion. */
-	public 3: number;
-
 	/**
-	 * Set this quaternion to the identity.
+	 * Copy the values of another quaternion into this one.
+	 * @param quaternion - The quaternion to copy.
 	 * @returns This quaternion.
 	 */
-	public identity(): this {
-		return identity(this);
+	public copy(quaternion: QuaternionLike): this {
+		return copy(quaternion, this);
 	}
 
-	/** The axis and angle that represent this quaternion. */
-	public get axisAngle(): ReturnType<typeof createAxisAngleLike> {
-		return getAxisAngle(this, createAxisAngleLike());
+	/**
+	 * Calculate the dot product of this and another quaternion.
+	 * @param quaternion - The other quaternion.
+	 * @returns The dot product.
+	 */
+	public dot(quaternion: QuaternionLike): number {
+		return dot(this, quaternion);
 	}
 
-	public set axisAngle(value: AxisAngle) {
-		setAxisAngle(value, this);
+	/**
+	 * Determine whether or not this quaternion is roughly equivalent to another.
+	 * @param quaternion - The other quaternion.
+	 * @returns Whether or not the quaternions are equivalent.
+	 */
+	public equals(quaternion: QuaternionLike): boolean {
+		return equals(this, quaternion);
+	}
+
+	/**
+	 * Determine whether or not this quaternion is exactly equivalent to another.
+	 * @param quaternion - The other quaternion.
+	 * @returns Whether or not the quaternions are equivalent.
+	 */
+	public exactEquals(quaternion: QuaternionLike): boolean {
+		return exactEquals(this, quaternion);
+	}
+
+	/**
+	 * Calculate the exponential of this unit quaternion.
+	 * @returns The exponential.
+	 */
+	public exp(): Quaternion {
+		return exp(this, new Quaternion());
 	}
 
 	/**
@@ -1187,12 +1284,71 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	}
 
 	/**
+	 * Set this quaternion to the identity.
+	 * @returns This quaternion.
+	 */
+	public identity(): this {
+		return identity(this);
+	}
+
+	/**
+	 * Calculate the inverse of this quaternion. If the quaternion is normalized, the conjugate is the same but faster to calculate.
+	 * @returns The inverse.
+	 */
+	public invert(): Quaternion {
+		return invert(this, new Quaternion());
+	}
+
+	/**
+	 * Perform a linear interpolation between this and another quaternion.
+	 * @param quaternion - The other quaternion.
+	 * @param t - The interpolation amount (in `[0,1]`).
+	 * @returns The interpolated quaternion.
+	 */
+	public lerp(quaternion: QuaternionLike, t: number): Quaternion {
+		return lerp(this, quaternion, t, new Quaternion());
+	}
+
+	/**
+	 * Calculate the natural logarithm of this unit quaternion.
+	 * @returns The natural logarithm.
+	 */
+	public ln(): Quaternion {
+		return ln(this, new Quaternion());
+	}
+
+	/**
 	 * Multiply this and another quaternion.
 	 * @param quaternion - The other quaternion.
 	 * @returns The product.
 	 */
 	public multiply(quaternion: QuaternionLike): Quaternion {
 		return multiply(this, quaternion, new Quaternion());
+	}
+
+	/**
+	 * Normalize this quaternion.
+	 * @returns The normalized quaternion.
+	 */
+	public normalize(): Quaternion {
+		return normalize(this, new Quaternion());
+	}
+
+	/**
+	 * Calculate a power of this unit quaternion.
+	 * @param scalar - The amount to scale the quaternion by.
+	 * @returns The power.
+	 */
+	public pow(scalar: number): Quaternion {
+		return pow(this, scalar, new Quaternion());
+	}
+
+	/**
+	 * Set this to a random unit quaternion.
+	 * @returns A random unit quaternion.
+	 */
+	public random(): this {
+		return random(this);
 	}
 
 	/**
@@ -1223,36 +1379,12 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	}
 
 	/**
-	 * Calculate the fourth component of this unit quaternion from the first three, ignoring the existing fourth component.
-	 * @returns The quaternion.
+	 * Scale this quaternion by a scalar.
+	 * @param scalar - The scalar.
+	 * @returns The scaled quaternion.
 	 */
-	public calculateW(): Quaternion {
-		return calculateW(this, new Quaternion());
-	}
-
-	/**
-	 * Calculate the exponential of this unit quaternion.
-	 * @returns The exponential.
-	 */
-	public exp(): Quaternion {
-		return exp(this, new Quaternion());
-	}
-
-	/**
-	 * Calculate the natural logarithm of this unit quaternion.
-	 * @returns The natural logarithm.
-	 */
-	public ln(): Quaternion {
-		return ln(this, new Quaternion());
-	}
-
-	/**
-	 * Calculate a power of this unit quaternion.
-	 * @param scalar - The amount to scale the quaternion by.
-	 * @returns The power.
-	 */
-	public pow(scalar: number): Quaternion {
-		return pow(this, scalar, new Quaternion());
+	public scale(scalar: number): Quaternion {
+		return scale(this, scalar, new Quaternion());
 	}
 
 	/**
@@ -1264,120 +1396,6 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	 */
 	public slerp(quaternion: QuaternionLike, t: number): Quaternion {
 		return slerp(this, quaternion, t, new Quaternion());
-	}
-
-	/**
-	 * Set this to a random unit quaternion.
-	 * @returns A random unit quaternion.
-	 */
-	public random(): this {
-		return random(this);
-	}
-
-	/**
-	 * Calculate the inverse of this quaternion. If the quaternion is normalized, the conjugate is the same but faster to calculate.
-	 * @returns The inverse.
-	 */
-	public invert(): Quaternion {
-		return invert(this, new Quaternion());
-	}
-
-	/**
-	 * Calculate the conjugate of this quaternion. If the quaternion is normalized, this is the same as the inverse but faster to calculate.
-	 * @returns The conjugate.
-	 */
-	public conjugate(): Quaternion {
-		return conjugate(this, new Quaternion());
-	}
-
-	/**
-	 * Copy the values from this quaternion to another one.
-	 * @returns The copy.
-	 */
-	public clone(): Quaternion {
-		return copy(this, new Quaternion());
-	}
-
-	/**
-	 * Copy the values of another quaternion into this one.
-	 * @param quaternion - The quaternion to copy.
-	 * @returns This quaternion.
-	 */
-	public copy(quaternion: QuaternionLike): this {
-		return copy(quaternion, this);
-	}
-
-	/**
-	 * Add two quaternions of the same size.
-	 * @param quaternion - The other quaternion.
-	 * @returns The sum of the quaternions.
-	 */
-	public add(quaternion: QuaternionLike): Quaternion {
-		return add(this, quaternion, new Quaternion());
-	}
-
-	/**
-	 * Scale this quaternion by a scalar.
-	 * @param scalar - The scalar.
-	 * @returns The scaled quaternion.
-	 */
-	public scale(scalar: number): Quaternion {
-		return scale(this, scalar, new Quaternion());
-	}
-
-	/**
-	 * Calculate the dot product of this and another quaternion.
-	 * @param quaternion - The other quaternion.
-	 * @returns The dot product.
-	 */
-	public dot(quaternion: QuaternionLike): number {
-		return dot(this, quaternion);
-	}
-
-	/**
-	 * Perform a linear interpolation between this and another quaternion.
-	 * @param quaternion - The other quaternion.
-	 * @param t - The interpolation amount (in `[0,1]`).
-	 * @returns The interpolated quaternion.
-	 */
-	public lerp(quaternion: QuaternionLike, t: number): Quaternion {
-		return lerp(this, quaternion, t, new Quaternion());
-	}
-
-	/** Get the magnitude (length) of this quaternion. */
-	public get magnitude(): number {
-		return getMagnitude(this);
-	}
-
-	/** Get the squared magnitude (length) of this quaternion. */
-	public get squaredMagnitude(): number {
-		return getSquaredMagnitude(this);
-	}
-
-	/**
-	 * Normalize this quaternion.
-	 * @returns The normalized quaternion.
-	 */
-	public normalize(): Quaternion {
-		return normalize(this, new Quaternion());
-	}
-
-	/**
-	 * Determine whether or not this quaternion is roughly equivalent to another.
-	 * @param quaternion - The other quaternion.
-	 * @returns Whether or not the quaternions are equivalent.
-	 */
-	public equals(quaternion: QuaternionLike): boolean {
-		return equals(this, quaternion);
-	}
-
-	/**
-	 * Determine whether or not this quaternion is exactly equivalent to another.
-	 * @param quaternion - The other quaternion.
-	 * @returns Whether or not the quaternions are equivalent.
-	 */
-	public exactEquals(quaternion: QuaternionLike): boolean {
-		return exactEquals(this, quaternion);
 	}
 
 	/**

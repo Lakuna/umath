@@ -1,18 +1,19 @@
 import type { default as Matrix, MatrixLike } from "./Matrix.js";
+
+import approx from "../algorithms/approx.js";
 import MatrixSizeError from "../utility/MatrixSizeError.js";
 import PartialMatrixError from "../utility/PartialMatrixError.js";
-import approx from "../algorithms/approx.js";
 
 /**
  * A matrix with size information.
  * @internal
  */
 interface SizedMatrixLike extends MatrixLike {
-	/** The width (number of columns) of the matrix. */
-	width: number;
-
 	/** The height (number of rows) of the matrix. */
 	height: number;
+
+	/** The width (number of columns) of the matrix. */
+	width: number;
 }
 
 /**
@@ -31,6 +32,20 @@ const isSized = (matrix: MatrixLike): matrix is SizedMatrixLike =>
  * @public
  */
 export default class SlowMatrix extends Float32Array implements Matrix {
+	/** The number of rows in this matrix. */
+	public readonly height: number;
+
+	/** The number of columns in this matrix. */
+	public readonly width: number;
+
+	/**
+	 * Get the Frobenius norm of this matrix.
+	 * @see {@link https://en.wikipedia.org/wiki/Matrix_norm | Matrix norm}
+	 */
+	public get frob(): number {
+		return Math.hypot(...this);
+	}
+
 	/**
 	 * Create a variable-size matrix from the given columns.
 	 * @param cols - The columns in the matrix.
@@ -47,20 +62,6 @@ export default class SlowMatrix extends Float32Array implements Matrix {
 				throw new PartialMatrixError();
 			}
 		}
-	}
-
-	/** The number of rows in this matrix. */
-	public readonly height: number;
-
-	/** The number of columns in this matrix. */
-	public readonly width: number;
-
-	/**
-	 * Get the Frobenius norm of this matrix.
-	 * @see {@link https://en.wikipedia.org/wiki/Matrix_norm | Matrix norm}
-	 */
-	public get frob(): number {
-		return Math.hypot(...this);
 	}
 
 	/**

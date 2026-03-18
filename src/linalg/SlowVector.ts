@@ -1,7 +1,8 @@
 import type Vector from "./Vector.js";
 import type { VectorLike } from "./Vector.js";
-import VectorSizeError from "../utility/VectorSizeError.js";
+
 import approx from "../algorithms/approx.js";
+import VectorSizeError from "../utility/VectorSizeError.js";
 
 /**
  * A vector with size information.
@@ -25,12 +26,138 @@ const isSized = (vector: VectorLike): vector is SizedVectorLike =>
  * @public
  */
 export default class SlowVector extends Float32Array implements Vector {
+	/** Get the magnitude (length) of this vector. */
+	public get magnitude(): number {
+		return Math.hypot(...this);
+	}
+
+	/** Get the squared magnitude (length) of this vector. */
+	public get squaredMagnitude(): number {
+		let out = 0;
+		for (let i = 0; i < this.length; i++) {
+			out += (this[i] ?? 0) ** 2;
+		}
+
+		return out;
+	}
+
 	/**
 	 * Create a variable-size vector from the given values.
 	 * @param values - The values in the vector.
 	 */
 	public constructor(...values: number[]) {
 		super(values);
+	}
+
+	/**
+	 * Add two vectors of the same size.
+	 * @param vector - The other vector.
+	 * @returns The sum of the vectors.
+	 */
+	public add(vector: VectorLike): SlowVector {
+		if (!isSized(vector) || this.length !== vector.length) {
+			throw new VectorSizeError();
+		}
+
+		const out = [];
+		for (let i = 0; i < this.length; i++) {
+			out[i] = (this[i] ?? 0) + (vector[i] ?? 0);
+		}
+
+		return new SlowVector(...out);
+	}
+
+	/**
+	 * Round up the components of this vector.
+	 * @returns The rounded vector.
+	 */
+	public ceil(): SlowVector {
+		const out = [];
+		for (let i = 0; i < this.length; i++) {
+			out[i] = Math.ceil(this[i] ?? 0);
+		}
+
+		return new SlowVector(...out);
+	}
+
+	/**
+	 * Create a copy of this vector.
+	 * @returns A copy of this vector.
+	 */
+	public clone(): SlowVector {
+		return new SlowVector(...this);
+	}
+
+	/**
+	 * Copy the values of another vector into this one.
+	 * @param vector - The vector to copy.
+	 * @returns This vector.
+	 */
+	public copy(vector: VectorLike): this {
+		if (!isSized(vector) || this.length !== vector.length) {
+			throw new VectorSizeError();
+		}
+
+		for (let i = 0; i < vector.length; i++) {
+			this[i] = vector[i] ?? 0;
+		}
+
+		return this;
+	}
+
+	/**
+	 * Calculate the Euclidean distance between this vector and another.
+	 * @param vector - The other vector.
+	 * @returns The distance.
+	 */
+	public distance(vector: VectorLike): number {
+		if (!isSized(vector) || this.length !== vector.length) {
+			throw new VectorSizeError();
+		}
+
+		const temp = [];
+		for (let i = 0; i < this.length; i++) {
+			temp[i] = (vector[i] ?? 0) - (this[i] ?? 0);
+		}
+
+		return Math.hypot(...temp);
+	}
+
+	/**
+	 * Divide this vector by another.
+	 * @param vector - The other vector.
+	 * @returns The quotient of the vectors.
+	 */
+	public divide(vector: VectorLike): SlowVector {
+		if (!isSized(vector) || this.length !== vector.length) {
+			throw new VectorSizeError();
+		}
+
+		const out = [];
+		for (let i = 0; i < this.length; i++) {
+			out[i] = (this[i] ?? 0) / (vector[i] ?? 0);
+		}
+
+		return new SlowVector(...out);
+	}
+
+	/**
+	 * Calculate the dot product of this and another vector.
+	 * @param vector - The other vector.
+	 * @returns The dot product.
+	 * @see {@link https://en.wikipedia.org/wiki/Dot_product | Dot product}
+	 */
+	public dot(vector: VectorLike): number {
+		if (!isSized(vector) || this.length !== vector.length) {
+			throw new VectorSizeError();
+		}
+
+		let out = 0;
+		for (let i = 0; i < this.length; i++) {
+			out += (this[i] ?? 0) * (vector[i] ?? 0);
+		}
+
+		return out;
 	}
 
 	/**
@@ -78,116 +205,6 @@ export default class SlowVector extends Float32Array implements Vector {
 	}
 
 	/**
-	 * Add two vectors of the same size.
-	 * @param vector - The other vector.
-	 * @returns The sum of the vectors.
-	 */
-	public add(vector: VectorLike): SlowVector {
-		if (!isSized(vector) || this.length !== vector.length) {
-			throw new VectorSizeError();
-		}
-
-		const out = [];
-		for (let i = 0; i < this.length; i++) {
-			out[i] = (this[i] ?? 0) + (vector[i] ?? 0);
-		}
-
-		return new SlowVector(...out);
-	}
-
-	/**
-	 * Create a copy of this vector.
-	 * @returns A copy of this vector.
-	 */
-	public clone(): SlowVector {
-		return new SlowVector(...this);
-	}
-
-	/**
-	 * Copy the values of another vector into this one.
-	 * @param vector - The vector to copy.
-	 * @returns This vector.
-	 */
-	public copy(vector: VectorLike): this {
-		if (!isSized(vector) || this.length !== vector.length) {
-			throw new VectorSizeError();
-		}
-
-		for (let i = 0; i < vector.length; i++) {
-			this[i] = vector[i] ?? 0;
-		}
-
-		return this;
-	}
-
-	/**
-	 * Multiply this vector by another.
-	 * @param vector - The other vector.
-	 * @returns The product of the vectors.
-	 */
-	public multiply(vector: VectorLike): SlowVector {
-		if (!isSized(vector) || this.length !== vector.length) {
-			throw new VectorSizeError();
-		}
-
-		const out = [];
-		for (let i = 0; i < this.length; i++) {
-			out[i] = (this[i] ?? 0) * (vector[i] ?? 0);
-		}
-
-		return new SlowVector(...out);
-	}
-
-	/**
-	 * Divide this vector by another.
-	 * @param vector - The other vector.
-	 * @returns The quotient of the vectors.
-	 */
-	public divide(vector: VectorLike): SlowVector {
-		if (!isSized(vector) || this.length !== vector.length) {
-			throw new VectorSizeError();
-		}
-
-		const out = [];
-		for (let i = 0; i < this.length; i++) {
-			out[i] = (this[i] ?? 0) / (vector[i] ?? 0);
-		}
-
-		return new SlowVector(...out);
-	}
-
-	/**
-	 * Subtract another vector from this one.
-	 * @param vector - The other vector.
-	 * @returns The difference between the vectors.
-	 */
-	public subtract(vector: VectorLike): SlowVector {
-		if (!isSized(vector) || this.length !== vector.length) {
-			throw new VectorSizeError();
-		}
-
-		const out = [];
-		for (let i = 0; i < this.length; i++) {
-			out[i] = (this[i] ?? 0) - (vector[i] ?? 0);
-		}
-
-		return new SlowVector(...out);
-	}
-
-	/**
-	 * Round up the components of this vector.
-	 * @returns The rounded vector.
-	 */
-	public ceil(): SlowVector {
-		const out = [];
-		for (let i = 0; i < this.length; i++) {
-			out[i] = Math.ceil(this[i] ?? 0);
-		}
-
-		return new SlowVector(...out);
-	}
-
-	/**
 	 * Round down the components of this vector.
 	 * @returns The rounded vector.
 	 */
@@ -201,31 +218,33 @@ export default class SlowVector extends Float32Array implements Vector {
 	}
 
 	/**
-	 * Round the components of this vector.
-	 * @returns The rounded vector.
+	 * Calculate the multiplicative inverse of the components of this vector.
+	 * @returns The inverted vector.
 	 */
-	public round(): SlowVector {
+	public invert(): SlowVector {
 		const out = [];
 		for (let i = 0; i < this.length; i++) {
-			out[i] = Math.round(this[i] ?? 0);
+			out[i] = 1 / (this[i] ?? 0);
 		}
 
 		return new SlowVector(...out);
 	}
 
 	/**
-	 * Return the minimum of this and another vector.
+	 * Perform a linear interpolation between this and another vector.
 	 * @param vector - The other vector.
-	 * @returns The minimum.
+	 * @param t - The interpolation amount (in `[0,1]`).
+	 * @returns The interpolated vector.
 	 */
-	public min(vector: VectorLike): SlowVector {
+	public lerp(vector: VectorLike, t: number): SlowVector {
 		if (!isSized(vector) || this.length !== vector.length) {
 			throw new VectorSizeError();
 		}
 
 		const out = [];
 		for (let i = 0; i < this.length; i++) {
-			out[i] = Math.min(this[i] ?? 0, vector[i] ?? 0);
+			const ti = this[i] ?? 0;
+			out[i] = ti + t * ((vector[i] ?? 0) - ti);
 		}
 
 		return new SlowVector(...out);
@@ -250,6 +269,59 @@ export default class SlowVector extends Float32Array implements Vector {
 	}
 
 	/**
+	 * Return the minimum of this and another vector.
+	 * @param vector - The other vector.
+	 * @returns The minimum.
+	 */
+	public min(vector: VectorLike): SlowVector {
+		if (!isSized(vector) || this.length !== vector.length) {
+			throw new VectorSizeError();
+		}
+
+		const out = [];
+		for (let i = 0; i < this.length; i++) {
+			out[i] = Math.min(this[i] ?? 0, vector[i] ?? 0);
+		}
+
+		return new SlowVector(...out);
+	}
+
+	/**
+	 * Multiply this vector by another.
+	 * @param vector - The other vector.
+	 * @returns The product of the vectors.
+	 */
+	public multiply(vector: VectorLike): SlowVector {
+		if (!isSized(vector) || this.length !== vector.length) {
+			throw new VectorSizeError();
+		}
+
+		const out = [];
+		for (let i = 0; i < this.length; i++) {
+			out[i] = (this[i] ?? 0) * (vector[i] ?? 0);
+		}
+
+		return new SlowVector(...out);
+	}
+
+	/**
+	 * Negate this vector.
+	 * @returns The negated vector.
+	 */
+	public negate(): SlowVector {
+		return this.scale(-1);
+	}
+
+	/**
+	 * Normalize this vector.
+	 * @returns The normalized vector.
+	 * @see {@link https://en.wikipedia.org/wiki/Unit_vector | Unit vector}
+	 */
+	public normalize(): SlowVector {
+		return this.scale(1 / this.magnitude);
+	}
+
+	/**
 	 * Raise each component of this vector to the given power.
 	 * @param exponent - The exponent (power) to raise each component to.
 	 * @returns The power (result of the exponentiation).
@@ -258,6 +330,38 @@ export default class SlowVector extends Float32Array implements Vector {
 		const out = [];
 		for (let i = 0; i < this.length; i++) {
 			out[i] = (this[i] ?? 0) ** exponent;
+		}
+
+		return new SlowVector(...out);
+	}
+
+	/**
+	 * Set this vector to a random value with the given magnitude.
+	 * @param magnitude - The magnitude.
+	 * @returns This vector.
+	 */
+	public random(magnitude: number): this {
+		const temp = [];
+		for (let i = 0; i < this.length; i++) {
+			temp[i] = Math.random();
+		}
+
+		const randomized = new SlowVector(...temp).normalize().scale(magnitude);
+		for (let i = 0; i < this.length; i++) {
+			this[i] = randomized[i] ?? 0;
+		}
+
+		return this;
+	}
+
+	/**
+	 * Round the components of this vector.
+	 * @returns The rounded vector.
+	 */
+	public round(): SlowVector {
+		const out = [];
+		for (let i = 0; i < this.length; i++) {
+			out[i] = Math.round(this[i] ?? 0);
 		}
 
 		return new SlowVector(...out);
@@ -297,24 +401,6 @@ export default class SlowVector extends Float32Array implements Vector {
 	}
 
 	/**
-	 * Calculate the Euclidean distance between this vector and another.
-	 * @param vector - The other vector.
-	 * @returns The distance.
-	 */
-	public distance(vector: VectorLike): number {
-		if (!isSized(vector) || this.length !== vector.length) {
-			throw new VectorSizeError();
-		}
-
-		const temp = [];
-		for (let i = 0; i < this.length; i++) {
-			temp[i] = (vector[i] ?? 0) - (this[i] ?? 0);
-		}
-
-		return Math.hypot(...temp);
-	}
-
-	/**
 	 * Calculate the squared Euclidean distance between this vector and another.
 	 * @param vector - The other vector.
 	 * @returns The squared distance.
@@ -332,107 +418,22 @@ export default class SlowVector extends Float32Array implements Vector {
 		return out;
 	}
 
-	/** Get the magnitude (length) of this vector. */
-	public get magnitude(): number {
-		return Math.hypot(...this);
-	}
-
-	/** Get the squared magnitude (length) of this vector. */
-	public get squaredMagnitude(): number {
-		let out = 0;
-		for (let i = 0; i < this.length; i++) {
-			out += (this[i] ?? 0) ** 2;
-		}
-
-		return out;
-	}
-
 	/**
-	 * Negate this vector.
-	 * @returns The negated vector.
-	 */
-	public negate(): SlowVector {
-		return this.scale(-1);
-	}
-
-	/**
-	 * Calculate the multiplicative inverse of the components of this vector.
-	 * @returns The inverted vector.
-	 */
-	public invert(): SlowVector {
-		const out = [];
-		for (let i = 0; i < this.length; i++) {
-			out[i] = 1 / (this[i] ?? 0);
-		}
-
-		return new SlowVector(...out);
-	}
-
-	/**
-	 * Normalize this vector.
-	 * @returns The normalized vector.
-	 * @see {@link https://en.wikipedia.org/wiki/Unit_vector | Unit vector}
-	 */
-	public normalize(): SlowVector {
-		return this.scale(1 / this.magnitude);
-	}
-
-	/**
-	 * Calculate the dot product of this and another vector.
+	 * Subtract another vector from this one.
 	 * @param vector - The other vector.
-	 * @returns The dot product.
-	 * @see {@link https://en.wikipedia.org/wiki/Dot_product | Dot product}
+	 * @returns The difference between the vectors.
 	 */
-	public dot(vector: VectorLike): number {
-		if (!isSized(vector) || this.length !== vector.length) {
-			throw new VectorSizeError();
-		}
-
-		let out = 0;
-		for (let i = 0; i < this.length; i++) {
-			out += (this[i] ?? 0) * (vector[i] ?? 0);
-		}
-
-		return out;
-	}
-
-	/**
-	 * Perform a linear interpolation between this and another vector.
-	 * @param vector - The other vector.
-	 * @param t - The interpolation amount (in `[0,1]`).
-	 * @returns The interpolated vector.
-	 */
-	public lerp(vector: VectorLike, t: number): SlowVector {
+	public subtract(vector: VectorLike): SlowVector {
 		if (!isSized(vector) || this.length !== vector.length) {
 			throw new VectorSizeError();
 		}
 
 		const out = [];
 		for (let i = 0; i < this.length; i++) {
-			const ti = this[i] ?? 0;
-			out[i] = ti + t * ((vector[i] ?? 0) - ti);
+			out[i] = (this[i] ?? 0) - (vector[i] ?? 0);
 		}
 
 		return new SlowVector(...out);
-	}
-
-	/**
-	 * Set this vector to a random value with the given magnitude.
-	 * @param magnitude - The magnitude.
-	 * @returns This vector.
-	 */
-	public random(magnitude: number): this {
-		const temp = [];
-		for (let i = 0; i < this.length; i++) {
-			temp[i] = Math.random();
-		}
-
-		const randomized = new SlowVector(...temp).normalize().scale(magnitude);
-		for (let i = 0; i < this.length; i++) {
-			this[i] = randomized[i] ?? 0;
-		}
-
-		return this;
 	}
 
 	/**

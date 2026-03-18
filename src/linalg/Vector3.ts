@@ -1,7 +1,8 @@
-import type { default as Vector, VectorLike } from "./Vector.js";
 import type { Matrix3Like } from "./Matrix3.js";
 import type { Matrix4Like } from "./Matrix4.js";
 import type { QuaternionLike } from "./Quaternion.js";
+import type { default as Vector, VectorLike } from "./Vector.js";
+
 import approxRelative from "../algorithms/approxRelative.js";
 
 /**
@@ -10,12 +11,15 @@ import approxRelative from "../algorithms/approxRelative.js";
  */
 export interface Vector3Like extends VectorLike {
 	/** The first component of this vector. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	0: number;
 
 	/** The second component of this vector. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	1: number;
 
 	/** The third component of this vector. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	2: number;
 }
 
@@ -24,9 +28,9 @@ export interface Vector3Like extends VectorLike {
  * @returns A 3x1 vector-like object.
  * @public
  */
-export const createVector3Like = (): Float32Array & Vector3Like => {
-	return new Float32Array(3) as Float32Array & Vector3Like;
-};
+export const createVector3Like = (): Float32Array & Vector3Like =>
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
+	new Float32Array(3) as Float32Array & Vector3Like;
 
 /**
  * Create a vector with the given values.
@@ -777,202 +781,17 @@ export default class Vector3
 	extends Float32Array
 	implements Vector, Vector3Like
 {
-	/**
-	 * Create a vector with the given values.
-	 * @param x - The first component.
-	 * @param y - The second component.
-	 * @param z - The third component.
-	 * @returns A new vector.
-	 */
-	public static fromValues(x: number, y: number, z: number): Vector3 {
-		return fromValues(x, y, z, new Vector3());
-	}
-
-	/**
-	 * Create a three-dimensional zero vector.
-	 * @see {@link https://en.wikipedia.org/wiki/Euclidean_vector | Euclidean vector}
-	 */
-	public constructor() {
-		super(3);
-	}
-
 	/** The first component of this vector. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 0: number;
 
 	/** The second component of this vector. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 1: number;
 
 	/** The third component of this vector. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 2: number;
-
-	/**
-	 * Determine whether or not this vector is roughly equivalent to another.
-	 * @param vector - The other vector.
-	 * @returns Whether or not the vectors are equivalent.
-	 */
-	public equals(vector: Vector3Like): boolean {
-		return equals(this, vector);
-	}
-
-	/**
-	 * Determine whether or not this vector is exactly equivalent to another.
-	 * @param vector - The other vector.
-	 * @returns Whether or not the vectors are equivalent.
-	 */
-	public exactEquals(vector: Vector3Like): boolean {
-		return exactEquals(this, vector);
-	}
-
-	/**
-	 * Add two vectors of the same size.
-	 * @param vector - The other vector.
-	 * @returns The sum of the vectors.
-	 */
-	public add(vector: Vector3Like): Vector3 {
-		return add(this, vector, new Vector3());
-	}
-
-	/**
-	 * Copy the values from this vector to another one.
-	 * @returns The copy.
-	 */
-	public clone(): Vector3 {
-		return copy(this, new Vector3());
-	}
-
-	/**
-	 * Copy the values of another vector into this one.
-	 * @param vector - The vector to copy.
-	 * @returns This vector.
-	 */
-	public copy(vector: Vector3Like): this {
-		return copy(vector, this);
-	}
-
-	/**
-	 * Multiply this vector by another.
-	 * @param vector - The other vector.
-	 * @returns The product of the vectors.
-	 */
-	public multiply(vector: Vector3Like): Vector3 {
-		return multiply(this, vector, new Vector3());
-	}
-
-	/**
-	 * Divide this vector by another.
-	 * @param vector - The other vector.
-	 * @returns The quotient of the vectors.
-	 */
-	public divide(vector: Vector3Like): Vector3 {
-		return divide(this, vector, new Vector3());
-	}
-
-	/**
-	 * Subtract another vector from this one.
-	 * @param vector - The other vector.
-	 * @returns The difference between the vectors.
-	 */
-	public subtract(vector: Vector3Like): Vector3 {
-		return subtract(this, vector, new Vector3());
-	}
-
-	/**
-	 * Absolutize the components of this vector.
-	 * @returns The absolutized vector.
-	 */
-	public abs(): Vector3 {
-		return abs(this, new Vector3());
-	}
-
-	/**
-	 * Round up the components of this vector.
-	 * @returns The rounded vector.
-	 */
-	public ceil(): Vector3 {
-		return ceil(this, new Vector3());
-	}
-
-	/**
-	 * Round down the components of this vector.
-	 * @returns The rounded vector.
-	 */
-	public floor(): Vector3 {
-		return floor(this, new Vector3());
-	}
-
-	/**
-	 * Round the components of this vector.
-	 * @returns The rounded vector.
-	 */
-	public round(): Vector3 {
-		return round(this, new Vector3());
-	}
-
-	/**
-	 * Return the minimum of this and another vector.
-	 * @param vector - The other vector.
-	 * @returns The minimum.
-	 */
-	public min(vector: Vector3Like): Vector3 {
-		return min(this, vector, new Vector3());
-	}
-
-	/**
-	 * Return the maximum of this and another vector.
-	 * @param vector - The other vector.
-	 * @returns The maximum.
-	 */
-	public max(vector: Vector3Like): Vector3 {
-		return max(this, vector, new Vector3());
-	}
-
-	/**
-	 * Raise each component of this vector to the given power.
-	 * @param scalar - The exponent (power) to raise each component to.
-	 * @returns The power (result of the exponentiation).
-	 */
-	public pow(scalar: number): Vector3 {
-		return pow(this, scalar, new Vector3());
-	}
-
-	/**
-	 * Scale this vector by a scalar.
-	 * @param scalar - The scalar.
-	 * @returns The scaled vector.
-	 */
-	public scale(scalar: number): Vector3 {
-		return scale(this, scalar, new Vector3());
-	}
-
-	/**
-	 * Add another vector to this one after scaling the other by a scalar.
-	 * @param vector - The other vector.
-	 * @param scalar - The scalar.
-	 * @returns The sum.
-	 */
-	public scaleAndAdd(vector: Vector3Like, scalar: number): Vector3 {
-		return scaleAndAdd(this, vector, scalar, new Vector3());
-	}
-
-	/**
-	 * Calculate the Euclidean distance between this vector and another.
-	 * @param vector - The other vector.
-	 * @returns The distance.
-	 * @see {@link https://en.wikipedia.org/wiki/Euclidean_distance | Euclidean distance}
-	 */
-	public distance(vector: Vector3Like): number {
-		return distance(this, vector);
-	}
-
-	/**
-	 * Calculate the squared Euclidean distance between this vector and another.
-	 * @param vector - The other vector.
-	 * @returns The squared distance.
-	 * @see {@link https://en.wikipedia.org/wiki/Euclidean_distance | Euclidean distance}
-	 */
-	public squaredDistance(vector: Vector3Like): number {
-		return squaredDistance(this, vector);
-	}
 
 	/** The magnitude (length) of this vector. */
 	public get magnitude(): number {
@@ -993,28 +812,120 @@ export default class Vector3
 	}
 
 	/**
-	 * Negate this vector.
-	 * @returns The negated vector.
+	 * Create a three-dimensional zero vector.
+	 * @see {@link https://en.wikipedia.org/wiki/Euclidean_vector | Euclidean vector}
 	 */
-	public negate(): Vector3 {
-		return negate(this, new Vector3());
+	public constructor() {
+		super(3);
 	}
 
 	/**
-	 * Calculate the multiplicative inverse of the components of this vector.
-	 * @returns The inverted vector.
+	 * Create a vector with the given values.
+	 * @param x - The first component.
+	 * @param y - The second component.
+	 * @param z - The third component.
+	 * @returns A new vector.
 	 */
-	public invert(): Vector3 {
-		return invert(this, new Vector3());
+	public static fromValues(x: number, y: number, z: number): Vector3 {
+		return fromValues(x, y, z, new Vector3());
 	}
 
 	/**
-	 * Normalize this vector.
-	 * @returns The normalized vector.
-	 * @see {@link https://en.wikipedia.org/wiki/Unit_vector | Unit vector}
+	 * Absolutize the components of this vector.
+	 * @returns The absolutized vector.
 	 */
-	public normalize(): Vector3 {
-		return normalize(this, new Vector3());
+	public abs(): Vector3 {
+		return abs(this, new Vector3());
+	}
+
+	/**
+	 * Add two vectors of the same size.
+	 * @param vector - The other vector.
+	 * @returns The sum of the vectors.
+	 */
+	public add(vector: Vector3Like): Vector3 {
+		return add(this, vector, new Vector3());
+	}
+
+	/**
+	 * Get the angle from this vector to another in radians.
+	 * @param vector - The other vector.
+	 * @returns The angular distance from this vector to the other.
+	 */
+	public angle(vector: Vector3Like): number {
+		return angle(this, vector);
+	}
+
+	/**
+	 * Perform a Bézier interpolation with two control points between this vector and another.
+	 * @param a - The first control point.
+	 * @param b - The second control point.
+	 * @param end - The other vector.
+	 * @param t - The interpolation amount in the range `[0,1]`.
+	 * @returns The interpolated vector.
+	 * @see {@link https://en.wikipedia.org/wiki/B%C3%A9zier_curve | Bézier curve}
+	 */
+	public bezier(
+		a: Vector3Like,
+		b: Vector3Like,
+		end: Vector3Like,
+		t: number
+	): Vector3 {
+		return bezier(this, a, b, end, t, new Vector3());
+	}
+
+	/**
+	 * Round up the components of this vector.
+	 * @returns The rounded vector.
+	 */
+	public ceil(): Vector3 {
+		return ceil(this, new Vector3());
+	}
+
+	/**
+	 * Copy the values from this vector to another one.
+	 * @returns The copy.
+	 */
+	public clone(): Vector3 {
+		return copy(this, new Vector3());
+	}
+
+	/**
+	 * Copy the values of another vector into this one.
+	 * @param vector - The vector to copy.
+	 * @returns This vector.
+	 */
+	public copy(vector: Vector3Like): this {
+		return copy(vector, this);
+	}
+
+	/**
+	 * Calculate the cross product of this and another vector.
+	 * @param vector - The other vector.
+	 * @returns The cross product.
+	 * @see {@link https://en.wikipedia.org/wiki/Cross_product | Cross product}
+	 */
+	public cross(vector: Vector3Like): Vector3 {
+		return cross(this, vector, new Vector3());
+	}
+
+	/**
+	 * Calculate the Euclidean distance between this vector and another.
+	 * @param vector - The other vector.
+	 * @returns The distance.
+	 * @see {@link https://en.wikipedia.org/wiki/Euclidean_distance | Euclidean distance}
+	 */
+	public distance(vector: Vector3Like): number {
+		return distance(this, vector);
+	}
+
+	/**
+	 * Divide this vector by another.
+	 * @param vector - The other vector.
+	 * @returns The quotient of the vectors.
+	 */
+	public divide(vector: Vector3Like): Vector3 {
+		return divide(this, vector, new Vector3());
 	}
 
 	/**
@@ -1028,13 +939,55 @@ export default class Vector3
 	}
 
 	/**
-	 * Calculate the cross product of this and another vector.
+	 * Determine whether or not this vector is roughly equivalent to another.
 	 * @param vector - The other vector.
-	 * @returns The cross product.
-	 * @see {@link https://en.wikipedia.org/wiki/Cross_product | Cross product}
+	 * @returns Whether or not the vectors are equivalent.
 	 */
-	public cross(vector: Vector3Like): Vector3 {
-		return cross(this, vector, new Vector3());
+	public equals(vector: Vector3Like): boolean {
+		return equals(this, vector);
+	}
+
+	/**
+	 * Determine whether or not this vector is exactly equivalent to another.
+	 * @param vector - The other vector.
+	 * @returns Whether or not the vectors are equivalent.
+	 */
+	public exactEquals(vector: Vector3Like): boolean {
+		return exactEquals(this, vector);
+	}
+
+	/**
+	 * Round down the components of this vector.
+	 * @returns The rounded vector.
+	 */
+	public floor(): Vector3 {
+		return floor(this, new Vector3());
+	}
+
+	/**
+	 * Perform a Hermite interpolation with two control points between this vector and another.
+	 * @param a - The first control point.
+	 * @param b - The second control point.
+	 * @param end - The other vector.
+	 * @param t - The interpolation amount in the range `[0,1]`.
+	 * @returns The interpolated vector.
+	 * @see {@link https://en.wikipedia.org/wiki/Hermite_interpolation | Hermite interpolation}
+	 */
+	public hermite(
+		a: Vector3Like,
+		b: Vector3Like,
+		end: Vector3Like,
+		t: number
+	): Vector3 {
+		return hermite(this, a, b, end, t, new Vector3());
+	}
+
+	/**
+	 * Calculate the multiplicative inverse of the components of this vector.
+	 * @returns The inverted vector.
+	 */
+	public invert(): Vector3 {
+		return invert(this, new Vector3());
 	}
 
 	/**
@@ -1049,30 +1002,65 @@ export default class Vector3
 	}
 
 	/**
+	 * Return the maximum of this and another vector.
+	 * @param vector - The other vector.
+	 * @returns The maximum.
+	 */
+	public max(vector: Vector3Like): Vector3 {
+		return max(this, vector, new Vector3());
+	}
+
+	/**
+	 * Return the minimum of this and another vector.
+	 * @param vector - The other vector.
+	 * @returns The minimum.
+	 */
+	public min(vector: Vector3Like): Vector3 {
+		return min(this, vector, new Vector3());
+	}
+
+	/**
+	 * Multiply this vector by another.
+	 * @param vector - The other vector.
+	 * @returns The product of the vectors.
+	 */
+	public multiply(vector: Vector3Like): Vector3 {
+		return multiply(this, vector, new Vector3());
+	}
+
+	/**
+	 * Negate this vector.
+	 * @returns The negated vector.
+	 */
+	public negate(): Vector3 {
+		return negate(this, new Vector3());
+	}
+
+	/**
+	 * Normalize this vector.
+	 * @returns The normalized vector.
+	 * @see {@link https://en.wikipedia.org/wiki/Unit_vector | Unit vector}
+	 */
+	public normalize(): Vector3 {
+		return normalize(this, new Vector3());
+	}
+
+	/**
+	 * Raise each component of this vector to the given power.
+	 * @param scalar - The exponent (power) to raise each component to.
+	 * @returns The power (result of the exponentiation).
+	 */
+	public pow(scalar: number): Vector3 {
+		return pow(this, scalar, new Vector3());
+	}
+
+	/**
 	 * Set this vector to a random value with the given magnitude.
 	 * @param magnitude - The magnitude.
 	 * @returns This vector.
 	 */
 	public random(magnitude = 1): this {
 		return random(magnitude, this);
-	}
-
-	/**
-	 * Transform this vector by a three-by-three matrix.
-	 * @param matrix - The matrix.
-	 * @returns The transformed vector.
-	 */
-	public transformMatrix3(matrix: Matrix3Like): Vector3 {
-		return transformMatrix3(this, matrix, new Vector3());
-	}
-
-	/**
-	 * Transform this vector by a four-by-four matrix.
-	 * @param matrix - The matrix.
-	 * @returns The transformed vector.
-	 */
-	public transformMatrix4(matrix: Matrix4Like): Vector3 {
-		return transformMatrix4(this, matrix, new Vector3());
 	}
 
 	/**
@@ -1106,56 +1094,67 @@ export default class Vector3
 	}
 
 	/**
-	 * Get the angle from this vector to another in radians.
+	 * Round the components of this vector.
+	 * @returns The rounded vector.
+	 */
+	public round(): Vector3 {
+		return round(this, new Vector3());
+	}
+
+	/**
+	 * Scale this vector by a scalar.
+	 * @param scalar - The scalar.
+	 * @returns The scaled vector.
+	 */
+	public scale(scalar: number): Vector3 {
+		return scale(this, scalar, new Vector3());
+	}
+
+	/**
+	 * Add another vector to this one after scaling the other by a scalar.
 	 * @param vector - The other vector.
-	 * @returns The angular distance from this vector to the other.
+	 * @param scalar - The scalar.
+	 * @returns The sum.
 	 */
-	public angle(vector: Vector3Like): number {
-		return angle(this, vector);
+	public scaleAndAdd(vector: Vector3Like, scalar: number): Vector3 {
+		return scaleAndAdd(this, vector, scalar, new Vector3());
 	}
 
 	/**
-	 * Set this to the zero vector.
-	 * @returns This vector.
+	 * Calculate the squared Euclidean distance between this vector and another.
+	 * @param vector - The other vector.
+	 * @returns The squared distance.
+	 * @see {@link https://en.wikipedia.org/wiki/Euclidean_distance | Euclidean distance}
 	 */
-	public zero(): this {
-		return zero(this);
+	public squaredDistance(vector: Vector3Like): number {
+		return squaredDistance(this, vector);
 	}
 
 	/**
-	 * Perform a Hermite interpolation with two control points between this vector and another.
-	 * @param a - The first control point.
-	 * @param b - The second control point.
-	 * @param end - The other vector.
-	 * @param t - The interpolation amount in the range `[0,1]`.
-	 * @returns The interpolated vector.
-	 * @see {@link https://en.wikipedia.org/wiki/Hermite_interpolation | Hermite interpolation}
+	 * Subtract another vector from this one.
+	 * @param vector - The other vector.
+	 * @returns The difference between the vectors.
 	 */
-	public hermite(
-		a: Vector3Like,
-		b: Vector3Like,
-		end: Vector3Like,
-		t: number
-	): Vector3 {
-		return hermite(this, a, b, end, t, new Vector3());
+	public subtract(vector: Vector3Like): Vector3 {
+		return subtract(this, vector, new Vector3());
 	}
 
 	/**
-	 * Perform a Bézier interpolation with two control points between this vector and another.
-	 * @param a - The first control point.
-	 * @param b - The second control point.
-	 * @param end - The other vector.
-	 * @param t - The interpolation amount in the range `[0,1]`.
-	 * @returns The interpolated vector.
-	 * @see {@link https://en.wikipedia.org/wiki/B%C3%A9zier_curve | Bézier curve}
+	 * Transform this vector by a three-by-three matrix.
+	 * @param matrix - The matrix.
+	 * @returns The transformed vector.
 	 */
-	public bezier(
-		a: Vector3Like,
-		b: Vector3Like,
-		end: Vector3Like,
-		t: number
-	): Vector3 {
-		return bezier(this, a, b, end, t, new Vector3());
+	public transformMatrix3(matrix: Matrix3Like): Vector3 {
+		return transformMatrix3(this, matrix, new Vector3());
+	}
+
+	/**
+	 * Transform this vector by a four-by-four matrix.
+	 * @param matrix - The matrix.
+	 * @returns The transformed vector.
+	 */
+	public transformMatrix4(matrix: Matrix4Like): Vector3 {
+		return transformMatrix4(this, matrix, new Vector3());
 	}
 
 	/**
@@ -1166,5 +1165,13 @@ export default class Vector3
 	 */
 	public transformQuaternion(quaternion: QuaternionLike): Vector3 {
 		return transformQuaternion(this, quaternion, new Vector3());
+	}
+
+	/**
+	 * Set this to the zero vector.
+	 * @returns This vector.
+	 */
+	public zero(): this {
+		return zero(this);
 	}
 }

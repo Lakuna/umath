@@ -1,10 +1,11 @@
 import type { Matrix4Like } from "./Matrix4.js";
 import type { MatrixLike } from "./Matrix.js";
 import type { QuaternionLike } from "./Quaternion.js";
-import SingularMatrixError from "../utility/SingularMatrixError.js";
 import type SquareMatrix from "./SquareMatrix.js";
 import type { Vector2Like } from "./Vector2.js";
+
 import approxRelative from "../algorithms/approxRelative.js";
+import SingularMatrixError from "../utility/SingularMatrixError.js";
 
 /**
  * Numbers arranged into three columns and three rows.
@@ -13,30 +14,39 @@ import approxRelative from "../algorithms/approxRelative.js";
  */
 export interface Matrix3Like extends MatrixLike {
 	/** The value in the first column and first row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	0: number;
 
 	/** The value in the first column and second row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	1: number;
 
 	/** The value in the first column and third row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	2: number;
 
 	/** The value in the second column and first row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	3: number;
 
 	/** The value in the second column and second row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	4: number;
 
 	/** The value in the second column and third row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	5: number;
 
 	/** The value in the third column and first row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	6: number;
 
 	/** The value in the third column and second row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	7: number;
 
 	/** The value in the third column and third row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	8: number;
 }
 
@@ -45,9 +55,9 @@ export interface Matrix3Like extends MatrixLike {
  * @returns A three-by-three matrix-like object.
  * @public
  */
-export const createMatrix3Like = (): Float32Array & Matrix3Like => {
-	return new Float32Array(9) as Float32Array & Matrix3Like;
-};
+export const createMatrix3Like = (): Float32Array & Matrix3Like =>
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
+	new Float32Array(9) as Float32Array & Matrix3Like;
 
 /**
  * Create a three-by-three matrix with the given values.
@@ -820,8 +830,114 @@ export const translate = <T extends Matrix3Like>(
  */
 export default class Matrix3
 	extends Float32Array
-	implements SquareMatrix, Matrix3Like
+	implements Matrix3Like, SquareMatrix
 {
+	/** The value in the first column and first row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 0: number;
+
+	/** The value in the first column and second row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 1: number;
+
+	/** The value in the first column and third row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 2: number;
+
+	/** The value in the second column and first row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 3: number;
+
+	/** The value in the second column and second row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 4: number;
+
+	/** The value in the second column and third row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 5: number;
+
+	/** The value in the third column and first row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 6: number;
+
+	/** The value in the third column and second row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 7: number;
+
+	/** The value in the third column and third row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 8: number;
+
+	/** The number of rows in this matrix. */
+	public readonly height: 3;
+
+	/** The number of columns in this matrix. */
+	public readonly width: 3;
+
+	/**
+	 * Get the determinant of this matrix.
+	 * @see {@link https://en.wikipedia.org/wiki/Determinant | Determinant}
+	 */
+	public get determinant(): number {
+		return determinant(this);
+	}
+
+	/**
+	 * Get the Frobenius norm of this matrix.
+	 * @see {@link https://en.wikipedia.org/wiki/Matrix_norm | Matrix norm}
+	 */
+	public get frob(): number {
+		return frob(this);
+	}
+
+	/**
+	 * Create a three-by-three identity matrix.
+	 * @see {@link https://en.wikipedia.org/wiki/Identity_matrix | Identity matrix}
+	 */
+	public constructor() {
+		super(9);
+
+		this[0] = 1;
+		this[4] = 1;
+		this[8] = 1;
+
+		this.width = 3;
+		this.height = 3;
+	}
+
+	/**
+	 * Create a transformation matrix that represents a rotation by the given z-y'-x" (intrinsic) Tait-Bryan angles.
+	 * @param z - The z (roll) angle.
+	 * @param y - The y (pitch) angle.
+	 * @param x - The x (yaw) angle.
+	 * @returns The transformation matrix.
+	 * @see {@link https://en.wikipedia.org/wiki/Quaternion | Quaternion}
+	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
+	 */
+	public static fromEuler(z: number, y: number, x: number): Matrix3 {
+		return fromEuler(z, y, x, new Matrix3());
+	}
+
+	/**
+	 * Create a three-by-three matrix from the upper-left corner of a four-by-four matrix.
+	 * @param matrix - The four-by-four matrix.
+	 * @returns The three-by-three matrix.
+	 */
+	public static fromMatrix4(matrix: Matrix4Like): Matrix3 {
+		return fromMatrix4(matrix, new Matrix3());
+	}
+
+	/**
+	 * Create a transformation matrix that represents a rotation by the given quaternion.
+	 * @param quaternion - The quaternion.
+	 * @returns The transformation matrix.
+	 * @see {@link https://en.wikipedia.org/wiki/Quaternion | Quaternion}
+	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
+	 */
+	public static fromQuaternion(quaternion: QuaternionLike): Matrix3 {
+		return fromQuaternion(quaternion, new Matrix3());
+	}
+
 	/**
 	 * Create a transformation matrix that represents a rotation by the given angle around the Z-axis.
 	 * @param r - The angle in radians.
@@ -850,61 +966,6 @@ export default class Matrix3
 	 */
 	public static fromTranslation(vector: Vector2Like): Matrix3 {
 		return fromTranslation(vector, new Matrix3());
-	}
-
-	/**
-	 * Create a transformation matrix that represents a rotation by the given quaternion.
-	 * @param quaternion - The quaternion.
-	 * @returns The transformation matrix.
-	 * @see {@link https://en.wikipedia.org/wiki/Quaternion | Quaternion}
-	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
-	 */
-	public static fromQuaternion(quaternion: QuaternionLike): Matrix3 {
-		return fromQuaternion(quaternion, new Matrix3());
-	}
-
-	/**
-	 * Create a transformation matrix that represents a rotation by the given z-y'-x" (intrinsic) Tait-Bryan angles.
-	 * @param z - The z (roll) angle.
-	 * @param y - The y (pitch) angle.
-	 * @param x - The x (yaw) angle.
-	 * @returns The transformation matrix.
-	 * @see {@link https://en.wikipedia.org/wiki/Quaternion | Quaternion}
-	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
-	 */
-	public static fromEuler(z: number, y: number, x: number): Matrix3 {
-		return fromEuler(z, y, x, new Matrix3());
-	}
-
-	/**
-	 * Calculate a three-by-three normal (inverse transpose) matrix from a four-by-four matrix.
-	 * @param matrix - The four-by-four matrix.
-	 * @returns The normal matrix.
-	 * @see {@link https://en.wikipedia.org/wiki/Normal_matrix | Normal matrix}
-	 */
-	public static normalFromMatrix4(matrix: Matrix4Like): Matrix3 {
-		return normalFromMatrix4(matrix, new Matrix3());
-	}
-
-	/**
-	 * Generate a two-dimensional projection matrix with the given bounds.
-	 * @param width - The width of the projection.
-	 * @param height - The height of the projection.
-	 * @returns The projection matrix.
-	 * @see {@link https://en.wikipedia.org/wiki/Camera_matrix | Camera matrix}
-	 * @see {@link https://en.wikipedia.org/wiki/3D_projection | 3D projection}
-	 */
-	public static projection(width: number, height: number): Matrix3 {
-		return projection(width, height, new Matrix3());
-	}
-
-	/**
-	 * Create a three-by-three matrix from the upper-left corner of a four-by-four matrix.
-	 * @param matrix - The four-by-four matrix.
-	 * @returns The three-by-three matrix.
-	 */
-	public static fromMatrix4(matrix: Matrix4Like): Matrix3 {
-		return fromMatrix4(matrix, new Matrix3());
 	}
 
 	/**
@@ -946,69 +1007,25 @@ export default class Matrix3
 	}
 
 	/**
-	 * Create a three-by-three identity matrix.
-	 * @see {@link https://en.wikipedia.org/wiki/Identity_matrix | Identity matrix}
+	 * Calculate a three-by-three normal (inverse transpose) matrix from a four-by-four matrix.
+	 * @param matrix - The four-by-four matrix.
+	 * @returns The normal matrix.
+	 * @see {@link https://en.wikipedia.org/wiki/Normal_matrix | Normal matrix}
 	 */
-	public constructor() {
-		super(9);
-
-		this[0] = 1;
-		this[4] = 1;
-		this[8] = 1;
-
-		this.width = 3;
-		this.height = 3;
-	}
-
-	/** The value in the first column and first row. */
-	public 0: number;
-
-	/** The value in the first column and second row. */
-	public 1: number;
-
-	/** The value in the first column and third row. */
-	public 2: number;
-
-	/** The value in the second column and first row. */
-	public 3: number;
-
-	/** The value in the second column and second row. */
-	public 4: number;
-
-	/** The value in the second column and third row. */
-	public 5: number;
-
-	/** The value in the third column and first row. */
-	public 6: number;
-
-	/** The value in the third column and second row. */
-	public 7: number;
-
-	/** The value in the third column and third row. */
-	public 8: number;
-
-	/** The number of columns in this matrix. */
-	public readonly width: 3;
-
-	/** The number of rows in this matrix. */
-	public readonly height: 3;
-
-	/**
-	 * Determine whether or not this matrix is roughly equivalent to another.
-	 * @param matrix - The other matrix.
-	 * @returns Whether or not the matrices are equivalent.
-	 */
-	public equals(matrix: Matrix3Like): boolean {
-		return equals(this, matrix);
+	public static normalFromMatrix4(matrix: Matrix4Like): Matrix3 {
+		return normalFromMatrix4(matrix, new Matrix3());
 	}
 
 	/**
-	 * Determine whether or not this matrix is exactly equivalent to another.
-	 * @param matrix - The other matrix.
-	 * @returns Whether or not the matrices are equivalent.
+	 * Generate a two-dimensional projection matrix with the given bounds.
+	 * @param width - The width of the projection.
+	 * @param height - The height of the projection.
+	 * @returns The projection matrix.
+	 * @see {@link https://en.wikipedia.org/wiki/Camera_matrix | Camera matrix}
+	 * @see {@link https://en.wikipedia.org/wiki/3D_projection | 3D projection}
 	 */
-	public exactEquals(matrix: Matrix3Like): boolean {
-		return exactEquals(this, matrix);
+	public static projection(width: number, height: number): Matrix3 {
+		return projection(width, height, new Matrix3());
 	}
 
 	/**
@@ -1048,11 +1065,39 @@ export default class Matrix3
 	}
 
 	/**
-	 * Get the Frobenius norm of this matrix.
-	 * @see {@link https://en.wikipedia.org/wiki/Matrix_norm | Matrix norm}
+	 * Determine whether or not this matrix is roughly equivalent to another.
+	 * @param matrix - The other matrix.
+	 * @returns Whether or not the matrices are equivalent.
 	 */
-	public get frob(): number {
-		return frob(this);
+	public equals(matrix: Matrix3Like): boolean {
+		return equals(this, matrix);
+	}
+
+	/**
+	 * Determine whether or not this matrix is exactly equivalent to another.
+	 * @param matrix - The other matrix.
+	 * @returns Whether or not the matrices are equivalent.
+	 */
+	public exactEquals(matrix: Matrix3Like): boolean {
+		return exactEquals(this, matrix);
+	}
+
+	/**
+	 * Reset this matrix to identity.
+	 * @returns This matrix.
+	 * @see {@link https://en.wikipedia.org/wiki/Identity_matrix | Identity matrix}
+	 */
+	public identity(): this {
+		return identity(this);
+	}
+
+	/**
+	 * Invert this matrix.
+	 * @returns The inverted matrix.
+	 * @see {@link https://en.wikipedia.org/wiki/Invertible_matrix | Invertible matrix}
+	 */
+	public invert(): Matrix3 {
+		return invert(this, new Matrix3());
 	}
 
 	/**
@@ -1088,51 +1133,6 @@ export default class Matrix3
 	}
 
 	/**
-	 * Subtract another matrix from this one.
-	 * @param matrix - The other matrix.
-	 * @returns The difference between the matrices.
-	 * @see {@link https://en.wikipedia.org/wiki/Matrix_addition | Matrix addition}
-	 */
-	public subtract(matrix: Matrix3Like): Matrix3 {
-		return subtract(this, matrix, new Matrix3());
-	}
-
-	/**
-	 * Transpose this matrix.
-	 * @returns The transpose of this matrix.
-	 * @see {@link https://en.wikipedia.org/wiki/Transpose | Transpose}
-	 */
-	public transpose(): Matrix3 {
-		return transpose(this, new Matrix3());
-	}
-
-	/**
-	 * Get the determinant of this matrix.
-	 * @see {@link https://en.wikipedia.org/wiki/Determinant | Determinant}
-	 */
-	public get determinant(): number {
-		return determinant(this);
-	}
-
-	/**
-	 * Reset this matrix to identity.
-	 * @returns This matrix.
-	 * @see {@link https://en.wikipedia.org/wiki/Identity_matrix | Identity matrix}
-	 */
-	public identity(): this {
-		return identity(this);
-	}
-
-	/**
-	 * Invert this matrix.
-	 * @returns The inverted matrix.
-	 * @see {@link https://en.wikipedia.org/wiki/Invertible_matrix | Invertible matrix}
-	 */
-	public invert(): Matrix3 {
-		return invert(this, new Matrix3());
-	}
-
-	/**
 	 * Rotate this matrix by the given angle around the Z-axis.
 	 * @param r - The angle in radians.
 	 * @returns The rotated matrix.
@@ -1153,6 +1153,16 @@ export default class Matrix3
 	}
 
 	/**
+	 * Subtract another matrix from this one.
+	 * @param matrix - The other matrix.
+	 * @returns The difference between the matrices.
+	 * @see {@link https://en.wikipedia.org/wiki/Matrix_addition | Matrix addition}
+	 */
+	public subtract(matrix: Matrix3Like): Matrix3 {
+		return subtract(this, matrix, new Matrix3());
+	}
+
+	/**
 	 * Translate this matrix by the given vector.
 	 * @param vector - The translation vector.
 	 * @returns The translated matrix.
@@ -1160,5 +1170,14 @@ export default class Matrix3
 	 */
 	public translate(vector: Vector2Like): Matrix3 {
 		return translate(this, vector, new Matrix3());
+	}
+
+	/**
+	 * Transpose this matrix.
+	 * @returns The transpose of this matrix.
+	 * @see {@link https://en.wikipedia.org/wiki/Transpose | Transpose}
+	 */
+	public transpose(): Matrix3 {
+		return transpose(this, new Matrix3());
 	}
 }

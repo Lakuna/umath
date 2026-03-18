@@ -1,6 +1,7 @@
-import type { default as Vector, VectorLike } from "./Vector.js";
 import type { Matrix4Like } from "./Matrix4.js";
 import type { QuaternionLike } from "./Quaternion.js";
+import type { default as Vector, VectorLike } from "./Vector.js";
+
 import approxRelative from "../algorithms/approxRelative.js";
 
 /**
@@ -9,15 +10,19 @@ import approxRelative from "../algorithms/approxRelative.js";
  */
 export interface Vector4Like extends VectorLike {
 	/** The first component of this vector. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	0: number;
 
 	/** The second component of this vector. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	1: number;
 
 	/** The third component of this vector. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	2: number;
 
 	/** The fourth component of this vector. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	3: number;
 }
 
@@ -26,9 +31,9 @@ export interface Vector4Like extends VectorLike {
  * @returns A 4x1 vector-like object.
  * @public
  */
-export const createVector4Like = (): Float32Array & Vector4Like => {
-	return new Float32Array(4) as Float32Array & Vector4Like;
-};
+export const createVector4Like = (): Float32Array & Vector4Like =>
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
+	new Float32Array(4) as Float32Array & Vector4Like;
 
 /**
  * Create a vector with the given values.
@@ -608,6 +613,48 @@ export default class Vector4
 	extends Float32Array
 	implements Vector, Vector4Like
 {
+	/** The first component of this vector. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 0: number;
+
+	/** The second component of this vector. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 1: number;
+
+	/** The third component of this vector. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 2: number;
+
+	/** The fourth component of this vector. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 3: number;
+
+	/** The magnitude (length) of this vector. */
+	public get magnitude(): number {
+		return getMagnitude(this);
+	}
+
+	public set magnitude(value: number) {
+		scale(normalize(this, this), value, this);
+	}
+
+	/** The squared magnitude (length) of this vector. */
+	public get squaredMagnitude(): number {
+		return getSquaredMagnitude(this);
+	}
+
+	public set squaredMagnitude(value: number) {
+		this.magnitude = Math.sqrt(value);
+	}
+
+	/**
+	 * Create a four-dimensional zero vector.
+	 * @see {@link https://en.wikipedia.org/wiki/Euclidean_vector | Euclidean vector}
+	 */
+	public constructor() {
+		super(4);
+	}
+
 	/**
 	 * Create a vector with the given values.
 	 * @param x - The first component.
@@ -626,41 +673,11 @@ export default class Vector4
 	}
 
 	/**
-	 * Create a four-dimensional zero vector.
-	 * @see {@link https://en.wikipedia.org/wiki/Euclidean_vector | Euclidean vector}
+	 * Absolutize the components of this vector.
+	 * @returns The absolutized vector.
 	 */
-	public constructor() {
-		super(4);
-	}
-
-	/** The first component of this vector. */
-	public 0: number;
-
-	/** The second component of this vector. */
-	public 1: number;
-
-	/** The third component of this vector. */
-	public 2: number;
-
-	/** The fourth component of this vector. */
-	public 3: number;
-
-	/**
-	 * Determine whether or not this vector is roughly equivalent to another.
-	 * @param vector - The other vector.
-	 * @returns Whether or no tthe vectors are equivalent.
-	 */
-	public equals(vector: Vector4Like): boolean {
-		return equals(this, vector);
-	}
-
-	/**
-	 * Determine whether or not this vector is exactly equivalent to another.
-	 * @param vector - The other vector.
-	 * @returns Whether the vectors are equivalent.
-	 */
-	public exactEquals(vector: Vector4Like): boolean {
-		return exactEquals(this, vector);
+	public abs(): Vector4 {
+		return abs(this, new Vector4());
 	}
 
 	/**
@@ -670,6 +687,14 @@ export default class Vector4
 	 */
 	public add(vector: Vector4Like): Vector4 {
 		return add(this, vector, new Vector4());
+	}
+
+	/**
+	 * Round up the components of this vector.
+	 * @returns The rounded vector.
+	 */
+	public ceil(): Vector4 {
+		return ceil(this, new Vector4());
 	}
 
 	/**
@@ -690,12 +715,24 @@ export default class Vector4
 	}
 
 	/**
-	 * Multiply this vector by another.
-	 * @param vector - The other vector.
-	 * @returns The product of the vectors.
+	 * Calculate the cross product of this and two other vectors in a four-dimensional space.
+	 * @param a - One other vector.
+	 * @param b - The other other vector.
+	 * @returns The cross product.
+	 * @see {@link https://en.wikipedia.org/wiki/Cross_product | Cross product}
 	 */
-	public multiply(vector: Vector4Like): Vector4 {
-		return multiply(this, vector, new Vector4());
+	public cross(a: Vector4Like, b: Vector4Like): Vector4 {
+		return cross(this, a, b, new Vector4());
+	}
+
+	/**
+	 * Calculate the Euclidean distance between this vector and another.
+	 * @param vector - The other vector.
+	 * @returns The distance.
+	 * @see {@link https://en.wikipedia.org/wiki/Euclidean_distance | Euclidean distance}
+	 */
+	public distance(vector: Vector4Like): number {
+		return distance(this, vector);
 	}
 
 	/**
@@ -708,28 +745,31 @@ export default class Vector4
 	}
 
 	/**
-	 * Subtract another vector from this one.
+	 * Calculate the dot product of this and another vector.
 	 * @param vector - The other vector.
-	 * @returns The difference between the vectors.
+	 * @returns The dot product.
+	 * @see {@link https://en.wikipedia.org/wiki/Dot_product | Dot product}
 	 */
-	public subtract(vector: Vector4Like): Vector4 {
-		return subtract(this, vector, new Vector4());
+	public dot(vector: Vector4Like): number {
+		return dot(this, vector);
 	}
 
 	/**
-	 * Absolutize the components of this vector.
-	 * @returns The absolutized vector.
+	 * Determine whether or not this vector is roughly equivalent to another.
+	 * @param vector - The other vector.
+	 * @returns Whether or no tthe vectors are equivalent.
 	 */
-	public abs(): Vector4 {
-		return abs(this, new Vector4());
+	public equals(vector: Vector4Like): boolean {
+		return equals(this, vector);
 	}
 
 	/**
-	 * Round up the components of this vector.
-	 * @returns The rounded vector.
+	 * Determine whether or not this vector is exactly equivalent to another.
+	 * @param vector - The other vector.
+	 * @returns Whether the vectors are equivalent.
 	 */
-	public ceil(): Vector4 {
-		return ceil(this, new Vector4());
+	public exactEquals(vector: Vector4Like): boolean {
+		return exactEquals(this, vector);
 	}
 
 	/**
@@ -741,20 +781,22 @@ export default class Vector4
 	}
 
 	/**
-	 * Round the components of this vector.
-	 * @returns The rounded vector.
+	 * Calculate the multiplicative inverse of the components of this vector.
+	 * @returns The inverted vector.
 	 */
-	public round(): Vector4 {
-		return round(this, new Vector4());
+	public invert(): Vector4 {
+		return invert(this, new Vector4());
 	}
 
 	/**
-	 * Return the minimum of this and another vector.
+	 * Perform a linear interpolation between this and another vector.
 	 * @param vector - The other vector.
-	 * @returns The minimum.
+	 * @param t - The interpolation amount (in `[0,1]`).
+	 * @returns The interpolated vector.
+	 * @see {@link https://en.wikipedia.org/wiki/Linear_interpolation | Linear interpolation}
 	 */
-	public min(vector: Vector4Like): Vector4 {
-		return min(this, vector, new Vector4());
+	public lerp(vector: Vector4Like, t: number): Vector4 {
+		return lerp(this, vector, t, new Vector4());
 	}
 
 	/**
@@ -767,12 +809,64 @@ export default class Vector4
 	}
 
 	/**
+	 * Return the minimum of this and another vector.
+	 * @param vector - The other vector.
+	 * @returns The minimum.
+	 */
+	public min(vector: Vector4Like): Vector4 {
+		return min(this, vector, new Vector4());
+	}
+
+	/**
+	 * Multiply this vector by another.
+	 * @param vector - The other vector.
+	 * @returns The product of the vectors.
+	 */
+	public multiply(vector: Vector4Like): Vector4 {
+		return multiply(this, vector, new Vector4());
+	}
+
+	/**
+	 * Negate this vector.
+	 * @returns The negated vector.
+	 */
+	public negate(): Vector4 {
+		return negate(this, new Vector4());
+	}
+
+	/**
+	 * Normalize this vector.
+	 * @returns The normalized vector.
+	 * @see {@link https://en.wikipedia.org/wiki/Unit_vector | Unit vector}
+	 */
+	public normalize(): Vector4 {
+		return normalize(this, new Vector4());
+	}
+
+	/**
 	 * Raise each component of this vector to the given power.
 	 * @param scalar - The exponent (power) to raise each component to.
 	 * @returns The power (result of the exponentiation).
 	 */
 	public pow(scalar: number): Vector4 {
 		return pow(this, scalar, new Vector4());
+	}
+
+	/**
+	 * Set this vector to a random value with the given magnitude.
+	 * @param magnitude - The magnitude.
+	 * @returns This vector.
+	 */
+	public random(magnitude = 1): this {
+		return random(magnitude, this);
+	}
+
+	/**
+	 * Round the components of this vector.
+	 * @returns The rounded vector.
+	 */
+	public round(): Vector4 {
+		return round(this, new Vector4());
 	}
 
 	/**
@@ -795,16 +889,6 @@ export default class Vector4
 	}
 
 	/**
-	 * Calculate the Euclidean distance between this vector and another.
-	 * @param vector - The other vector.
-	 * @returns The distance.
-	 * @see {@link https://en.wikipedia.org/wiki/Euclidean_distance | Euclidean distance}
-	 */
-	public distance(vector: Vector4Like): number {
-		return distance(this, vector);
-	}
-
-	/**
 	 * Calculate the squared Euclidean distance between this vector and another.
 	 * @param vector - The other vector.
 	 * @returns The squared distance.
@@ -814,88 +898,13 @@ export default class Vector4
 		return squaredDistance(this, vector);
 	}
 
-	/** The magnitude (length) of this vector. */
-	public get magnitude(): number {
-		return getMagnitude(this);
-	}
-
-	public set magnitude(value: number) {
-		scale(normalize(this, this), value, this);
-	}
-
-	/** The squared magnitude (length) of this vector. */
-	public get squaredMagnitude(): number {
-		return getSquaredMagnitude(this);
-	}
-
-	public set squaredMagnitude(value: number) {
-		this.magnitude = Math.sqrt(value);
-	}
-
 	/**
-	 * Negate this vector.
-	 * @returns The negated vector.
-	 */
-	public negate(): Vector4 {
-		return negate(this, new Vector4());
-	}
-
-	/**
-	 * Calculate the multiplicative inverse of the components of this vector.
-	 * @returns The inverted vector.
-	 */
-	public invert(): Vector4 {
-		return invert(this, new Vector4());
-	}
-
-	/**
-	 * Normalize this vector.
-	 * @returns The normalized vector.
-	 * @see {@link https://en.wikipedia.org/wiki/Unit_vector | Unit vector}
-	 */
-	public normalize(): Vector4 {
-		return normalize(this, new Vector4());
-	}
-
-	/**
-	 * Calculate the dot product of this and another vector.
+	 * Subtract another vector from this one.
 	 * @param vector - The other vector.
-	 * @returns The dot product.
-	 * @see {@link https://en.wikipedia.org/wiki/Dot_product | Dot product}
+	 * @returns The difference between the vectors.
 	 */
-	public dot(vector: Vector4Like): number {
-		return dot(this, vector);
-	}
-
-	/**
-	 * Calculate the cross product of this and two other vectors in a four-dimensional space.
-	 * @param a - One other vector.
-	 * @param b - The other other vector.
-	 * @returns The cross product.
-	 * @see {@link https://en.wikipedia.org/wiki/Cross_product | Cross product}
-	 */
-	public cross(a: Vector4Like, b: Vector4Like): Vector4 {
-		return cross(this, a, b, new Vector4());
-	}
-
-	/**
-	 * Perform a linear interpolation between this and another vector.
-	 * @param vector - The other vector.
-	 * @param t - The interpolation amount (in `[0,1]`).
-	 * @returns The interpolated vector.
-	 * @see {@link https://en.wikipedia.org/wiki/Linear_interpolation | Linear interpolation}
-	 */
-	public lerp(vector: Vector4Like, t: number): Vector4 {
-		return lerp(this, vector, t, new Vector4());
-	}
-
-	/**
-	 * Set this vector to a random value with the given magnitude.
-	 * @param magnitude - The magnitude.
-	 * @returns This vector.
-	 */
-	public random(magnitude = 1): this {
-		return random(magnitude, this);
+	public subtract(vector: Vector4Like): Vector4 {
+		return subtract(this, vector, new Vector4());
 	}
 
 	/**
@@ -909,14 +918,6 @@ export default class Vector4
 	}
 
 	/**
-	 * Set this to the zero vector.
-	 * @returns This vector.
-	 */
-	public zero(): this {
-		return zero(this);
-	}
-
-	/**
 	 * Transform this vector by a quaternion.
 	 * @param quaternion - The quaternion.
 	 * @returns The transformed vector.
@@ -924,5 +925,13 @@ export default class Vector4
 	 */
 	public transformQuaternion(quaternion: QuaternionLike): Vector4 {
 		return transformQuaternion(this, quaternion, new Vector4());
+	}
+
+	/**
+	 * Set this to the zero vector.
+	 * @returns This vector.
+	 */
+	public zero(): this {
+		return zero(this);
 	}
 }

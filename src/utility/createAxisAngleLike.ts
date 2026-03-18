@@ -1,4 +1,5 @@
 import type AxisAngle from "../types/AxisAngle.js";
+
 import { createVector3Like } from "../linalg/Vector3.js";
 
 /**

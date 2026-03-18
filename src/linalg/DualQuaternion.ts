@@ -1,6 +1,8 @@
+import approxRelative from "../algorithms/approxRelative.js";
+import epsilon from "../utility/epsilon.js";
 import {
-	type Matrix4Like,
-	getScaling as matrix4GetScaling
+	getScaling as matrix4GetScaling,
+	type Matrix4Like
 } from "./Matrix4.js";
 import Quaternion, {
 	type QuaternionLike,
@@ -9,9 +11,9 @@ import Quaternion, {
 	rotateZ as quaternionRotateZ
 } from "./Quaternion.js";
 import Vector3, {
-	type Vector3Like,
 	createVector3Like,
-	fromValues as vector3FromValues
+	fromValues as vector3FromValues,
+	type Vector3Like
 } from "./Vector3.js";
 import {
 	copy as vector4Copy,
@@ -20,8 +22,6 @@ import {
 	getMagnitude as vector4GetMagnitude,
 	getSquaredMagnitude as vector4GetSquaredMagnitude
 } from "./Vector4.js";
-import approxRelative from "../algorithms/approxRelative.js";
-import epsilon from "../utility/epsilon.js";
 
 /**
  * A complex number that is commonly used to describe transformations.
@@ -29,27 +29,35 @@ import epsilon from "../utility/epsilon.js";
  */
 export interface DualQuaternionLike extends Record<number, number> {
 	/** The first real component of this dual quaternion. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	0: number;
 
 	/** The second real component of this dual quaternion. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	1: number;
 
 	/** The third real component of this dual quaternion. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	2: number;
 
 	/** The fourth real component of this dual quaternion. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	3: number;
 
 	/** The first dual component of this dual quaternion. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	4: number;
 
 	/** The second dual component of this dual quaternion. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	5: number;
 
 	/** The third dual component of this dual quaternion. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	6: number;
 
 	/** The fourth dual component of this dual quaternion. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	7: number;
 }
 
@@ -58,10 +66,9 @@ export interface DualQuaternionLike extends Record<number, number> {
  * @returns A dual quaternion-like object.
  * @public
  */
-export const createDualQuaternionLike = (): Float32Array &
-	DualQuaternionLike => {
-	return new Float32Array(8) as Float32Array & DualQuaternionLike;
-};
+export const createDualQuaternionLike = (): DualQuaternionLike & Float32Array =>
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
+	new Float32Array(8) as DualQuaternionLike & Float32Array;
 
 /**
  * Create a dual quaternion with the given values.
@@ -235,13 +242,13 @@ export const fromMatrix4 = <T extends DualQuaternionLike>(
 
 	const trace = sm11 + sm22 + sm33;
 
-	// eslint-disable-next-line init-declarations
+	// eslint-disable-next-line @typescript-eslint/init-declarations
 	let x;
-	// eslint-disable-next-line init-declarations
+	// eslint-disable-next-line @typescript-eslint/init-declarations
 	let y;
-	// eslint-disable-next-line init-declarations
+	// eslint-disable-next-line @typescript-eslint/init-declarations
 	let z;
-	// eslint-disable-next-line init-declarations
+	// eslint-disable-next-line @typescript-eslint/init-declarations
 	let w;
 	if (trace > 0) {
 		const s = Math.sqrt(trace + 1) * 2;
@@ -1007,6 +1014,97 @@ export default class DualQuaternion
 	extends Float32Array
 	implements DualQuaternionLike
 {
+	/** The first real component of this dual quaternion. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 0: number;
+
+	/** The second real component of this dual quaternion. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 1: number;
+
+	/** The third real component of this dual quaternion. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 2: number;
+
+	/** The fourth real component of this dual quaternion. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 3: number;
+
+	/** The first dual component of this dual quaternion. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 4: number;
+
+	/** The second dual component of this dual quaternion. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 5: number;
+
+	/** The third dual component of this dual quaternion. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 6: number;
+
+	/** The fourth dual component of this dual quaternion. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 7: number;
+
+	/** Get the magnitude (length) of this dual quaternion. */
+	public get magnitude(): number {
+		return getMagnitude(this);
+	}
+
+	/** Get the squared magnitude (length) of this dual quaternion. */
+	public get squaredMagnitude(): number {
+		return getSquaredMagnitude(this);
+	}
+
+	/**
+	 * Create an identity dual quaternion.
+	 * @see {@link https://en.wikipedia.org/wiki/Dual_quaternion | Dual quaternion}
+	 */
+	public constructor() {
+		super(8);
+		this[3] = 1;
+	}
+
+	/**
+	 * Create a dual quaternion from the given four-by-four matrix.
+	 * @param matrix - The matrix.
+	 * @returns The dual quaternion.
+	 */
+	public static fromMatrix4(matrix: Matrix4Like): DualQuaternion {
+		return fromMatrix4(matrix, new DualQuaternion());
+	}
+
+	/**
+	 * Create a dual quaternion from the given rotation.
+	 * @param q - The rotation quaternion.
+	 * @returns The dual quaternion.
+	 */
+	public static fromRotation(q: QuaternionLike): DualQuaternion {
+		return fromRotation(q, new DualQuaternion());
+	}
+
+	/**
+	 * Create a dual quaternion from the given rotation and translation.
+	 * @param q - The rotation quaternion.
+	 * @param t - The translation vector.
+	 * @returns The dual quaternion.
+	 */
+	public static fromRotationTranslation(
+		q: QuaternionLike,
+		t: Vector3Like
+	): DualQuaternion {
+		return fromRotationTranslation(q, t, new DualQuaternion());
+	}
+
+	/**
+	 * Create a dual quaternion from the given translation.
+	 * @param t - The translation vector.
+	 * @returns The dual quaternion.
+	 */
+	public static fromTranslation(t: Vector3Like): DualQuaternion {
+		return fromTranslation(t, new DualQuaternion());
+	}
+
 	/**
 	 * Create a dual quaternion with the given values.
 	 * @param x1 - The first real component.
@@ -1033,85 +1131,12 @@ export default class DualQuaternion
 	}
 
 	/**
-	 * Create a dual quaternion from the given rotation and translation.
-	 * @param q - The rotation quaternion.
-	 * @param t - The translation vector.
-	 * @returns The dual quaternion.
+	 * Add another dual quaternion to this one.
+	 * @param dq - The other dual quaternion.
+	 * @returns The sum.
 	 */
-	public static fromRotationTranslation(
-		q: QuaternionLike,
-		t: Vector3Like
-	): DualQuaternion {
-		return fromRotationTranslation(q, t, new DualQuaternion());
-	}
-
-	/**
-	 * Create a dual quaternion from the given translation.
-	 * @param t - The translation vector.
-	 * @returns The dual quaternion.
-	 */
-	public static fromTranslation(t: Vector3Like): DualQuaternion {
-		return fromTranslation(t, new DualQuaternion());
-	}
-
-	/**
-	 * Create a dual quaternion from the given rotation.
-	 * @param q - The rotation quaternion.
-	 * @returns The dual quaternion.
-	 */
-	public static fromRotation(q: QuaternionLike): DualQuaternion {
-		return fromRotation(q, new DualQuaternion());
-	}
-
-	/**
-	 * Create a dual quaternion from the given four-by-four matrix.
-	 * @param matrix - The matrix.
-	 * @returns The dual quaternion.
-	 */
-	public static fromMatrix4(matrix: Matrix4Like): DualQuaternion {
-		return fromMatrix4(matrix, new DualQuaternion());
-	}
-
-	/**
-	 * Create an identity dual quaternion.
-	 * @see {@link https://en.wikipedia.org/wiki/Dual_quaternion | Dual quaternion}
-	 */
-	public constructor() {
-		super(8);
-		this[3] = 1;
-	}
-
-	/** The first real component of this dual quaternion. */
-	public 0: number;
-
-	/** The second real component of this dual quaternion. */
-	public 1: number;
-
-	/** The third real component of this dual quaternion. */
-	public 2: number;
-
-	/** The fourth real component of this dual quaternion. */
-	public 3: number;
-
-	/** The first dual component of this dual quaternion. */
-	public 4: number;
-
-	/** The second dual component of this dual quaternion. */
-	public 5: number;
-
-	/** The third dual component of this dual quaternion. */
-	public 6: number;
-
-	/** The fourth dual component of this dual quaternion. */
-	public 7: number;
-
-	/**
-	 * Copy the values from another dual quaternion to this one.
-	 * @param dualQuaternion - The dual quaternion to copy.
-	 * @returns This dual quaternion.
-	 */
-	public copy(dualQuaternion: DualQuaternionLike): this {
-		return copy(dualQuaternion, this);
+	public add(dq: DualQuaternionLike): DualQuaternion {
+		return add(this, dq, new DualQuaternion());
 	}
 
 	/**
@@ -1123,27 +1148,48 @@ export default class DualQuaternion
 	}
 
 	/**
-	 * Set this dual quaternion to the identity dual quaternion.
-	 * @returns The identity dual quaternion.
+	 * Calculate the conjugate of this dual quaternion. If this dual quaternion is normalized, this is equivalent to its inverse and faster to calculate.
+	 * @returns The conjugate.
 	 */
-	public identity(): this {
-		return identity(this);
+	public conjugate(): DualQuaternion {
+		return conjugate(this, new DualQuaternion());
 	}
 
 	/**
-	 * Get the real part of this dual quaternion.
-	 * @returns The real part.
+	 * Copy the values from another dual quaternion to this one.
+	 * @param dualQuaternion - The dual quaternion to copy.
+	 * @returns This dual quaternion.
 	 */
-	public getReal(): Quaternion {
-		return getReal(this, new Quaternion());
+	public copy(dualQuaternion: DualQuaternionLike): this {
+		return copy(dualQuaternion, this);
 	}
 
 	/**
-	 * Set the real part of this dual quaternion.
-	 * @param q - The quaternion.
+	 * Calculate the dot product of this and another dual quaternion.
+	 * @param dq - The other dual quaternion.
+	 * @returns The dot product.
+	 * @see {@link https://en.wikipedia.org/wiki/Dot_product | Dot product}
 	 */
-	public setReal(q: QuaternionLike): void {
-		setReal(q, this);
+	public dot(dq: DualQuaternionLike): number {
+		return dot(this, dq);
+	}
+
+	/**
+	 * Determine whether or not this dual quaternion is roughly equivalent to another.
+	 * @param dq - The other dual quaternion.
+	 * @returns Whether or not the dual quaternions are equivalent.
+	 */
+	public equals(dq: DualQuaternionLike): boolean {
+		return equals(this, dq);
+	}
+
+	/**
+	 * Determine whether or not this dual quaternion is exactly equivalent to another.
+	 * @param dq - The other dual quaternion.
+	 * @returns Whether or not the dual quaternions are equivalent.
+	 */
+	public exactEquals(dq: DualQuaternionLike): boolean {
+		return exactEquals(this, dq);
 	}
 
 	/**
@@ -1155,11 +1201,11 @@ export default class DualQuaternion
 	}
 
 	/**
-	 * Set the real part of this dual quaternion.
-	 * @param q - The quaternion.
+	 * Get the real part of this dual quaternion.
+	 * @returns The real part.
 	 */
-	public setDual(q: QuaternionLike): void {
-		setDual(q, this);
+	public getReal(): Quaternion {
+		return getReal(this, new Quaternion());
 	}
 
 	/**
@@ -1171,12 +1217,76 @@ export default class DualQuaternion
 	}
 
 	/**
-	 * Translate this dual quaternion by the given vector.
-	 * @param v - The vector.
-	 * @returns The translated dual quaternion.
+	 * Set this dual quaternion to the identity dual quaternion.
+	 * @returns The identity dual quaternion.
 	 */
-	public translate(v: Vector3Like): DualQuaternion {
-		return translate(this, v, new DualQuaternion());
+	public identity(): this {
+		return identity(this);
+	}
+
+	/**
+	 * Calculate the inverse of this dual quaternion. If this dual quaternion is normalized, the conjugate is equivalent and faster to calculate.
+	 * @returns The inverse.
+	 */
+	public invert(): DualQuaternion {
+		return invert(this, new DualQuaternion());
+	}
+
+	/**
+	 * Perform a linear interpolation between this and another dual quaternion.
+	 * @param dq - The other dual quaternion.
+	 * @param t - The interpolation amount in `[0,1]`.
+	 * @returns The interpolated value.
+	 */
+	public lerp(dq: DualQuaternionLike, t: number): DualQuaternion {
+		return lerp(this, dq, t, new DualQuaternion());
+	}
+
+	/**
+	 * Multiply this dual quaternion by another one.
+	 * @param dq - The other dual quaternion.
+	 * @returns The product.
+	 */
+	public multiply(dq: DualQuaternionLike): DualQuaternion {
+		return multiply(this, dq, new DualQuaternion());
+	}
+
+	/**
+	 * Normalize this dual quaternion.
+	 * @returns The normalized dual quaternion.
+	 */
+	public normalize(): DualQuaternion {
+		return normalize(this, new DualQuaternion());
+	}
+
+	/**
+	 * Rotate this dual quaternion around an axis.
+	 * @param axis - The axis.
+	 * @param r - The angle of the rotation in radians.
+	 * @returns A normalized dual quaternion.
+	 */
+	public rotateAroundAxis(axis: Vector3Like, r: number): DualQuaternion {
+		return rotateAroundAxis(this, axis, r, new DualQuaternion());
+	}
+
+	/**
+	 * Rotate this dual quaternion by a quaternion (using the quaternion as the multiplicand).
+	 * @param q - The quaternion.
+	 * @returns The rotated dual quaternion.
+	 * @see {@link https://en.wikipedia.org/wiki/Quaternion | Quaternion}
+	 */
+	public rotateByQuaternionAppend(q: QuaternionLike): DualQuaternion {
+		return rotateByQuaternionAppend(this, q, new DualQuaternion());
+	}
+
+	/**
+	 * Rotate this dual quaternion by a quaternion (using the quaternion as the multiplier).
+	 * @param q - The quaternion.
+	 * @returns The rotated dual quaternion.
+	 * @see {@link https://en.wikipedia.org/wiki/Quaternion | Quaternion}
+	 */
+	public rotateByQuaternionPrepend(q: QuaternionLike): DualQuaternion {
+		return rotateByQuaternionPrepend(q, this, new DualQuaternion());
 	}
 
 	/**
@@ -1207,54 +1317,6 @@ export default class DualQuaternion
 	}
 
 	/**
-	 * Rotate this dual quaternion by a quaternion (using the quaternion as the multiplicand).
-	 * @param q - The quaternion.
-	 * @returns The rotated dual quaternion.
-	 * @see {@link https://en.wikipedia.org/wiki/Quaternion | Quaternion}
-	 */
-	public rotateByQuaternionAppend(q: QuaternionLike): DualQuaternion {
-		return rotateByQuaternionAppend(this, q, new DualQuaternion());
-	}
-
-	/**
-	 * Rotate this dual quaternion by a quaternion (using the quaternion as the multiplier).
-	 * @param q - The quaternion.
-	 * @returns The rotated dual quaternion.
-	 * @see {@link https://en.wikipedia.org/wiki/Quaternion | Quaternion}
-	 */
-	public rotateByQuaternionPrepend(q: QuaternionLike): DualQuaternion {
-		return rotateByQuaternionPrepend(q, this, new DualQuaternion());
-	}
-
-	/**
-	 * Rotate this dual quaternion around an axis.
-	 * @param axis - The axis.
-	 * @param r - The angle of the rotation in radians.
-	 * @returns A normalized dual quaternion.
-	 */
-	public rotateAroundAxis(axis: Vector3Like, r: number): DualQuaternion {
-		return rotateAroundAxis(this, axis, r, new DualQuaternion());
-	}
-
-	/**
-	 * Add another dual quaternion to this one.
-	 * @param dq - The other dual quaternion.
-	 * @returns The sum.
-	 */
-	public add(dq: DualQuaternionLike): DualQuaternion {
-		return add(this, dq, new DualQuaternion());
-	}
-
-	/**
-	 * Multiply this dual quaternion by another one.
-	 * @param dq - The other dual quaternion.
-	 * @returns The product.
-	 */
-	public multiply(dq: DualQuaternionLike): DualQuaternion {
-		return multiply(this, dq, new DualQuaternion());
-	}
-
-	/**
 	 * Multiply this dual quaternion by a scalar.
 	 * @param s - The scalar.
 	 * @returns The product.
@@ -1264,74 +1326,27 @@ export default class DualQuaternion
 	}
 
 	/**
-	 * Calculate the dot product of this and another dual quaternion.
-	 * @param dq - The other dual quaternion.
-	 * @returns The dot product.
-	 * @see {@link https://en.wikipedia.org/wiki/Dot_product | Dot product}
+	 * Set the real part of this dual quaternion.
+	 * @param q - The quaternion.
 	 */
-	public dot(dq: DualQuaternionLike): number {
-		return dot(this, dq);
+	public setDual(q: QuaternionLike): void {
+		setDual(q, this);
 	}
 
 	/**
-	 * Perform a linear interpolation between this and another dual quaternion.
-	 * @param dq - The other dual quaternion.
-	 * @param t - The interpolation amount in `[0,1]`.
-	 * @returns The interpolated value.
+	 * Set the real part of this dual quaternion.
+	 * @param q - The quaternion.
 	 */
-	public lerp(dq: DualQuaternionLike, t: number): DualQuaternion {
-		return lerp(this, dq, t, new DualQuaternion());
+	public setReal(q: QuaternionLike): void {
+		setReal(q, this);
 	}
 
 	/**
-	 * Calculate the inverse of this dual quaternion. If this dual quaternion is normalized, the conjugate is equivalent and faster to calculate.
-	 * @returns The inverse.
+	 * Translate this dual quaternion by the given vector.
+	 * @param v - The vector.
+	 * @returns The translated dual quaternion.
 	 */
-	public invert(): DualQuaternion {
-		return invert(this, new DualQuaternion());
-	}
-
-	/**
-	 * Calculate the conjugate of this dual quaternion. If this dual quaternion is normalized, this is equivalent to its inverse and faster to calculate.
-	 * @returns The conjugate.
-	 */
-	public conjugate(): DualQuaternion {
-		return conjugate(this, new DualQuaternion());
-	}
-
-	/** Get the magnitude (length) of this dual quaternion. */
-	public get magnitude(): number {
-		return getMagnitude(this);
-	}
-
-	/** Get the squared magnitude (length) of this dual quaternion. */
-	public get squaredMagnitude(): number {
-		return getSquaredMagnitude(this);
-	}
-
-	/**
-	 * Normalize this dual quaternion.
-	 * @returns The normalized dual quaternion.
-	 */
-	public normalize(): DualQuaternion {
-		return normalize(this, new DualQuaternion());
-	}
-
-	/**
-	 * Determine whether or not this dual quaternion is exactly equivalent to another.
-	 * @param dq - The other dual quaternion.
-	 * @returns Whether or not the dual quaternions are equivalent.
-	 */
-	public exactEquals(dq: DualQuaternionLike): boolean {
-		return exactEquals(this, dq);
-	}
-
-	/**
-	 * Determine whether or not this dual quaternion is roughly equivalent to another.
-	 * @param dq - The other dual quaternion.
-	 * @returns Whether or not the dual quaternions are equivalent.
-	 */
-	public equals(dq: DualQuaternionLike): boolean {
-		return equals(this, dq);
+	public translate(v: Vector3Like): DualQuaternion {
+		return translate(this, v, new DualQuaternion());
 	}
 }

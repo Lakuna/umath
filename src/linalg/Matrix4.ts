@@ -1,22 +1,23 @@
-import Quaternion, {
-	type QuaternionLike,
-	fromValues as quaternionFromValues
-} from "./Quaternion.js";
-import Vector3, {
-	type Vector3Like,
-	createVector3Like,
-	fromValues as vector3FromValues
-} from "./Vector3.js";
-import type { DualQuaternionLike } from "./DualQuaternion.js";
 import type FieldOfView from "../types/FieldOfView.js";
-import MagnitudeError from "../utility/MagnitudeError.js";
+import type { DualQuaternionLike } from "./DualQuaternion.js";
 import type { MatrixLike } from "./Matrix.js";
-import SingularMatrixError from "../utility/SingularMatrixError.js";
 import type SquareMatrix from "./SquareMatrix.js";
+
 import approx from "../algorithms/approx.js";
 import approxRelative from "../algorithms/approxRelative.js";
 import degreesToRadians from "../algorithms/degreesToRadians.js";
 import epsilon from "../utility/epsilon.js";
+import MagnitudeError from "../utility/MagnitudeError.js";
+import SingularMatrixError from "../utility/SingularMatrixError.js";
+import Quaternion, {
+	fromValues as quaternionFromValues,
+	type QuaternionLike
+} from "./Quaternion.js";
+import Vector3, {
+	createVector3Like,
+	fromValues as vector3FromValues,
+	type Vector3Like
+} from "./Vector3.js";
 
 /**
  * Numbers arranged into four columns and four rows.
@@ -25,51 +26,67 @@ import epsilon from "../utility/epsilon.js";
  */
 export interface Matrix4Like extends MatrixLike {
 	/** The value in the first column and first row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	0: number;
 
 	/** The value in the first column and second row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	1: number;
 
 	/** The value in the first column and third row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	2: number;
 
 	/** The value in the first column and fourth row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	3: number;
 
 	/** The value in the second column and first row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	4: number;
 
 	/** The value in the second column and second row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	5: number;
 
 	/** The value in the second column and third row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	6: number;
 
 	/** The value in the second column and fourth row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	7: number;
 
 	/** The value in the third column and first row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	8: number;
 
 	/** The value in the third column and second row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	9: number;
 
 	/** The value in the third column and third row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	10: number;
 
 	/** The value in the third column and fourth row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	11: number;
 
 	/** The value in the fourth column and first row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	12: number;
 
 	/** The value in the fourth column and second row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	13: number;
 
 	/** The value in the fourth column and third row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	14: number;
 
 	/** The value in the fourth column and fourth row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	15: number;
 }
 
@@ -78,9 +95,9 @@ export interface Matrix4Like extends MatrixLike {
  * @returns A four-by-four matrix-like object.
  * @public
  */
-export const createMatrix4Like = (): Float32Array & Matrix4Like => {
-	return new Float32Array(16) as Float32Array & Matrix4Like;
-};
+export const createMatrix4Like = (): Float32Array & Matrix4Like =>
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
+	new Float32Array(16) as Float32Array & Matrix4Like;
 
 /**
  * Create a four-by-four matrix with the given values.
@@ -277,6 +294,7 @@ export const fromRotation = <T extends Matrix4Like>(
  * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
  * @public
  */
+// eslint-disable-next-line @typescript-eslint/naming-convention
 export const fromXRotation = <T extends Matrix4Like>(
 	radians: number,
 	out: T
@@ -295,6 +313,7 @@ export const fromXRotation = <T extends Matrix4Like>(
  * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
  * @public
  */
+// eslint-disable-next-line @typescript-eslint/naming-convention
 export const fromYRotation = <T extends Matrix4Like>(
 	radians: number,
 	out: T
@@ -313,6 +332,7 @@ export const fromYRotation = <T extends Matrix4Like>(
  * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
  * @public
  */
+// eslint-disable-next-line @typescript-eslint/naming-convention
 export const fromZRotation = <T extends Matrix4Like>(
 	radians: number,
 	out: T
@@ -2080,26 +2100,157 @@ export const getRotation = <T extends QuaternionLike>(
  */
 export default class Matrix4
 	extends Float32Array
-	implements SquareMatrix, Matrix4Like
+	implements Matrix4Like, SquareMatrix
 {
+	/** The value in the first column and first row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 0: number;
+
+	/** The value in the first column and second row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 1: number;
+
+	/** The value in the first column and third row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 2: number;
+
+	/** The value in the first column and fourth row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 3: number;
+
+	/** The value in the second column and first row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 4: number;
+
+	/** The value in the second column and second row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 5: number;
+
+	/** The value in the second column and third row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 6: number;
+
+	/** The value in the second column and fourth row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 7: number;
+
+	/** The value in the third column and first row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 8: number;
+
+	/** The value in the third column and second row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 9: number;
+
+	/** The value in the third column and third row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 10: number;
+
+	/** The value in the third column and fourth row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 11: number;
+
+	/** The value in the fourth column and first row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 12: number;
+
+	/** The value in the fourth column and second row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 13: number;
+
+	/** The value in the fourth column and third row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 14: number;
+
+	/** The value in the fourth column and fourth row. */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public 15: number;
+
+	/** The number of rows in this matrix. */
+	public readonly height: 4;
+
+	/** The number of columns in this matrix. */
+	public readonly width: 4;
+
 	/**
-	 * Create a transformation matrix that represents a translation by the given vector.
-	 * @param vector - The translation vector.
-	 * @returns The transformation matrix.
-	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
+	 * Get the determinant of this matrix.
+	 * @see {@link https://en.wikipedia.org/wiki/Determinant | Determinant}
 	 */
-	public static fromTranslation(vector: Vector3Like): Matrix4 {
-		return fromTranslation(vector, new Matrix4());
+	public get determinant(): number {
+		return determinant(this);
 	}
 
 	/**
-	 * Create a transformation matrix that represents a scaling by the given vector.
-	 * @param vector - The scaling vector.
-	 * @returns The transformation matrix.
+	 * Get the Frobenius norm of this matrix.
+	 * @see {@link https://en.wikipedia.org/wiki/Matrix_norm | Matrix norm}
+	 */
+	public get frob(): number {
+		return frob(this);
+	}
+
+	/**
+	 * Get the scaling vector component of this transformation matrix.
+	 * @returns The rotation.
+	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
+	 */
+	public get rotation(): Quaternion {
+		return getRotation(this, new Quaternion());
+	}
+
+	/**
+	 * Get the scaling vector component of this transformation matrix.
+	 * @returns The scaling.
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
-	public static fromScaling(vector: Vector3Like): Matrix4 {
-		return fromScaling(vector, new Matrix4());
+	public get scaling(): Vector3 {
+		return getScaling(this, new Vector3());
+	}
+
+	/**
+	 * The translation vector component of this transformation matrix.
+	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
+	 */
+	public get translation(): Vector3 {
+		return getTranslation(this, new Vector3());
+	}
+
+	/**
+	 * Create a four-by-four identity matrix.
+	 * @see {@link https://en.wikipedia.org/wiki/Identity_matrix | Identity matrix}
+	 */
+	public constructor() {
+		super(16);
+
+		this[0] = 1;
+		this[5] = 1;
+		this[10] = 1;
+		this[15] = 1;
+
+		this.width = 4;
+		this.height = 4;
+	}
+
+	/**
+	 * Create a transformation matrix from a dual quaternion.
+	 * @param quaternion - The dual quaternion.
+	 * @returns The transformation matrix.
+	 * @see {@link https://en.wikipedia.org/wiki/Dual_quaternion | Dual quaternion}
+	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
+	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
+	 */
+	public static fromDualQuaternion(quaternion: DualQuaternionLike): Matrix4 {
+		return fromDualQuaternion(quaternion, new Matrix4());
+	}
+
+	/**
+	 * Create a transformation matrix from a quaternion.
+	 * @param quaternion - The quaternion.
+	 * @returns The transformation matrix.
+	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
+	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
+	 */
+	public static fromQuaternion(quaternion: QuaternionLike): Matrix4 {
+		return fromQuaternion(quaternion, new Matrix4());
 	}
 
 	/**
@@ -2111,36 +2262,6 @@ export default class Matrix4
 	 */
 	public static fromRotation(r: number, axis: Vector3Like): Matrix4 {
 		return fromRotation(r, axis, new Matrix4());
-	}
-
-	/**
-	 * Create a transformation matrix that represents a rotation by the given angle around the X-axis.
-	 * @param r - The angle in radians.
-	 * @returns The transformation matrix.
-	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
-	 */
-	public static fromXRotation(r: number): Matrix4 {
-		return fromXRotation(r, new Matrix4());
-	}
-
-	/**
-	 * Create a transformation matrix that represents a rotation by the given angle around the Y-axis.
-	 * @param r - The angle in radians.
-	 * @returns The transformation matrix.
-	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
-	 */
-	public static fromYRotation(r: number): Matrix4 {
-		return fromYRotation(r, new Matrix4());
-	}
-
-	/**
-	 * Create a transformation matrix that represents a rotation by the given angle around the Z-axis.
-	 * @param r - The angle in radians.
-	 * @returns The transformation matrix.
-	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
-	 */
-	public static fromZRotation(r: number): Matrix4 {
-		return fromZRotation(r, new Matrix4());
 	}
 
 	/**
@@ -2206,183 +2327,23 @@ export default class Matrix4
 	}
 
 	/**
-	 * Create a transformation matrix from a dual quaternion.
-	 * @param quaternion - The dual quaternion.
-	 * @returns The transformation matrix.
-	 * @see {@link https://en.wikipedia.org/wiki/Dual_quaternion | Dual quaternion}
-	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
-	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
-	 */
-	public static fromDualQuaternion(quaternion: DualQuaternionLike): Matrix4 {
-		return fromDualQuaternion(quaternion, new Matrix4());
-	}
-
-	/**
-	 * Create a transformation matrix from a quaternion.
-	 * @param quaternion - The quaternion.
-	 * @returns The transformation matrix.
-	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
-	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
-	 */
-	public static fromQuaternion(quaternion: QuaternionLike): Matrix4 {
-		return fromQuaternion(quaternion, new Matrix4());
-	}
-
-	/**
-	 * Generate a frustum matrix with the given bounds.
-	 * @param left - The left bound of the frustum.
-	 * @param right - The right bound of the frustum.
-	 * @param bottom - The bottom bound of the frustum.
-	 * @param top - The top bound of the frustum.
-	 * @param near - The near bound of the frustum.
-	 * @param far - The far bound of the frustum.
-	 * @returns The frustum matrix.
-	 * @see {@link https://en.wikipedia.org/wiki/Camera_matrix | Camera matrix}
-	 * @see {@link https://en.wikipedia.org/wiki/3D_projection | 3D projection}
-	 */
-	public static frustum(
-		left: number,
-		right: number,
-		bottom: number,
-		top: number,
-		near: number,
-		far: number
-	): Matrix4 {
-		return frustum(left, right, bottom, top, near, far, new Matrix4());
-	}
-
-	/**
-	 * Create a perspective projection matrix with the given bounds such that the near and far clip planes correspond to a normalized device coordinate Z range of `[-1, 1]` (OpenGL/WebGL).
-	 * @param fov - The vertical field of view in radians.
-	 * @param aspect - The aspect ratio (typically the width of the viewport divided by its height).
-	 * @param near - The near bound of the frustum.
-	 * @param far - The far bound of the frustum.
-	 * @returns The perspective projection matrix.
-	 * @see {@link https://en.wikipedia.org/wiki/Camera_matrix | Camera matrix}
-	 * @see {@link https://en.wikipedia.org/wiki/3D_projection | 3D projection}
-	 */
-	public static perspective(
-		fov: number,
-		aspect: number,
-		near: number,
-		far: number
-	): Matrix4 {
-		return perspective(fov, aspect, near, far, new Matrix4());
-	}
-
-	/**
-	 * Create a perspective projection matrix with the given bounds such that the near and far clip planes correspond to a normalized device coordinate Z range of `[0, 1]` (WebGPU/Vulkan/DirectX/Metal).
-	 * @param fov - The vertical field of view in radians.
-	 * @param aspect - The aspect ratio (typically the width of the viewport divided by its height).
-	 * @param near - The near bound of the frustum.
-	 * @param far - The far bound of the frustum.
-	 * @returns The perspective projection matrix.
-	 * @see {@link https://en.wikipedia.org/wiki/Camera_matrix | Camera matrix}
-	 * @see {@link https://en.wikipedia.org/wiki/3D_projection | 3D projection}
-	 */
-	public static perspectiveGpu(
-		fov: number,
-		aspect: number,
-		near: number,
-		far: number
-	): Matrix4 {
-		return perspectiveGpu(fov, aspect, near, far, new Matrix4());
-	}
-
-	/**
-	 * Create a perspective projection matrix from a field of view. Useful for generating projection matrices to be used with the WebXR API.
-	 * @param fov - The field of view.
-	 * @param near - The near bound of the frustum.
-	 * @param far - The far bound of the frustum.
-	 * @returns The perspective projection matrix.
-	 * @see {@link https://en.wikipedia.org/wiki/Camera_matrix | Camera matrix}
-	 * @see {@link https://en.wikipedia.org/wiki/3D_projection | 3D projection}
-	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/WebXR_Device_API | WebXR API}
-	 */
-	public static perspectiveFromFieldOfView(
-		fov: FieldOfView,
-		near: number,
-		far: number
-	): Matrix4 {
-		return perspectiveFromFieldOfView(fov, near, far, new Matrix4());
-	}
-
-	/**
-	 * Generate an orthogonal projection matrix with the given bounds such that the near and far clip planes correspond to a normalized device coordinate Z range of `[-1, 1]` (OpenGL/WebGL).
-	 * @param left - The left bound of the frustum.
-	 * @param right - The right bound of the frustum.
-	 * @param bottom - The bottom bound of the frustum.
-	 * @param top - The top bound of the frustum.
-	 * @param near - The near bound of the frustum.
-	 * @param far - The far bound of the frustum.
-	 * @returns The frustum matrix.
-	 * @see {@link https://en.wikipedia.org/wiki/Camera_matrix | Camera matrix}
-	 * @see {@link https://en.wikipedia.org/wiki/3D_projection | 3D projection}
-	 */
-	public static ortho(
-		left: number,
-		right: number,
-		bottom: number,
-		top: number,
-		near: number,
-		far: number
-	): Matrix4 {
-		return ortho(left, right, bottom, top, near, far, new Matrix4());
-	}
-
-	/**
-	 * Generate an orthogonal projection matrix with the given bounds such that the near and far clip planes correspond to a normalized device coordinate Z range of `[0, 1]` (WebGPU/Vulkan/DirectX/Metal).
-	 * @param left - The left bound of the frustum.
-	 * @param right - The right bound of the frustum.
-	 * @param bottom - The bottom bound of the frustum.
-	 * @param top - The top bound of the frustum.
-	 * @param near - The near bound of the frustum.
-	 * @param far - The far bound of the frustum.
-	 * @returns The frustum matrix.
-	 * @see {@link https://en.wikipedia.org/wiki/Camera_matrix | Camera matrix}
-	 * @see {@link https://en.wikipedia.org/wiki/3D_projection | 3D projection}
-	 */
-	public static orthoGpu(
-		left: number,
-		right: number,
-		bottom: number,
-		top: number,
-		near: number,
-		far: number
-	): Matrix4 {
-		return orthoGpu(left, right, bottom, top, near, far, new Matrix4());
-	}
-
-	/**
-	 * Generate a look-at matrix. If you want a matrix that actually makes an object look at another object, use `targetTo` instead.
-	 * @param eye - The position of the viewer.
-	 * @param center - The point that the viewer is looking at.
-	 * @param up - The local up direction.
-	 * @returns The look-at matrix.
-	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
-	 */
-	public static lookAt(
-		eye: Vector3Like,
-		center: Vector3Like,
-		up: Vector3Like = [0, 1, 0]
-	): Matrix4 {
-		return lookAt(eye, center, up, new Matrix4());
-	}
-
-	/**
-	 * Create a matrix that makes something look at something else.
-	 * @param eye - The position of the viewer.
-	 * @param target - The point that the viewer is looking at.
-	 * @param up - The local up direction.
+	 * Create a transformation matrix that represents a scaling by the given vector.
+	 * @param vector - The scaling vector.
 	 * @returns The transformation matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
-	public static targetTo(
-		eye: Vector3Like,
-		target: Vector3Like,
-		up: Vector3Like = [0, 1, 0]
-	): Matrix4 {
-		return targetTo(eye, target, up, new Matrix4());
+	public static fromScaling(vector: Vector3Like): Matrix4 {
+		return fromScaling(vector, new Matrix4());
+	}
+
+	/**
+	 * Create a transformation matrix that represents a translation by the given vector.
+	 * @param vector - The translation vector.
+	 * @returns The transformation matrix.
+	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
+	 */
+	public static fromTranslation(vector: Vector3Like): Matrix4 {
+		return fromTranslation(vector, new Matrix4());
 	}
 
 	/**
@@ -2445,91 +2406,193 @@ export default class Matrix4
 	}
 
 	/**
-	 * Create a four-by-four identity matrix.
-	 * @see {@link https://en.wikipedia.org/wiki/Identity_matrix | Identity matrix}
+	 * Create a transformation matrix that represents a rotation by the given angle around the X-axis.
+	 * @param r - The angle in radians.
+	 * @returns The transformation matrix.
+	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
 	 */
-	public constructor() {
-		super(16);
-
-		this[0] = 1;
-		this[5] = 1;
-		this[10] = 1;
-		this[15] = 1;
-
-		this.width = 4;
-		this.height = 4;
-	}
-
-	/** The value in the first column and first row. */
-	public 0: number;
-
-	/** The value in the first column and second row. */
-	public 1: number;
-
-	/** The value in the first column and third row. */
-	public 2: number;
-
-	/** The value in the first column and fourth row. */
-	public 3: number;
-
-	/** The value in the second column and first row. */
-	public 4: number;
-
-	/** The value in the second column and second row. */
-	public 5: number;
-
-	/** The value in the second column and third row. */
-	public 6: number;
-
-	/** The value in the second column and fourth row. */
-	public 7: number;
-
-	/** The value in the third column and first row. */
-	public 8: number;
-
-	/** The value in the third column and second row. */
-	public 9: number;
-
-	/** The value in the third column and third row. */
-	public 10: number;
-
-	/** The value in the third column and fourth row. */
-	public 11: number;
-
-	/** The value in the fourth column and first row. */
-	public 12: number;
-
-	/** The value in the fourth column and second row. */
-	public 13: number;
-
-	/** The value in the fourth column and third row. */
-	public 14: number;
-
-	/** The value in the fourth column and fourth row. */
-	public 15: number;
-
-	/** The number of columns in this matrix. */
-	public readonly width: 4;
-
-	/** The number of rows in this matrix. */
-	public readonly height: 4;
-
-	/**
-	 * Determine whether or not this matrix is roughly equivalent to another.
-	 * @param matrix - The other matrix.
-	 * @returns Whether or not the matrices are equivalent.
-	 */
-	public equals(matrix: Matrix4Like): boolean {
-		return equals(this, matrix);
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public static fromXRotation(r: number): Matrix4 {
+		return fromXRotation(r, new Matrix4());
 	}
 
 	/**
-	 * Determine whether or not this matrix is exactly equivalent to another.
-	 * @param matrix - The other matrix.
-	 * @returns Whether or not the matrices are equivalent.
+	 * Create a transformation matrix that represents a rotation by the given angle around the Y-axis.
+	 * @param r - The angle in radians.
+	 * @returns The transformation matrix.
+	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
 	 */
-	public exactEquals(matrix: Matrix4Like): boolean {
-		return exactEquals(this, matrix);
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public static fromYRotation(r: number): Matrix4 {
+		return fromYRotation(r, new Matrix4());
+	}
+
+	/**
+	 * Create a transformation matrix that represents a rotation by the given angle around the Z-axis.
+	 * @param r - The angle in radians.
+	 * @returns The transformation matrix.
+	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
+	 */
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	public static fromZRotation(r: number): Matrix4 {
+		return fromZRotation(r, new Matrix4());
+	}
+
+	/**
+	 * Generate a frustum matrix with the given bounds.
+	 * @param left - The left bound of the frustum.
+	 * @param right - The right bound of the frustum.
+	 * @param bottom - The bottom bound of the frustum.
+	 * @param top - The top bound of the frustum.
+	 * @param near - The near bound of the frustum.
+	 * @param far - The far bound of the frustum.
+	 * @returns The frustum matrix.
+	 * @see {@link https://en.wikipedia.org/wiki/Camera_matrix | Camera matrix}
+	 * @see {@link https://en.wikipedia.org/wiki/3D_projection | 3D projection}
+	 */
+	public static frustum(
+		left: number,
+		right: number,
+		bottom: number,
+		top: number,
+		near: number,
+		far: number
+	): Matrix4 {
+		return frustum(left, right, bottom, top, near, far, new Matrix4());
+	}
+
+	/**
+	 * Generate a look-at matrix. If you want a matrix that actually makes an object look at another object, use `targetTo` instead.
+	 * @param eye - The position of the viewer.
+	 * @param center - The point that the viewer is looking at.
+	 * @param up - The local up direction.
+	 * @returns The look-at matrix.
+	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
+	 */
+	public static lookAt(
+		eye: Vector3Like,
+		center: Vector3Like,
+		up: Vector3Like = [0, 1, 0]
+	): Matrix4 {
+		return lookAt(eye, center, up, new Matrix4());
+	}
+
+	/**
+	 * Generate an orthogonal projection matrix with the given bounds such that the near and far clip planes correspond to a normalized device coordinate Z range of `[-1, 1]` (OpenGL/WebGL).
+	 * @param left - The left bound of the frustum.
+	 * @param right - The right bound of the frustum.
+	 * @param bottom - The bottom bound of the frustum.
+	 * @param top - The top bound of the frustum.
+	 * @param near - The near bound of the frustum.
+	 * @param far - The far bound of the frustum.
+	 * @returns The frustum matrix.
+	 * @see {@link https://en.wikipedia.org/wiki/Camera_matrix | Camera matrix}
+	 * @see {@link https://en.wikipedia.org/wiki/3D_projection | 3D projection}
+	 */
+	public static ortho(
+		left: number,
+		right: number,
+		bottom: number,
+		top: number,
+		near: number,
+		far: number
+	): Matrix4 {
+		return ortho(left, right, bottom, top, near, far, new Matrix4());
+	}
+
+	/**
+	 * Generate an orthogonal projection matrix with the given bounds such that the near and far clip planes correspond to a normalized device coordinate Z range of `[0, 1]` (WebGPU/Vulkan/DirectX/Metal).
+	 * @param left - The left bound of the frustum.
+	 * @param right - The right bound of the frustum.
+	 * @param bottom - The bottom bound of the frustum.
+	 * @param top - The top bound of the frustum.
+	 * @param near - The near bound of the frustum.
+	 * @param far - The far bound of the frustum.
+	 * @returns The frustum matrix.
+	 * @see {@link https://en.wikipedia.org/wiki/Camera_matrix | Camera matrix}
+	 * @see {@link https://en.wikipedia.org/wiki/3D_projection | 3D projection}
+	 */
+	public static orthoGpu(
+		left: number,
+		right: number,
+		bottom: number,
+		top: number,
+		near: number,
+		far: number
+	): Matrix4 {
+		return orthoGpu(left, right, bottom, top, near, far, new Matrix4());
+	}
+
+	/**
+	 * Create a perspective projection matrix with the given bounds such that the near and far clip planes correspond to a normalized device coordinate Z range of `[-1, 1]` (OpenGL/WebGL).
+	 * @param fov - The vertical field of view in radians.
+	 * @param aspect - The aspect ratio (typically the width of the viewport divided by its height).
+	 * @param near - The near bound of the frustum.
+	 * @param far - The far bound of the frustum.
+	 * @returns The perspective projection matrix.
+	 * @see {@link https://en.wikipedia.org/wiki/Camera_matrix | Camera matrix}
+	 * @see {@link https://en.wikipedia.org/wiki/3D_projection | 3D projection}
+	 */
+	public static perspective(
+		fov: number,
+		aspect: number,
+		near: number,
+		far: number
+	): Matrix4 {
+		return perspective(fov, aspect, near, far, new Matrix4());
+	}
+
+	/**
+	 * Create a perspective projection matrix from a field of view. Useful for generating projection matrices to be used with the WebXR API.
+	 * @param fov - The field of view.
+	 * @param near - The near bound of the frustum.
+	 * @param far - The far bound of the frustum.
+	 * @returns The perspective projection matrix.
+	 * @see {@link https://en.wikipedia.org/wiki/Camera_matrix | Camera matrix}
+	 * @see {@link https://en.wikipedia.org/wiki/3D_projection | 3D projection}
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/WebXR_Device_API | WebXR API}
+	 */
+	public static perspectiveFromFieldOfView(
+		fov: FieldOfView,
+		near: number,
+		far: number
+	): Matrix4 {
+		return perspectiveFromFieldOfView(fov, near, far, new Matrix4());
+	}
+
+	/**
+	 * Create a perspective projection matrix with the given bounds such that the near and far clip planes correspond to a normalized device coordinate Z range of `[0, 1]` (WebGPU/Vulkan/DirectX/Metal).
+	 * @param fov - The vertical field of view in radians.
+	 * @param aspect - The aspect ratio (typically the width of the viewport divided by its height).
+	 * @param near - The near bound of the frustum.
+	 * @param far - The far bound of the frustum.
+	 * @returns The perspective projection matrix.
+	 * @see {@link https://en.wikipedia.org/wiki/Camera_matrix | Camera matrix}
+	 * @see {@link https://en.wikipedia.org/wiki/3D_projection | 3D projection}
+	 */
+	public static perspectiveGpu(
+		fov: number,
+		aspect: number,
+		near: number,
+		far: number
+	): Matrix4 {
+		return perspectiveGpu(fov, aspect, near, far, new Matrix4());
+	}
+
+	/**
+	 * Create a matrix that makes something look at something else.
+	 * @param eye - The position of the viewer.
+	 * @param target - The point that the viewer is looking at.
+	 * @param up - The local up direction.
+	 * @returns The transformation matrix.
+	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
+	 */
+	public static targetTo(
+		eye: Vector3Like,
+		target: Vector3Like,
+		up: Vector3Like = [0, 1, 0]
+	): Matrix4 {
+		return targetTo(eye, target, up, new Matrix4());
 	}
 
 	/**
@@ -2569,11 +2632,39 @@ export default class Matrix4
 	}
 
 	/**
-	 * Get the Frobenius norm of this matrix.
-	 * @see {@link https://en.wikipedia.org/wiki/Matrix_norm | Matrix norm}
+	 * Determine whether or not this matrix is roughly equivalent to another.
+	 * @param matrix - The other matrix.
+	 * @returns Whether or not the matrices are equivalent.
 	 */
-	public get frob(): number {
-		return frob(this);
+	public equals(matrix: Matrix4Like): boolean {
+		return equals(this, matrix);
+	}
+
+	/**
+	 * Determine whether or not this matrix is exactly equivalent to another.
+	 * @param matrix - The other matrix.
+	 * @returns Whether or not the matrices are equivalent.
+	 */
+	public exactEquals(matrix: Matrix4Like): boolean {
+		return exactEquals(this, matrix);
+	}
+
+	/**
+	 * Reset this matrix to identity.
+	 * @returns This matrix.
+	 * @see {@link https://en.wikipedia.org/wiki/Identity_matrix | Identity matrix}
+	 */
+	public identity(): this {
+		return identity(this);
+	}
+
+	/**
+	 * Invert this matrix.
+	 * @returns The inverted matrix.
+	 * @see {@link https://en.wikipedia.org/wiki/Invertible_matrix | Invertible matrix}
+	 */
+	public invert(): Matrix4 {
+		return invert(this, new Matrix4());
 	}
 
 	/**
@@ -2606,71 +2697,6 @@ export default class Matrix4
 	 */
 	public multiplyScalarAndAdd(matrix: Matrix4Like, scalar: number): Matrix4 {
 		return multiplyScalarAndAdd(this, matrix, scalar, new Matrix4());
-	}
-
-	/**
-	 * Subtract another matrix from this one.
-	 * @param matrix - The other matrix.
-	 * @returns The difference between the matrices.
-	 * @see {@link https://en.wikipedia.org/wiki/Matrix_addition | Matrix addition}
-	 */
-	public subtract(matrix: Matrix4Like): Matrix4 {
-		return subtract(this, matrix, new Matrix4());
-	}
-
-	/**
-	 * Transpose this matrix.
-	 * @returns The transpose of this matrix.
-	 * @see {@link https://en.wikipedia.org/wiki/Transpose | Transpose}
-	 */
-	public transpose(): Matrix4 {
-		return transpose(this, new Matrix4());
-	}
-
-	/**
-	 * Get the determinant of this matrix.
-	 * @see {@link https://en.wikipedia.org/wiki/Determinant | Determinant}
-	 */
-	public get determinant(): number {
-		return determinant(this);
-	}
-
-	/**
-	 * Reset this matrix to identity.
-	 * @returns This matrix.
-	 * @see {@link https://en.wikipedia.org/wiki/Identity_matrix | Identity matrix}
-	 */
-	public identity(): this {
-		return identity(this);
-	}
-
-	/**
-	 * Invert this matrix.
-	 * @returns The inverted matrix.
-	 * @see {@link https://en.wikipedia.org/wiki/Invertible_matrix | Invertible matrix}
-	 */
-	public invert(): Matrix4 {
-		return invert(this, new Matrix4());
-	}
-
-	/**
-	 * Scale this matrix by the given vector.
-	 * @param vector - The scaling vector.
-	 * @returns The scaled matrix.
-	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
-	 */
-	public scale(vector: Vector3Like): Matrix4 {
-		return scale(this, vector, new Matrix4());
-	}
-
-	/**
-	 * Translate this matrix by the given vector.
-	 * @param vector - The translation vector.
-	 * @returns The translated matrix.
-	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
-	 */
-	public translate(vector: Vector3Like): Matrix4 {
-		return translate(this, vector, new Matrix4());
 	}
 
 	/**
@@ -2715,12 +2741,13 @@ export default class Matrix4
 	}
 
 	/**
-	 * Get the translation vector component of this transformation matrix.
-	 * @returns The translation.
+	 * Scale this matrix by the given vector.
+	 * @param vector - The scaling vector.
+	 * @returns The scaled matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
-	public getTranslation(): Vector3 {
-		return getTranslation(this, new Vector3());
+	public scale(vector: Vector3Like): Matrix4 {
+		return scale(this, vector, new Matrix4());
 	}
 
 	/**
@@ -2734,20 +2761,31 @@ export default class Matrix4
 	}
 
 	/**
-	 * Get the scaling vector component of this transformation matrix.
-	 * @returns The scaling.
-	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
+	 * Subtract another matrix from this one.
+	 * @param matrix - The other matrix.
+	 * @returns The difference between the matrices.
+	 * @see {@link https://en.wikipedia.org/wiki/Matrix_addition | Matrix addition}
 	 */
-	public getScaling(): Vector3 {
-		return getScaling(this, new Vector3());
+	public subtract(matrix: Matrix4Like): Matrix4 {
+		return subtract(this, matrix, new Matrix4());
 	}
 
 	/**
-	 * Get the scaling vector component of this transformation matrix.
-	 * @returns The rotation.
-	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
+	 * Translate this matrix by the given vector.
+	 * @param vector - The translation vector.
+	 * @returns The translated matrix.
+	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
-	public getRotation(): Quaternion {
-		return getRotation(this, new Quaternion());
+	public translate(vector: Vector3Like): Matrix4 {
+		return translate(this, vector, new Matrix4());
+	}
+
+	/**
+	 * Transpose this matrix.
+	 * @returns The transpose of this matrix.
+	 * @see {@link https://en.wikipedia.org/wiki/Transpose | Transpose}
+	 */
+	public transpose(): Matrix4 {
+		return transpose(this, new Matrix4());
 	}
 }

@@ -1,8 +1,4 @@
-/**
- * An object that could be interpreted as a vector.
- * @public
- */
-export type VectorLike = Record<number, number>;
+import type { Vector4Like } from "./Vector4.js";
 
 /**
  * A quantity with magnitude and direction.
@@ -11,152 +7,44 @@ export type VectorLike = Record<number, number>;
  */
 export default interface Vector extends VectorLike {
 	/**
-	 * Determine whether this vector is roughly equivalent to another.
-	 * @param vector - The other vector.
-	 * @returns Whether the vectors are equivalent.
-	 */
-	equals(vector: VectorLike): boolean;
-
-	/**
-	 * Determine whether this vector is exactly equivalent to another.
-	 * @param vector - The other vector.
-	 * @returns Whether the vectors are equivalent.
-	 */
-	exactEquals(vector: VectorLike): boolean;
-
-	/**
 	 * Add two vectors of the same size.
 	 * @param vector - The other vector.
 	 * @returns The sum of the vectors.
 	 */
-	add(vector: VectorLike): VectorLike;
+	add: (vector: Vector4Like) => VectorLike;
+
+	/**
+	 * Round up the components of this vector.
+	 * @returns The rounded vector.
+	 */
+	ceil: () => VectorLike;
 
 	/**
 	 * Create a copy of this vector.
 	 * @returns A copy of this vector.
 	 */
-	clone(): VectorLike;
+	clone: () => VectorLike;
 
 	/**
 	 * Copy the values of another vector into this one.
 	 * @param vector - The vector to copy.
 	 * @returns This vector.
 	 */
-	copy(vector: VectorLike): this;
-
-	/**
-	 * Multiply this vector by another.
-	 * @param vector - The other vector.
-	 * @returns The product of the vectors.
-	 */
-	multiply(vector: VectorLike): VectorLike;
-
-	/**
-	 * Divide this vector by another.
-	 * @param vector - The other vector.
-	 * @returns The quotient of the vectors.
-	 */
-	divide(vector: VectorLike): VectorLike;
-
-	/**
-	 * Subtract another vector from this one.
-	 * @param vector - The other vector.
-	 * @returns The difference between the vectors.
-	 */
-	subtract(vector: VectorLike): VectorLike;
-
-	/**
-	 * Round up the components of this vector.
-	 * @returns The rounded vector.
-	 */
-	ceil(): VectorLike;
-
-	/**
-	 * Round down the components of this vector.
-	 * @returns The rounded vector.
-	 */
-	floor(): VectorLike;
-
-	/**
-	 * Round the components of this vector.
-	 * @returns The rounded vector.
-	 */
-	round(): VectorLike;
-
-	/**
-	 * Return the minimum of this and another vector.
-	 * @param vector - The other vector.
-	 * @returns The minimum.
-	 */
-	min(vector: VectorLike): VectorLike;
-
-	/**
-	 * Return the maximum of this and another vector.
-	 * @param vector - The other vector.
-	 * @returns The maximum.
-	 */
-	max(vector: VectorLike): VectorLike;
-
-	/**
-	 * Raise each component of this vector to the given power.
-	 * @param exponent - The exponent (power) to raise each component to.
-	 * @returns The power (result of the exponentiation).
-	 */
-	pow(exponent: number): VectorLike;
-
-	/**
-	 * Scale this vector by a scalar.
-	 * @param scalar - The scalar.
-	 * @returns The scaled vector.
-	 */
-	scale(scalar: number): VectorLike;
-
-	/**
-	 * Add another vector to this one after scaling the other by a scalar.
-	 * @param vector - The other vector.
-	 * @param scalar - The scalar.
-	 * @returns The sum.
-	 */
-	scaleAndAdd(vector: VectorLike, scalar: number): VectorLike;
+	copy: (vector: Vector4Like) => this;
 
 	/**
 	 * Calculate the Euclidean distance between this vector and another.
 	 * @param vector - The other vector.
 	 * @returns The distance.
 	 */
-	distance(vector: VectorLike): number;
+	distance: (vector: Vector4Like) => number;
 
 	/**
-	 * Calculate the squared Euclidean distance between this vector and another.
+	 * Divide this vector by another.
 	 * @param vector - The other vector.
-	 * @returns The squared distance.
+	 * @returns The quotient of the vectors.
 	 */
-	squaredDistance(vector: VectorLike): number;
-
-	/** Get the magnitude (length) of this vector. */
-	get magnitude(): number;
-
-	/** Get the squared magnitude (length) of this vector. */
-	get squaredMagnitude(): number;
-
-	/**
-	 * Negate this vector.
-	 * @returns The negated vector.
-	 */
-	negate(): VectorLike;
-
-	/**
-	 * Calculate the multiplicative inverse of the components of this vector.
-	 * @returns The inverted vector.
-	 */
-	invert(): VectorLike;
-
-	/**
-	 * Normalize this vector.
-	 * @returns The normalized vector.
-	 * @see {@link https://en.wikipedia.org/wiki/Unit_vector | Unit vector}
-	 */
-	normalize(): VectorLike;
+	divide: (vector: Vector4Like) => VectorLike;
 
 	/**
 	 * Calculate the dot product of this and another vector.
@@ -164,7 +52,33 @@ export default interface Vector extends VectorLike {
 	 * @returns The dot product.
 	 * @see {@link https://en.wikipedia.org/wiki/Dot_product | Dot product}
 	 */
-	dot(vector: VectorLike): number;
+	dot: (vector: Vector4Like) => number;
+
+	/**
+	 * Determine whether this vector is roughly equivalent to another.
+	 * @param vector - The other vector.
+	 * @returns Whether the vectors are equivalent.
+	 */
+	equals: (vector: Vector4Like) => boolean;
+
+	/**
+	 * Determine whether this vector is exactly equivalent to another.
+	 * @param vector - The other vector.
+	 * @returns Whether the vectors are equivalent.
+	 */
+	exactEquals: (vector: Vector4Like) => boolean;
+
+	/**
+	 * Round down the components of this vector.
+	 * @returns The rounded vector.
+	 */
+	floor: () => VectorLike;
+
+	/**
+	 * Calculate the multiplicative inverse of the components of this vector.
+	 * @returns The inverted vector.
+	 */
+	invert: () => VectorLike;
 
 	/**
 	 * Perform a linear interpolation between this and another vector.
@@ -172,18 +86,106 @@ export default interface Vector extends VectorLike {
 	 * @param t - The interpolation amount (in `[0,1]`).
 	 * @returns The interpolated vector.
 	 */
-	lerp(vector: VectorLike, t: number): VectorLike;
+	lerp: (vector: Vector4Like, t: number) => VectorLike;
+
+	/** Get the magnitude (length) of this vector. */
+	get magnitude(): number;
+
+	/**
+	 * Return the maximum of this and another vector.
+	 * @param vector - The other vector.
+	 * @returns The maximum.
+	 */
+	max: (vector: Vector4Like) => VectorLike;
+
+	/**
+	 * Return the minimum of this and another vector.
+	 * @param vector - The other vector.
+	 * @returns The minimum.
+	 */
+	min: (vector: Vector4Like) => VectorLike;
+
+	/**
+	 * Multiply this vector by another.
+	 * @param vector - The other vector.
+	 * @returns The product of the vectors.
+	 */
+	multiply: (vector: Vector4Like) => VectorLike;
+
+	/**
+	 * Negate this vector.
+	 * @returns The negated vector.
+	 */
+	negate: () => VectorLike;
+
+	/**
+	 * Normalize this vector.
+	 * @returns The normalized vector.
+	 * @see {@link https://en.wikipedia.org/wiki/Unit_vector | Unit vector}
+	 */
+	normalize: () => VectorLike;
+
+	/**
+	 * Raise each component of this vector to the given power.
+	 * @param exponent - The exponent (power) to raise each component to.
+	 * @returns The power (result of the exponentiation).
+	 */
+	pow: (exponent: number) => VectorLike;
 
 	/**
 	 * Set this vector to a random value with the given magnitude.
 	 * @param magnitude - The magnitude.
 	 * @returns This vector.
 	 */
-	random(magnitude: number): this;
+	random: (magnitude: number) => this;
+
+	/**
+	 * Round the components of this vector.
+	 * @returns The rounded vector.
+	 */
+	round: () => VectorLike;
+
+	/**
+	 * Scale this vector by a scalar.
+	 * @param scalar - The scalar.
+	 * @returns The scaled vector.
+	 */
+	scale: (scalar: number) => VectorLike;
+
+	/**
+	 * Add another vector to this one after scaling the other by a scalar.
+	 * @param vector - The other vector.
+	 * @param scalar - The scalar.
+	 * @returns The sum.
+	 */
+	scaleAndAdd: (vector: Vector4Like, scalar: number) => VectorLike;
+
+	/**
+	 * Calculate the squared Euclidean distance between this vector and another.
+	 * @param vector - The other vector.
+	 * @returns The squared distance.
+	 */
+	squaredDistance: (vector: Vector4Like) => number;
+
+	/** Get the squared magnitude (length) of this vector. */
+	get squaredMagnitude(): number;
+
+	/**
+	 * Subtract another vector from this one.
+	 * @param vector - The other vector.
+	 * @returns The difference between the vectors.
+	 */
+	subtract: (vector: Vector4Like) => VectorLike;
 
 	/**
 	 * Set this to the zero vector.
 	 * @returns This vector.
 	 */
-	zero(): this;
+	zero: () => this;
 }
+
+/**
+ * An object that could be interpreted as a vector.
+ * @public
+ */
+export type VectorLike = Record<number, number>;

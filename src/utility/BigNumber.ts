@@ -1,28 +1,22 @@
 import greatestCommonDivisor from "../algorithms/greatestCommonDivisor.js";
 
 /**
+ * Types that can be converted to `bigint`s.
+ * @public
+ */
+export type BigIntLike = Parameters<BigIntConstructor>[0];
+
+/**
+ * Types that can be converted to `BigNumber`s.
+ * @public
+ */
+export type BigNumberLike = BigIntLike | BigNumber;
+
+/**
  * A number with no maximum precise size.
  * @public
  */
 export default class BigNumber {
-	/**
-	 * Create a number.
-	 * @param dividend - The dividend of the number.
-	 * @param divisor - The divisor of the number.
-	 */
-	public constructor(
-		dividend: bigint | boolean | number | string = 0,
-		divisor: bigint | boolean | number | string = 1
-	) {
-		if (divisor === 0) {
-			throw new Error("Cannot divide by zero.");
-		}
-
-		this.dividend = BigInt(dividend);
-		this.divisor = BigInt(divisor);
-		this.simplify();
-	}
-
 	/** The dividend of this fraction. */
 	public dividend: bigint;
 
@@ -30,22 +24,31 @@ export default class BigNumber {
 	public divisor: bigint;
 
 	/**
-	 * Simplify this fraction.
-	 * @internal
+	 * Create a number.
+	 * @param dividend - The dividend of the number.
+	 * @param divisor - The divisor of the number.
 	 */
-	private simplify(): void {
-		// Switch signs such that only the dividend can be negative.
-		if (this.divisor < 0) {
-			this.dividend = -this.dividend;
-			this.divisor = -this.divisor;
+	public constructor(dividend: BigNumberLike = 0, divisor: BigNumberLike = 1) {
+		if (divisor === 0) {
+			throw new Error("Cannot divide by zero.");
 		}
 
-		// Divide both by their greatest common divisor.
-		const gcd = greatestCommonDivisor(this.dividend, this.divisor);
-		if (gcd > 1) {
-			this.dividend /= gcd;
-			this.divisor /= gcd;
+		if (dividend instanceof BigNumber) {
+			this.dividend = dividend.dividend;
+			this.divisor = dividend.divisor;
+			this.divide(divisor);
+			return;
 		}
+
+		this.dividend = BigInt(dividend);
+		if (divisor instanceof BigNumber) {
+			this.divisor = 1n;
+			this.divide(divisor);
+			return;
+		}
+
+		this.divisor = BigInt(divisor);
+		this.simplify();
 	}
 
 	/**
@@ -53,7 +56,7 @@ export default class BigNumber {
 	 * @param n - The other number.
 	 * @returns This number.
 	 */
-	public add(n: bigint | boolean | number | string | BigNumber): this {
+	public add(n: BigNumberLike): this {
 		if (n instanceof BigNumber) {
 			this.dividend = this.dividend * n.divisor + n.dividend * this.divisor;
 			this.divisor *= n.divisor;
@@ -66,16 +69,16 @@ export default class BigNumber {
 	}
 
 	/**
-	 * Subtract a number from this number.
+	 * Divide this number by a number.
 	 * @param n - The other number.
 	 * @returns This number.
 	 */
-	public subtract(n: bigint | boolean | number | string | BigNumber): this {
+	public divide(n: BigNumberLike): this {
 		if (n instanceof BigNumber) {
-			this.dividend = this.dividend * n.divisor - n.dividend * this.divisor;
-			this.divisor *= n.divisor;
+			this.dividend *= n.divisor;
+			this.divisor *= n.dividend;
 		} else {
-			this.dividend -= BigInt(n) * this.divisor;
+			this.divisor *= BigInt(n);
 		}
 
 		this.simplify();
@@ -87,7 +90,7 @@ export default class BigNumber {
 	 * @param n - The other number.
 	 * @returns This number.
 	 */
-	public multiply(n: bigint | boolean | number | string | BigNumber): this {
+	public multiply(n: BigNumberLike): this {
 		if (n instanceof BigNumber) {
 			this.dividend *= n.dividend;
 			this.divisor *= n.divisor;
@@ -100,16 +103,16 @@ export default class BigNumber {
 	}
 
 	/**
-	 * Divide this number by a number.
+	 * Subtract a number from this number.
 	 * @param n - The other number.
 	 * @returns This number.
 	 */
-	public divide(n: bigint | boolean | number | string | BigNumber): this {
+	public subtract(n: BigNumberLike): this {
 		if (n instanceof BigNumber) {
-			this.dividend *= n.divisor;
-			this.divisor *= n.dividend;
+			this.dividend = this.dividend * n.divisor - n.dividend * this.divisor;
+			this.divisor *= n.divisor;
 		} else {
-			this.divisor *= BigInt(n);
+			this.dividend -= BigInt(n) * this.divisor;
 		}
 
 		this.simplify();
@@ -133,5 +136,24 @@ export default class BigNumber {
 	 */
 	public toString(): string {
 		return `${this.dividend.toLocaleString()}/${this.divisor.toLocaleString()}`;
+	}
+
+	/**
+	 * Simplify this fraction.
+	 * @internal
+	 */
+	private simplify(): void {
+		// Switch signs such that only the dividend can be negative.
+		if (this.divisor < 0) {
+			this.dividend = -this.dividend;
+			this.divisor = -this.divisor;
+		}
+
+		// Divide both by their greatest common divisor.
+		const gcd = greatestCommonDivisor(this.dividend, this.divisor);
+		if (gcd > 1) {
+			this.dividend /= gcd;
+			this.divisor /= gcd;
+		}
 	}
 }

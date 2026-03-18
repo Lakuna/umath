@@ -1,7 +1,8 @@
+import type SquareMatrix from "./SquareMatrix.js";
+
 import MatrixSizeError from "../utility/MatrixSizeError.js";
 import SingularMatrixError from "../utility/SingularMatrixError.js";
 import SlowMatrix from "./SlowMatrix.js";
-import type SquareMatrix from "./SquareMatrix.js";
 
 /**
  * A variable-size matrix with the same number of rows and columns.
@@ -12,23 +13,6 @@ export default class SlowSquareMatrix
 	extends SlowMatrix
 	implements SquareMatrix
 {
-	/**
-	 * Create a variable-size matrix with the same number of rows and columns from the given columns.
-	 * @param cols - The columns in the matrix.
-	 * @see {@link https://en.wikipedia.org/wiki/Square_matrix | Square matrix}
-	 */
-	public constructor(...cols: number[][]) {
-		super(...cols);
-
-		// Ensure that every column is the same height and that the height is equal to the width.
-		for (let i = 0; i < this.width; i++) {
-			const col = cols[i];
-			if (col?.length !== this.height) {
-				throw new MatrixSizeError();
-			}
-		}
-	}
-
 	/**
 	 * Get the determinant of this matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Determinant | Determinant}
@@ -52,6 +36,23 @@ export default class SlowSquareMatrix
 		}
 
 		return out;
+	}
+
+	/**
+	 * Create a variable-size matrix with the same number of rows and columns from the given columns.
+	 * @param cols - The columns in the matrix.
+	 * @see {@link https://en.wikipedia.org/wiki/Square_matrix | Square matrix}
+	 */
+	public constructor(...cols: number[][]) {
+		super(...cols);
+
+		// Ensure that every column is the same height and that the height is equal to the width.
+		for (let i = 0; i < this.width; i++) {
+			const col = cols[i];
+			if (col?.length !== this.height) {
+				throw new MatrixSizeError();
+			}
+		}
 	}
 
 	/**
