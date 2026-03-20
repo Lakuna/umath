@@ -40,7 +40,10 @@ export { default as Vector4, type Vector4Like } from "./linalg/Vector4.js";
 export type { default as Vector, VectorLike } from "./linalg/Vector.js";
 
 // Types
-export type { default as AxisAngle } from "./types/AxisAngle.js";
+export type {
+	default as AxisAngle,
+	ReadonlyAxisAngle
+} from "./types/AxisAngle.js";
 export type { default as FieldOfView } from "./types/FieldOfView.js";
 
 // Utility

@@ -89,7 +89,7 @@ export const fromRotation = <T extends Matrix2Like>(r: number, out: T): T => {
  * @public
  */
 export const fromScaling = <T extends Matrix2Like>(
-	vector: Vector2Like,
+	vector: Readonly<Vector2Like>,
 	out: T
 ): T => fromValues(vector[0], 0, 0, vector[1], out);
 
@@ -100,7 +100,10 @@ export const fromScaling = <T extends Matrix2Like>(
  * @returns Whether or not the matrices are equivalent.
  * @public
  */
-export const equals = (a: Matrix2Like, b: Matrix2Like): boolean =>
+export const equals = (
+	a: Readonly<Matrix2Like>,
+	b: Readonly<Matrix2Like>
+): boolean =>
 	approxRelative(a[0], b[0]) &&
 	approxRelative(a[1], b[1]) &&
 	approxRelative(a[2], b[2]) &&
@@ -113,8 +116,10 @@ export const equals = (a: Matrix2Like, b: Matrix2Like): boolean =>
  * @returns Whether the matrices are equivalent.
  * @public
  */
-export const exactEquals: (a: Matrix2Like, b: Matrix2Like) => boolean =
-	vector4ExactEquals;
+export const exactEquals: (
+	a: Readonly<Matrix2Like>,
+	b: Readonly<Matrix2Like>
+) => boolean = vector4ExactEquals;
 
 /**
  * Add two matrices.
@@ -126,8 +131,8 @@ export const exactEquals: (a: Matrix2Like, b: Matrix2Like) => boolean =
  * @public
  */
 export const add: <T extends Matrix2Like>(
-	a: Matrix2Like,
-	b: Matrix2Like,
+	a: Readonly<Matrix2Like>,
+	b: Readonly<Matrix2Like>,
 	out: T
 ) => T = vector4Add;
 
@@ -140,7 +145,7 @@ export const add: <T extends Matrix2Like>(
  * @public
  */
 export const adjoint = <T extends Matrix2Like>(
-	matrix: Matrix2Like,
+	matrix: Readonly<Matrix2Like>,
 	out: T
 ): T => fromValues(matrix[3], -matrix[1], -matrix[2], matrix[0], out);
 
@@ -151,8 +156,10 @@ export const adjoint = <T extends Matrix2Like>(
  * @returns The copy matrix.
  * @public
  */
-export const copy: <T extends Matrix2Like>(matrix: Matrix2Like, out: T) => T =
-	vector4Copy;
+export const copy: <T extends Matrix2Like>(
+	matrix: Readonly<Matrix2Like>,
+	out: T
+) => T = vector4Copy;
 
 /**
  * Calculate the Frobenius norm of a matrix.
@@ -161,7 +168,8 @@ export const copy: <T extends Matrix2Like>(matrix: Matrix2Like, out: T) => T =
  * @see {@link https://en.wikipedia.org/wiki/Matrix_norm | Matrix norm}
  * @public
  */
-export const frob: (matrix: Matrix2Like) => number = vector4GetMagnitude;
+export const frob: (matrix: Readonly<Matrix2Like>) => number =
+	vector4GetMagnitude;
 
 /**
  * Multiply one matrix by another.
@@ -173,8 +181,8 @@ export const frob: (matrix: Matrix2Like) => number = vector4GetMagnitude;
  * @public
  */
 export const multiply = <T extends Matrix2Like>(
-	a: Matrix2Like,
-	b: Matrix2Like,
+	a: Readonly<Matrix2Like>,
+	b: Readonly<Matrix2Like>,
 	out: T
 ): T => {
 	const a0 = a[0];
@@ -206,7 +214,7 @@ export const multiply = <T extends Matrix2Like>(
  * @public
  */
 export const multiplyScalar: <T extends Matrix2Like>(
-	matrix: Matrix2Like,
+	matrix: Readonly<Matrix2Like>,
 	scalar: number,
 	out: T
 ) => T = vector4Scale;
@@ -223,8 +231,8 @@ export const multiplyScalar: <T extends Matrix2Like>(
  * @public
  */
 export const multiplyScalarAndAdd: <T extends Matrix2Like>(
-	a: Matrix2Like,
-	b: Matrix2Like,
+	a: Readonly<Matrix2Like>,
+	b: Readonly<Matrix2Like>,
 	scalar: number,
 	out: T
 ) => T = vector4ScaleAndAdd;
@@ -239,8 +247,8 @@ export const multiplyScalarAndAdd: <T extends Matrix2Like>(
  * @public
  */
 export const subtract: <T extends Matrix2Like>(
-	a: Matrix2Like,
-	b: Matrix2Like,
+	a: Readonly<Matrix2Like>,
+	b: Readonly<Matrix2Like>,
 	out: T
 ) => T = vector4Subtract;
 
@@ -253,7 +261,7 @@ export const subtract: <T extends Matrix2Like>(
  * @public
  */
 export const transpose = <T extends Matrix2Like>(
-	matrix: Matrix2Like,
+	matrix: Readonly<Matrix2Like>,
 	out: T
 ): T => {
 	if (out === matrix) {
@@ -273,7 +281,7 @@ export const transpose = <T extends Matrix2Like>(
  * @see {@link https://en.wikipedia.org/wiki/Determinant | Determinant}
  * @public
  */
-export const determinant = (matrix: Matrix2Like): number =>
+export const determinant = (matrix: Readonly<Matrix2Like>): number =>
 	matrix[0] * matrix[3] - matrix[2] * matrix[1];
 
 /**
@@ -295,7 +303,7 @@ export const identity = <T extends Matrix2Like>(out: T): T =>
  * @public
  */
 export const invert = <T extends Matrix2Like>(
-	matrix: Matrix2Like,
+	matrix: Readonly<Matrix2Like>,
 	out: T
 ): T => {
 	const a0 = matrix[0];
@@ -322,7 +330,7 @@ export const invert = <T extends Matrix2Like>(
  * @public
  */
 export const rotate = <T extends Matrix2Like>(
-	matrix: Matrix2Like,
+	matrix: Readonly<Matrix2Like>,
 	r: number,
 	out: T
 ): T => {
@@ -353,8 +361,8 @@ export const rotate = <T extends Matrix2Like>(
  * @public
  */
 export const scale = <T extends Matrix2Like>(
-	matrix: Matrix2Like,
-	vector: Vector2Like,
+	matrix: Readonly<Matrix2Like>,
+	vector: Readonly<Vector2Like>,
 	out: T
 ): T => {
 	const v0 = vector[0];
@@ -446,7 +454,7 @@ export default class Matrix2
 	 * @returns The transformation matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
-	public static fromScaling(vector: Vector2Like): Matrix2 {
+	public static fromScaling(vector: Readonly<Vector2Like>): Matrix2 {
 		return fromScaling(vector, new Matrix2());
 	}
 
@@ -473,7 +481,7 @@ export default class Matrix2
 	 * @returns The sum of the matrices.
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_addition | Matrix addition}
 	 */
-	public add(matrix: Matrix2Like): Matrix2 {
+	public add(matrix: Readonly<Matrix2Like>): Matrix2 {
 		return add(this, matrix, new Matrix2());
 	}
 
@@ -499,7 +507,7 @@ export default class Matrix2
 	 * @param matrix - The matrix to copy.
 	 * @returns This matrix.
 	 */
-	public copy(matrix: Matrix2Like): this {
+	public copy(matrix: Readonly<Matrix2Like>): this {
 		return copy(matrix, this);
 	}
 
@@ -508,7 +516,7 @@ export default class Matrix2
 	 * @param matrix - The other matrix.
 	 * @returns Whether the matrices are equivalent.
 	 */
-	public equals(matrix: Matrix2Like): boolean {
+	public equals(matrix: Readonly<Matrix2Like>): boolean {
 		return equals(this, matrix);
 	}
 
@@ -517,7 +525,7 @@ export default class Matrix2
 	 * @param matrix - The other matrix.
 	 * @returns Whether the matrices are equivalent.
 	 */
-	public exactEquals(matrix: Matrix2Like): boolean {
+	public exactEquals(matrix: Readonly<Matrix2Like>): boolean {
 		return exactEquals(this, matrix);
 	}
 
@@ -546,7 +554,7 @@ export default class Matrix2
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_multiplication | Matrix multiplication}
 	 * @public
 	 */
-	public multiply(matrix: Matrix2Like): Matrix2 {
+	public multiply(matrix: Readonly<Matrix2Like>): Matrix2 {
 		return multiply(this, matrix, new Matrix2());
 	}
 
@@ -568,7 +576,10 @@ export default class Matrix2
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_addition | Matrix addition}
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_multiplication | Matrix multiplication}
 	 */
-	public multiplyScalarAndAdd(matrix: Matrix2Like, scalar: number): Matrix2 {
+	public multiplyScalarAndAdd(
+		matrix: Readonly<Matrix2Like>,
+		scalar: number
+	): Matrix2 {
 		return multiplyScalarAndAdd(this, matrix, scalar, new Matrix2());
 	}
 
@@ -588,7 +599,7 @@ export default class Matrix2
 	 * @returns The scaled matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
-	public scale(vector: Vector2Like): Matrix2 {
+	public scale(vector: Readonly<Vector2Like>): Matrix2 {
 		return scale(this, vector, new Matrix2());
 	}
 
@@ -598,7 +609,7 @@ export default class Matrix2
 	 * @returns The difference between the matrices.
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_addition | Matrix addition}
 	 */
-	public subtract(matrix: Matrix2Like): Matrix2 {
+	public subtract(matrix: Readonly<Matrix2Like>): Matrix2 {
 		return subtract(this, matrix, new Matrix2());
 	}
 

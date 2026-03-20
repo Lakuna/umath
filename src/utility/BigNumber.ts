@@ -28,12 +28,15 @@ export default class BigNumber {
 	 * @param dividend - The dividend of the number.
 	 * @param divisor - The divisor of the number.
 	 */
-	public constructor(dividend: BigNumberLike = 0, divisor: BigNumberLike = 1) {
+	public constructor(
+		dividend: Readonly<BigNumberLike> = 0,
+		divisor: Readonly<BigNumberLike> = 1
+	) {
 		if (divisor === 0) {
 			throw new Error("Cannot divide by zero.");
 		}
 
-		if (dividend instanceof BigNumber) {
+		if (BigNumber.is(dividend)) {
 			this.dividend = dividend.dividend;
 			this.divisor = dividend.divisor;
 			this.divide(divisor);
@@ -41,7 +44,7 @@ export default class BigNumber {
 		}
 
 		this.dividend = BigInt(dividend);
-		if (divisor instanceof BigNumber) {
+		if (BigNumber.is(divisor)) {
 			this.divisor = 1n;
 			this.divide(divisor);
 			return;
@@ -52,12 +55,20 @@ export default class BigNumber {
 	}
 
 	/**
+	 * Utility function for narrowing `Readonly<BigNumberLike>` to `Readonly<BigNumber>` or `BigIntLike`, since `Readonly` breaks the type narrowing for TypeScript.
+	 * @internal
+	 */
+	private static is(value: unknown): value is BigNumber | Readonly<BigNumber> {
+		return value instanceof BigNumber;
+	}
+
+	/**
 	 * Add a number to this number.
 	 * @param n - The other number.
 	 * @returns This number.
 	 */
-	public add(n: BigNumberLike): this {
-		if (n instanceof BigNumber) {
+	public add(n: Readonly<BigNumberLike>): this {
+		if (BigNumber.is(n)) {
 			this.dividend = this.dividend * n.divisor + n.dividend * this.divisor;
 			this.divisor *= n.divisor;
 		} else {
@@ -73,8 +84,8 @@ export default class BigNumber {
 	 * @param n - The other number.
 	 * @returns This number.
 	 */
-	public divide(n: BigNumberLike): this {
-		if (n instanceof BigNumber) {
+	public divide(n: Readonly<BigNumberLike>): this {
+		if (BigNumber.is(n)) {
 			this.dividend *= n.divisor;
 			this.divisor *= n.dividend;
 		} else {
@@ -90,8 +101,8 @@ export default class BigNumber {
 	 * @param n - The other number.
 	 * @returns This number.
 	 */
-	public multiply(n: BigNumberLike): this {
-		if (n instanceof BigNumber) {
+	public multiply(n: Readonly<BigNumberLike>): this {
+		if (BigNumber.is(n)) {
 			this.dividend *= n.dividend;
 			this.divisor *= n.divisor;
 		} else {
@@ -107,8 +118,8 @@ export default class BigNumber {
 	 * @param n - The other number.
 	 * @returns This number.
 	 */
-	public subtract(n: BigNumberLike): this {
-		if (n instanceof BigNumber) {
+	public subtract(n: Readonly<BigNumberLike>): this {
+		if (BigNumber.is(n)) {
 			this.dividend = this.dividend * n.divisor - n.dividend * this.divisor;
 			this.divisor *= n.divisor;
 		} else {

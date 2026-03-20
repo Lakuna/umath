@@ -17,7 +17,7 @@ interface SizedVectorLike extends VectorLike {
  * Determine whether the given `VectorLike` has size information.
  * @internal
  */
-const isSized = (vector: VectorLike): vector is SizedVectorLike =>
+const isSized = (vector: Readonly<VectorLike>): vector is SizedVectorLike =>
 	"length" in vector && typeof vector.length === "number";
 
 /**
@@ -45,7 +45,7 @@ export default class SlowVector extends Float32Array implements Vector {
 	 * Create a variable-size vector from the given values.
 	 * @param values - The values in the vector.
 	 */
-	public constructor(...values: number[]) {
+	public constructor(...values: readonly number[]) {
 		super(values);
 	}
 
@@ -54,7 +54,7 @@ export default class SlowVector extends Float32Array implements Vector {
 	 * @param vector - The other vector.
 	 * @returns The sum of the vectors.
 	 */
-	public add(vector: VectorLike): SlowVector {
+	public add(vector: Readonly<VectorLike>): SlowVector {
 		if (!isSized(vector) || this.length !== vector.length) {
 			throw new VectorSizeError();
 		}
@@ -93,7 +93,7 @@ export default class SlowVector extends Float32Array implements Vector {
 	 * @param vector - The vector to copy.
 	 * @returns This vector.
 	 */
-	public copy(vector: VectorLike): this {
+	public copy(vector: Readonly<VectorLike>): this {
 		if (!isSized(vector) || this.length !== vector.length) {
 			throw new VectorSizeError();
 		}
@@ -110,7 +110,7 @@ export default class SlowVector extends Float32Array implements Vector {
 	 * @param vector - The other vector.
 	 * @returns The distance.
 	 */
-	public distance(vector: VectorLike): number {
+	public distance(vector: Readonly<VectorLike>): number {
 		if (!isSized(vector) || this.length !== vector.length) {
 			throw new VectorSizeError();
 		}
@@ -128,7 +128,7 @@ export default class SlowVector extends Float32Array implements Vector {
 	 * @param vector - The other vector.
 	 * @returns The quotient of the vectors.
 	 */
-	public divide(vector: VectorLike): SlowVector {
+	public divide(vector: Readonly<VectorLike>): SlowVector {
 		if (!isSized(vector) || this.length !== vector.length) {
 			throw new VectorSizeError();
 		}
@@ -147,7 +147,7 @@ export default class SlowVector extends Float32Array implements Vector {
 	 * @returns The dot product.
 	 * @see {@link https://en.wikipedia.org/wiki/Dot_product | Dot product}
 	 */
-	public dot(vector: VectorLike): number {
+	public dot(vector: Readonly<VectorLike>): number {
 		if (!isSized(vector) || this.length !== vector.length) {
 			throw new VectorSizeError();
 		}
@@ -165,7 +165,7 @@ export default class SlowVector extends Float32Array implements Vector {
 	 * @param vector - The other vector.
 	 * @returns Whether the vectors are equivalent.
 	 */
-	public equals(vector: VectorLike): boolean {
+	public equals(vector: Readonly<VectorLike>): boolean {
 		if (!isSized(vector) || this.length !== vector.length) {
 			throw new VectorSizeError();
 		}
@@ -190,7 +190,7 @@ export default class SlowVector extends Float32Array implements Vector {
 	 * @param vector - The other vector.
 	 * @returns Whether the vectors are equivalent.
 	 */
-	public exactEquals(vector: VectorLike): boolean {
+	public exactEquals(vector: Readonly<VectorLike>): boolean {
 		if (!isSized(vector) || this.length !== vector.length) {
 			throw new VectorSizeError();
 		}
@@ -236,7 +236,7 @@ export default class SlowVector extends Float32Array implements Vector {
 	 * @param t - The interpolation amount (in `[0,1]`).
 	 * @returns The interpolated vector.
 	 */
-	public lerp(vector: VectorLike, t: number): SlowVector {
+	public lerp(vector: Readonly<VectorLike>, t: number): SlowVector {
 		if (!isSized(vector) || this.length !== vector.length) {
 			throw new VectorSizeError();
 		}
@@ -255,7 +255,7 @@ export default class SlowVector extends Float32Array implements Vector {
 	 * @param vector - The other vector.
 	 * @returns The maximum.
 	 */
-	public max(vector: VectorLike): SlowVector {
+	public max(vector: Readonly<VectorLike>): SlowVector {
 		if (!isSized(vector) || this.length !== vector.length) {
 			throw new VectorSizeError();
 		}
@@ -273,7 +273,7 @@ export default class SlowVector extends Float32Array implements Vector {
 	 * @param vector - The other vector.
 	 * @returns The minimum.
 	 */
-	public min(vector: VectorLike): SlowVector {
+	public min(vector: Readonly<VectorLike>): SlowVector {
 		if (!isSized(vector) || this.length !== vector.length) {
 			throw new VectorSizeError();
 		}
@@ -291,7 +291,7 @@ export default class SlowVector extends Float32Array implements Vector {
 	 * @param vector - The other vector.
 	 * @returns The product of the vectors.
 	 */
-	public multiply(vector: VectorLike): SlowVector {
+	public multiply(vector: Readonly<VectorLike>): SlowVector {
 		if (!isSized(vector) || this.length !== vector.length) {
 			throw new VectorSizeError();
 		}
@@ -387,7 +387,7 @@ export default class SlowVector extends Float32Array implements Vector {
 	 * @param scalar - The scalar.
 	 * @returns The sum.
 	 */
-	public scaleAndAdd(vector: VectorLike, scalar: number): SlowVector {
+	public scaleAndAdd(vector: Readonly<VectorLike>, scalar: number): SlowVector {
 		if (!isSized(vector)) {
 			throw new VectorSizeError();
 		}
@@ -405,7 +405,7 @@ export default class SlowVector extends Float32Array implements Vector {
 	 * @param vector - The other vector.
 	 * @returns The squared distance.
 	 */
-	public squaredDistance(vector: VectorLike): number {
+	public squaredDistance(vector: Readonly<VectorLike>): number {
 		if (!isSized(vector) || this.length !== vector.length) {
 			throw new VectorSizeError();
 		}
@@ -423,7 +423,7 @@ export default class SlowVector extends Float32Array implements Vector {
 	 * @param vector - The other vector.
 	 * @returns The difference between the vectors.
 	 */
-	public subtract(vector: VectorLike): SlowVector {
+	public subtract(vector: Readonly<VectorLike>): SlowVector {
 		if (!isSized(vector) || this.length !== vector.length) {
 			throw new VectorSizeError();
 		}

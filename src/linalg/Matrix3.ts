@@ -122,7 +122,7 @@ export const fromRotation = <T extends Matrix3Like>(r: number, out: T): T => {
  * @public
  */
 export const fromScaling = <T extends Matrix3Like>(
-	vector: Vector2Like,
+	vector: Readonly<Vector2Like>,
 	out: T
 ): T => fromValues(vector[0], 0, 0, 0, vector[1], 0, 0, 0, 1, out);
 
@@ -135,7 +135,7 @@ export const fromScaling = <T extends Matrix3Like>(
  * @public
  */
 export const fromTranslation = <T extends Matrix3Like>(
-	vector: Vector2Like,
+	vector: Readonly<Vector2Like>,
 	out: T
 ): T => fromValues(1, 0, 0, 0, 1, 0, vector[0], vector[1], 1, out);
 
@@ -149,7 +149,7 @@ export const fromTranslation = <T extends Matrix3Like>(
  * @public
  */
 export const fromQuaternion = <T extends Matrix3Like>(
-	quaternion: QuaternionLike,
+	quaternion: Readonly<QuaternionLike>,
 	out: T
 ): T => {
 	const x = quaternion[0];
@@ -233,7 +233,7 @@ export const fromEuler = <T extends Matrix3Like>(
  * @public
  */
 export const normalFromMatrix4 = <T extends Matrix3Like>(
-	matrix: Matrix4Like,
+	matrix: Readonly<Matrix4Like>,
 	out: T
 ): T => {
 	const a00 = matrix[0];
@@ -311,7 +311,7 @@ export const projection = <T extends Matrix3Like>(
  * @public
  */
 export const fromMatrix4 = <T extends Matrix3Like>(
-	matrix: Matrix4Like,
+	matrix: Readonly<Matrix4Like>,
 	out: T
 ): T =>
 	fromValues(
@@ -334,7 +334,10 @@ export const fromMatrix4 = <T extends Matrix3Like>(
  * @returns Whether or not the matrices are equivalent.
  * @public
  */
-export const equals = (a: Matrix3Like, b: Matrix3Like): boolean =>
+export const equals = (
+	a: Readonly<Matrix3Like>,
+	b: Readonly<Matrix3Like>
+): boolean =>
 	approxRelative(a[0], b[0]) &&
 	approxRelative(a[1], b[1]) &&
 	approxRelative(a[2], b[2]) &&
@@ -352,7 +355,10 @@ export const equals = (a: Matrix3Like, b: Matrix3Like): boolean =>
  * @returns Whether or not the matrices are equivalent.
  * @public
  */
-export const exactEquals = (a: Matrix3Like, b: Matrix3Like): boolean =>
+export const exactEquals = (
+	a: Readonly<Matrix3Like>,
+	b: Readonly<Matrix3Like>
+): boolean =>
 	a[0] === b[0] &&
 	a[1] === b[1] &&
 	a[2] === b[2] &&
@@ -373,8 +379,8 @@ export const exactEquals = (a: Matrix3Like, b: Matrix3Like): boolean =>
  * @public
  */
 export const add = <T extends Matrix3Like>(
-	a: Matrix3Like,
-	b: Matrix3Like,
+	a: Readonly<Matrix3Like>,
+	b: Readonly<Matrix3Like>,
 	out: T
 ): T =>
 	fromValues(
@@ -399,7 +405,7 @@ export const add = <T extends Matrix3Like>(
  * @public
  */
 export const adjoint = <T extends Matrix3Like>(
-	matrix: Matrix3Like,
+	matrix: Readonly<Matrix3Like>,
 	out: T
 ): T => {
 	const a00 = matrix[0];
@@ -433,7 +439,10 @@ export const adjoint = <T extends Matrix3Like>(
  * @returns The copy matrix.
  * @public
  */
-export const copy = <T extends Matrix3Like>(matrix: Matrix3Like, out: T): T =>
+export const copy = <T extends Matrix3Like>(
+	matrix: Readonly<Matrix3Like>,
+	out: T
+): T =>
 	fromValues(
 		matrix[0],
 		matrix[1],
@@ -454,7 +463,7 @@ export const copy = <T extends Matrix3Like>(matrix: Matrix3Like, out: T): T =>
  * @see {@link https://en.wikipedia.org/wiki/Matrix_norm | Matrix norm}
  * @public
  */
-export const frob = (matrix: Matrix3Like): number =>
+export const frob = (matrix: Readonly<Matrix3Like>): number =>
 	Math.hypot(
 		matrix[0],
 		matrix[1],
@@ -477,8 +486,8 @@ export const frob = (matrix: Matrix3Like): number =>
  * @public
  */
 export const multiply = <T extends Matrix3Like>(
-	a: Matrix3Like,
-	b: Matrix3Like,
+	a: Readonly<Matrix3Like>,
+	b: Readonly<Matrix3Like>,
 	out: T
 ): T => {
 	const a00 = a[0];
@@ -525,7 +534,7 @@ export const multiply = <T extends Matrix3Like>(
  * @public
  */
 export const multiplyScalar = <T extends Matrix3Like>(
-	matrix: Matrix3Like,
+	matrix: Readonly<Matrix3Like>,
 	scalar: number,
 	out: T
 ): T =>
@@ -554,8 +563,8 @@ export const multiplyScalar = <T extends Matrix3Like>(
  * @public
  */
 export const multiplyScalarAndAdd = <T extends Matrix3Like>(
-	a: Matrix3Like,
-	b: Matrix3Like,
+	a: Readonly<Matrix3Like>,
+	b: Readonly<Matrix3Like>,
 	scalar: number,
 	out: T
 ): T =>
@@ -582,8 +591,8 @@ export const multiplyScalarAndAdd = <T extends Matrix3Like>(
  * @public
  */
 export const subtract = <T extends Matrix3Like>(
-	a: Matrix3Like,
-	b: Matrix3Like,
+	a: Readonly<Matrix3Like>,
+	b: Readonly<Matrix3Like>,
 	out: T
 ): T =>
 	fromValues(
@@ -608,7 +617,7 @@ export const subtract = <T extends Matrix3Like>(
  * @public
  */
 export const transpose = <T extends Matrix3Like>(
-	matrix: Matrix3Like,
+	matrix: Readonly<Matrix3Like>,
 	out: T
 ): T => {
 	if (out === matrix) {
@@ -645,7 +654,7 @@ export const transpose = <T extends Matrix3Like>(
  * @see {@link https://en.wikipedia.org/wiki/Determinant | Determinant}
  * @public
  */
-export const determinant = (matrix: Matrix3Like): number => {
+export const determinant = (matrix: Readonly<Matrix3Like>): number => {
 	const a10 = matrix[3];
 	const a11 = matrix[4];
 	const a12 = matrix[5];
@@ -679,7 +688,7 @@ export const identity = <T extends Matrix3Like>(out: T): T =>
  * @public
  */
 export const invert = <T extends Matrix3Like>(
-	matrix: Matrix3Like,
+	matrix: Readonly<Matrix3Like>,
 	out: T
 ): T => {
 	const a00 = matrix[0];
@@ -726,7 +735,7 @@ export const invert = <T extends Matrix3Like>(
  * @public
  */
 export const rotate = <T extends Matrix3Like>(
-	matrix: Matrix3Like,
+	matrix: Readonly<Matrix3Like>,
 	radians: number,
 	out: T
 ): T => {
@@ -764,8 +773,8 @@ export const rotate = <T extends Matrix3Like>(
  * @public
  */
 export const scale = <T extends Matrix3Like>(
-	matrix: Matrix3Like,
-	vector: Vector2Like,
+	matrix: Readonly<Matrix3Like>,
+	vector: Readonly<Vector2Like>,
 	out: T
 ): T => {
 	const x = vector[0];
@@ -795,8 +804,8 @@ export const scale = <T extends Matrix3Like>(
  * @public
  */
 export const translate = <T extends Matrix3Like>(
-	matrix: Matrix3Like,
-	vector: Vector2Like,
+	matrix: Readonly<Matrix3Like>,
+	vector: Readonly<Vector2Like>,
 	out: T
 ): T => {
 	const a00 = matrix[0];
@@ -923,7 +932,7 @@ export default class Matrix3
 	 * @param matrix - The four-by-four matrix.
 	 * @returns The three-by-three matrix.
 	 */
-	public static fromMatrix4(matrix: Matrix4Like): Matrix3 {
+	public static fromMatrix4(matrix: Readonly<Matrix4Like>): Matrix3 {
 		return fromMatrix4(matrix, new Matrix3());
 	}
 
@@ -934,7 +943,7 @@ export default class Matrix3
 	 * @see {@link https://en.wikipedia.org/wiki/Quaternion | Quaternion}
 	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
 	 */
-	public static fromQuaternion(quaternion: QuaternionLike): Matrix3 {
+	public static fromQuaternion(quaternion: Readonly<QuaternionLike>): Matrix3 {
 		return fromQuaternion(quaternion, new Matrix3());
 	}
 
@@ -954,7 +963,7 @@ export default class Matrix3
 	 * @returns The transformation matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
-	public static fromScaling(vector: Vector2Like): Matrix3 {
+	public static fromScaling(vector: Readonly<Vector2Like>): Matrix3 {
 		return fromScaling(vector, new Matrix3());
 	}
 
@@ -964,7 +973,7 @@ export default class Matrix3
 	 * @returns The transformation matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
-	public static fromTranslation(vector: Vector2Like): Matrix3 {
+	public static fromTranslation(vector: Readonly<Vector2Like>): Matrix3 {
 		return fromTranslation(vector, new Matrix3());
 	}
 
@@ -1012,7 +1021,7 @@ export default class Matrix3
 	 * @returns The normal matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Normal_matrix | Normal matrix}
 	 */
-	public static normalFromMatrix4(matrix: Matrix4Like): Matrix3 {
+	public static normalFromMatrix4(matrix: Readonly<Matrix4Like>): Matrix3 {
 		return normalFromMatrix4(matrix, new Matrix3());
 	}
 
@@ -1034,7 +1043,7 @@ export default class Matrix3
 	 * @returns The sum of the matrices.
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_addition | Matrix addition}
 	 */
-	public add(matrix: Matrix3Like): Matrix3 {
+	public add(matrix: Readonly<Matrix3Like>): Matrix3 {
 		return add(this, matrix, new Matrix3());
 	}
 
@@ -1060,7 +1069,7 @@ export default class Matrix3
 	 * @param matrix - The matrix to copy.
 	 * @returns This matrix.
 	 */
-	public copy(matrix: Matrix3Like): this {
+	public copy(matrix: Readonly<Matrix3Like>): this {
 		return copy(matrix, this);
 	}
 
@@ -1069,7 +1078,7 @@ export default class Matrix3
 	 * @param matrix - The other matrix.
 	 * @returns Whether or not the matrices are equivalent.
 	 */
-	public equals(matrix: Matrix3Like): boolean {
+	public equals(matrix: Readonly<Matrix3Like>): boolean {
 		return equals(this, matrix);
 	}
 
@@ -1078,7 +1087,7 @@ export default class Matrix3
 	 * @param matrix - The other matrix.
 	 * @returns Whether or not the matrices are equivalent.
 	 */
-	public exactEquals(matrix: Matrix3Like): boolean {
+	public exactEquals(matrix: Readonly<Matrix3Like>): boolean {
 		return exactEquals(this, matrix);
 	}
 
@@ -1106,7 +1115,7 @@ export default class Matrix3
 	 * @returns The product of the matrices.
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_multiplication | Matrix multiplication}
 	 */
-	public multiply(matrix: Matrix3Like): Matrix3 {
+	public multiply(matrix: Readonly<Matrix3Like>): Matrix3 {
 		return multiply(this, matrix, new Matrix3());
 	}
 
@@ -1128,7 +1137,10 @@ export default class Matrix3
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_addition | Matrix addition}
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_multiplication | Matrix multiplication}
 	 */
-	public multiplyScalarAndAdd(matrix: Matrix3Like, scalar: number): Matrix3 {
+	public multiplyScalarAndAdd(
+		matrix: Readonly<Matrix3Like>,
+		scalar: number
+	): Matrix3 {
 		return multiplyScalarAndAdd(this, matrix, scalar, new Matrix3());
 	}
 
@@ -1148,7 +1160,7 @@ export default class Matrix3
 	 * @returns The scaled matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
-	public scale(vector: Vector2Like): Matrix3 {
+	public scale(vector: Readonly<Vector2Like>): Matrix3 {
 		return scale(this, vector, new Matrix3());
 	}
 
@@ -1158,7 +1170,7 @@ export default class Matrix3
 	 * @returns The difference between the matrices.
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_addition | Matrix addition}
 	 */
-	public subtract(matrix: Matrix3Like): Matrix3 {
+	public subtract(matrix: Readonly<Matrix3Like>): Matrix3 {
 		return subtract(this, matrix, new Matrix3());
 	}
 
@@ -1168,7 +1180,7 @@ export default class Matrix3
 	 * @returns The translated matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
-	public translate(vector: Vector2Like): Matrix3 {
+	public translate(vector: Readonly<Vector2Like>): Matrix3 {
 		return translate(this, vector, new Matrix3());
 	}
 

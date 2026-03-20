@@ -3,12 +3,10 @@ import perfectionist from "eslint-plugin-perfectionist";
 import prettier from "eslint-plugin-prettier/recommended";
 import tsdoc from "eslint-plugin-tsdoc";
 import { defineConfig } from "eslint/config";
-import globals from "globals";
 import tseslint from "typescript-eslint";
 
 export default defineConfig(
 	eslint.configs.recommended,
-	{ languageOptions: { globals: globals.browser }, name: "Browser Globals" },
 	{
 		languageOptions: {
 			parserOptions: { ecmaFeatures: { impliedStrict: true } }
@@ -224,7 +222,7 @@ export default defineConfig(
 			"@typescript-eslint/prefer-destructuring": "error",
 			"@typescript-eslint/prefer-enum-initializers": "error",
 			"@typescript-eslint/prefer-readonly": "error",
-			// `@typescript-eslint/prefer-readonly-parameter-types`
+			"@typescript-eslint/prefer-readonly-parameter-types": "error",
 			"@typescript-eslint/promise-function-async": "error",
 			"@typescript-eslint/require-array-sort-compare": "error",
 			// `@typescript-eslint/strict-boolean-expressions`

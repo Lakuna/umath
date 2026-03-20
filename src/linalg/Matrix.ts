@@ -12,7 +12,7 @@ export default interface Matrix extends MatrixLike {
 	 * @returns The sum of the matrices.
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_addition | Matrix addition}
 	 */
-	add: (matrix: Matrix4Like) => MatrixLike;
+	add: (matrix: Readonly<Matrix4Like>) => MatrixLike;
 
 	/**
 	 * Create a copy of this matrix.
@@ -25,21 +25,21 @@ export default interface Matrix extends MatrixLike {
 	 * @param matrix - The matrix to copy.
 	 * @returns This matrix.
 	 */
-	copy: (matrix: Matrix4Like) => this;
+	copy: (matrix: Readonly<Matrix4Like>) => this;
 
 	/**
 	 * Determine whether or not this matrix is roughly equivalent to another.
 	 * @param matrix - The other matrix.
 	 * @returns Whether the matrices are equivalent.
 	 */
-	equals: (matrix: Matrix4Like) => boolean;
+	equals: (matrix: Readonly<Matrix4Like>) => boolean;
 
 	/**
 	 * Determine whether or not this matrix is exactly equivalent to another.
 	 * @param matrix - The other matrix.
 	 * @returns Whether the matrices are equivalent.
 	 */
-	exactEquals: (matrix: Matrix4Like) => boolean;
+	exactEquals: (matrix: Readonly<Matrix4Like>) => boolean;
 
 	/**
 	 * Get the Frobenius norm of this matrix.
@@ -56,7 +56,7 @@ export default interface Matrix extends MatrixLike {
 	 * @returns The product of the matrices.
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_multiplication | Matrix multiplication}
 	 */
-	multiply: (matrix: Matrix4Like) => MatrixLike;
+	multiply: (matrix: Readonly<Matrix4Like>) => MatrixLike;
 
 	/**
 	 * Multiply this matrix by a scalar value.
@@ -74,7 +74,10 @@ export default interface Matrix extends MatrixLike {
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_addition | Matrix addition}
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_multiplication | Matrix multiplication}
 	 */
-	multiplyScalarAndAdd: (matrix: Matrix4Like, scalar: number) => MatrixLike;
+	multiplyScalarAndAdd: (
+		matrix: Readonly<Matrix4Like>,
+		scalar: number
+	) => MatrixLike;
 
 	/**
 	 * Subtract another matrix from this one.
@@ -82,7 +85,7 @@ export default interface Matrix extends MatrixLike {
 	 * @returns The difference between the matrices.
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_addition | Matrix addition}
 	 */
-	subtract: (matrix: Matrix4Like) => MatrixLike;
+	subtract: (matrix: Readonly<Matrix4Like>) => MatrixLike;
 
 	/**
 	 * Transpose this matrix.

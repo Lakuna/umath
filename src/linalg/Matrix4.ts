@@ -168,7 +168,7 @@ export const fromValues = <T extends Matrix4Like>(
  * @public
  */
 export const fromTranslation = <T extends Matrix4Like>(
-	vector: Vector3Like,
+	vector: Readonly<Vector3Like>,
 	out: T
 ): T =>
 	fromValues(
@@ -200,7 +200,7 @@ export const fromTranslation = <T extends Matrix4Like>(
  * @public
  */
 export const fromScaling = <T extends Matrix4Like>(
-	vector: Vector3Like,
+	vector: Readonly<Vector3Like>,
 	out: T
 ): T =>
 	fromValues(
@@ -244,7 +244,7 @@ export const identity = <T extends Matrix4Like>(out: T): T =>
  */
 export const fromRotation = <T extends Matrix4Like>(
 	radians: number,
-	axis: Vector3Like,
+	axis: Readonly<Vector3Like>,
 	out: T
 ): T => {
 	let x = axis[0];
@@ -355,8 +355,8 @@ export const fromZRotation = <T extends Matrix4Like>(
  * @public
  */
 export const fromRotationTranslation = <T extends Matrix4Like>(
-	rotation: QuaternionLike,
-	translation: Vector3Like,
+	rotation: Readonly<QuaternionLike>,
+	translation: Readonly<Vector3Like>,
 	out: T
 ): T => {
 	const x = rotation[0];
@@ -411,9 +411,9 @@ export const fromRotationTranslation = <T extends Matrix4Like>(
  * @public
  */
 export const fromRotationTranslationScale = <T extends Matrix4Like>(
-	rotation: QuaternionLike,
-	translation: Vector3Like,
-	scaling: Vector3Like,
+	rotation: Readonly<QuaternionLike>,
+	translation: Readonly<Vector3Like>,
+	scaling: Readonly<Vector3Like>,
 	out: T
 ): T => {
 	const x = rotation[0];
@@ -473,10 +473,10 @@ export const fromRotationTranslationScale = <T extends Matrix4Like>(
  * @public
  */
 export const fromRotationTranslationScaleOrigin = <T extends Matrix4Like>(
-	rotation: QuaternionLike,
-	translation: Vector3Like,
-	scaling: Vector3Like,
-	origin: Vector3Like,
+	rotation: Readonly<QuaternionLike>,
+	translation: Readonly<Vector3Like>,
+	scaling: Readonly<Vector3Like>,
+	origin: Readonly<Vector3Like>,
 	out: T
 ): T => {
 	const x = rotation[0];
@@ -545,7 +545,7 @@ export const fromRotationTranslationScaleOrigin = <T extends Matrix4Like>(
  * @public
  */
 export const fromQuaternion = <T extends Matrix4Like>(
-	quaternion: QuaternionLike,
+	quaternion: Readonly<QuaternionLike>,
 	out: T
 ): T => {
 	const x = quaternion[0];
@@ -602,7 +602,7 @@ const iv3 = createVector3Like();
  * @public
  */
 export const fromDualQuaternion = <T extends Matrix4Like>(
-	quaternion: DualQuaternionLike,
+	quaternion: Readonly<DualQuaternionLike>,
 	out: T
 ): T => {
 	const bx = -quaternion[0];
@@ -796,7 +796,7 @@ export const perspectiveGpu = <T extends Matrix4Like>(
  * @public
  */
 export const perspectiveFromFieldOfView = <T extends Matrix4Like>(
-	fov: FieldOfView,
+	fov: Readonly<FieldOfView>,
 	near: number,
 	far: number,
 	out: T
@@ -937,9 +937,9 @@ export const orthoGpu = <T extends Matrix4Like>(
  * @public
  */
 export const lookAt = <T extends Matrix4Like>(
-	eye: Vector3Like,
-	center: Vector3Like,
-	up: Vector3Like,
+	eye: Readonly<Vector3Like>,
+	center: Readonly<Vector3Like>,
+	up: Readonly<Vector3Like>,
 	out: T
 ): T => {
 	const eyex = eye[0];
@@ -1028,9 +1028,9 @@ export const lookAt = <T extends Matrix4Like>(
  * @public
  */
 export const targetTo = <T extends Matrix4Like>(
-	eye: Vector3Like,
-	target: Vector3Like,
-	up: Vector3Like,
+	eye: Readonly<Vector3Like>,
+	target: Readonly<Vector3Like>,
+	up: Readonly<Vector3Like>,
 	out: T
 ): T => {
 	const eyex = eye[0];
@@ -1094,8 +1094,8 @@ export const targetTo = <T extends Matrix4Like>(
  * @public
  */
 export const add = <T extends Matrix4Like>(
-	a: Matrix4Like,
-	b: Matrix4Like,
+	a: Readonly<Matrix4Like>,
+	b: Readonly<Matrix4Like>,
 	out: T
 ): T =>
 	fromValues(
@@ -1125,7 +1125,10 @@ export const add = <T extends Matrix4Like>(
  * @returns Whether or not the matrices are equivalent.
  * @public
  */
-export const equals = (a: Matrix4Like, b: Matrix4Like): boolean =>
+export const equals = (
+	a: Readonly<Matrix4Like>,
+	b: Readonly<Matrix4Like>
+): boolean =>
 	approxRelative(a[0], b[0]) &&
 	approxRelative(a[1], b[1]) &&
 	approxRelative(a[2], b[2]) &&
@@ -1150,7 +1153,10 @@ export const equals = (a: Matrix4Like, b: Matrix4Like): boolean =>
  * @returns Whether the matrices are equivalent.
  * @public
  */
-export const exactEquals = (a: Matrix4Like, b: Matrix4Like): boolean =>
+export const exactEquals = (
+	a: Readonly<Matrix4Like>,
+	b: Readonly<Matrix4Like>
+): boolean =>
 	a[0] === b[0] &&
 	a[1] === b[1] &&
 	a[2] === b[2] &&
@@ -1177,7 +1183,7 @@ export const exactEquals = (a: Matrix4Like, b: Matrix4Like): boolean =>
  * @public
  */
 export const adjoint = <T extends Matrix4Like>(
-	matrix: Matrix4Like,
+	matrix: Readonly<Matrix4Like>,
 	out: T
 ): T => {
 	const a00 = matrix[0];
@@ -1238,7 +1244,10 @@ export const adjoint = <T extends Matrix4Like>(
  * @returns This matrix.
  * @public
  */
-export const copy = <T extends Matrix4Like>(matrix: Matrix4Like, out: T): T =>
+export const copy = <T extends Matrix4Like>(
+	matrix: Readonly<Matrix4Like>,
+	out: T
+): T =>
 	fromValues(
 		matrix[0],
 		matrix[1],
@@ -1266,7 +1275,7 @@ export const copy = <T extends Matrix4Like>(matrix: Matrix4Like, out: T): T =>
  * @see {@link https://en.wikipedia.org/wiki/Matrix_norm | Matrix norm}
  * @public
  */
-export const frob = (matrix: Matrix4Like): number =>
+export const frob = (matrix: Readonly<Matrix4Like>): number =>
 	Math.hypot(
 		matrix[0],
 		matrix[1],
@@ -1296,8 +1305,8 @@ export const frob = (matrix: Matrix4Like): number =>
  * @public
  */
 export const multiply = <T extends Matrix4Like>(
-	a: Matrix4Like,
-	b: Matrix4Like,
+	a: Readonly<Matrix4Like>,
+	b: Readonly<Matrix4Like>,
 	out: T
 ): T => {
 	const a00 = a[0];
@@ -1365,7 +1374,7 @@ export const multiply = <T extends Matrix4Like>(
  * @public
  */
 export const multiplyScalar = <T extends Matrix4Like>(
-	matrix: Matrix4Like,
+	matrix: Readonly<Matrix4Like>,
 	scalar: number,
 	out: T
 ): T =>
@@ -1401,8 +1410,8 @@ export const multiplyScalar = <T extends Matrix4Like>(
  * @public
  */
 export const multiplyScalarAndAdd = <T extends Matrix4Like>(
-	a: Matrix4Like,
-	b: Matrix4Like,
+	a: Readonly<Matrix4Like>,
+	b: Readonly<Matrix4Like>,
 	scalar: number,
 	out: T
 ): T =>
@@ -1436,8 +1445,8 @@ export const multiplyScalarAndAdd = <T extends Matrix4Like>(
  * @public
  */
 export const subtract = <T extends Matrix4Like>(
-	a: Matrix4Like,
-	b: Matrix4Like,
+	a: Readonly<Matrix4Like>,
+	b: Readonly<Matrix4Like>,
 	out: T
 ): T =>
 	fromValues(
@@ -1469,7 +1478,7 @@ export const subtract = <T extends Matrix4Like>(
  * @public
  */
 export const transpose = <T extends Matrix4Like>(
-	matrix: Matrix4Like,
+	matrix: Readonly<Matrix4Like>,
 	out: T
 ): T => {
 	if (out === matrix) {
@@ -1522,7 +1531,7 @@ export const transpose = <T extends Matrix4Like>(
  * @see {@link https://en.wikipedia.org/wiki/Determinant | Determinant}
  * @public
  */
-export const determinant = (matrix: Matrix4Like): number => {
+export const determinant = (matrix: Readonly<Matrix4Like>): number => {
 	const a00 = matrix[0];
 	const a01 = matrix[1];
 	const a02 = matrix[2];
@@ -1560,7 +1569,7 @@ export const determinant = (matrix: Matrix4Like): number => {
  * @public
  */
 export const invert = <T extends Matrix4Like>(
-	matrix: Matrix4Like,
+	matrix: Readonly<Matrix4Like>,
 	out: T
 ): T => {
 	const a00 = matrix[0];
@@ -1631,8 +1640,8 @@ export const invert = <T extends Matrix4Like>(
  * @public
  */
 export const scale = <T extends Matrix4Like>(
-	matrix: Matrix4Like,
-	vector: Vector3Like,
+	matrix: Readonly<Matrix4Like>,
+	vector: Readonly<Vector3Like>,
 	out: T
 ): T => {
 	const x = vector[0];
@@ -1670,8 +1679,8 @@ export const scale = <T extends Matrix4Like>(
  * @public
  */
 export const translate = <T extends Matrix4Like>(
-	matrix: Matrix4Like,
-	vector: Vector3Like,
+	matrix: Readonly<Matrix4Like>,
+	vector: Readonly<Vector3Like>,
 	out: T
 ): T => {
 	const x = vector[0];
@@ -1731,9 +1740,9 @@ export const translate = <T extends Matrix4Like>(
  * @public
  */
 export const rotate = <T extends Matrix4Like>(
-	matrix: Matrix4Like,
+	matrix: Readonly<Matrix4Like>,
 	radians: number,
-	axis: Vector3Like,
+	axis: Readonly<Vector3Like>,
 	out: T
 ): T => {
 	let x = axis[0];
@@ -1818,7 +1827,7 @@ export const rotate = <T extends Matrix4Like>(
  * @public
  */
 export const rotateX = <T extends Matrix4Like>(
-	matrix: Matrix4Like,
+	matrix: Readonly<Matrix4Like>,
 	r: number,
 	out: T
 ): T => {
@@ -1866,7 +1875,7 @@ export const rotateX = <T extends Matrix4Like>(
  * @public
  */
 export const rotateY = <T extends Matrix4Like>(
-	matrix: Matrix4Like,
+	matrix: Readonly<Matrix4Like>,
 	r: number,
 	out: T
 ): T => {
@@ -1914,7 +1923,7 @@ export const rotateY = <T extends Matrix4Like>(
  * @public
  */
 export const rotateZ = <T extends Matrix4Like>(
-	matrix: Matrix4Like,
+	matrix: Readonly<Matrix4Like>,
 	r: number,
 	out: T
 ): T => {
@@ -1961,7 +1970,7 @@ export const rotateZ = <T extends Matrix4Like>(
  * @public
  */
 export const getTranslation = <T extends Vector3Like>(
-	matrix: Matrix4Like,
+	matrix: Readonly<Matrix4Like>,
 	out: T
 ): T => vector3FromValues(matrix[12], matrix[13], matrix[14], out);
 
@@ -1975,8 +1984,8 @@ export const getTranslation = <T extends Vector3Like>(
  * @public
  */
 export const setTranslation = <T extends Matrix4Like>(
-	matrix: Matrix4Like,
-	translation: Vector3Like,
+	matrix: Readonly<Matrix4Like>,
+	translation: Readonly<Vector3Like>,
 	out: T
 ): T => {
 	if (out !== matrix) {
@@ -2010,7 +2019,7 @@ export const setTranslation = <T extends Matrix4Like>(
  * @public
  */
 export const getScaling = <T extends Vector3Like>(
-	matrix: Matrix4Like,
+	matrix: Readonly<Matrix4Like>,
 	out: T
 ): T =>
 	vector3FromValues(
@@ -2029,7 +2038,7 @@ export const getScaling = <T extends Vector3Like>(
  * @public
  */
 export const getRotation = <T extends QuaternionLike>(
-	matrix: Matrix4Like,
+	matrix: Readonly<Matrix4Like>,
 	out: T
 ): T => {
 	getScaling(matrix, iv3);
@@ -2238,7 +2247,9 @@ export default class Matrix4
 	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
-	public static fromDualQuaternion(quaternion: DualQuaternionLike): Matrix4 {
+	public static fromDualQuaternion(
+		quaternion: Readonly<DualQuaternionLike>
+	): Matrix4 {
 		return fromDualQuaternion(quaternion, new Matrix4());
 	}
 
@@ -2249,7 +2260,7 @@ export default class Matrix4
 	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
-	public static fromQuaternion(quaternion: QuaternionLike): Matrix4 {
+	public static fromQuaternion(quaternion: Readonly<QuaternionLike>): Matrix4 {
 		return fromQuaternion(quaternion, new Matrix4());
 	}
 
@@ -2260,7 +2271,7 @@ export default class Matrix4
 	 * @returns The transformation matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
 	 */
-	public static fromRotation(r: number, axis: Vector3Like): Matrix4 {
+	public static fromRotation(r: number, axis: Readonly<Vector3Like>): Matrix4 {
 		return fromRotation(r, axis, new Matrix4());
 	}
 
@@ -2273,8 +2284,8 @@ export default class Matrix4
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
 	public static fromRotationTranslation(
-		rotation: QuaternionLike,
-		translation: Vector3Like
+		rotation: Readonly<QuaternionLike>,
+		translation: Readonly<Vector3Like>
 	): Matrix4 {
 		return fromRotationTranslation(rotation, translation, new Matrix4());
 	}
@@ -2289,9 +2300,9 @@ export default class Matrix4
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
 	public static fromRotationTranslationScale(
-		rotation: QuaternionLike,
-		translation: Vector3Like,
-		scaling: Vector3Like
+		rotation: Readonly<QuaternionLike>,
+		translation: Readonly<Vector3Like>,
+		scaling: Readonly<Vector3Like>
 	): Matrix4 {
 		return fromRotationTranslationScale(
 			rotation,
@@ -2312,10 +2323,10 @@ export default class Matrix4
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
 	public static fromRotationTranslationScaleOrigin(
-		rotation: QuaternionLike,
-		translation: Vector3Like,
-		scaling: Vector3Like,
-		origin: Vector3Like
+		rotation: Readonly<QuaternionLike>,
+		translation: Readonly<Vector3Like>,
+		scaling: Readonly<Vector3Like>,
+		origin: Readonly<Vector3Like>
 	): Matrix4 {
 		return fromRotationTranslationScaleOrigin(
 			rotation,
@@ -2332,7 +2343,7 @@ export default class Matrix4
 	 * @returns The transformation matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
-	public static fromScaling(vector: Vector3Like): Matrix4 {
+	public static fromScaling(vector: Readonly<Vector3Like>): Matrix4 {
 		return fromScaling(vector, new Matrix4());
 	}
 
@@ -2342,7 +2353,7 @@ export default class Matrix4
 	 * @returns The transformation matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
-	public static fromTranslation(vector: Vector3Like): Matrix4 {
+	public static fromTranslation(vector: Readonly<Vector3Like>): Matrix4 {
 		return fromTranslation(vector, new Matrix4());
 	}
 
@@ -2470,9 +2481,9 @@ export default class Matrix4
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
 	public static lookAt(
-		eye: Vector3Like,
-		center: Vector3Like,
-		up: Vector3Like = [0, 1, 0]
+		eye: Readonly<Vector3Like>,
+		center: Readonly<Vector3Like>,
+		up: Readonly<Vector3Like> = [0, 1, 0]
 	): Matrix4 {
 		return lookAt(eye, center, up, new Matrix4());
 	}
@@ -2553,7 +2564,7 @@ export default class Matrix4
 	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/WebXR_Device_API | WebXR API}
 	 */
 	public static perspectiveFromFieldOfView(
-		fov: FieldOfView,
+		fov: Readonly<FieldOfView>,
 		near: number,
 		far: number
 	): Matrix4 {
@@ -2588,9 +2599,9 @@ export default class Matrix4
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
 	public static targetTo(
-		eye: Vector3Like,
-		target: Vector3Like,
-		up: Vector3Like = [0, 1, 0]
+		eye: Readonly<Vector3Like>,
+		target: Readonly<Vector3Like>,
+		up: Readonly<Vector3Like> = [0, 1, 0]
 	): Matrix4 {
 		return targetTo(eye, target, up, new Matrix4());
 	}
@@ -2601,7 +2612,7 @@ export default class Matrix4
 	 * @returns The sum of the matrices.
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_addition | Matrix addition}
 	 */
-	public add(matrix: Matrix4Like): Matrix4 {
+	public add(matrix: Readonly<Matrix4Like>): Matrix4 {
 		return add(this, matrix, new Matrix4());
 	}
 
@@ -2627,7 +2638,7 @@ export default class Matrix4
 	 * @param matrix - The matrix to copy.
 	 * @returns This matrix.
 	 */
-	public copy(matrix: Matrix4Like): this {
+	public copy(matrix: Readonly<Matrix4Like>): this {
 		return copy(matrix, this);
 	}
 
@@ -2636,7 +2647,7 @@ export default class Matrix4
 	 * @param matrix - The other matrix.
 	 * @returns Whether or not the matrices are equivalent.
 	 */
-	public equals(matrix: Matrix4Like): boolean {
+	public equals(matrix: Readonly<Matrix4Like>): boolean {
 		return equals(this, matrix);
 	}
 
@@ -2645,7 +2656,7 @@ export default class Matrix4
 	 * @param matrix - The other matrix.
 	 * @returns Whether or not the matrices are equivalent.
 	 */
-	public exactEquals(matrix: Matrix4Like): boolean {
+	public exactEquals(matrix: Readonly<Matrix4Like>): boolean {
 		return exactEquals(this, matrix);
 	}
 
@@ -2673,7 +2684,7 @@ export default class Matrix4
 	 * @returns The product of the matrices.
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_multiplication | Matrix multiplication}
 	 */
-	public multiply(matrix: Matrix4Like): Matrix4 {
+	public multiply(matrix: Readonly<Matrix4Like>): Matrix4 {
 		return multiply(this, matrix, new Matrix4());
 	}
 
@@ -2695,7 +2706,10 @@ export default class Matrix4
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_addition | Matrix addition}
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_multiplication | Matrix multiplication}
 	 */
-	public multiplyScalarAndAdd(matrix: Matrix4Like, scalar: number): Matrix4 {
+	public multiplyScalarAndAdd(
+		matrix: Readonly<Matrix4Like>,
+		scalar: number
+	): Matrix4 {
 		return multiplyScalarAndAdd(this, matrix, scalar, new Matrix4());
 	}
 
@@ -2706,7 +2720,7 @@ export default class Matrix4
 	 * @returns The rotated matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Rotation_matrix | Rotation matrix}
 	 */
-	public rotate(r: number, axis: Vector3Like): Matrix4 {
+	public rotate(r: number, axis: Readonly<Vector3Like>): Matrix4 {
 		return rotate(this, r, axis, new Matrix4());
 	}
 
@@ -2746,7 +2760,7 @@ export default class Matrix4
 	 * @returns The scaled matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
-	public scale(vector: Vector3Like): Matrix4 {
+	public scale(vector: Readonly<Vector3Like>): Matrix4 {
 		return scale(this, vector, new Matrix4());
 	}
 
@@ -2756,7 +2770,7 @@ export default class Matrix4
 	 * @returns The transformation matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
-	public setTranslation(translation: Vector3Like): Matrix4 {
+	public setTranslation(translation: Readonly<Vector3Like>): Matrix4 {
 		return setTranslation(this, translation, new Matrix4());
 	}
 
@@ -2766,7 +2780,7 @@ export default class Matrix4
 	 * @returns The difference between the matrices.
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_addition | Matrix addition}
 	 */
-	public subtract(matrix: Matrix4Like): Matrix4 {
+	public subtract(matrix: Readonly<Matrix4Like>): Matrix4 {
 		return subtract(this, matrix, new Matrix4());
 	}
 
@@ -2776,7 +2790,7 @@ export default class Matrix4
 	 * @returns The translated matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
-	public translate(vector: Vector3Like): Matrix4 {
+	public translate(vector: Readonly<Vector3Like>): Matrix4 {
 		return translate(this, vector, new Matrix4());
 	}
 

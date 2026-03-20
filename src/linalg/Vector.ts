@@ -11,7 +11,7 @@ export default interface Vector extends VectorLike {
 	 * @param vector - The other vector.
 	 * @returns The sum of the vectors.
 	 */
-	add: (vector: Vector4Like) => VectorLike;
+	add: (vector: Readonly<Vector4Like>) => VectorLike;
 
 	/**
 	 * Round up the components of this vector.
@@ -30,21 +30,21 @@ export default interface Vector extends VectorLike {
 	 * @param vector - The vector to copy.
 	 * @returns This vector.
 	 */
-	copy: (vector: Vector4Like) => this;
+	copy: (vector: Readonly<Vector4Like>) => this;
 
 	/**
 	 * Calculate the Euclidean distance between this vector and another.
 	 * @param vector - The other vector.
 	 * @returns The distance.
 	 */
-	distance: (vector: Vector4Like) => number;
+	distance: (vector: Readonly<Vector4Like>) => number;
 
 	/**
 	 * Divide this vector by another.
 	 * @param vector - The other vector.
 	 * @returns The quotient of the vectors.
 	 */
-	divide: (vector: Vector4Like) => VectorLike;
+	divide: (vector: Readonly<Vector4Like>) => VectorLike;
 
 	/**
 	 * Calculate the dot product of this and another vector.
@@ -52,21 +52,21 @@ export default interface Vector extends VectorLike {
 	 * @returns The dot product.
 	 * @see {@link https://en.wikipedia.org/wiki/Dot_product | Dot product}
 	 */
-	dot: (vector: Vector4Like) => number;
+	dot: (vector: Readonly<Vector4Like>) => number;
 
 	/**
 	 * Determine whether this vector is roughly equivalent to another.
 	 * @param vector - The other vector.
 	 * @returns Whether the vectors are equivalent.
 	 */
-	equals: (vector: Vector4Like) => boolean;
+	equals: (vector: Readonly<Vector4Like>) => boolean;
 
 	/**
 	 * Determine whether this vector is exactly equivalent to another.
 	 * @param vector - The other vector.
 	 * @returns Whether the vectors are equivalent.
 	 */
-	exactEquals: (vector: Vector4Like) => boolean;
+	exactEquals: (vector: Readonly<Vector4Like>) => boolean;
 
 	/**
 	 * Round down the components of this vector.
@@ -86,7 +86,7 @@ export default interface Vector extends VectorLike {
 	 * @param t - The interpolation amount (in `[0,1]`).
 	 * @returns The interpolated vector.
 	 */
-	lerp: (vector: Vector4Like, t: number) => VectorLike;
+	lerp: (vector: Readonly<Vector4Like>, t: number) => VectorLike;
 
 	/** Get the magnitude (length) of this vector. */
 	get magnitude(): number;
@@ -96,21 +96,21 @@ export default interface Vector extends VectorLike {
 	 * @param vector - The other vector.
 	 * @returns The maximum.
 	 */
-	max: (vector: Vector4Like) => VectorLike;
+	max: (vector: Readonly<Vector4Like>) => VectorLike;
 
 	/**
 	 * Return the minimum of this and another vector.
 	 * @param vector - The other vector.
 	 * @returns The minimum.
 	 */
-	min: (vector: Vector4Like) => VectorLike;
+	min: (vector: Readonly<Vector4Like>) => VectorLike;
 
 	/**
 	 * Multiply this vector by another.
 	 * @param vector - The other vector.
 	 * @returns The product of the vectors.
 	 */
-	multiply: (vector: Vector4Like) => VectorLike;
+	multiply: (vector: Readonly<Vector4Like>) => VectorLike;
 
 	/**
 	 * Negate this vector.
@@ -158,14 +158,14 @@ export default interface Vector extends VectorLike {
 	 * @param scalar - The scalar.
 	 * @returns The sum.
 	 */
-	scaleAndAdd: (vector: Vector4Like, scalar: number) => VectorLike;
+	scaleAndAdd: (vector: Readonly<Vector4Like>, scalar: number) => VectorLike;
 
 	/**
 	 * Calculate the squared Euclidean distance between this vector and another.
 	 * @param vector - The other vector.
 	 * @returns The squared distance.
 	 */
-	squaredDistance: (vector: Vector4Like) => number;
+	squaredDistance: (vector: Readonly<Vector4Like>) => number;
 
 	/** Get the squared magnitude (length) of this vector. */
 	get squaredMagnitude(): number;
@@ -175,7 +175,7 @@ export default interface Vector extends VectorLike {
 	 * @param vector - The other vector.
 	 * @returns The difference between the vectors.
 	 */
-	subtract: (vector: Vector4Like) => VectorLike;
+	subtract: (vector: Readonly<Vector4Like>) => VectorLike;
 
 	/**
 	 * Set this to the zero vector.

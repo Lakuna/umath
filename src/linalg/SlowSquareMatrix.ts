@@ -43,7 +43,7 @@ export default class SlowSquareMatrix
 	 * @param cols - The columns in the matrix.
 	 * @see {@link https://en.wikipedia.org/wiki/Square_matrix | Square matrix}
 	 */
-	public constructor(...cols: number[][]) {
+	public constructor(...cols: readonly (readonly number[])[]) {
 		super(...cols);
 
 		// Ensure that every column is the same height and that the height is equal to the width.

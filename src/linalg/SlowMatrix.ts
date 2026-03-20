@@ -20,7 +20,7 @@ interface SizedMatrixLike extends MatrixLike {
  * Determine whether the given `MatrixLike` has size information.
  * @internal
  */
-const isSized = (matrix: MatrixLike): matrix is SizedMatrixLike =>
+const isSized = (matrix: Readonly<MatrixLike>): matrix is SizedMatrixLike =>
 	"width" in matrix &&
 	typeof matrix.width === "number" &&
 	"height" in matrix &&
@@ -50,7 +50,7 @@ export default class SlowMatrix extends Float32Array implements Matrix {
 	 * Create a variable-size matrix from the given columns.
 	 * @param cols - The columns in the matrix.
 	 */
-	public constructor(...cols: number[][]) {
+	public constructor(...cols: readonly (readonly number[])[]) {
 		super(cols.flat());
 
 		this.width = cols.length;
@@ -70,7 +70,7 @@ export default class SlowMatrix extends Float32Array implements Matrix {
 	 * @returns The sum of the matrices.
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_addition | Matrix addition}
 	 */
-	public add(matrix: MatrixLike): SlowMatrix {
+	public add(matrix: Readonly<MatrixLike>): SlowMatrix {
 		if (
 			!isSized(matrix) ||
 			this.width !== matrix.width ||
@@ -110,7 +110,7 @@ export default class SlowMatrix extends Float32Array implements Matrix {
 	 * @param matrix - The matrix to copy.
 	 * @returns This matrix.
 	 */
-	public copy(matrix: MatrixLike): this {
+	public copy(matrix: Readonly<MatrixLike>): this {
 		if (
 			!isSized(matrix) ||
 			this.width !== matrix.width ||
@@ -131,7 +131,7 @@ export default class SlowMatrix extends Float32Array implements Matrix {
 	 * @param matrix - The other matrix.
 	 * @returns Whether or not the matrices are equivalent.
 	 */
-	public equals(matrix: MatrixLike): boolean {
+	public equals(matrix: Readonly<MatrixLike>): boolean {
 		if (
 			!isSized(matrix) ||
 			this.width !== matrix.width ||
@@ -154,7 +154,7 @@ export default class SlowMatrix extends Float32Array implements Matrix {
 	 * @param matrix - The other matrix.
 	 * @returns Whether the matrices are equivalent.
 	 */
-	public exactEquals(matrix: MatrixLike): boolean {
+	public exactEquals(matrix: Readonly<MatrixLike>): boolean {
 		if (
 			!isSized(matrix) ||
 			this.width !== matrix.width ||
@@ -178,7 +178,7 @@ export default class SlowMatrix extends Float32Array implements Matrix {
 	 * @returns The product of the matrices.
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_multiplication | Matrix multiplication}
 	 */
-	public multiply(matrix: MatrixLike): SlowMatrix {
+	public multiply(matrix: Readonly<MatrixLike>): SlowMatrix {
 		if (!isSized(matrix) || this.width !== matrix.height) {
 			throw new MatrixSizeError();
 		}
@@ -227,7 +227,10 @@ export default class SlowMatrix extends Float32Array implements Matrix {
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_addition | Matrix addition}
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_multiplication | Matrix multiplication}
 	 */
-	public multiplyScalarAndAdd(matrix: MatrixLike, scalar: number): SlowMatrix {
+	public multiplyScalarAndAdd(
+		matrix: Readonly<MatrixLike>,
+		scalar: number
+	): SlowMatrix {
 		if (
 			!isSized(matrix) ||
 			this.width !== matrix.width ||
@@ -253,7 +256,7 @@ export default class SlowMatrix extends Float32Array implements Matrix {
 	 * @returns The difference between the matrices.
 	 * @see {@link https://en.wikipedia.org/wiki/Matrix_addition | Matrix addition}
 	 */
-	public subtract(matrix: MatrixLike): SlowMatrix {
+	public subtract(matrix: Readonly<MatrixLike>): SlowMatrix {
 		if (
 			!isSized(matrix) ||
 			this.width !== matrix.width ||

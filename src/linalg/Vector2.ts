@@ -57,8 +57,10 @@ export const fromValues = <T extends Vector2Like>(
  * @returns Whether or not the vectors are equivalent.
  * @public
  */
-export const equals = (a: Vector2Like, b: Vector2Like): boolean =>
-	approxRelative(a[0], b[0]) && approxRelative(a[1], b[1]);
+export const equals = (
+	a: Readonly<Vector2Like>,
+	b: Readonly<Vector2Like>
+): boolean => approxRelative(a[0], b[0]) && approxRelative(a[1], b[1]);
 
 /**
  * Determine whether or not two vectors are exactly equivalent.
@@ -67,8 +69,10 @@ export const equals = (a: Vector2Like, b: Vector2Like): boolean =>
  * @returns Whether or not the vectors are equivalent.
  * @public
  */
-export const exactEquals = (a: Vector2Like, b: Vector2Like): boolean =>
-	a[0] === b[0] && a[1] === b[1];
+export const exactEquals = (
+	a: Readonly<Vector2Like>,
+	b: Readonly<Vector2Like>
+): boolean => a[0] === b[0] && a[1] === b[1];
 
 /**
  * Add two vectors.
@@ -78,9 +82,9 @@ export const exactEquals = (a: Vector2Like, b: Vector2Like): boolean =>
  * @returns The sum.
  * @public
  */
-export const add = <T extends Vector2Like>(
-	a: Vector2Like,
-	b: Vector2Like,
+export const add = <T extends Readonly<Vector2Like>>(
+	a: Readonly<Vector2Like>,
+	b: Readonly<Vector2Like>,
 	out: T
 ): T => fromValues(a[0] + b[0], a[1] + b[1], out);
 
@@ -91,8 +95,10 @@ export const add = <T extends Vector2Like>(
  * @returns The copy.
  * @public
  */
-export const copy = <T extends Vector2Like>(vector: Vector2Like, out: T): T =>
-	fromValues(vector[0], vector[1], out);
+export const copy = <T extends Vector2Like>(
+	vector: Readonly<Vector2Like>,
+	out: T
+): T => fromValues(vector[0], vector[1], out);
 
 /**
  * Multiply the components in one vector by the corresponding components in another.
@@ -103,8 +109,8 @@ export const copy = <T extends Vector2Like>(vector: Vector2Like, out: T): T =>
  * @public
  */
 export const multiply = <T extends Vector2Like>(
-	a: Vector2Like,
-	b: Vector2Like,
+	a: Readonly<Vector2Like>,
+	b: Readonly<Vector2Like>,
 	out: T
 ): T => fromValues(a[0] * b[0], a[1] * b[1], out);
 
@@ -117,8 +123,8 @@ export const multiply = <T extends Vector2Like>(
  * @public
  */
 export const divide = <T extends Vector2Like>(
-	a: Vector2Like,
-	b: Vector2Like,
+	a: Readonly<Vector2Like>,
+	b: Readonly<Vector2Like>,
 	out: T
 ): T => fromValues(a[0] / b[0], a[1] / b[1], out);
 
@@ -131,8 +137,8 @@ export const divide = <T extends Vector2Like>(
  * @public
  */
 export const subtract = <T extends Vector2Like>(
-	a: Vector2Like,
-	b: Vector2Like,
+	a: Readonly<Vector2Like>,
+	b: Readonly<Vector2Like>,
 	out: T
 ): T => fromValues(a[0] - b[0], a[1] - b[1], out);
 
@@ -143,8 +149,10 @@ export const subtract = <T extends Vector2Like>(
  * @returns The absolutized vector.
  * @public
  */
-export const abs = <T extends Vector2Like>(vector: Vector2Like, out: T): T =>
-	fromValues(Math.abs(vector[0]), Math.abs(vector[1]), out);
+export const abs = <T extends Vector2Like>(
+	vector: Readonly<Vector2Like>,
+	out: T
+): T => fromValues(Math.abs(vector[0]), Math.abs(vector[1]), out);
 
 /**
  * Round up the components of a vector.
@@ -153,8 +161,10 @@ export const abs = <T extends Vector2Like>(vector: Vector2Like, out: T): T =>
  * @returns The rounded vector.
  * @public
  */
-export const ceil = <T extends Vector2Like>(vector: Vector2Like, out: T): T =>
-	fromValues(Math.ceil(vector[0]), Math.ceil(vector[1]), out);
+export const ceil = <T extends Vector2Like>(
+	vector: Readonly<Vector2Like>,
+	out: T
+): T => fromValues(Math.ceil(vector[0]), Math.ceil(vector[1]), out);
 
 /**
  * Round down the components of a vector.
@@ -163,8 +173,10 @@ export const ceil = <T extends Vector2Like>(vector: Vector2Like, out: T): T =>
  * @returns The rounded vector.
  * @public
  */
-export const floor = <T extends Vector2Like>(vector: Vector2Like, out: T): T =>
-	fromValues(Math.floor(vector[0]), Math.floor(vector[1]), out);
+export const floor = <T extends Vector2Like>(
+	vector: Readonly<Vector2Like>,
+	out: T
+): T => fromValues(Math.floor(vector[0]), Math.floor(vector[1]), out);
 
 /**
  * Round the components of a vector.
@@ -173,8 +185,10 @@ export const floor = <T extends Vector2Like>(vector: Vector2Like, out: T): T =>
  * @returns The rounded vector.
  * @public
  */
-export const round = <T extends Vector2Like>(vector: Vector2Like, out: T): T =>
-	fromValues(Math.round(vector[0]), Math.round(vector[1]), out);
+export const round = <T extends Vector2Like>(
+	vector: Readonly<Vector2Like>,
+	out: T
+): T => fromValues(Math.round(vector[0]), Math.round(vector[1]), out);
 
 /**
  * Return the minimum of two vectors.
@@ -185,8 +199,8 @@ export const round = <T extends Vector2Like>(vector: Vector2Like, out: T): T =>
  * @public
  */
 export const min = <T extends Vector2Like>(
-	a: Vector2Like,
-	b: Vector2Like,
+	a: Readonly<Vector2Like>,
+	b: Readonly<Vector2Like>,
 	out: T
 ): T => fromValues(Math.min(a[0], b[0]), Math.min(a[1], b[1]), out);
 
@@ -199,8 +213,8 @@ export const min = <T extends Vector2Like>(
  * @public
  */
 export const max = <T extends Vector2Like>(
-	a: Vector2Like,
-	b: Vector2Like,
+	a: Readonly<Vector2Like>,
+	b: Readonly<Vector2Like>,
 	out: T
 ): T => fromValues(Math.max(a[0], b[0]), Math.max(a[1], b[1]), out);
 
@@ -213,7 +227,7 @@ export const max = <T extends Vector2Like>(
  * @public
  */
 export const pow = <T extends Vector2Like>(
-	vector: Vector2Like,
+	vector: Readonly<Vector2Like>,
 	scalar: number,
 	out: T
 ): T => fromValues(vector[0] ** scalar, vector[1] ** scalar, out);
@@ -227,7 +241,7 @@ export const pow = <T extends Vector2Like>(
  * @public
  */
 export const scale = <T extends Vector2Like>(
-	vector: Vector2Like,
+	vector: Readonly<Vector2Like>,
 	scalar: number,
 	out: T
 ): T => fromValues(vector[0] * scalar, vector[1] * scalar, out);
@@ -242,8 +256,8 @@ export const scale = <T extends Vector2Like>(
  * @public
  */
 export const scaleAndAdd = <T extends Vector2Like>(
-	a: Vector2Like,
-	b: Vector2Like,
+	a: Readonly<Vector2Like>,
+	b: Readonly<Vector2Like>,
 	scalar: number,
 	out: T
 ): T => fromValues(a[0] + b[0] * scalar, a[1] + b[1] * scalar, out);
@@ -256,8 +270,10 @@ export const scaleAndAdd = <T extends Vector2Like>(
  * @see {@link https://en.wikipedia.org/wiki/Euclidean_distance | Euclidean distance}
  * @public
  */
-export const distance = (a: Vector2Like, b: Vector2Like): number =>
-	Math.hypot(b[0] - a[0], b[1] - a[1]);
+export const distance = (
+	a: Readonly<Vector2Like>,
+	b: Readonly<Vector2Like>
+): number => Math.hypot(b[0] - a[0], b[1] - a[1]);
 
 /**
  * Calculate the squared Euclidean distance from one vector to another.
@@ -267,7 +283,10 @@ export const distance = (a: Vector2Like, b: Vector2Like): number =>
  * @see {@link https://en.wikipedia.org/wiki/Euclidean_distance | Euclidean distance}
  * @public
  */
-export const squaredDistance = (a: Vector2Like, b: Vector2Like): number => {
+export const squaredDistance = (
+	a: Readonly<Vector2Like>,
+	b: Readonly<Vector2Like>
+): number => {
 	const x = b[0] - a[0];
 	const y = b[1] - a[1];
 	return x * x + y * y;
@@ -279,7 +298,7 @@ export const squaredDistance = (a: Vector2Like, b: Vector2Like): number => {
  * @returns The magnitude.
  * @public
  */
-export const getMagnitude = (vector: Vector2Like): number =>
+export const getMagnitude = (vector: Readonly<Vector2Like>): number =>
 	Math.hypot(vector[0], vector[1]);
 
 /**
@@ -288,7 +307,7 @@ export const getMagnitude = (vector: Vector2Like): number =>
  * @returns The squared magnitude.
  * @public
  */
-export const getSquaredMagnitude = (vector: Vector2Like): number => {
+export const getSquaredMagnitude = (vector: Readonly<Vector2Like>): number => {
 	const x = vector[0];
 	const y = vector[1];
 	return x * x + y * y;
@@ -301,8 +320,10 @@ export const getSquaredMagnitude = (vector: Vector2Like): number => {
  * @returns The negated vector.
  * @public
  */
-export const negate = <T extends Vector2Like>(vector: Vector2Like, out: T): T =>
-	fromValues(-vector[0], -vector[1], out);
+export const negate = <T extends Vector2Like>(
+	vector: Readonly<Vector2Like>,
+	out: T
+): T => fromValues(-vector[0], -vector[1], out);
 
 /**
  * Calculate the multiplicative inverse of the components of a vector.
@@ -311,8 +332,10 @@ export const negate = <T extends Vector2Like>(vector: Vector2Like, out: T): T =>
  * @returns The inverted vector.
  * @public
  */
-export const invert = <T extends Vector2Like>(vector: Vector2Like, out: T): T =>
-	fromValues(1 / vector[0], 1 / vector[1], out);
+export const invert = <T extends Vector2Like>(
+	vector: Readonly<Vector2Like>,
+	out: T
+): T => fromValues(1 / vector[0], 1 / vector[1], out);
 
 /**
  * Normalize a vector.
@@ -323,7 +346,7 @@ export const invert = <T extends Vector2Like>(vector: Vector2Like, out: T): T =>
  * @public
  */
 export const normalize = <T extends Vector2Like>(
-	vector: Vector2Like,
+	vector: Readonly<Vector2Like>,
 	out: T
 ): T => {
 	const x = vector[0];
@@ -345,8 +368,10 @@ export const normalize = <T extends Vector2Like>(
  * @see {@link https://en.wikipedia.org/wiki/Dot_product | Dot product}
  * @public
  */
-export const dot = (a: Vector2Like, b: Vector2Like): number =>
-	a[0] * b[0] + a[1] * b[1];
+export const dot = (
+	a: Readonly<Vector2Like>,
+	b: Readonly<Vector2Like>
+): number => a[0] * b[0] + a[1] * b[1];
 
 /**
  * Calculate the cross product of two vectors.
@@ -358,8 +383,8 @@ export const dot = (a: Vector2Like, b: Vector2Like): number =>
  * @public
  */
 export const cross = <T extends Vector3Like>(
-	a: Vector2Like,
-	b: Vector2Like,
+	a: Readonly<Vector2Like>,
+	b: Readonly<Vector2Like>,
 	out: T
 ): T => vector3FromValues(0, 0, a[0] * b[1] - a[1] * b[0], out);
 
@@ -374,8 +399,8 @@ export const cross = <T extends Vector3Like>(
  * @public
  */
 export const lerp = <T extends Vector2Like>(
-	a: Vector2Like,
-	b: Vector2Like,
+	a: Readonly<Vector2Like>,
+	b: Readonly<Vector2Like>,
 	t: number,
 	out: T
 ): T => {
@@ -408,8 +433,8 @@ export const random = <T extends Vector2Like>(magnitude: number, out: T): T => {
  * @public
  */
 export const transformMatrix2 = <T extends Vector2Like>(
-	vector: Vector2Like,
-	matrix: Matrix2Like,
+	vector: Readonly<Vector2Like>,
+	matrix: Readonly<Matrix2Like>,
 	out: T
 ): T => {
 	const x = vector[0];
@@ -432,8 +457,8 @@ export const transformMatrix2 = <T extends Vector2Like>(
  * @public
  */
 export const transformMatrix3 = <T extends Vector2Like>(
-	vector: Vector2Like,
-	matrix: Matrix3Like,
+	vector: Readonly<Vector2Like>,
+	matrix: Readonly<Matrix3Like>,
 	out: T
 ): T => {
 	const x = vector[0];
@@ -456,8 +481,8 @@ export const transformMatrix3 = <T extends Vector2Like>(
  * @public
  */
 export const transformMatrix4 = <T extends Vector2Like>(
-	vector: Vector2Like,
-	matrix: Matrix4Like,
+	vector: Readonly<Vector2Like>,
+	matrix: Readonly<Matrix4Like>,
 	out: T
 ): T => {
 	const x = vector[0];
@@ -480,8 +505,8 @@ export const transformMatrix4 = <T extends Vector2Like>(
  * @public
  */
 export const rotate = <T extends Vector2Like>(
-	vector: Vector2Like,
-	origin: Vector2Like,
+	vector: Readonly<Vector2Like>,
+	origin: Readonly<Vector2Like>,
 	r: number,
 	out: T
 ): T => {
@@ -504,7 +529,10 @@ export const rotate = <T extends Vector2Like>(
  * @returns The angular distance.
  * @public
  */
-export const angle = (a: Vector2Like, b: Vector2Like): number => {
+export const angle = (
+	a: Readonly<Vector2Like>,
+	b: Readonly<Vector2Like>
+): number => {
 	const x1 = a[0];
 	const y1 = a[1];
 
@@ -589,7 +617,7 @@ export default class Vector2
 	 * @param vector - The other vector.
 	 * @returns The sum of the vectors.
 	 */
-	public add(vector: Vector2Like): Vector2 {
+	public add(vector: Readonly<Vector2Like>): Vector2 {
 		return add(this, vector, new Vector2());
 	}
 
@@ -598,7 +626,7 @@ export default class Vector2
 	 * @param vector - The other vector.
 	 * @returns The angular distance.
 	 */
-	public angle(vector: Vector2Like): number {
+	public angle(vector: Readonly<Vector2Like>): number {
 		return angle(this, vector);
 	}
 
@@ -623,7 +651,7 @@ export default class Vector2
 	 * @param vector - The vector to copy.
 	 * @returns This vector.
 	 */
-	public copy(vector: Vector2Like): this {
+	public copy(vector: Readonly<Vector2Like>): this {
 		return copy(vector, this);
 	}
 
@@ -633,7 +661,7 @@ export default class Vector2
 	 * @returns The cross product.
 	 * @see {@link https://en.wikipedia.org/wiki/Cross_product | Cross product}
 	 */
-	public cross(vector: Vector2Like): Vector3 {
+	public cross(vector: Readonly<Vector2Like>): Vector3 {
 		return cross(this, vector, new Vector3());
 	}
 
@@ -643,7 +671,7 @@ export default class Vector2
 	 * @returns The distance.
 	 * @see {@link https://en.wikipedia.org/wiki/Euclidean_distance | Euclidean distance}
 	 */
-	public distance(vector: Vector2Like): number {
+	public distance(vector: Readonly<Vector2Like>): number {
 		return distance(this, vector);
 	}
 
@@ -652,7 +680,7 @@ export default class Vector2
 	 * @param vector - The other vector.
 	 * @returns The quotient of the vectors.
 	 */
-	public divide(vector: Vector2Like): Vector2 {
+	public divide(vector: Readonly<Vector2Like>): Vector2 {
 		return divide(this, vector, new Vector2());
 	}
 
@@ -662,7 +690,7 @@ export default class Vector2
 	 * @returns The dot product.
 	 * @see {@link https://en.wikipedia.org/wiki/Dot_product | Dot product}
 	 */
-	public dot(vector: Vector2Like): number {
+	public dot(vector: Readonly<Vector2Like>): number {
 		return dot(this, vector);
 	}
 
@@ -671,7 +699,7 @@ export default class Vector2
 	 * @param vector - The other vector.
 	 * @returns Whether the vectors are equivalent.
 	 */
-	public equals(vector: Vector2Like): boolean {
+	public equals(vector: Readonly<Vector2Like>): boolean {
 		return equals(this, vector);
 	}
 
@@ -680,7 +708,7 @@ export default class Vector2
 	 * @param vector - The other vector.
 	 * @returns Whether or not the vectors are equivalent.
 	 */
-	public exactEquals(vector: Vector2Like): boolean {
+	public exactEquals(vector: Readonly<Vector2Like>): boolean {
 		return exactEquals(this, vector);
 	}
 
@@ -707,7 +735,7 @@ export default class Vector2
 	 * @returns The interpolated vector.
 	 * @see {@link https://en.wikipedia.org/wiki/Linear_interpolation | Linear interpolation}
 	 */
-	public lerp(vector: Vector2Like, t: number): Vector2 {
+	public lerp(vector: Readonly<Vector2Like>, t: number): Vector2 {
 		return lerp(this, vector, t, new Vector2());
 	}
 
@@ -716,7 +744,7 @@ export default class Vector2
 	 * @param vector - The other vector.
 	 * @returns The maximum.
 	 */
-	public max(vector: Vector2Like): Vector2 {
+	public max(vector: Readonly<Vector2Like>): Vector2 {
 		return max(this, vector, new Vector2());
 	}
 
@@ -725,7 +753,7 @@ export default class Vector2
 	 * @param vector - The other vector.
 	 * @returns The minimum.
 	 */
-	public min(vector: Vector2Like): Vector2 {
+	public min(vector: Readonly<Vector2Like>): Vector2 {
 		return min(this, vector, new Vector2());
 	}
 
@@ -734,7 +762,7 @@ export default class Vector2
 	 * @param vector - The other vector.
 	 * @returns The product of the vectors.
 	 */
-	public multiply(vector: Vector2Like): Vector2 {
+	public multiply(vector: Readonly<Vector2Like>): Vector2 {
 		return multiply(this, vector, new Vector2());
 	}
 
@@ -779,7 +807,7 @@ export default class Vector2
 	 * @param radians - The angle of rotation in radians.
 	 * @returns The rotated vector.
 	 */
-	public rotate(origin: Vector2Like, radians: number): Vector2 {
+	public rotate(origin: Readonly<Vector2Like>, radians: number): Vector2 {
 		return rotate(this, origin, radians, new Vector2());
 	}
 
@@ -806,7 +834,7 @@ export default class Vector2
 	 * @param scalar - The scalar.
 	 * @returns The sum.
 	 */
-	public scaleAndAdd(vector: Vector2Like, scalar: number): Vector2 {
+	public scaleAndAdd(vector: Readonly<Vector2Like>, scalar: number): Vector2 {
 		return scaleAndAdd(this, vector, scalar, new Vector2());
 	}
 
@@ -816,7 +844,7 @@ export default class Vector2
 	 * @returns The squared distance.
 	 * @see {@link https://en.wikipedia.org/wiki/Euclidean_distance | Euclidean distance}
 	 */
-	public squaredDistance(vector: Vector2Like): number {
+	public squaredDistance(vector: Readonly<Vector2Like>): number {
 		return squaredDistance(this, vector);
 	}
 
@@ -825,7 +853,7 @@ export default class Vector2
 	 * @param vector - The other vector.
 	 * @returns The difference between the vectors.
 	 */
-	public subtract(vector: Vector2Like): Vector2 {
+	public subtract(vector: Readonly<Vector2Like>): Vector2 {
 		return subtract(this, vector, new Vector2());
 	}
 
@@ -835,7 +863,7 @@ export default class Vector2
 	 * @returns The transformed vector.
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
-	public transformMatrix2(matrix: Matrix2Like): Vector2 {
+	public transformMatrix2(matrix: Readonly<Matrix2Like>): Vector2 {
 		return transformMatrix2(this, matrix, new Vector2());
 	}
 
@@ -845,7 +873,7 @@ export default class Vector2
 	 * @returns The transformed vector.
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
-	public transformMatrix3(matrix: Matrix3Like): Vector2 {
+	public transformMatrix3(matrix: Readonly<Matrix3Like>): Vector2 {
 		return transformMatrix3(this, matrix, new Vector2());
 	}
 
@@ -855,7 +883,7 @@ export default class Vector2
 	 * @returns The transformed vector.
 	 * @see {@link https://en.wikipedia.org/wiki/Transformation_matrix | Transformation matrix}
 	 */
-	public transformMatrix4(matrix: Matrix4Like): Vector2 {
+	public transformMatrix4(matrix: Readonly<Matrix4Like>): Vector2 {
 		return transformMatrix4(this, matrix, new Vector2());
 	}
 
