@@ -6,6 +6,7 @@ import { defineConfig } from "eslint/config";
 import tseslint from "typescript-eslint";
 
 export default defineConfig(
+	{ ignores: ["dist", "docs"], name: "Ignore Generated Directories" },
 	eslint.configs.recommended,
 	{
 		languageOptions: {
@@ -175,6 +176,11 @@ export default defineConfig(
 		name: "Lint with Type Information"
 	},
 	{
+		extends: [tseslint.configs.disableTypeChecked],
+		files: ["test"],
+		name: "Disable Type-Checked Linting for Tests"
+	},
+	{
 		name: "Additional typescript-eslint Rules",
 		rules: {
 			"@typescript-eslint/adjacent-overload-signatures": "off", // Recommended but superseded by `perfectionist/sort-interfaces` and `perfectionist/sort-object-types`.
@@ -194,13 +200,13 @@ export default defineConfig(
 				"error",
 				{ format: ["strictCamelCase"], selector: "default" },
 				{ format: ["StrictPascalCase"], selector: "typeLike" },
-				{ format: ["strictCamelCase", "UPPER_CASE"], selector: "variableLike" },
 				{ format: ["UPPER_CASE"], selector: "enumMember" },
+				{ format: ["strictCamelCase", "StrictPascalCase"], selector: "import" },
 				{
-					format: ["strictCamelCase", "StrictPascalCase", "UPPER_CASE"],
-					selector: "import"
-				},
-				{ format: [], selector: "objectLiteralProperty" }
+					format: ["strictCamelCase", "UPPER_CASE"],
+					modifiers: ["const"],
+					selector: "variable"
+				}
 			],
 			// `@typescript-eslint/no-dupe-class-members` is automatically checked by the TypeScript compiler.
 			"@typescript-eslint/no-import-type-side-effects": "error",

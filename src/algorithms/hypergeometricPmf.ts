@@ -11,7 +11,9 @@ import combinations from "./combinations.js";
  * @public
  */
 export default function hypergeometricPmf(
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	N: number,
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	K: number,
 	n: number,
 	k: number

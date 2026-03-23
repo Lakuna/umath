@@ -1,52 +1,26 @@
 {
-	"name": "@lakuna/umath",
-	"version": "3.0.1",
-	"description": "A lightweight math library.",
-	"keywords": [
-		"math"
-	],
-	"homepage": "https://umath.lakuna.pw",
-	"bugs": {
-		"url": "https://github.com/Lakuna/umath/issues",
-		"email": "travis@lakuna.pw"
-	},
-	"license": "MIT",
 	"author": {
-		"name": "Travis Martin",
 		"email": "travis@lakuna.pw",
+		"name": "Travis Martin",
 		"url": "https://www.lakuna.pw/"
 	},
-	"funding": {
-		"type": "individual",
-		"url": "https://github.com/sponsors/Lakuna"
+	"bugs": {
+		"email": "travis@lakuna.pw",
+		"url": "https://github.com/Lakuna/umath/issues"
 	},
-	"files": [
-		"dist",
-		"src"
-	],
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/Lakuna/umath.git"
-	},
-	"scripts": {
-		"build": "tsc",
-		"doc": "typedoc",
-		"fix": "eslint src --fix",
-		"lint": "eslint src",
-		"test": "node --test"
-	},
+	"description": "A lightweight math library.",
 	"devDependencies": {
 		"@eslint/js": "^10.0.1",
 		"@types/eslint": "^9.6.1",
 		"@types/eslint-config-prettier": "^6.11.3",
 		"@types/node": "^25.5.0",
-		"eslint": "^10.0.3",
+		"eslint": "^10.1.0",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-perfectionist": "^5.7.0",
 		"eslint-plugin-prettier": "^5.5.5",
 		"eslint-plugin-tsdoc": "^0.5.2",
 		"prettier": "^3.8.1",
-		"typedoc": "^0.28.17",
+		"typedoc": "^0.28.18",
 		"typescript": "^5.9.3",
 		"typescript-eslint": "^8.57.1"
 	},
@@ -61,7 +35,34 @@
 		"./Vector3": "./dist/linalg/Vector3.js",
 		"./Vector4": "./dist/linalg/Vector4.js"
 	},
-	"typings": "./dist/index.d.ts",
+	"files": [
+		"dist",
+		"src"
+	],
+	"funding": {
+		"type": "individual",
+		"url": "https://github.com/sponsors/Lakuna"
+	},
+	"homepage": "https://umath.lakuna.pw/",
+	"keywords": [
+		"math"
+	],
+	"license": "MIT",
+	"main": "./dist/index.js",
+	"name": "@lakuna/umath",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Lakuna/umath.git"
+	},
+	"scripts": {
+		"build": "tsc",
+		"doc": "typedoc",
+		"fix": "eslint src --fix",
+		"lint": "eslint src",
+		"test": "node --test"
+	},
+	"sideEffects": false,
 	"type": "module",
-	"sideEffects": false
+	"typings": "./dist/index.d.ts",
+	"version": "3.0.2"
 }
