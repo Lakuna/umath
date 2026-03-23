@@ -1,6 +1,6 @@
 // TypeDoc-specific tag that gives a name to this module.
 // eslint-disable-next-line tsdoc/syntax
-/** @module . */
+/** @module default */
 
 // Algorithms
 export { default as approx } from "./algorithms/approx.js";
