@@ -5,7 +5,7 @@
  * @see {@link https://en.wikipedia.org/wiki/Integer_factorization | Integer factorization}
  * @public
  */
-export default function primeFactorization(n: number): number[] {
+export default function primeFactorization(n: number): readonly number[] {
 	let m = n;
 	const out = [];
 	let divisor = 2;

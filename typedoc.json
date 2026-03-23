@@ -2,7 +2,13 @@
 	"$schema": "https://typedoc.org/schema.json",
 	"externalSymbolLinkMappings": {
 		"typescript": {
-			"Readonly": "https://www.typescriptlang.org/docs/handbook/utility-types.html#readonlytype"
+			"ArrayBufferLike": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer",
+			"BigIntConstructor": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt/BigInt",
+			"Float32Array": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array",
+			"Generator": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator",
+			"Parameters": "https://www.typescriptlang.org/docs/handbook/utility-types.html#parameterstype",
+			"Readonly": "https://www.typescriptlang.org/docs/handbook/utility-types.html#readonlytype",
+			"Record": "https://www.typescriptlang.org/docs/handbook/utility-types.html#recordkeys-type"
 		}
 	},
 	"hostedBaseUrl": "https://umath.lakuna.pw/",
