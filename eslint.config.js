@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import eslint from "@eslint/js";
 import perfectionist from "eslint-plugin-perfectionist";
 import prettier from "eslint-plugin-prettier/recommended";
@@ -177,7 +178,7 @@ export default defineConfig(
 	},
 	{
 		extends: [tseslint.configs.disableTypeChecked],
-		files: ["test"],
+		files: ["test/**"],
 		name: "Disable Type-Checked Linting for Tests"
 	},
 	{

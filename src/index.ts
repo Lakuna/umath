@@ -39,20 +39,12 @@ export { default as Vector3, type Vector3Like } from "./linalg/Vector3.js";
 export { default as Vector4, type Vector4Like } from "./linalg/Vector4.js";
 export type { default as Vector, VectorLike } from "./linalg/Vector.js";
 
-// Types
-export type {
-	default as AxisAngle,
-	ReadonlyAxisAngle
-} from "./types/AxisAngle.js";
-export type { default as FieldOfView } from "./types/FieldOfView.js";
-
 // Utility
 export {
 	type BigIntLike,
 	default as BigNumber,
 	type BigNumberLike
 } from "./utility/BigNumber.js";
-export { default as createAxisAngleLike } from "./utility/createAxisAngleLike.js";
 export { default as epsilon } from "./utility/epsilon.js";
 export { default as MagnitudeError } from "./utility/MagnitudeError.js";
 export { default as MatrixSizeError } from "./utility/MatrixSizeError.js";

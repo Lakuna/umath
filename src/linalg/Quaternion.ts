@@ -1,8 +1,4 @@
-import type AxisAngle from "../types/AxisAngle.js";
-import type { ReadonlyAxisAngle } from "../types/AxisAngle.js";
-
 import radiansToDegrees from "../algorithms/radiansToDegrees.js";
-import createAxisAngleLike from "../utility/createAxisAngleLike.js";
 import epsilon from "../utility/epsilon.js";
 import {
 	createMatrix3Like,
@@ -630,14 +626,14 @@ export const identity = <T extends QuaternionLike>(out: T): T =>
 /**
  * Calculate the axis and angle that represent a quaternion.
  * @param quaternion - The quaternion.
- * @param out - The axis and angle to store the result in.
+ * @param out - The axis to store the result in.
  * @returns The axis and angle.
  * @public
  */
-export const getAxisAngle = <T extends AxisAngle>(
+export const getAxisAngle = <T extends Vector3Like>(
 	quaternion: Readonly<QuaternionLike>,
 	out: T
-): T => {
+): [T, number] => {
 	const r = Math.acos(quaternion[3]) * 2;
 	const s = Math.sin(r / 2);
 
@@ -646,25 +642,26 @@ export const getAxisAngle = <T extends AxisAngle>(
 			quaternion[0] / s,
 			quaternion[1] / s,
 			quaternion[2] / s,
-			out.axis
+			out
 		);
 	} else {
-		vector3FromValues(1, 0, 0, out.axis);
+		vector3FromValues(1, 0, 0, out);
 	}
 
-	out.angle = r;
-	return out;
+	return [out, r];
 };
 
 /**
  * Set the axis and angle that represent a quaternion.
- * @param axisAngle - The axis and angle.
+ * @param axis - The axis.
+ * @param angle - The angle.
  * @param out - The quaternion to store the result in.
  * @returns The quaternion.
  * @public
  */
 export const setAxisAngle = <T extends QuaternionLike>(
-	{ angle, axis }: ReadonlyAxisAngle,
+	axis: Readonly<Vector3Like>,
+	angle: number,
 	out: T
 ): T => {
 	const r = angle / 2;
@@ -1084,7 +1081,7 @@ export const fromRotationTo = <T extends QuaternionLike>(
 			vector3Cross(yAxis, a, iv3);
 		}
 		vector3Normalize(iv3, iv3);
-		return setAxisAngle({ angle: Math.PI, axis: iv3 }, out);
+		return setAxisAngle(iv3, Math.PI, out);
 	}
 
 	if (dp > 1 - epsilon) {
@@ -1118,12 +1115,15 @@ export default class Quaternion extends Float32Array implements QuaternionLike {
 	public 3: number;
 
 	/** The axis and angle that represent this quaternion. */
-	public get axisAngle(): ReturnType<typeof createAxisAngleLike> {
-		return getAxisAngle(this, createAxisAngleLike());
+	public get axisAngle(): readonly [Readonly<Vector3Like>, number] {
+		return getAxisAngle(this, createVector3Like());
 	}
 
-	public set axisAngle(value: ReadonlyAxisAngle) {
-		setAxisAngle(value, this);
+	public set axisAngle([axis, angle]: readonly [
+		Readonly<Vector3Like>,
+		number
+	]) {
+		setAxisAngle(axis, angle, this);
 	}
 
 	/** Get the magnitude (length) of this quaternion. */

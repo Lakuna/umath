@@ -1,0 +1,11 @@
+{
+	"$schema": "https://typedoc.org/schema.json",
+	"externalSymbolLinkMappings": {
+		"typescript": {
+			"Readonly": "https://www.typescriptlang.org/docs/handbook/utility-types.html#readonlytype"
+		}
+	},
+	"hostedBaseUrl": "https://umath.lakuna.pw/",
+	"name": "μMath",
+	"navigationLinks": { "GitHub": "https://github.com/Lakuna/umath" }
+}

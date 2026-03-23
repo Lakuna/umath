@@ -1,4 +1,3 @@
-import type FieldOfView from "../types/FieldOfView.js";
 import type { DualQuaternionLike } from "./DualQuaternion.js";
 import type { MatrixLike } from "./Matrix.js";
 import type SquareMatrix from "./SquareMatrix.js";
@@ -785,7 +784,10 @@ export const perspectiveGpu = <T extends Matrix4Like>(
 
 /**
  * Create a perspective projection matrix from a field of view. Useful for generating projection matrices to be used with the WebXR API.
- * @param fov - The field of view.
+ * @param left - The angle to the left of the field of view in degrees.
+ * @param right - The angle to the right of the field of view in degrees.
+ * @param bottom - The angle to the bottom of the field of view in degrees.
+ * @param top - The angle to the top of the field of view in degrees.
  * @param near - The near bound of the frustum.
  * @param far - The far bound of the frustum.
  * @param out - The matrix to store the result in.
@@ -796,17 +798,20 @@ export const perspectiveGpu = <T extends Matrix4Like>(
  * @public
  */
 export const perspectiveFromFieldOfView = <T extends Matrix4Like>(
-	fov: Readonly<FieldOfView>,
+	left: number,
+	right: number,
+	bottom: number,
+	top: number,
 	near: number,
 	far: number,
 	out: T
 ): T => {
-	const upTan = Math.tan(degreesToRadians(fov.upDegrees));
-	const downTan = Math.tan(degreesToRadians(fov.downDegrees));
-	const leftTan = Math.tan(degreesToRadians(fov.leftDegrees));
-	const rightTan = Math.tan(degreesToRadians(fov.rightDegrees));
+	const leftTan = Math.tan(degreesToRadians(left));
+	const rightTan = Math.tan(degreesToRadians(right));
+	const bottomTan = Math.tan(degreesToRadians(bottom));
+	const topTan = Math.tan(degreesToRadians(top));
 	const xScale = 2 / (leftTan + rightTan);
-	const yScale = 2 / (upTan + downTan);
+	const yScale = 2 / (topTan + bottomTan);
 	const nf = near - far;
 
 	return fromValues(
@@ -819,7 +824,7 @@ export const perspectiveFromFieldOfView = <T extends Matrix4Like>(
 		0,
 		0,
 		-(((leftTan - rightTan) * xScale) / 2),
-		((upTan - downTan) * yScale) / 2,
+		((topTan - bottomTan) * yScale) / 2,
 		far / nf,
 		-1,
 		0,
@@ -2555,7 +2560,10 @@ export default class Matrix4
 
 	/**
 	 * Create a perspective projection matrix from a field of view. Useful for generating projection matrices to be used with the WebXR API.
-	 * @param fov - The field of view.
+	 * @param left - The angle to the left of the field of view in degrees.
+	 * @param right - The angle to the right of the field of view in degrees.
+	 * @param bottom - The angle to the bottom of the field of view in degrees.
+	 * @param top - The angle to the top of the field of view in degrees.
 	 * @param near - The near bound of the frustum.
 	 * @param far - The far bound of the frustum.
 	 * @returns The perspective projection matrix.
@@ -2564,11 +2572,22 @@ export default class Matrix4
 	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/WebXR_Device_API | WebXR API}
 	 */
 	public static perspectiveFromFieldOfView(
-		fov: Readonly<FieldOfView>,
+		left: number,
+		right: number,
+		bottom: number,
+		top: number,
 		near: number,
 		far: number
 	): Matrix4 {
-		return perspectiveFromFieldOfView(fov, near, far, new Matrix4());
+		return perspectiveFromFieldOfView(
+			left,
+			right,
+			bottom,
+			top,
+			near,
+			far,
+			new Matrix4()
+		);
 	}
 
 	/**

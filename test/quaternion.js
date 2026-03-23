@@ -78,10 +78,12 @@ const approximatelyEqualObject = (actual, expected, delta = epsilon) => {
 };
 
 void describe("getAxisAngle", () => {
-	void it("should return `inn = out`", () => {
-		const inn = { angle: Math.PI / 4, axis: [0, 1, 1] };
-		const q = setAxisAngle(inn, []);
-		const out = getAxisAngle(q, { angle: 0, axis: [] });
-		approximatelyEqualObject(inn, out);
+	void it("should return `axis = outAxis` and `angle = outAngle`", () => {
+		const axis = [0, 1, 1];
+		const angle = Math.PI / 4;
+		const q = setAxisAngle(axis, angle, []);
+		const [outAxis, outAngle] = getAxisAngle(q, []);
+		approximatelyEqualObject(axis, outAxis);
+		approximatelyEqual(angle, outAngle);
 	});
 });
