@@ -22,7 +22,7 @@
 		"prettier": "^3.8.1",
 		"typedoc": "^0.28.18",
 		"typescript": "^5.9.3",
-		"typescript-eslint": "^8.57.1"
+		"typescript-eslint": "^8.57.2"
 	},
 	"exports": {
 		".": "./dist/index.js",
@@ -63,5 +63,5 @@
 	"sideEffects": false,
 	"type": "module",
 	"typings": "./dist/index.d.ts",
-	"version": "4.0.2"
+	"version": "4.0.3"
 }

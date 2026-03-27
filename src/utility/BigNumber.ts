@@ -36,7 +36,7 @@ export default class BigNumber {
 			throw new Error("Cannot divide by zero.");
 		}
 
-		if (BigNumber.is(dividend)) {
+		if (BigNumber.test(dividend)) {
 			this.dividend = dividend.dividend;
 			this.divisor = dividend.divisor;
 			this.divide(divisor);
@@ -44,7 +44,7 @@ export default class BigNumber {
 		}
 
 		this.dividend = BigInt(dividend);
-		if (BigNumber.is(divisor)) {
+		if (BigNumber.test(divisor)) {
 			this.divisor = 1n;
 			this.divide(divisor);
 			return;
@@ -58,7 +58,9 @@ export default class BigNumber {
 	 * Utility function for narrowing `Readonly<BigNumberLike>` to `Readonly<BigNumber>` or `BigIntLike`, since `Readonly` breaks the type narrowing for TypeScript.
 	 * @internal
 	 */
-	private static is(value: unknown): value is BigNumber | Readonly<BigNumber> {
+	private static test(
+		value: unknown
+	): value is BigNumber | Readonly<BigNumber> {
 		return value instanceof BigNumber;
 	}
 
@@ -68,7 +70,7 @@ export default class BigNumber {
 	 * @returns This number.
 	 */
 	public add(n: Readonly<BigNumberLike>): this {
-		if (BigNumber.is(n)) {
+		if (BigNumber.test(n)) {
 			this.dividend = this.dividend * n.divisor + n.dividend * this.divisor;
 			this.divisor *= n.divisor;
 		} else {
@@ -85,7 +87,7 @@ export default class BigNumber {
 	 * @returns This number.
 	 */
 	public divide(n: Readonly<BigNumberLike>): this {
-		if (BigNumber.is(n)) {
+		if (BigNumber.test(n)) {
 			this.dividend *= n.divisor;
 			this.divisor *= n.dividend;
 		} else {
@@ -102,7 +104,7 @@ export default class BigNumber {
 	 * @returns This number.
 	 */
 	public multiply(n: Readonly<BigNumberLike>): this {
-		if (BigNumber.is(n)) {
+		if (BigNumber.test(n)) {
 			this.dividend *= n.dividend;
 			this.divisor *= n.divisor;
 		} else {
@@ -119,7 +121,7 @@ export default class BigNumber {
 	 * @returns This number.
 	 */
 	public subtract(n: Readonly<BigNumberLike>): this {
-		if (BigNumber.is(n)) {
+		if (BigNumber.test(n)) {
 			this.dividend = this.dividend * n.divisor - n.dividend * this.divisor;
 			this.divisor *= n.divisor;
 		} else {
