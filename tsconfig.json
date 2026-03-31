@@ -6,6 +6,7 @@
 		"declarationMap": true,
 		"exactOptionalPropertyTypes": true,
 		"isolatedDeclarations": true,
+		"lib": ["ESNext"],
 		"module": "nodenext",
 		"noFallthroughCasesInSwitch": true,
 		"noImplicitOverride": true,
