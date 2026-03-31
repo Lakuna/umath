@@ -177,11 +177,6 @@ export default defineConfig(
 		name: "Lint with Type Information"
 	},
 	{
-		extends: [tseslint.configs.disableTypeChecked],
-		files: ["test/**"],
-		name: "Disable Type-Checked Linting for Tests"
-	},
-	{
 		name: "Additional typescript-eslint Rules",
 		rules: {
 			"@typescript-eslint/adjacent-overload-signatures": "off", // Recommended but superseded by `perfectionist/sort-interfaces` and `perfectionist/sort-object-types`.
@@ -238,6 +233,16 @@ export default defineConfig(
 				"error",
 				{ considerDefaultExhaustiveForUnions: true }
 			]
+		}
+	},
+	{
+		extends: [tseslint.configs.disableTypeChecked],
+		files: ["test/**"],
+		name: "Disable Type-Checked Linting for Tests",
+		rules: {
+			"@typescript-eslint/explicit-function-return-type": "off",
+			"@typescript-eslint/explicit-member-accessibility": "off",
+			"@typescript-eslint/explicit-module-boundary-types": "off"
 		}
 	},
 	{

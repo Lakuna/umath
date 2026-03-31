@@ -1,8 +1,8 @@
-import { deepEqual, equal, ok } from "node:assert/strict";
+import { deepEqual, ok, strictEqual } from "node:assert/strict";
 import { describe, it } from "node:test";
+
 import combinations from "../dist/algorithms/combinations.js";
 import degreesToRadians from "../dist/algorithms/degreesToRadians.js";
-import epsilon from "../dist/utility/epsilon.js";
 import factorial from "../dist/algorithms/factorial.js";
 import fibonacci from "../dist/algorithms/fibonacci.js";
 import greatestCommonDivisor from "../dist/algorithms/greatestCommonDivisor.js";
@@ -12,33 +12,23 @@ import permutations from "../dist/algorithms/permutations.js";
 import primeFactorization from "../dist/algorithms/primeFactorization.js";
 import radiansToDegrees from "../dist/algorithms/radiansToDegrees.js";
 import summation from "../dist/algorithms/summation.js";
-
-const approximatelyEqual = (actual, expected, delta = epsilon) => {
-	if (actual === expected) {
-		return;
-	}
-
-	ok(typeof actual === "number");
-	ok(typeof expected === "number");
-
-	ok(Math.abs(actual - expected) < delta);
-};
+import { approximatelyEqual } from "./shared.js";
 
 void describe("combinations", () => {
 	void it("should return $nCr(1,1)=1$", () => {
-		equal(combinations(1, 1), 1);
+		strictEqual(combinations(1, 1), 1);
 	});
 
 	void it("should return $nCr(2,1)=2$", () => {
-		equal(combinations(2, 1), 2);
+		strictEqual(combinations(2, 1), 2);
 	});
 
 	void it("should return $nCr(10,5)=252$", () => {
-		equal(combinations(10, 5), 252);
+		strictEqual(combinations(10, 5), 252);
 	});
 
 	void it("should return $nCr(10,10)=1$", () => {
-		equal(combinations(10, 10), 1);
+		strictEqual(combinations(10, 10), 1);
 	});
 });
 
@@ -58,19 +48,19 @@ void describe("degreesToRadians", () => {
 
 void describe("factorial", () => {
 	void it("should return $0!=1$", () => {
-		equal(factorial(0), 1);
+		strictEqual(factorial(0), 1);
 	});
 
 	void it("should return $1!=1$", () => {
-		equal(factorial(1), 1);
+		strictEqual(factorial(1), 1);
 	});
 
 	void it("should return $3!=6$", () => {
-		equal(factorial(3), 6);
+		strictEqual(factorial(3), 6);
 	});
 
 	void it("should return $10!=3628800$", () => {
-		equal(factorial(10), 3628800);
+		strictEqual(factorial(10), 3628800);
 	});
 });
 
@@ -89,23 +79,23 @@ void describe("fibonacci", () => {
 
 void describe("greatestCommonDivisor", () => {
 	void it("should return $gcd(1,1)=1$", () => {
-		equal(greatestCommonDivisor(1, 1), 1);
+		strictEqual(greatestCommonDivisor(1, 1), 1);
 	});
 
 	void it("should return $gcd(10,5)=5$", () => {
-		equal(greatestCommonDivisor(10, 5), 5);
+		strictEqual(greatestCommonDivisor(10, 5), 5);
 	});
 
 	void it("should return $gcd(5,10)=5$", () => {
-		equal(greatestCommonDivisor(5, 10), 5);
+		strictEqual(greatestCommonDivisor(5, 10), 5);
 	});
 
 	void it("should return $gcd(14,21)=7$", () => {
-		equal(greatestCommonDivisor(14, 21), 7);
+		strictEqual(greatestCommonDivisor(14, 21), 7);
 	});
 
 	void it("should return $gcd(21,14)=7$", () => {
-		equal(greatestCommonDivisor(21, 14), 7);
+		strictEqual(greatestCommonDivisor(21, 14), 7);
 	});
 });
 
@@ -159,15 +149,15 @@ void describe("isPrime", () => {
 
 void describe("permutations", () => {
 	void it("should return $nPr(1,1)=1$", () => {
-		equal(permutations(1, 1), 1);
+		strictEqual(permutations(1, 1), 1);
 	});
 
 	void it("should return $nPr(2,1)=2$", () => {
-		equal(permutations(2, 1), 2);
+		strictEqual(permutations(2, 1), 2);
 	});
 
 	void it("should return $nPr(10,5)=30240$", () => {
-		equal(permutations(10, 5), 30240);
+		strictEqual(permutations(10, 5), 30240);
 	});
 });
 
@@ -209,21 +199,21 @@ void describe("radiansToDegrees", () => {
 
 void describe("summation", () => {
 	void it("should return `summation(1, 4, (i) => i) = 10`", () => {
-		equal(
+		strictEqual(
 			summation(1, 4, (i) => i),
 			10
 		);
 	});
 
 	void it("should return `summation(1, 100, (i) => i) = 5050`", () => {
-		equal(
+		strictEqual(
 			summation(1, 100, (i) => i),
 			5050
 		);
 	});
 
 	void it("should return `summation(1, 4, (i) => i * i) = 30`", () => {
-		equal(
+		strictEqual(
 			summation(1, 4, (i) => i * i),
 			30
 		);
