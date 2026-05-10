@@ -14,13 +14,13 @@ import Vector3, {
  * @public
  */
 export interface Vector2Like extends VectorLike {
+	/* eslint-disable @typescript-eslint/naming-convention */
 	/** The first component of this vector. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	0: number;
 
 	/** The second component of this vector. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	1: number;
+	/* eslint-enable @typescript-eslint/naming-convention */
 }
 
 /**
@@ -560,13 +560,13 @@ export default class Vector2
 	extends Float32Array
 	implements Vector, Vector2Like
 {
+	/* eslint-disable @typescript-eslint/naming-convention */
 	/** The first component of this vector. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 0: number;
 
 	/** The second component of this vector. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 1: number;
+	/* eslint-enable @typescript-eslint/naming-convention */
 
 	/** The magnitude (length) of this vector. */
 	public get magnitude(): number {

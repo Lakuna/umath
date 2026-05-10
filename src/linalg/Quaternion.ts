@@ -33,21 +33,19 @@ import {
  * @public
  */
 export interface QuaternionLike extends Record<number, number> {
+	/* eslint-disable @typescript-eslint/naming-convention */
 	/** The first component of this quaternion. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	0: number;
 
 	/** The second component of this quaternion. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	1: number;
 
 	/** The third component of this quaternion. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	2: number;
 
 	/** The fourth component of this quaternion. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	3: number;
+	/* eslint-enable @typescript-eslint/naming-convention */
 }
 
 /**
@@ -229,42 +227,35 @@ export const fromMatrix3 = <T extends QuaternionLike>(
 		return out;
 	}
 
+	/* eslint-disable @typescript-eslint/no-unsafe-type-assertion */
 	let i = 0 as 0 | 1 | 2;
 	if (m4 > m0) {
 		i = 1;
 	}
-	// eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
 	if (m8 > matrix[(i * 3 + i) as 0 | 4]) {
 		i = 2;
 	}
-	// eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
 	const j = ((i + 1) % 3) as 0 | 1 | 2;
-	// eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
 	const k = ((i + 2) % 3) as 0 | 1 | 2;
 
 	let fRoot: number = Math.sqrt(
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
 		matrix[(i * 3 + i) as 0 | 4 | 7] -
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
 			matrix[(j * 3 + j) as 0 | 4 | 7] -
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
 			matrix[(k * 3 + k) as 0 | 4 | 7] +
 			1
 	);
 	out[i] = fRoot / 2;
 	fRoot = 0.5 / fRoot;
 	out[3] =
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
 		(matrix[(j * 3 + k) as 1 | 5 | 6] - matrix[(k * 3 + j) as 2 | 3 | 7]) *
 		fRoot;
 	out[j] =
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
 		(matrix[(j * 3 + i) as 2 | 3 | 7] + matrix[(i * 3 + j) as 1 | 5 | 6]) *
 		fRoot;
 	out[k] =
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
 		(matrix[(k * 3 + i) as 1 | 5 | 6] + matrix[(i * 3 + k) as 2 | 3 | 7]) *
 		fRoot;
+	/* eslint-enable @typescript-eslint/no-unsafe-type-assertion */
 	return out;
 };
 
@@ -929,10 +920,10 @@ export const slerp = <T extends QuaternionLike>(
 		bw = -bw;
 	}
 
-	// eslint-disable-next-line @typescript-eslint/init-declarations
+	/* eslint-disable @typescript-eslint/init-declarations */
 	let scale0;
-	// eslint-disable-next-line @typescript-eslint/init-declarations
 	let scale1;
+	/* eslint-enable @typescript-eslint/init-declarations */
 	if (1 - cosom > epsilon) {
 		const omega = Math.acos(cosom);
 		const sinom = Math.sin(omega);
@@ -1098,21 +1089,19 @@ export const fromRotationTo = <T extends QuaternionLike>(
  * @public
  */
 export default class Quaternion extends Float32Array implements QuaternionLike {
+	/* eslint-disable @typescript-eslint/naming-convention */
 	/** The first component of this quaternion. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 0: number;
 
 	/** The second component of this quaternion. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 1: number;
 
 	/** The third component of this quaternion. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 2: number;
 
 	/** The fourth component of this quaternion. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 3: number;
+	/* eslint-enable @typescript-eslint/naming-convention */
 
 	/** The axis and angle that represent this quaternion. */
 	public get axisAngle(): readonly [Readonly<Vector3Like>, number] {

@@ -21,21 +21,19 @@ import {
  * @public
  */
 export interface Matrix2Like extends MatrixLike {
+	/* eslint-disable @typescript-eslint/naming-convention */
 	/** The value in the first column and first row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	0: number;
 
 	/** The value in the first column and second row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	1: number;
 
 	/** The value in the second column and first row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	2: number;
 
 	/** The value in the second column and second row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	3: number;
+	/* eslint-enable @typescript-eslint/naming-convention */
 }
 
 /**
@@ -386,21 +384,19 @@ export default class Matrix2
 	extends Float32Array
 	implements Matrix2Like, SquareMatrix
 {
+	/* eslint-disable @typescript-eslint/naming-convention */
 	/** The value in the first column and first row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 0: number;
 
 	/** The value in the first column and second row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 1: number;
 
 	/** The value in the second column and first row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 2: number;
 
 	/** The value in the second column and second row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 3: number;
+	/* eslint-enable @typescript-eslint/naming-convention */
 
 	/** The number of rows in this matrix. */
 	public readonly height: 2;

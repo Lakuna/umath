@@ -24,69 +24,55 @@ import Vector3, {
  * @public
  */
 export interface Matrix4Like extends MatrixLike {
+	/* eslint-disable @typescript-eslint/naming-convention */
 	/** The value in the first column and first row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	0: number;
 
 	/** The value in the first column and second row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	1: number;
 
 	/** The value in the first column and third row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	2: number;
 
 	/** The value in the first column and fourth row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	3: number;
 
 	/** The value in the second column and first row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	4: number;
 
 	/** The value in the second column and second row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	5: number;
 
 	/** The value in the second column and third row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	6: number;
 
 	/** The value in the second column and fourth row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	7: number;
 
 	/** The value in the third column and first row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	8: number;
 
 	/** The value in the third column and second row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	9: number;
 
 	/** The value in the third column and third row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	10: number;
 
 	/** The value in the third column and fourth row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	11: number;
 
 	/** The value in the fourth column and first row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	12: number;
 
 	/** The value in the fourth column and second row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	13: number;
 
 	/** The value in the fourth column and third row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	14: number;
 
 	/** The value in the fourth column and fourth row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	15: number;
+	/* eslint-enable @typescript-eslint/naming-convention */
 }
 
 /**
@@ -2116,69 +2102,55 @@ export default class Matrix4
 	extends Float32Array
 	implements Matrix4Like, SquareMatrix
 {
+	/* eslint-disable @typescript-eslint/naming-convention */
 	/** The value in the first column and first row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 0: number;
 
 	/** The value in the first column and second row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 1: number;
 
 	/** The value in the first column and third row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 2: number;
 
 	/** The value in the first column and fourth row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 3: number;
 
 	/** The value in the second column and first row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 4: number;
 
 	/** The value in the second column and second row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 5: number;
 
 	/** The value in the second column and third row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 6: number;
 
 	/** The value in the second column and fourth row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 7: number;
 
 	/** The value in the third column and first row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 8: number;
 
 	/** The value in the third column and second row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 9: number;
 
 	/** The value in the third column and third row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 10: number;
 
 	/** The value in the third column and fourth row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 11: number;
 
 	/** The value in the fourth column and first row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 12: number;
 
 	/** The value in the fourth column and second row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 13: number;
 
 	/** The value in the fourth column and third row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 14: number;
 
 	/** The value in the fourth column and fourth row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 15: number;
+	/* eslint-enable @typescript-eslint/naming-convention */
 
 	/** The number of rows in this matrix. */
 	public readonly height: 4;

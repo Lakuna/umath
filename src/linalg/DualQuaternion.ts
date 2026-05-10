@@ -28,37 +28,31 @@ import {
  * @public
  */
 export interface DualQuaternionLike extends Record<number, number> {
+	/* eslint-disable @typescript-eslint/naming-convention */
 	/** The first real component of this dual quaternion. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	0: number;
 
 	/** The second real component of this dual quaternion. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	1: number;
 
 	/** The third real component of this dual quaternion. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	2: number;
 
 	/** The fourth real component of this dual quaternion. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	3: number;
 
 	/** The first dual component of this dual quaternion. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	4: number;
 
 	/** The second dual component of this dual quaternion. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	5: number;
 
 	/** The third dual component of this dual quaternion. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	6: number;
 
 	/** The fourth dual component of this dual quaternion. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	7: number;
+	/* eslint-enable @typescript-eslint/naming-convention */
 }
 
 /**
@@ -242,14 +236,12 @@ export const fromMatrix4 = <T extends DualQuaternionLike>(
 
 	const trace = sm11 + sm22 + sm33;
 
-	// eslint-disable-next-line @typescript-eslint/init-declarations
+	/* eslint-disable @typescript-eslint/init-declarations */
 	let x;
-	// eslint-disable-next-line @typescript-eslint/init-declarations
 	let y;
-	// eslint-disable-next-line @typescript-eslint/init-declarations
 	let z;
-	// eslint-disable-next-line @typescript-eslint/init-declarations
 	let w;
+	/* eslint-enable @typescript-eslint/init-declarations */
 	if (trace > 0) {
 		const s = Math.sqrt(trace + 1) * 2;
 		x = (sm23 - sm32) / s;
@@ -1020,37 +1012,31 @@ export default class DualQuaternion
 	extends Float32Array
 	implements DualQuaternionLike
 {
+	/* eslint-disable @typescript-eslint/naming-convention */
 	/** The first real component of this dual quaternion. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 0: number;
 
 	/** The second real component of this dual quaternion. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 1: number;
 
 	/** The third real component of this dual quaternion. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 2: number;
 
 	/** The fourth real component of this dual quaternion. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 3: number;
 
 	/** The first dual component of this dual quaternion. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 4: number;
 
 	/** The second dual component of this dual quaternion. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 5: number;
 
 	/** The third dual component of this dual quaternion. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 6: number;
 
 	/** The fourth dual component of this dual quaternion. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 7: number;
+	/* eslint-enable @typescript-eslint/naming-convention */
 
 	/** Get the magnitude (length) of this dual quaternion. */
 	public get magnitude(): number {

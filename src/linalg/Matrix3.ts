@@ -13,41 +13,34 @@ import SingularMatrixError from "../utility/SingularMatrixError.js";
  * @public
  */
 export interface Matrix3Like extends MatrixLike {
+	/* eslint-disable @typescript-eslint/naming-convention */
 	/** The value in the first column and first row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	0: number;
 
 	/** The value in the first column and second row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	1: number;
 
 	/** The value in the first column and third row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	2: number;
 
 	/** The value in the second column and first row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	3: number;
 
 	/** The value in the second column and second row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	4: number;
 
 	/** The value in the second column and third row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	5: number;
 
 	/** The value in the third column and first row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	6: number;
 
 	/** The value in the third column and second row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	7: number;
 
 	/** The value in the third column and third row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	8: number;
+	/* eslint-enable @typescript-eslint/naming-convention */
 }
 
 /**
@@ -841,41 +834,34 @@ export default class Matrix3
 	extends Float32Array
 	implements Matrix3Like, SquareMatrix
 {
+	/* eslint-disable @typescript-eslint/naming-convention */
 	/** The value in the first column and first row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 0: number;
 
 	/** The value in the first column and second row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 1: number;
 
 	/** The value in the first column and third row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 2: number;
 
 	/** The value in the second column and first row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 3: number;
 
 	/** The value in the second column and second row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 4: number;
 
 	/** The value in the second column and third row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 5: number;
 
 	/** The value in the third column and first row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 6: number;
 
 	/** The value in the third column and second row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 7: number;
 
 	/** The value in the third column and third row. */
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	public 8: number;
+	/* eslint-enable @typescript-eslint/naming-convention */
 
 	/** The number of rows in this matrix. */
 	public readonly height: 3;
