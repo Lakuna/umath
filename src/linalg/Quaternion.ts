@@ -920,10 +920,8 @@ export const slerp = <T extends QuaternionLike>(
 		bw = -bw;
 	}
 
-	/* eslint-disable @typescript-eslint/init-declarations */
 	let scale0;
 	let scale1;
-	/* eslint-enable @typescript-eslint/init-declarations */
 	if (1 - cosom > epsilon) {
 		const omega = Math.acos(cosom);
 		const sinom = Math.sin(omega);

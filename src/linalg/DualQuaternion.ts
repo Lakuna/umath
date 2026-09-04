@@ -236,12 +236,10 @@ export const fromMatrix4 = <T extends DualQuaternionLike>(
 
 	const trace = sm11 + sm22 + sm33;
 
-	/* eslint-disable @typescript-eslint/init-declarations */
 	let x;
 	let y;
 	let z;
 	let w;
-	/* eslint-enable @typescript-eslint/init-declarations */
 	if (trace > 0) {
 		const s = Math.sqrt(trace + 1) * 2;
 		x = (sm23 - sm32) / s;
