@@ -1,5 +1,3 @@
-[![Test](https://github.com/Lakuna/umath/actions/workflows/test.yml/badge.svg)](https://github.com/Lakuna/umath/actions/workflows/test.yml)
-
 # μMath
 
 A lightweight math library.
